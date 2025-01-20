@@ -14,10 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Onboarding Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      title: 'Lingkunganku',
       home: BlocProvider(
         create: (context) => OnboardingBloc()..add(StartOnboarding()),
         child: OnboardingScreen(),

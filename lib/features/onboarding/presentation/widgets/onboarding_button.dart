@@ -19,7 +19,7 @@ class OnboardingButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 0),
+      margin: const EdgeInsets.only(bottom: 0),
       child: Align(
         alignment: Alignment.center,
         child: ElevatedButton(
@@ -30,9 +30,9 @@ class OnboardingButton extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
             ),
             padding: const EdgeInsets.symmetric(
-              horizontal: 50,
               vertical: 15,
             ),
+            minimumSize: const Size(300, 50),
           ),
           child: Text(
             currentIndex == totalSteps - 1 ? 'HOME' : 'SELANJUTNYA',
