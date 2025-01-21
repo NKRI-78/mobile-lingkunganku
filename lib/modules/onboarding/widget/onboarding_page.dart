@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'onboarding_button.dart';
 import 'onboarding_container.dart';
 
@@ -34,7 +35,7 @@ class OnboardingPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Image.asset(
-              'assets/icons/logo_onboarding.png',
+              'assets/icons/lingkunganku.png',
               height: 200,
             ),
             Image.asset(

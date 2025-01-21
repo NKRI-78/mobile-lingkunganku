@@ -1,24 +1,21 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:path_provider/path_provider.dart';
 
-import 'features/onboarding/presentation/bloc/onboarding_bloc.dart';
-import 'features/onboarding/presentation/pages/onboarding_screen.dart';
+import 'misc/injections.dart';
+import 'modules/app/bloc_observer.dart';
+import 'modules/app/view/app.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  HydratedBloc.storage = await HydratedStorage.build(
+    storageDirectory: kIsWeb
+        ? HydratedStorageDirectory.web
+        : HydratedStorageDirectory((await getTemporaryDirectory()).path),
+  );
+  Bloc.observer = const AppBlocObserver();
+  MyInjection.setup();
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Lingkunganku',
-      home: BlocProvider(
-        create: (context) => OnboardingBloc()..add(StartOnboarding()),
-        child: OnboardingScreen(),
-      ),
-    );
-  }
+  runApp(const App());
 }

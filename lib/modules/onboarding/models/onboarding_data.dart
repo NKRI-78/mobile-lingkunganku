@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_lingkunganku/core/utils/colors.dart';
+import '../../../misc/colors.dart';
 
 final List<Map<String, dynamic>> onboardingContent = [
   {

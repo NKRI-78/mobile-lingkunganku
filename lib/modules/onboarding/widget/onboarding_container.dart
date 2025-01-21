@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../../core/utils/colors.dart';
+
+import '../../../misc/colors.dart';
 
 class OnboardingContainer extends StatelessWidget {
   final List<TextSpan> title;
