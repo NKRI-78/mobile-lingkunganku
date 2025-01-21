@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../data/onboarding_data.dart';
-import '../widgets/onboarding_page.dart';
+import 'package:mobile_lingkunganku/router/builder.dart';
+
+import '../models/onboarding_data.dart';
+import '../widget/onboarding_page.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -23,7 +25,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   void finishOnboarding() {
-    Navigator.pushReplacementNamed(context, '/home');
+    PublicRoute().go(context);
   }
 
   @override
@@ -33,7 +35,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         children: [
           Positioned.fill(
             child: Image.asset(
-              'assets/images/onboarding_bg.png',
+              'assets/images/bg.png',
               fit: BoxFit.cover,
             ),
           ),
