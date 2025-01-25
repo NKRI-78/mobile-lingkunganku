@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_lingkunganku/router/builder.dart';
+import '../../../router/builder.dart';
 
 import '../models/onboarding_data.dart';
-import '../widget/onboarding_page.dart';
+import '../widget/onboarding_pageview.dart';
 
-class OnboardingScreen extends StatefulWidget {
-  const OnboardingScreen({super.key});
+class OnboardingPage extends StatefulWidget {
+  const OnboardingPage({super.key});
 
   @override
-  State<OnboardingScreen> createState() => _OnboardingScreenState();
+  State<OnboardingPage> createState() => _OnboardingScreenState();
 }
 
-class _OnboardingScreenState extends State<OnboardingScreen> {
+class _OnboardingScreenState extends State<OnboardingPage> {
   final PageController _pageController = PageController();
   int _currentIndex = 0;
 
@@ -49,7 +49,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             itemCount: onboardingContent.length,
             itemBuilder: (context, index) {
               final content = onboardingContent[index];
-              return OnboardingPage(
+              return OnboardingPageView(
                 title: content['title']!,
                 description: content['description']!,
                 image: content['image']!,

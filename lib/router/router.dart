@@ -1,5 +1,5 @@
 import 'package:go_router/go_router.dart';
-import 'package:mobile_lingkunganku/router/builder.dart';
+import 'builder.dart';
 
 import '../modules/app/bloc/app_bloc.dart';
 

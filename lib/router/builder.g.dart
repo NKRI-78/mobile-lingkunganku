@@ -36,6 +36,12 @@ extension $OnboardingRouteExtension on OnboardingRoute {
 RouteBase get $publicRoute => GoRouteData.$route(
       path: '/public',
       factory: $PublicRouteExtension._fromState,
+      routes: [
+        GoRouteData.$route(
+          path: 'settings',
+          factory: $SettingsRouteExtension._fromState,
+        ),
+      ],
     );
 
 extension $PublicRouteExtension on PublicRoute {
@@ -43,6 +49,23 @@ extension $PublicRouteExtension on PublicRoute {
 
   String get location => GoRouteData.$location(
         '/public',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $SettingsRouteExtension on SettingsRoute {
+  static SettingsRoute _fromState(GoRouterState state) => SettingsRoute();
+
+  String get location => GoRouteData.$location(
+        '/public/settings',
       );
 
   void go(BuildContext context) => context.go(location);
