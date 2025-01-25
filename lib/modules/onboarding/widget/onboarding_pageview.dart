@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'onboarding_button.dart';
 import 'onboarding_container.dart';
 
-class OnboardingPage extends StatelessWidget {
+class OnboardingPageView extends StatelessWidget {
   final List<TextSpan> title;
   final String description;
   final String image;
@@ -14,7 +14,7 @@ class OnboardingPage extends StatelessWidget {
   final TextStyle? titleStyle;
   final TextStyle? descriptionStyle;
 
-  const OnboardingPage({
+  const OnboardingPageView({
     super.key,
     required this.title,
     required this.description,

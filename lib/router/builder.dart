@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mobile_lingkunganku/modules/onboarding/view/onboarding_screen.dart';
-import 'package:mobile_lingkunganku/modules/public/view/public_screen.dart';
+import '../modules/onboarding/view/onboarding_page.dart';
+import '../modules/public/view/public_page.dart';
+
+import '../modules/settings/view/settings_page.dart';
 
 part 'builder.g.dart';
 
@@ -9,14 +11,23 @@ part 'builder.g.dart';
 class OnboardingRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return OnboardingScreen();
+    return OnboardingPage();
   }
 }
 
-@TypedGoRoute<PublicRoute>(path: '/public')
+@TypedGoRoute<PublicRoute>(path: '/public', routes: [
+  TypedGoRoute<SettingsRoute>(path: 'settings'),
+])
 class PublicRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return PublicScreen();
+    return PublicPage();
+  }
+}
+
+class SettingsRoute extends GoRouteData {
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return SettingsPage();
   }
 }
