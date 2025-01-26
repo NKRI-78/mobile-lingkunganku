@@ -8,7 +8,7 @@ part of 'builder.dart';
 
 List<RouteBase> get $appRoutes => [
       $onboardingRoute,
-      $publicRoute,
+      $homeRoute,
     ];
 
 RouteBase get $onboardingRoute => GoRouteData.$route(
@@ -33,22 +33,26 @@ extension $OnboardingRouteExtension on OnboardingRoute {
   void replace(BuildContext context) => context.replace(location);
 }
 
-RouteBase get $publicRoute => GoRouteData.$route(
-      path: '/public',
-      factory: $PublicRouteExtension._fromState,
+RouteBase get $homeRoute => GoRouteData.$route(
+      path: '/home',
+      factory: $HomeRouteExtension._fromState,
       routes: [
         GoRouteData.$route(
           path: 'settings',
           factory: $SettingsRouteExtension._fromState,
         ),
+        GoRouteData.$route(
+          path: 'register',
+          factory: $RegisterRouteExtension._fromState,
+        ),
       ],
     );
 
-extension $PublicRouteExtension on PublicRoute {
-  static PublicRoute _fromState(GoRouterState state) => PublicRoute();
+extension $HomeRouteExtension on HomeRoute {
+  static HomeRoute _fromState(GoRouterState state) => HomeRoute();
 
   String get location => GoRouteData.$location(
-        '/public',
+        '/home',
       );
 
   void go(BuildContext context) => context.go(location);
@@ -65,7 +69,24 @@ extension $SettingsRouteExtension on SettingsRoute {
   static SettingsRoute _fromState(GoRouterState state) => SettingsRoute();
 
   String get location => GoRouteData.$location(
-        '/public/settings',
+        '/home/settings',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $RegisterRouteExtension on RegisterRoute {
+  static RegisterRoute _fromState(GoRouterState state) => RegisterRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/register',
       );
 
   void go(BuildContext context) => context.go(location);

@@ -2,6 +2,18 @@ import 'package:flutter/material.dart';
 import 'colors.dart';
 
 class AppTextStyles {
+  static TextStyle textStyle1 = const TextStyle(
+    fontSize: 24,
+    fontWeight: FontWeight.bold,
+    color: AppColors.textColor2,
+    fontFamily: 'Inter',
+  );
+  static TextStyle textStyle2 = const TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.normal,
+    color: AppColors.textColor2,
+    fontFamily: 'Inter',
+  );
   static TextStyle buttonText1 = const TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.normal,
