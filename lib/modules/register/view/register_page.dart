@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_lingkunganku/misc/colors.dart';
+import 'package:mobile_lingkunganku/misc/text_style.dart';
+import 'package:mobile_lingkunganku/widgets/background/custom_background.dart';
+import 'package:mobile_lingkunganku/widgets/button/custom_button.dart';
+
+import '../widget/custom_divider.dart';
 
 class RegisterPage extends StatelessWidget {
   const RegisterPage({super.key});
@@ -7,7 +12,9 @@ class RegisterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
+        toolbarHeight: 100,
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back_ios_new,
@@ -21,76 +28,182 @@ class RegisterPage extends StatelessWidget {
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              'Pilih role di bawah ini\nuntuk melanjutkan registrasi',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 40),
-            ElevatedButton(
-              onPressed: () {
-                // Navigasi ke halaman registrasi Retua/Pengurus
-              },
-              style: ElevatedButton.styleFrom(
-                minimumSize: const Size(double.infinity, 50),
-                backgroundColor: Colors.blue,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+      body: Stack(
+        children: [
+          const CustomBackground(),
+          CustomScrollView(
+            slivers: [
+              SliverPadding(
+                padding: const EdgeInsets.all(30),
+                sliver: SliverList(
+                  delegate: SliverChildListDelegate(
+                    [
+                      const SizedBox(height: 70),
+                      Text(
+                        'Pilih role di bawah\nini untuk melanjutkan\nregistrasi',
+                        style: TextStyle(
+                          color: AppColors.textColor2,
+                          fontSize: 32,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Intel',
+                        ),
+                      ),
+                      const SizedBox(height: 50),
+                      GestureDetector(
+                        onTap: () {
+                          // Navigasi ke halaman registrasi Ketua/Pengurus
+                          print('Masuk ke Ketua : ${context}');
+                        },
+                        child: Stack(
+                          clipBehavior: Clip.none,
+                          children: [
+                            Container(
+                              height: 150,
+                              width: double.infinity,
+                              padding: const EdgeInsets.all(32),
+                              decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.3),
+                                borderRadius: BorderRadius.circular(32),
+                                border: Border.all(
+                                  color: AppColors.buttonColor2,
+                                  width: 2,
+                                ),
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    'Registrasi',
+                                    style: AppTextStyles.textRegister1,
+                                  ),
+                                  Text(
+                                    'Ketua / Pengurus',
+                                    style: AppTextStyles.textRegister2,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Positioned(
+                              left: 10,
+                              top: -60,
+                              bottom: -10,
+                              child: Image.asset(
+                                'assets/images/ketua.png',
+                                // height: 100,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 70),
+                      GestureDetector(
+                        onTap: () {
+                          // Navigasi ke halaman registrasi Warga/Keluarga
+                          print('Masuk ke Warga : ${context}');
+                        },
+                        child: Stack(
+                          clipBehavior: Clip.none,
+                          children: [
+                            Container(
+                              height: 150,
+                              width: double.infinity,
+                              padding: const EdgeInsets.all(32),
+                              decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.3),
+                                borderRadius: BorderRadius.circular(32),
+                                border: Border.all(
+                                  color: AppColors.buttonColor2,
+                                  width: 2,
+                                ),
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Registrasi',
+                                    style: AppTextStyles.textRegister1,
+                                  ),
+                                  Text(
+                                    'Warga / Keluarga',
+                                    style: AppTextStyles.textRegister2,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Positioned(
+                              right: 10,
+                              top: -60,
+                              bottom: -10,
+                              child: Image.asset(
+                                'assets/images/warga.png',
+                                // height: 100,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 30),
+                      CustomDivider(),
+                      const SizedBox(height: 30),
+                      Center(
+                        child: CustomButton(
+                          horizontalPadding: 100,
+                          text: 'Login',
+                          onPressed: () {
+                            // navigate to login
+                            print('KLIK UNTK LOGIN');
+                          },
+                        ),
+                      ),
+                      SizedBox(height: 30),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        spacing: 7,
+                        children: [
+                          Text(
+                            "Klik",
+                            style: TextStyle(
+                              color: AppColors.whiteColor,
+                              fontSize: 16,
+                              fontWeight: FontWeight.normal,
+                              fontFamily: 'Intel',
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              // Navigate to resetpassword
+                              print('KLIK DISINI PINDAH HALAMAN PASSWORD');
+                            },
+                            child: Text(
+                              "Disini",
+                              style: TextStyle(
+                                color: AppColors.redColor,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Intel',
+                              ),
+                            ),
+                          ),
+                          Text(
+                            "jika lupa Password",
+                            style: TextStyle(
+                              color: AppColors.whiteColor,
+                              fontSize: 16,
+                              fontWeight: FontWeight.normal,
+                              fontFamily: 'Intel',
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              child: const Text(
-                'Registrasi Retua/Pengurus',
-                style: TextStyle(fontSize: 16, color: Colors.white),
-              ),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                // Navigasi ke halaman registrasi Warga/Keluarga
-              },
-              style: ElevatedButton.styleFrom(
-                minimumSize: const Size(double.infinity, 50),
-                backgroundColor: Colors.green,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-              child: const Text(
-                'Registrasi Warga/Keluarga',
-                style: TextStyle(fontSize: 16, color: Colors.white),
-              ),
-            ),
-            const SizedBox(height: 40),
-            const Text(
-              'Jika sudah memiliki Akun',
-              style: TextStyle(fontSize: 14, color: Colors.grey),
-            ),
-            TextButton(
-              onPressed: () {
-                // Navigasi ke halaman login
-              },
-              child: const Text(
-                'Login',
-                style: TextStyle(fontSize: 14, color: Colors.blue),
-              ),
-            ),
-            const SizedBox(height: 10),
-            TextButton(
-              onPressed: () {
-                // Navigasi ke halaman lupa password
-              },
-              child: const Text(
-                'Klik Disini jika lupa Password',
-                style: TextStyle(fontSize: 14, color: Colors.red),
-              ),
-            ),
-          ],
-        ),
+            ],
+          ),
+        ],
       ),
     );
   }

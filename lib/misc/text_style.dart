@@ -26,6 +26,18 @@ class AppTextStyles {
     color: AppColors.whiteColor,
     fontFamily: 'Inter',
   );
+  static TextStyle textRegister1 = const TextStyle(
+    fontSize: 28,
+    fontWeight: FontWeight.bold,
+    color: AppColors.buttonColor1,
+    fontFamily: 'Inter',
+  );
+  static TextStyle textRegister2 = const TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.bold,
+    color: AppColors.textColor2,
+    fontFamily: 'Inter',
+  );
 
   AppTextStyles._();
 }

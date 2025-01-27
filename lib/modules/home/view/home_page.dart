@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile_lingkunganku/misc/text_style.dart';
 import 'package:mobile_lingkunganku/modules/home/cubit/navigation_cubit.dart';
 
-import 'package:mobile_lingkunganku/modules/register/view/register_page.dart';
 import 'package:mobile_lingkunganku/router/builder.dart';
 import '../../../widgets/background/custom_background.dart';
 import '../../../widgets/button/custom_button.dart';
@@ -169,7 +168,6 @@ class HomeView extends StatelessWidget {
                 child: BottomNavBarSection(
                   currentIndex: currentIndex,
                   onTap: (index) {
-                    // Navigasi ke halaman yang sesuai berdasarkan index
                     switch (index) {
                       case 0:
                         RegisterRoute().go(context);
@@ -184,11 +182,7 @@ class HomeView extends StatelessWidget {
                         RegisterRoute().go(context);
                         break;
                       case 4:
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const RegisterPage()),
-                        );
+                        RegisterRoute().go(context);
                         break;
                     }
                     // Update currentIndex di NavigationCubit
