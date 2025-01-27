@@ -4,9 +4,9 @@ import 'package:equatable/equatable.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:json_annotation/json_annotation.dart';
 
+part 'app_bloc.g.dart';
 part 'app_event.dart';
 part 'app_state.dart';
-part 'app_bloc.g.dart';
 
 class AppBloc extends HydratedBloc<AppEvent, AppState> {
   AppBloc() : super(AppInitial()) {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../../router/builder.dart';
 
+import '../../../router/builder.dart';
 import '../models/onboarding_data.dart';
 import '../widget/onboarding_pageview.dart';
 

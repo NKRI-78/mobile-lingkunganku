@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_lingkunganku/misc/text_style.dart';
-import 'package:mobile_lingkunganku/modules/home/cubit/navigation_cubit.dart';
+import '../../../misc/text_style.dart';
+import '../cubit/navigation_cubit.dart';
 
-import 'package:mobile_lingkunganku/router/builder.dart';
+import '../../../router/builder.dart';
 import '../../../widgets/background/custom_background.dart';
 import '../../../widgets/button/custom_button.dart';
 import '../../../widgets/header/custom_header_container.dart';
@@ -182,7 +182,7 @@ class HomeView extends StatelessWidget {
                         RegisterRoute().go(context);
                         break;
                       case 4:
-                        RegisterRoute().go(context);
+                        SosRoute().go(context);
                         break;
                     }
                     // Update currentIndex di NavigationCubit

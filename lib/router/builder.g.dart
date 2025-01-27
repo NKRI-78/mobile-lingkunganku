@@ -45,6 +45,10 @@ RouteBase get $homeRoute => GoRouteData.$route(
           path: 'register',
           factory: $RegisterRouteExtension._fromState,
         ),
+        GoRouteData.$route(
+          path: 'sos',
+          factory: $SosRouteExtension._fromState,
+        ),
       ],
     );
 
@@ -87,6 +91,23 @@ extension $RegisterRouteExtension on RegisterRoute {
 
   String get location => GoRouteData.$location(
         '/home/register',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $SosRouteExtension on SosRoute {
+  static SosRoute _fromState(GoRouterState state) => SosRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/sos',
       );
 
   void go(BuildContext context) => context.go(location);

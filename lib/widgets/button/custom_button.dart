@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../../misc/colors.dart'; // Import warna yang diperlukan
 
 class CustomButton extends StatelessWidget {
@@ -8,6 +9,8 @@ class CustomButton extends StatelessWidget {
   final Color textColor; // Warna teks tombol
   final double horizontalPadding; // Padding horizontal
   final double verticalPadding; // Padding vertikal
+  final IconData? icon; // Ikon opsional
+  final double iconSize; // Ukuran ikon
 
   const CustomButton({
     super.key,
@@ -17,6 +20,8 @@ class CustomButton extends StatelessWidget {
     this.textColor = Colors.white, // Default warna teks
     this.horizontalPadding = 35, // Default padding horizontal
     this.verticalPadding = 15, // Default padding vertikal
+    this.icon, // Default null jika tidak ada ikon
+    this.iconSize = 24.0, // Default ukuran ikon
   });
 
   @override
@@ -33,13 +38,27 @@ class CustomButton extends StatelessWidget {
         ),
       ),
       onPressed: onPressed,
-      child: Text(
-        text,
-        style: TextStyle(
-          color: textColor,
-          fontSize: 16,
-          fontFamily: 'Inter',
-        ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min, // Agar ukuran tombol sesuai konten
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          if (icon != null) // Jika ikon tersedia, tambahkan
+            Icon(
+              icon,
+              size: iconSize,
+              color: textColor,
+            ),
+          if (icon != null)
+            const SizedBox(width: 8), // Jarak antara ikon dan teks
+          Text(
+            text,
+            style: TextStyle(
+              color: textColor,
+              fontSize: 16,
+              fontFamily: 'Inter',
+            ),
+          ),
+        ],
       ),
     );
   }

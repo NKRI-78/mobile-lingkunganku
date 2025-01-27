@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_lingkunganku/misc/colors.dart';
-import 'package:mobile_lingkunganku/misc/text_style.dart';
-import 'package:mobile_lingkunganku/widgets/background/custom_background.dart';
-import 'package:mobile_lingkunganku/widgets/button/custom_button.dart';
+import '../../../misc/colors.dart';
+import '../../../misc/text_style.dart';
+import '../../../widgets/background/custom_background.dart';
+import '../../../widgets/button/custom_button.dart';
 
 import '../widget/custom_divider.dart';
 

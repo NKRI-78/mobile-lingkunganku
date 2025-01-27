@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_lingkunganku/misc/text_style.dart';
+import '../../../misc/text_style.dart';
 import '../../../misc/colors.dart';
 
 class SettingsPage extends StatelessWidget {
