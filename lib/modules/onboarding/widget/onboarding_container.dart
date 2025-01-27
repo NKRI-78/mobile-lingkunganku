@@ -78,7 +78,7 @@ class OnboardingContainer extends StatelessWidget {
                       height: 10,
                       decoration: BoxDecoration(
                         color: currentIndex == index
-                            ? AppColors.buttonColor
+                            ? AppColors.buttonColor1
                             : AppColors.textColor,
                         borderRadius: BorderRadius.circular(6),
                       ),

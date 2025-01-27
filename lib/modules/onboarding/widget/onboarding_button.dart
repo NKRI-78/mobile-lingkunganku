@@ -25,7 +25,7 @@ class OnboardingButton extends StatelessWidget {
         child: ElevatedButton(
           onPressed: currentIndex < totalSteps - 1 ? onNext : onFinish,
           style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.buttonColor,
+            backgroundColor: AppColors.buttonColor1,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),

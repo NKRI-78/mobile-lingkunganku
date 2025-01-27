@@ -25,7 +25,7 @@ class _OnboardingScreenState extends State<OnboardingPage> {
   }
 
   void finishOnboarding() {
-    PublicRoute().go(context);
+    HomeRoute().go(context);
   }
 
   @override

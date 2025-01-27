@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_lingkunganku/misc/text_style.dart';
+import '../../../misc/colors.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -7,46 +9,80 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Settings'),
+        title: Text(
+          "Settings",
+          style: AppTextStyles.textStyle1,
+        ),
         centerTitle: true,
         toolbarHeight: 100,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: Icon(
+            Icons.arrow_back_ios_new,
+            color: AppColors.buttonColor2,
+            size: 32,
+          ),
           onPressed: () {
             Navigator.pop(context);
           },
         ),
+        elevation: 0,
       ),
-      body: ListView(
-        children: [
-          ListTile(
-            title: Text('Notification'),
-            trailing: Switch(
-              value: true,
-              onChanged: (value) {
-                // Handle perubahan notifikasi
-              },
-            ),
+      body: Container(
+        color: Colors.grey.shade100,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: ListView(
+            children: [
+              ListTile(
+                title: Text('Notification'),
+                trailing: Switch(
+                  value: true,
+                  onChanged: (value) {
+                    // Handle perubahan notifikasi
+                  },
+                  activeColor: AppColors.whiteColor,
+                  activeTrackColor: AppColors.textColor1,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Divider(
+                  color: Colors.grey.shade400,
+                  thickness: 1,
+                ),
+              ),
+              ListTile(
+                title: Text('Bahasa'),
+                trailing: Switch(
+                  value: false,
+                  onChanged: (value) {
+                    // Handle perubahan bahasa
+                  },
+                  activeColor: AppColors.whiteColor,
+                  activeTrackColor: AppColors.textColor1,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Divider(
+                  color: Colors.grey.shade400,
+                  thickness: 1,
+                ),
+              ),
+              ListTile(
+                title: Text('Location'),
+                trailing: Switch(
+                  value: true,
+                  onChanged: (value) {
+                    // Handle perubahan lokasi
+                  },
+                  activeColor: AppColors.whiteColor,
+                  activeTrackColor: AppColors.textColor1,
+                ),
+              ),
+            ],
           ),
-          ListTile(
-            title: Text('Bahasa'),
-            trailing: Switch(
-              value: true,
-              onChanged: (value) {
-                // Handle perubahan notifikasi
-              },
-            ),
-          ),
-          ListTile(
-            title: Text('Location'),
-            trailing: Switch(
-              value: true,
-              onChanged: (value) {
-                // Handle perubahan notifikasi
-              },
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

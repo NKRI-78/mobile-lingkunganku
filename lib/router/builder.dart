@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mobile_lingkunganku/modules/home/view/home_page.dart';
+import 'package:mobile_lingkunganku/modules/register/view/register_page.dart';
 import '../modules/onboarding/view/onboarding_page.dart';
-import '../modules/public/view/public_page.dart';
 
 import '../modules/settings/view/settings_page.dart';
 
@@ -15,13 +16,14 @@ class OnboardingRoute extends GoRouteData {
   }
 }
 
-@TypedGoRoute<PublicRoute>(path: '/public', routes: [
+@TypedGoRoute<HomeRoute>(path: '/home', routes: [
   TypedGoRoute<SettingsRoute>(path: 'settings'),
+  TypedGoRoute<RegisterRoute>(path: 'register'),
 ])
-class PublicRoute extends GoRouteData {
+class HomeRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return PublicPage();
+    return HomePage();
   }
 }
 
@@ -29,5 +31,12 @@ class SettingsRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return SettingsPage();
+  }
+}
+
+class RegisterRoute extends GoRouteData {
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return RegisterPage();
   }
 }
