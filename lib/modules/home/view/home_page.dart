@@ -1,15 +1,15 @@
-import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../misc/text_style.dart';
-import '../cubit/navigation_cubit.dart';
 
+import '../../../misc/text_style.dart';
 import '../../../router/builder.dart';
 import '../../../widgets/background/custom_background.dart';
 import '../../../widgets/button/custom_button.dart';
 import '../../../widgets/header/custom_header_container.dart';
-import '../widget/drawer_section.dart';
+import '../cubit/navigation_cubit.dart';
 import '../widget/bottom_nav_bar_section.dart';
+import '../widget/drawer_section.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});

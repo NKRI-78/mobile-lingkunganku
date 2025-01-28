@@ -44,6 +44,12 @@ RouteBase get $homeRoute => GoRouteData.$route(
         GoRouteData.$route(
           path: 'register',
           factory: $RegisterRouteExtension._fromState,
+          routes: [
+            GoRouteData.$route(
+              path: 'register-ketua',
+              factory: $RegisterKetuaRouteExtension._fromState,
+            ),
+          ],
         ),
         GoRouteData.$route(
           path: 'sos',
@@ -91,6 +97,24 @@ extension $RegisterRouteExtension on RegisterRoute {
 
   String get location => GoRouteData.$location(
         '/home/register',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $RegisterKetuaRouteExtension on RegisterKetuaRoute {
+  static RegisterKetuaRoute _fromState(GoRouterState state) =>
+      RegisterKetuaRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/register/register-ketua',
       );
 
   void go(BuildContext context) => context.go(location);

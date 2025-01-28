@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+
+import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
 import '../../../router/builder.dart';
 import '../../../widgets/background/custom_background.dart';
 import '../../../widgets/button/custom_button.dart';
-
-import '../../../misc/colors.dart';
 import '../widget/custom_card_section.dart';
 
 class SosPage extends StatelessWidget {
@@ -117,16 +117,16 @@ class SosPage extends StatelessWidget {
                 ),
               ),
               Padding(
-                  padding:
-                      const EdgeInsets.only(bottom: 50, left: 30, right: 30),
-                  child: CustomButton(
-                    icon: Icons.phone_in_talk,
-                    text: 'Hubungi Keamanan',
-                    onPressed: () {
-                      // Navigate To Register
-                      RegisterRoute().go(context);
-                    },
-                  )),
+                padding: const EdgeInsets.only(bottom: 50, left: 30, right: 30),
+                child: CustomButton(
+                  icon: Icons.phone_in_talk,
+                  text: 'Hubungi Keamanan',
+                  onPressed: () {
+                    // Navigate To Register
+                    RegisterRoute().go(context);
+                  },
+                ),
+              ),
             ],
           ),
         ],
