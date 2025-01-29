@@ -1,5 +1,12 @@
-import 'dart:ui';
+import 'dart:async';
+
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import '../../../widgets/map/custom_select_map_location.dart';
+import '../cubit/register_ketua_cubit.dart';
 import '../widget/custom_textfield.dart';
 import '../../../widgets/background/custom_background.dart';
 import '../../../widgets/button/custom_button.dart';
@@ -7,8 +14,23 @@ import '../../../widgets/button/custom_button.dart';
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
 
+part '../widget/input_location_lebel.dart';
+part '../widget/input_location.dart';
+
 class RegisterKetuaPage extends StatelessWidget {
   const RegisterKetuaPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider<RegisterKetuaCubit>(
+      create: (context) => RegisterKetuaCubit(),
+      child: RegisterKetuaView(),
+    );
+  }
+}
+
+class RegisterKetuaView extends StatelessWidget {
+  const RegisterKetuaView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +78,7 @@ class RegisterKetuaPage extends StatelessWidget {
                 child: Column(
                   children: [
                     ...customTextfields(),
-                    SizedBox(height: 5),
+                    SizedBox(height: 20),
                     CustomButton(
                       horizontalPadding: 120,
                       text: 'Kode OTP',

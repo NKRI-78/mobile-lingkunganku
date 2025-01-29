@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 import '../../../misc/colors.dart';
+import '../view/register_ketua_page.dart';
 
 List<Widget> customTextfields() {
   return [
@@ -18,6 +19,11 @@ List<Widget> customTextfields() {
       label: 'Berapa Banyak Penghuni (max. 50 KK)',
       keyboardType: TextInputType.number,
     ),
+    // PIN POINT MAPS
+    const InputLocationLabel(),
+    const InputLocation(),
+    SizedBox(height: 20),
+
     _buildTextField(label: 'Password', obscureText: true),
     _buildTextField(label: 'Confirm Password', obscureText: true),
   ];
