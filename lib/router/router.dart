@@ -1,7 +1,7 @@
 import 'package:go_router/go_router.dart';
-import 'builder.dart';
 
 import '../modules/app/bloc/app_bloc.dart';
+import 'builder.dart';
 
 class MyRouter {
   static GoRouter init(AppBloc app) {

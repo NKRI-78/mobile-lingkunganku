@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_lingkunganku/misc/colors.dart';
-import 'package:mobile_lingkunganku/misc/text_style.dart';
-import 'package:mobile_lingkunganku/widgets/background/custom_background.dart';
-import 'package:mobile_lingkunganku/widgets/button/custom_button.dart';
+import '../../../router/builder.dart';
+import '../../../misc/colors.dart';
+import '../../../misc/text_style.dart';
+import '../../../widgets/background/custom_background.dart';
+import '../../../widgets/button/custom_button.dart';
 
 import '../widget/custom_divider.dart';
 
@@ -53,6 +54,7 @@ class RegisterPage extends StatelessWidget {
                         onTap: () {
                           // Navigasi ke halaman registrasi Ketua/Pengurus
                           print('Masuk ke Ketua : ${context}');
+                          RegisterKetuaRoute().go(context);
                         },
                         child: Stack(
                           clipBehavior: Clip.none,
@@ -149,7 +151,7 @@ class RegisterPage extends StatelessWidget {
                       const SizedBox(height: 30),
                       Center(
                         child: CustomButton(
-                          horizontalPadding: 100,
+                          horizontalPadding: 120,
                           text: 'Login',
                           onPressed: () {
                             // navigate to login
