@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_lingkunganku/modules/register_warga/widget/custom_textfield_warga.dart';
-import 'package:mobile_lingkunganku/widgets/background/custom_background.dart';
-import 'package:mobile_lingkunganku/widgets/button/custom_button.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
+import '../../../widgets/background/custom_background.dart';
+import '../../../widgets/button/custom_button.dart';
 import '../cubit/register_warga_cubit.dart';
+import '../widget/custom_textfield_warga.dart';
 
 class RegisterWargaPage extends StatelessWidget {
   const RegisterWargaPage({super.key});

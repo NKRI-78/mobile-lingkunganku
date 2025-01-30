@@ -171,49 +171,9 @@ class RegisterPage extends StatelessWidget {
                           onPressed: () {
                             // navigate to login
                             print('KLIK UNTK LOGIN');
+                            LoginRoute().go(context);
                           },
                         ),
-                      ),
-                      SizedBox(height: 20),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        spacing: 5,
-                        children: [
-                          Text(
-                            "Klik",
-                            style: TextStyle(
-                              color: AppColors.whiteColor,
-                              fontSize: 14,
-                              fontWeight: FontWeight.normal,
-                              fontFamily: 'Intel',
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              // Navigate to resetpassword
-                              print('KLIK DISINI PINDAH HALAMAN PASSWORD');
-                            },
-                            child: Text(
-                              "Disini",
-                              style: TextStyle(
-                                color: AppColors.redColor,
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'Intel',
-                              ),
-                            ),
-                          ),
-                          Text(
-                            "jika lupa Password",
-                            style: TextStyle(
-                              color: AppColors.whiteColor,
-                              fontSize: 14,
-                              fontWeight: FontWeight.normal,
-                              fontFamily: 'Intel',
-                            ),
-                          ),
-                        ],
                       ),
                     ],
                   ),

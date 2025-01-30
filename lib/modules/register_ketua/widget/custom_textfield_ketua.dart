@@ -2,9 +2,9 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../cubit/register_ketua_cubit.dart';
 
 import '../../../misc/colors.dart';
+import '../cubit/register_ketua_cubit.dart';
 import '../view/register_ketua_page.dart';
 
 List<Widget> customTextfieldsKetua(BuildContext context) {

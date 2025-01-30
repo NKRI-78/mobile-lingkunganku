@@ -2,9 +2,9 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../cubit/register_warga_cubit.dart';
 
 import '../../../misc/colors.dart';
+import '../cubit/register_warga_cubit.dart';
 
 List<Widget> customTextfieldsWarga(BuildContext context) {
   return [

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../modules/home/view/home_page.dart';
+import '../modules/login/view/login_page.dart';
 import '../modules/onboarding/view/onboarding_page.dart';
 import '../modules/register/view/register_page.dart';
 import '../modules/register_ketua/view/register_ketua_page.dart';
@@ -24,6 +25,7 @@ class OnboardingRoute extends GoRouteData {
   TypedGoRoute<RegisterRoute>(path: 'register', routes: [
     TypedGoRoute<RegisterKetuaRoute>(path: 'register-ketua'),
     TypedGoRoute<RegisterWargaRoute>(path: 'register-warga'),
+    TypedGoRoute<LoginRoute>(path: 'login'),
   ]),
   TypedGoRoute<SosRoute>(path: 'sos'),
 ])
@@ -59,6 +61,13 @@ class RegisterWargaRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return RegisterWargaPage();
+  }
+}
+
+class LoginRoute extends GoRouteData {
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return LoginPage();
   }
 }
 

@@ -53,6 +53,10 @@ RouteBase get $homeRoute => GoRouteData.$route(
               path: 'register-warga',
               factory: $RegisterWargaRouteExtension._fromState,
             ),
+            GoRouteData.$route(
+              path: 'login',
+              factory: $LoginRouteExtension._fromState,
+            ),
           ],
         ),
         GoRouteData.$route(
@@ -137,6 +141,23 @@ extension $RegisterWargaRouteExtension on RegisterWargaRoute {
 
   String get location => GoRouteData.$location(
         '/home/register/register-warga',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $LoginRouteExtension on LoginRoute {
+  static LoginRoute _fromState(GoRouterState state) => LoginRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/register/login',
       );
 
   void go(BuildContext context) => context.go(location);
