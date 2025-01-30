@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
-import '../widget/custom_textfield_login.dart';
+import '../../../router/builder.dart';
 import '../../../widgets/background/custom_background.dart';
 import '../../../widgets/button/custom_button.dart';
-import '../../../misc/colors.dart';
 import '../cubit/login_cubit.dart';
+import '../widget/custom_textfield_login.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -95,6 +97,7 @@ class LoginView extends StatelessWidget {
                           onTap: () {
                             // Navigate to resetpassword
                             print('KLIK DISINI PINDAH HALAMAN PASSWORD');
+                            LupaPasswordRoute().go(context);
                           },
                           child: Text(
                             "Disini",

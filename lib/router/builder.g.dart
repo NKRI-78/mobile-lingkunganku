@@ -56,6 +56,24 @@ RouteBase get $homeRoute => GoRouteData.$route(
             GoRouteData.$route(
               path: 'login',
               factory: $LoginRouteExtension._fromState,
+              routes: [
+                GoRouteData.$route(
+                  path: 'lupa-password',
+                  factory: $LupaPasswordRouteExtension._fromState,
+                  routes: [
+                    GoRouteData.$route(
+                      path: 'lupa-password-otp',
+                      factory: $LupaPasswordOtpRouteExtension._fromState,
+                      routes: [
+                        GoRouteData.$route(
+                          path: 'lupa-password-change',
+                          factory: $LupaPasswordChangeRouteExtension._fromState,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
             ),
           ],
         ),
@@ -158,6 +176,60 @@ extension $LoginRouteExtension on LoginRoute {
 
   String get location => GoRouteData.$location(
         '/home/register/login',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $LupaPasswordRouteExtension on LupaPasswordRoute {
+  static LupaPasswordRoute _fromState(GoRouterState state) =>
+      LupaPasswordRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/register/login/lupa-password',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $LupaPasswordOtpRouteExtension on LupaPasswordOtpRoute {
+  static LupaPasswordOtpRoute _fromState(GoRouterState state) =>
+      LupaPasswordOtpRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/register/login/lupa-password/lupa-password-otp',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $LupaPasswordChangeRouteExtension on LupaPasswordChangeRoute {
+  static LupaPasswordChangeRoute _fromState(GoRouterState state) =>
+      LupaPasswordChangeRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/register/login/lupa-password/lupa-password-otp/lupa-password-change',
       );
 
   void go(BuildContext context) => context.go(location);

@@ -3,6 +3,9 @@ import 'package:go_router/go_router.dart';
 
 import '../modules/home/view/home_page.dart';
 import '../modules/login/view/login_page.dart';
+import '../modules/lupa_password/view/lupa_password_page.dart';
+import '../modules/lupa_password_change/view/lupa_password_change.dart';
+import '../modules/lupa_password_otp/view/lupa_password_otp.dart';
 import '../modules/onboarding/view/onboarding_page.dart';
 import '../modules/register/view/register_page.dart';
 import '../modules/register_ketua/view/register_ketua_page.dart';
@@ -25,7 +28,13 @@ class OnboardingRoute extends GoRouteData {
   TypedGoRoute<RegisterRoute>(path: 'register', routes: [
     TypedGoRoute<RegisterKetuaRoute>(path: 'register-ketua'),
     TypedGoRoute<RegisterWargaRoute>(path: 'register-warga'),
-    TypedGoRoute<LoginRoute>(path: 'login'),
+    TypedGoRoute<LoginRoute>(path: 'login', routes: [
+      TypedGoRoute<LupaPasswordRoute>(path: 'lupa-password', routes: [
+        TypedGoRoute<LupaPasswordOtpRoute>(path: 'lupa-password-otp', routes: [
+          TypedGoRoute<LupaPasswordChangeRoute>(path: 'lupa-password-change')
+        ])
+      ]),
+    ]),
   ]),
   TypedGoRoute<SosRoute>(path: 'sos'),
 ])
@@ -68,6 +77,27 @@ class LoginRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return LoginPage();
+  }
+}
+
+class LupaPasswordRoute extends GoRouteData {
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return LupaPasswordPage();
+  }
+}
+
+class LupaPasswordOtpRoute extends GoRouteData {
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return LupaPasswordOtpPage();
+  }
+}
+
+class LupaPasswordChangeRoute extends GoRouteData {
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return LupaPasswordChangePage();
   }
 }
 
