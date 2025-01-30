@@ -14,7 +14,7 @@ class CustomDivider extends StatelessWidget {
         Expanded(
           child: Divider(
             color: AppColors.whiteColor,
-            thickness: 1.5,
+            thickness: 1,
           ),
         ),
         Padding(
@@ -23,7 +23,7 @@ class CustomDivider extends StatelessWidget {
             'Jika sudah memiliki Akun',
             style: TextStyle(
               color: AppColors.whiteColor,
-              fontSize: 16,
+              fontSize: 14,
               fontWeight: FontWeight.normal,
               fontFamily: 'Intel',
             ),
@@ -32,7 +32,7 @@ class CustomDivider extends StatelessWidget {
         Expanded(
           child: Divider(
             color: AppColors.whiteColor,
-            thickness: 1.5,
+            thickness: 1,
           ),
         ),
       ],

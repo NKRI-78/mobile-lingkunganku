@@ -7,7 +7,7 @@ import '../../../router/builder.dart';
 import '../../../widgets/background/custom_background.dart';
 import '../../../widgets/button/custom_button.dart';
 import '../../../widgets/header/custom_header_container.dart';
-import '../cubit/navigation_cubit.dart';
+import '../cubit/home_cubit.dart';
 import '../widget/bottom_nav_bar_section.dart';
 import '../widget/drawer_section.dart';
 
@@ -17,7 +17,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => NavigationCubit(),
+      create: (_) => HomeCubit()..init(),
       child: const HomeView(),
     );
   }
@@ -33,7 +33,7 @@ class HomeView extends StatelessWidget {
       'assets/images/contoh.png',
       'assets/images/contoh.png',
     ];
-    return BlocBuilder<NavigationCubit, int>(
+    return BlocBuilder<HomeCubit, int>(
       builder: (context, currentIndex) {
         return Scaffold(
           body: Stack(
@@ -185,8 +185,8 @@ class HomeView extends StatelessWidget {
                         SosRoute().go(context);
                         break;
                     }
-                    // Update currentIndex di NavigationCubit
-                    context.read<NavigationCubit>().navigateTo(index);
+                    // Update currentIndex di HomeCubit
+                    context.read<HomeCubit>().navigateTo(index);
                   },
                 ),
               ),

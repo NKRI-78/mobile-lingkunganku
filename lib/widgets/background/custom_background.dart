@@ -10,12 +10,12 @@ class CustomBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Positioned.fill(
-      child: Image.asset(
-        imagePath ??
-            'assets/images/bg.png', // Gunakan gambar default jika imagePath null
-        fit: BoxFit.cover,
-      ),
+    return Image.asset(
+      imagePath ??
+          'assets/images/bg.png', // Gunakan gambar default jika imagePath null
+      fit: BoxFit.cover,
+      width: double.infinity, // Menutupi lebar layar
+      height: double.infinity, // Menutupi tinggi layar
     );
   }
 }

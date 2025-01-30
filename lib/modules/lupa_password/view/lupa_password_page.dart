@@ -1,27 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
+import '../../../router/builder.dart';
 import '../../../widgets/background/custom_background.dart';
 import '../../../widgets/button/custom_button.dart';
-import '../cubit/register_warga_cubit.dart';
-import '../widget/custom_textfield_warga.dart';
 
-class RegisterWargaPage extends StatelessWidget {
-  const RegisterWargaPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider<RegisterWargaCubit>(
-      create: (context) => RegisterWargaCubit(),
-      child: RegisterWargaView(),
-    );
-  }
-}
-
-class RegisterWargaView extends StatelessWidget {
-  const RegisterWargaView({super.key});
+class LupaPasswordPage extends StatelessWidget {
+  const LupaPasswordPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +18,7 @@ class RegisterWargaView extends StatelessWidget {
         child: AppBar(
           toolbarHeight: 80,
           title: Text(
-            'Registrasi',
+            'Reset Password',
             style: AppTextStyles.textStyle1,
           ),
           leading: IconButton(
@@ -62,24 +48,28 @@ class RegisterWargaView extends StatelessWidget {
         children: [
           CustomBackground(),
           Padding(
-            padding: EdgeInsets.only(top: 85),
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 30),
-                child: Column(
-                  children: [
-                    ...customTextfieldsWarga(context),
-                    SizedBox(height: 20),
-                    CustomButton(
-                      horizontalPadding: 110,
-                      text: 'Kode OTP',
-                      onPressed: () {
-                        //
-                      },
-                    ),
-                  ],
+            padding: EdgeInsets.only(top: 100, left: 32, right: 32),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(height: 20),
+                Center(
+                  child: Text(
+                    "Gk usah panik! reset password\ngampang kok. Tinggal klik button\ndibawah ini...",
+                    style: AppTextStyles.textStyle2,
+                    textAlign: TextAlign.center,
+                  ),
                 ),
-              ),
+                SizedBox(height: 50),
+                CustomButton(
+                  horizontalPadding: 90,
+                  text: 'Reset Password',
+                  onPressed: () {
+                    LupaPasswordOtpRoute().go(context);
+                  },
+                )
+              ],
             ),
           ),
         ],

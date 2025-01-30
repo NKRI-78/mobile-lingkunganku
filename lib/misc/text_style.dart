@@ -34,7 +34,7 @@ class AppTextStyles {
     fontFamily: 'Inter',
   );
   static TextStyle textRegister2 = const TextStyle(
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: FontWeight.bold,
     color: AppColors.textColor2,
     fontFamily: 'Inter',
