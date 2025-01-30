@@ -35,7 +35,7 @@ Widget customCardSection({
                   fontFamily: 'Intel',
                 ),
               ),
-              const SizedBox(height: 15),
+              const SizedBox(height: 10),
             ],
           ),
         ),
@@ -46,7 +46,7 @@ Widget customCardSection({
           left: 10,
           right: 10,
           child: Container(
-            height: 80,
+            height: 70,
             decoration: BoxDecoration(
               color: AppColors.buttonColor2,
               borderRadius: BorderRadius.circular(24),
@@ -57,8 +57,8 @@ Widget customCardSection({
         // Lingkaran putih di belakang avatar
         Center(
           child: Container(
-            width: 80,
-            height: 80,
+            width: 70,
+            height: 70,
             decoration: BoxDecoration(
               color: AppColors.whiteColor,
               shape: BoxShape.circle,
@@ -67,12 +67,12 @@ Widget customCardSection({
         ),
         Center(
           child: CircleAvatar(
-            radius: 35,
+            radius: 30,
             backgroundColor: AppColors.textColor1,
             child: Image.asset(
               icon,
-              height: 50,
-              width: 50,
+              height: 40,
+              width: 40,
               fit: BoxFit.cover,
               filterQuality: FilterQuality.high,
             ),

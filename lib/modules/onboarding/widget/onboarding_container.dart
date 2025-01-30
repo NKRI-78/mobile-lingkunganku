@@ -27,7 +27,7 @@ class OnboardingContainer extends StatelessWidget {
     double screenWidth = MediaQuery.of(context).size.width;
 
     // Menentukan tinggi kontainer agar responsif
-    double containerHeight = screenHeight * 0.35; // 35% dari tinggi layar
+    double containerHeight = screenHeight * 0.40; // 35% dari tinggi layar
     double containerWidth = screenWidth * 0.9; // 90% dari lebar layar
 
     return SizedBox(
@@ -66,7 +66,7 @@ class OnboardingContainer extends StatelessWidget {
             Align(
               alignment: Alignment.bottomCenter,
               child: Padding(
-                padding: const EdgeInsets.only(bottom: 30),
+                padding: const EdgeInsets.only(bottom: 20),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: List.generate(

@@ -55,8 +55,8 @@ class SosPage extends StatelessWidget {
               Expanded(
                 child: GridView.count(
                   crossAxisCount: 2,
-                  crossAxisSpacing: 30,
-                  mainAxisSpacing: 30,
+                  crossAxisSpacing: 40,
+                  mainAxisSpacing: 20,
                   padding: const EdgeInsets.symmetric(horizontal: 30),
                   children: [
                     customCardSection(
@@ -117,7 +117,7 @@ class SosPage extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(bottom: 50, left: 30, right: 30),
+                padding: const EdgeInsets.only(bottom: 30, left: 30, right: 30),
                 child: CustomButton(
                   icon: Icons.phone_in_talk,
                   text: 'Hubungi Keamanan',

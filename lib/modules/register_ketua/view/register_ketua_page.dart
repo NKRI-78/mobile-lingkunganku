@@ -5,17 +5,17 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import '../../../widgets/map/custom_select_map_location.dart';
-import '../cubit/register_ketua_cubit.dart';
-import '../widget/custom_textfield.dart';
-import '../../../widgets/background/custom_background.dart';
-import '../../../widgets/button/custom_button.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
+import '../../../widgets/background/custom_background.dart';
+import '../../../widgets/button/custom_button.dart';
+import '../../../widgets/map/custom_select_map_location.dart';
+import '../cubit/register_ketua_cubit.dart';
+import '../widget/custom_textfield_ketua.dart';
 
-part '../widget/input_location_lebel.dart';
 part '../widget/input_location.dart';
+part '../widget/input_location_lebel.dart';
 
 class RegisterKetuaPage extends StatelessWidget {
   const RegisterKetuaPage({super.key});
@@ -39,7 +39,7 @@ class RegisterKetuaView extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(80),
         child: AppBar(
-          toolbarHeight: 100,
+          toolbarHeight: 80,
           title: Text(
             'Registrasi',
             style: AppTextStyles.textStyle1,
@@ -71,22 +71,21 @@ class RegisterKetuaView extends StatelessWidget {
         children: [
           CustomBackground(),
           Padding(
-            padding: EdgeInsets.only(top: 100, bottom: 30),
+            padding: EdgeInsets.only(top: 85),
             child: SingleChildScrollView(
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 30, vertical: 30),
                 child: Column(
                   children: [
-                    ...customTextfields(),
+                    ...customTextfieldsKetua(context),
                     SizedBox(height: 20),
                     CustomButton(
-                      horizontalPadding: 120,
+                      horizontalPadding: 110,
                       text: 'Kode OTP',
                       onPressed: () {
                         print('INI KLIK OTP');
                       },
                     ),
-                    SizedBox(height: 100),
                   ],
                 ),
               ),

@@ -22,7 +22,7 @@ class DrawerSection extends StatelessWidget {
           children: [
             Expanded(
               child: ListView(
-                padding: EdgeInsets.only(top: 100),
+                padding: EdgeInsets.only(top: 50),
                 children: <Widget>[
                   Container(
                     height: 100,
@@ -49,7 +49,7 @@ class DrawerSection extends StatelessWidget {
                       ClipRRect(
                         borderRadius: BorderRadius.circular(12),
                         child: Container(
-                          height: 80,
+                          height: 70,
                           margin: EdgeInsets.symmetric(horizontal: 50),
                           decoration: BoxDecoration(
                             color: Colors.white.withOpacity(0.15),

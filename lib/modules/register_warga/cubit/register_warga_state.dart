@@ -1,9 +1,9 @@
-part of 'register_ketua_cubit.dart';
+part of 'register_warga_cubit.dart';
 
-class RegisterKetuaState extends Equatable {
+class RegisterWargaState extends Equatable {
   final bool isPasswordObscured;
   final bool isConfirmPasswordObscured;
-  final int selectedPenghuni;
+
   final String? name;
   final String? registerAddress;
   final String? province;
@@ -19,10 +19,10 @@ class RegisterKetuaState extends Equatable {
   final String currentAddress;
   final File? fileImage;
 
-  const RegisterKetuaState({
+  const RegisterWargaState({
     this.isPasswordObscured = true, // Initially, password is obscured
     this.isConfirmPasswordObscured = true, // Similarly for confirm password
-    this.selectedPenghuni = 0,
+
     this.name,
     this.registerLocation,
     this.district,
@@ -43,7 +43,6 @@ class RegisterKetuaState extends Equatable {
   List<Object?> get props => [
         isPasswordObscured,
         isConfirmPasswordObscured,
-        selectedPenghuni,
         name,
         registerLocation,
         district,
@@ -60,10 +59,9 @@ class RegisterKetuaState extends Equatable {
         fileImage,
       ];
 
-  RegisterKetuaState copyWith({
+  RegisterWargaState copyWith({
     bool? isPasswordObscured,
     bool? isConfirmPasswordObscured,
-    int? selectedPenghuni,
     String? name,
     LatLng? registerLocation,
     String? registerAddress,
@@ -79,11 +77,10 @@ class RegisterKetuaState extends Equatable {
     String? currentAddress,
     File? fileImage,
   }) {
-    return RegisterKetuaState(
+    return RegisterWargaState(
       isPasswordObscured: isPasswordObscured ?? this.isPasswordObscured,
       isConfirmPasswordObscured:
           isConfirmPasswordObscured ?? this.isConfirmPasswordObscured,
-      selectedPenghuni: selectedPenghuni ?? this.selectedPenghuni,
       registerLocation: registerLocation ?? this.registerLocation,
       district: district ?? this.district,
       registerAddress: registerAddress ?? this.registerAddress,

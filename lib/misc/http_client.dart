@@ -1,10 +1,9 @@
-import 'dart:io';
-
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
-import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 
 import '../modules/app/bloc/app_bloc.dart';
 import 'injections.dart';

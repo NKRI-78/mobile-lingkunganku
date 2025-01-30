@@ -31,21 +31,23 @@ class OnboardingPageView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Image.asset(
-              'assets/icons/lingkunganku.png',
-              height: 200,
-            ),
-            Image.asset(
-              image,
-              height: 250,
-            ),
-          ],
+        Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Image.asset(
+                'assets/icons/lingkunganku.png',
+                height: 150,
+              ),
+              Image.asset(
+                image,
+                height: 200,
+              ),
+            ],
+          ),
         ),
         Positioned(
-          bottom: 50,
+          bottom: 60,
           left: 16,
           right: 16,
           child: OnboardingContainer(

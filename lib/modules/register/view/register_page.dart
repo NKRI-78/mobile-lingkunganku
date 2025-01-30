@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import '../../../router/builder.dart';
+
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
+import '../../../router/builder.dart';
 import '../../../widgets/background/custom_background.dart';
 import '../../../widgets/button/custom_button.dart';
-
 import '../widget/custom_divider.dart';
 
 class RegisterPage extends StatelessWidget {
@@ -15,7 +15,16 @@ class RegisterPage extends StatelessWidget {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        toolbarHeight: 100,
+        title: Text(
+          'Pilih jenis akun\nanda',
+          style: TextStyle(
+            color: AppColors.textColor2,
+            fontSize: 32,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'Intel',
+          ),
+        ),
+        toolbarHeight: 120,
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back_ios_new,
@@ -35,20 +44,11 @@ class RegisterPage extends StatelessWidget {
           CustomScrollView(
             slivers: [
               SliverPadding(
-                padding: const EdgeInsets.all(30),
+                padding: const EdgeInsets.only(
+                    top: 150, left: 30, right: 30, bottom: 30),
                 sliver: SliverList(
                   delegate: SliverChildListDelegate(
                     [
-                      const SizedBox(height: 70),
-                      Text(
-                        'Pilih role di bawah\nini untuk melanjutkan\nregistrasi',
-                        style: TextStyle(
-                          color: AppColors.textColor2,
-                          fontSize: 32,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Intel',
-                        ),
-                      ),
                       const SizedBox(height: 50),
                       GestureDetector(
                         onTap: () {
@@ -62,7 +62,7 @@ class RegisterPage extends StatelessWidget {
                             Container(
                               height: 150,
                               width: double.infinity,
-                              padding: const EdgeInsets.all(32),
+                              padding: EdgeInsets.all(10),
                               decoration: BoxDecoration(
                                 color: Colors.white.withOpacity(0.3),
                                 borderRadius: BorderRadius.circular(32),
@@ -72,24 +72,31 @@ class RegisterPage extends StatelessWidget {
                                 ),
                               ),
                               child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   Text(
-                                    'Registrasi',
-                                    style: AppTextStyles.textRegister1,
-                                  ),
-                                  Text(
-                                    'Ketua / Pengurus',
+                                    'Ketua /\nPengurus        ',
                                     style: AppTextStyles.textRegister2,
+                                  ),
+                                  SizedBox(height: 2),
+                                  Text(
+                                    'Pilih opsi jika anda\nKetua/Pengurus\nlingkungan setempat.',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.normal,
+                                      color:
+                                          AppColors.textColor2.withOpacity(0.5),
+                                      fontFamily: 'Intel',
+                                    ),
                                   ),
                                 ],
                               ),
                             ),
                             Positioned(
-                              left: 10,
-                              top: -60,
-                              bottom: -10,
+                              left: 5,
+                              top: -50,
+                              bottom: 0,
                               child: Image.asset(
                                 'assets/images/ketua.png',
                                 // height: 100,
@@ -98,11 +105,12 @@ class RegisterPage extends StatelessWidget {
                           ],
                         ),
                       ),
-                      const SizedBox(height: 70),
+                      const SizedBox(height: 50),
                       GestureDetector(
                         onTap: () {
                           // Navigasi ke halaman registrasi Warga/Keluarga
                           print('Masuk ke Warga : ${context}');
+                          RegisterWargaRoute().go(context);
                         },
                         child: Stack(
                           clipBehavior: Clip.none,
@@ -110,7 +118,7 @@ class RegisterPage extends StatelessWidget {
                             Container(
                               height: 150,
                               width: double.infinity,
-                              padding: const EdgeInsets.all(32),
+                              padding: const EdgeInsets.all(10),
                               decoration: BoxDecoration(
                                 color: Colors.white.withOpacity(0.3),
                                 borderRadius: BorderRadius.circular(32),
@@ -124,20 +132,27 @@ class RegisterPage extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Registrasi',
-                                    style: AppTextStyles.textRegister1,
-                                  ),
-                                  Text(
-                                    'Warga / Keluarga',
+                                    'Warga',
                                     style: AppTextStyles.textRegister2,
+                                  ),
+                                  SizedBox(height: 2),
+                                  Text(
+                                    'Pilih opsi jika anda\nsebagai Warga, dengan\nsyarat ketua lingkungan\nanda sudah buat akun.',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.normal,
+                                      color:
+                                          AppColors.textColor2.withOpacity(0.5),
+                                      fontFamily: 'Intel',
+                                    ),
                                   ),
                                 ],
                               ),
                             ),
                             Positioned(
-                              right: 10,
-                              top: -60,
-                              bottom: -10,
+                              right: 0,
+                              top: -50,
+                              bottom: 0,
                               child: Image.asset(
                                 'assets/images/warga.png',
                                 // height: 100,
@@ -148,7 +163,7 @@ class RegisterPage extends StatelessWidget {
                       ),
                       const SizedBox(height: 30),
                       CustomDivider(),
-                      const SizedBox(height: 30),
+                      const SizedBox(height: 20),
                       Center(
                         child: CustomButton(
                           horizontalPadding: 120,
@@ -159,16 +174,17 @@ class RegisterPage extends StatelessWidget {
                           },
                         ),
                       ),
-                      SizedBox(height: 30),
+                      SizedBox(height: 20),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        spacing: 7,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        spacing: 5,
                         children: [
                           Text(
                             "Klik",
                             style: TextStyle(
                               color: AppColors.whiteColor,
-                              fontSize: 16,
+                              fontSize: 14,
                               fontWeight: FontWeight.normal,
                               fontFamily: 'Intel',
                             ),
@@ -192,7 +208,7 @@ class RegisterPage extends StatelessWidget {
                             "jika lupa Password",
                             style: TextStyle(
                               color: AppColors.whiteColor,
-                              fontSize: 16,
+                              fontSize: 14,
                               fontWeight: FontWeight.normal,
                               fontFamily: 'Intel',
                             ),
