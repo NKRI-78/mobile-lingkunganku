@@ -8,3 +8,12 @@ sealed class AppEvent extends Equatable {
 }
 
 final class FinishOnboarding extends AppEvent {}
+
+final class SetUserLogout extends AppEvent {}
+
+final class SetUserData extends AppEvent {
+  final User user;
+  final String token;
+
+  const SetUserData({required this.user, required this.token});
+}

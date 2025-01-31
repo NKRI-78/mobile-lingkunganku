@@ -48,6 +48,12 @@ RouteBase get $homeRoute => GoRouteData.$route(
             GoRouteData.$route(
               path: 'register-ketua',
               factory: $RegisterKetuaRouteExtension._fromState,
+              routes: [
+                GoRouteData.$route(
+                  path: 'register-otp',
+                  factory: $RegisterOtpRouteExtension._fromState,
+                ),
+              ],
             ),
             GoRouteData.$route(
               path: 'register-warga',
@@ -141,6 +147,28 @@ extension $RegisterKetuaRouteExtension on RegisterKetuaRoute {
 
   String get location => GoRouteData.$location(
         '/home/register/register-ketua',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $RegisterOtpRouteExtension on RegisterOtpRoute {
+  static RegisterOtpRoute _fromState(GoRouterState state) => RegisterOtpRoute(
+        email: state.uri.queryParameters['email']!,
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/register/register-ketua/register-otp',
+        queryParams: {
+          'email': email,
+        },
       );
 
   void go(BuildContext context) => context.go(location);

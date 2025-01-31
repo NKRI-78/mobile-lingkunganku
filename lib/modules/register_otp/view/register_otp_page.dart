@@ -1,0 +1,150 @@
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
+import 'package:mobile_lingkunganku/modules/register_otp/cubit/register_otp_cubit.dart';
+import 'package:mobile_lingkunganku/widgets/background/custom_background.dart';
+
+import '../../../misc/colors.dart';
+import '../../../misc/text_style.dart';
+
+class RegisterOtpPage extends StatelessWidget {
+  const RegisterOtpPage({super.key, required this.email});
+
+  final String email;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider<RegisterOtpCubit>(
+      create: (context) => RegisterOtpCubit()..init(email),
+      child: RegisterOtpView(),
+    );
+  }
+}
+
+class RegisterOtpView extends StatelessWidget {
+  const RegisterOtpView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<RegisterOtpCubit, RegisterOtpState>(
+      builder: (context, state) {
+        return Scaffold(
+          extendBodyBehindAppBar: true,
+          appBar: PreferredSize(
+            preferredSize: Size.fromHeight(80),
+            child: AppBar(
+              toolbarHeight: 80,
+              title: Text(
+                'Kode OTP',
+                style: AppTextStyles.textStyle1,
+              ),
+              leading: IconButton(
+                icon: Icon(
+                  Icons.arrow_back_ios_new,
+                  color: AppColors.buttonColor2,
+                  size: 32,
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              flexibleSpace: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [Colors.white.withOpacity(0.3), Colors.transparent],
+                  ),
+                ),
+              ),
+            ),
+          ),
+          body: Stack(
+            children: [
+              CustomBackground(),
+              Padding(
+                padding: EdgeInsets.only(top: 100, left: 24, right: 24),
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(height: 20),
+                      Center(
+                        child: Text(
+                          "Masukkan Kode OTP pada\nkolom yang tersedia",
+                          style: AppTextStyles.textStyle2,
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      SizedBox(height: 50),
+                      OtpTextField(
+                        enabledBorderColor: AppColors.buttonColor1,
+                        focusedBorderColor: AppColors.textColor1,
+                        cursorColor: AppColors.textColor1,
+                        margin: EdgeInsets.symmetric(horizontal: 8),
+                        fieldWidth: 55,
+                        fieldHeight: 70,
+                        numberOfFields: 4,
+                        textStyle: AppTextStyles.textStyle1,
+                        showFieldAsBox: true,
+                        onSubmit: (value) {
+                          context
+                              .read<RegisterOtpCubit>()
+                              .submit(value, context);
+                        },
+                      ),
+                      SizedBox(height: 30),
+                      RichText(
+                        textAlign: TextAlign.center,
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                              text: 'Klik disini',
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontFamily: 'Intel',
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.redColor,
+                              ),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  print('Anda sudah klik');
+                                  context
+                                      .read<RegisterOtpCubit>()
+                                      .resendOtp(context);
+                                },
+                            ),
+                            TextSpan(
+                              text: " apabila belum mendapatkan\nKode OTP",
+                              style: AppTextStyles.textStyle2,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              // Positioned(
+              //   bottom: 30,
+              //   left: 24,
+              //   right: 24,
+              //   child: CustomButton(
+              //     horizontalPadding: 80,
+              //     text: 'Lanjutkan',
+              //     onPressed: () {
+              //       print("Lanjutkan sudah di klik");
+              //     },
+              //   ),
+              // ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+}

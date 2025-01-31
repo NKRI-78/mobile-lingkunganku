@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mobile_lingkunganku/modules/register_otp/view/register_otp_page.dart';
 
 import '../modules/home/view/home_page.dart';
 import '../modules/login/view/login_page.dart';
@@ -26,7 +27,9 @@ class OnboardingRoute extends GoRouteData {
 @TypedGoRoute<HomeRoute>(path: '/home', routes: [
   TypedGoRoute<SettingsRoute>(path: 'settings'),
   TypedGoRoute<RegisterRoute>(path: 'register', routes: [
-    TypedGoRoute<RegisterKetuaRoute>(path: 'register-ketua'),
+    TypedGoRoute<RegisterKetuaRoute>(path: 'register-ketua', routes: [
+      TypedGoRoute<RegisterOtpRoute>(path: 'register-otp'),
+    ]),
     TypedGoRoute<RegisterWargaRoute>(path: 'register-warga'),
     TypedGoRoute<LoginRoute>(path: 'login', routes: [
       TypedGoRoute<LupaPasswordRoute>(path: 'lupa-password', routes: [
@@ -63,6 +66,18 @@ class RegisterKetuaRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return RegisterKetuaPage();
+  }
+}
+
+class RegisterOtpRoute extends GoRouteData {
+  final String email;
+
+  RegisterOtpRoute({required this.email});
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return RegisterOtpPage(
+      email: email,
+    );
   }
 }
 

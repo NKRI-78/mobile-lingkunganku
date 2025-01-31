@@ -33,10 +33,13 @@ class InputLocationLabel extends StatelessWidget {
                 debugPrint("Lat result : ${add.latLng.latitude}");
                 if (context.mounted) {
                   var cubit = context.read<RegisterKetuaCubit>();
-                  cubit.copyState(cubit.state.copyWith(
-                      latitude: add.latLng.latitude,
-                      longitude: add.latLng.longitude,
-                      currentAddress: add.address));
+
+                  cubit.copyState(
+                      newState: cubit.state.copyWith(
+                          latitude: add.latLng.latitude,
+                          longitude: add.latLng.longitude,
+                          currentAddress: add.address));
+
                   cubit.updateCurrentPositionCheckIn(
                       context, add.latLng.latitude, add.latLng.longitude);
                 }
