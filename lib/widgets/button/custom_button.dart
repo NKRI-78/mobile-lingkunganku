@@ -4,7 +4,7 @@ import '../../../misc/colors.dart'; // Import warna yang diperlukan
 
 class CustomButton extends StatelessWidget {
   final String text; // Teks yang akan ditampilkan di tombol
-  final VoidCallback onPressed; // Callback untuk tombol
+  final void Function()? onPressed; // Callback untuk tombol
   final Color backgroundColor; // Warna background tombol
   final Color textColor; // Warna teks tombol
   final double horizontalPadding; // Padding horizontal

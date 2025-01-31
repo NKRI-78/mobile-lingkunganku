@@ -4,7 +4,6 @@ import 'dart:io';
 import '../../misc/api_url.dart';
 import '../../misc/http_client.dart';
 import '../../misc/injections.dart';
-import 'models/city/city_model.dart';
 import 'models/user/user_model.dart';
 
 class LoggedIn {
@@ -26,21 +25,50 @@ enum VerifyEmailType { sendingOtp, verified }
 
 class AuthRepository {
   String get auth => '${MyApi.baseUrl}/api/v1/auth';
-  String get profile => '${MyApi.baseUrl}/api/v1/profile/setAboutMe';
 
   final http = getIt<BaseNetworkClient>();
 
-  Future<void> register(
-    String email,
-    String password,
-    String username,
-  ) async {
+  Future<void> registerChief({
+    String email = '',
+    String password = '',
+    String phone = '',
+    String neighborhoodName = '',
+    String detailAddress = '',
+    required String latitude,
+    required String longitude,
+    String name = '',
+  }) async {
     try {
-      final res = await http.post(Uri.parse('$auth/register'), body: {
+      final response =
+          await http.post(Uri.parse('$auth/register/chief'), body: {
         'email': email,
         'password': password,
-        'name': username,
+        'phone': phone,
+        'neighborhood_name': neighborhoodName,
+        'detail_address': detailAddress,
+        'latitude': latitude,
+        'longitude': longitude,
+        'name': name,
       });
+
+      final json = jsonDecode(response.body);
+      if (response.statusCode == 200) {
+        return;
+      }
+      if (response.statusCode == 400) {
+        throw json['message'] ?? "Terjadi kesalahan";
+      }
+    } on SocketException {
+      throw "Terjadi kesalahan jaringan";
+    }
+  }
+
+  Future<void> resendOtp(String email) async {
+    try {
+      final res = await http.post(Uri.parse('$auth/verify-email'),
+          body: {'email': email, 'type': 'SENDING_OTP'});
+
+      print("Email $email");
 
       final json = jsonDecode(res.body);
       if (res.statusCode == 200) {
@@ -49,9 +77,42 @@ class AuthRepository {
       if (res.statusCode == 400) {
         throw json['message'] ?? "Terjadi kesalahan";
       }
+    } catch (e) {
+      print(e);
+      rethrow;
+    }
+  }
+
+  Future<LoggedIn?> verifyOtp(
+      String email, String verificationCode, VerifyEmailType type) async {
+    try {
+      final res = await http.post(Uri.parse('$auth/verify-email'), body: {
+        'email': email,
+        'otp': verificationCode,
+        'type': type == VerifyEmailType.sendingOtp ? 'SENDING_OTP' : 'VERIFIED'
+      });
+
+      print('status : ${res.body}');
+
+      final json = jsonDecode(res.body);
+      if (res.statusCode == 200) {
+        if (type == VerifyEmailType.sendingOtp) {
+          return null;
+        }
+        return LoggedIn(
+          token: json['data']['token'],
+          user: User.fromJson(
+            json['data'],
+          ),
+        );
+      }
+      if (res.statusCode == 400) {
+        throw json['message'] ?? "Terjadi kesalahan";
+      }
     } on SocketException {
       throw "Terjadi kesalahan jaringan";
     }
+    return null;
   }
 
   Future<LoggedIn> login(
@@ -100,78 +161,5 @@ class AuthRepository {
     } catch (e) {
       rethrow;
     }
-  }
-
-  Future<List<CityModel>> getCityList() async {
-    try {
-      final res = await http.get(Uri.parse('$auth/getCityString'));
-
-      print(res.body);
-      print("Status : ${res.statusCode}");
-
-      final json = jsonDecode(res.body);
-      if (res.statusCode == 200) {
-        final list = json['data'] as List;
-        return list.map((e) => CityModel.fromJson(e)).toList();
-      }
-      return [];
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  Future<void> setAboutMe(String gender, String age, String city) async {
-    try {
-      final res = await http.post(Uri.parse(profile), body: {
-        'gender': gender,
-        'age': age,
-        'city': city,
-      });
-
-      print(res.body);
-      print("Status : ${res.statusCode}");
-
-      final json = jsonDecode(res.body);
-      if (res.statusCode == 200) {
-        return;
-      }
-      if (res.statusCode == 400) {
-        throw json['message'] ?? "Terjadi kesalahan";
-      }
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  Future<LoggedIn?> verifyOtp(
-      String email, String verificationCode, VerifyEmailType type) async {
-    try {
-      final res = await http.post(Uri.parse('$auth/verify-email'), body: {
-        'email': email,
-        'otp': verificationCode,
-        'type': type == VerifyEmailType.sendingOtp ? 'SENDING_OTP' : 'VERIFIED'
-      });
-
-      print('status : ${res.body}');
-
-      final json = jsonDecode(res.body);
-      if (res.statusCode == 200) {
-        if (type == VerifyEmailType.sendingOtp) {
-          return null;
-        }
-        return LoggedIn(
-          token: json['data']['token'],
-          user: User.fromJson(
-            json['data'],
-          ),
-        );
-      }
-      if (res.statusCode == 400) {
-        throw json['message'] ?? "Terjadi kesalahan";
-      }
-    } on SocketException {
-      throw "Terjadi kesalahan jaringan";
-    }
-    return null;
   }
 }

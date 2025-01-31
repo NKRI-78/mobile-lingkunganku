@@ -30,69 +30,84 @@ class RegisterKetuaPage extends StatelessWidget {
 }
 
 class RegisterKetuaView extends StatelessWidget {
-  const RegisterKetuaView({super.key});
+  RegisterKetuaView({super.key});
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(80),
-        child: AppBar(
-          toolbarHeight: 80,
-          title: Text(
-            'Registrasi',
-            style: AppTextStyles.textStyle1,
-          ),
-          leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back_ios_new,
-              color: AppColors.buttonColor2,
-              size: 32,
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          flexibleSpace: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [Colors.white.withOpacity(0.3), Colors.transparent],
+    return BlocBuilder<RegisterKetuaCubit, RegisterKetuaState>(
+      builder: (context, state) {
+        print("Address ${state.currentAddress}");
+        return Scaffold(
+          extendBodyBehindAppBar: true,
+          appBar: PreferredSize(
+            preferredSize: Size.fromHeight(80),
+            child: AppBar(
+              toolbarHeight: 80,
+              title: Text(
+                'Registrasi',
+                style: AppTextStyles.textStyle1,
               ),
-            ),
-          ),
-        ),
-      ),
-      body: Stack(
-        children: [
-          CustomBackground(),
-          Padding(
-            padding: EdgeInsets.only(top: 85),
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 30),
-                child: Column(
-                  children: [
-                    ...customTextfieldsKetua(context),
-                    SizedBox(height: 20),
-                    CustomButton(
-                      horizontalPadding: 110,
-                      text: 'Kode OTP',
-                      onPressed: () {
-                        print('INI KLIK OTP');
-                      },
-                    ),
-                  ],
+              leading: IconButton(
+                icon: Icon(
+                  Icons.arrow_back_ios_new,
+                  color: AppColors.buttonColor2,
+                  size: 32,
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              flexibleSpace: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [Colors.white.withOpacity(0.3), Colors.transparent],
+                  ),
                 ),
               ),
             ),
           ),
-        ],
-      ),
+          body: Stack(
+            children: [
+              CustomBackground(),
+              Padding(
+                padding: EdgeInsets.only(top: 85),
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        children: [
+                          // Add Text Field Widgets Here
+                          CustomTextfieldKetua(),
+                          SizedBox(height: 20),
+                          CustomButton(
+                            horizontalPadding: 110,
+                            text: 'Kode OTP',
+                            onPressed: state.isLoading
+                                ? null
+                                : () {
+                                    context
+                                        .read<RegisterKetuaCubit>()
+                                        .submit(context);
+                                  },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }
