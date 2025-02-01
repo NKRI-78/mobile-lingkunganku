@@ -18,8 +18,8 @@ class InputLocation extends StatelessWidget {
         debugPrint("Long Checkin ${st.longitude}");
         return Container(
           width: double.infinity,
-          height: 200.0,
-          margin: const EdgeInsets.only(left: 20.0, right: 20.0),
+          height: 150.0,
+          margin: const EdgeInsets.only(left: 0, right: 0, bottom: 15),
           child: Stack(
             children: [
               GoogleMap(
@@ -29,7 +29,7 @@ class InputLocation extends StatelessWidget {
                 myLocationEnabled: true,
                 initialCameraPosition: CameraPosition(
                   target: LatLng(st.latitude, st.longitude),
-                  zoom: 15.0,
+                  zoom: 10.0,
                 ),
                 markers: Set.from(markers),
                 onMapCreated: (GoogleMapController controller) {

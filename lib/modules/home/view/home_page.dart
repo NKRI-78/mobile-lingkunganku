@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile_lingkunganku/modules/home/widget/show_dialog_section.dart';
 
 import '../../../misc/text_style.dart';
 import '../../../router/builder.dart';
@@ -152,7 +153,7 @@ class HomeView extends StatelessWidget {
                         CustomButton(
                           text: 'Yuk registrasi baru !',
                           onPressed: () {
-                            RegisterRoute().go(context);
+                            showDialogSection(context);
                           },
                         ),
                       ],

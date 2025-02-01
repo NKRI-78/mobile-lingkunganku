@@ -6,7 +6,7 @@ class InputLocationLabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(left: 20, right: 20, bottom: 5),
+      margin: const EdgeInsets.only(left: 10, right: 10, bottom: 5),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

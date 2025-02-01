@@ -4,8 +4,6 @@ import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
 import '../../../router/builder.dart';
 import '../../../widgets/background/custom_background.dart';
-import '../../../widgets/button/custom_button.dart';
-import '../widget/custom_divider.dart';
 
 class RegisterPage extends StatelessWidget {
   const RegisterPage({super.key});
@@ -49,7 +47,7 @@ class RegisterPage extends StatelessWidget {
                 sliver: SliverList(
                   delegate: SliverChildListDelegate(
                     [
-                      const SizedBox(height: 50),
+                      const SizedBox(height: 100),
                       GestureDetector(
                         onTap: () {
                           // Navigasi ke halaman registrasi Ketua/Pengurus
@@ -105,7 +103,7 @@ class RegisterPage extends StatelessWidget {
                           ],
                         ),
                       ),
-                      const SizedBox(height: 50),
+                      const SizedBox(height: 100),
                       GestureDetector(
                         onTap: () {
                           // Navigasi ke halaman registrasi Warga/Keluarga
@@ -159,20 +157,6 @@ class RegisterPage extends StatelessWidget {
                               ),
                             ),
                           ],
-                        ),
-                      ),
-                      const SizedBox(height: 30),
-                      CustomDivider(),
-                      const SizedBox(height: 30),
-                      Center(
-                        child: CustomButton(
-                          horizontalPadding: 120,
-                          text: 'Login',
-                          onPressed: () {
-                            // navigate to login
-                            print('KLIK UNTK LOGIN');
-                            LoginRoute().go(context);
-                          },
                         ),
                       ),
                     ],

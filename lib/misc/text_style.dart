@@ -39,6 +39,12 @@ class AppTextStyles {
     color: AppColors.textColor2,
     fontFamily: 'Inter',
   );
+  static TextStyle textDialog = const TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.normal,
+    color: AppColors.blackColor,
+    fontFamily: 'Inter',
+  );
 
   AppTextStyles._();
 }
