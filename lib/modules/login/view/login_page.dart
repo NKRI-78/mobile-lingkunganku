@@ -122,8 +122,8 @@ class LoginView extends StatelessWidget {
                     ),
                     SizedBox(height: 30),
                     CustomButton(
-                      horizontalPadding: 110,
-                      text: 'Kode OTP',
+                      horizontalPadding: 120,
+                      text: 'Masuk',
                       onPressed: () {
                         //
                         print('Masuk Login :');

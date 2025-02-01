@@ -26,18 +26,18 @@ class OnboardingRoute extends GoRouteData {
 
 @TypedGoRoute<HomeRoute>(path: '/home', routes: [
   TypedGoRoute<SettingsRoute>(path: 'settings'),
+  TypedGoRoute<LoginRoute>(path: 'login', routes: [
+    TypedGoRoute<LupaPasswordRoute>(path: 'lupa-password', routes: [
+      TypedGoRoute<LupaPasswordOtpRoute>(path: 'lupa-password-otp', routes: [
+        TypedGoRoute<LupaPasswordChangeRoute>(path: 'lupa-password-change')
+      ])
+    ]),
+  ]),
   TypedGoRoute<RegisterRoute>(path: 'register', routes: [
     TypedGoRoute<RegisterKetuaRoute>(path: 'register-ketua', routes: [
       TypedGoRoute<RegisterOtpRoute>(path: 'register-otp'),
     ]),
     TypedGoRoute<RegisterWargaRoute>(path: 'register-warga'),
-    TypedGoRoute<LoginRoute>(path: 'login', routes: [
-      TypedGoRoute<LupaPasswordRoute>(path: 'lupa-password', routes: [
-        TypedGoRoute<LupaPasswordOtpRoute>(path: 'lupa-password-otp', routes: [
-          TypedGoRoute<LupaPasswordChangeRoute>(path: 'lupa-password-change')
-        ])
-      ]),
-    ]),
   ]),
   TypedGoRoute<SosRoute>(path: 'sos'),
 ])
