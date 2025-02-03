@@ -1,7 +1,8 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import '../widget/custom_textfield_change.dart';
 import '../../../widgets/button/custom_button.dart';
 
 import '../../../misc/colors.dart';
@@ -9,13 +10,20 @@ import '../../../misc/text_style.dart';
 import '../../../widgets/background/custom_background.dart';
 import '../cubit/lupa_password_change_cubit.dart';
 
+part '../widget/custom_textfield_password.dart';
+
 class LupaPasswordChangePage extends StatelessWidget {
-  const LupaPasswordChangePage({super.key});
+  const LupaPasswordChangePage(
+      {super.key, required this.email, required this.otp});
+
+  final String email;
+  final String otp;
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("otp : $otp");
     return BlocProvider<LupaPasswordChangeCubit>(
-      create: (context) => LupaPasswordChangeCubit(),
+      create: (context) => LupaPasswordChangeCubit(email: email, otp: otp),
       child: LupaPasswordChangeView(),
     );
   }
@@ -78,8 +86,8 @@ class LupaPasswordChangeView extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 30),
-                  ...customTextfieldsChange(),
-                  SizedBox(height: 100),
+                  CustomTextFieldPassword(),
+                  // SizedBox(height: 100),
                 ],
               ),
             ),
@@ -92,7 +100,7 @@ class LupaPasswordChangeView extends StatelessWidget {
               horizontalPadding: 120,
               text: 'Konfirmasi',
               onPressed: () {
-                print("Konfirmasi Password ditekan");
+                context.read<LupaPasswordChangeCubit>().submit(context);
               },
             ),
           ),

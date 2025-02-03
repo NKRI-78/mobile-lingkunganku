@@ -11,7 +11,7 @@ class ShowSnackbar {
       duration: time ?? const Duration(seconds: 2),
       backgroundColor: backgroundColor,
       content: Text(content,
-          style: TextStyle(color: AppColors.whiteColor, fontSize: 24)),
+          style: TextStyle(color: AppColors.whiteColor, fontSize: 16)),
       action: SnackBarAction(
           textColor: AppColors.whiteColor,
           label: label,

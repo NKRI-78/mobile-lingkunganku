@@ -1,19 +1,23 @@
-class LupaPasswordState {
+class LupaPasswordOtpState {
   final String email;
   final bool loading;
+  final String otp;
 
-  LupaPasswordState({
+  LupaPasswordOtpState({
     this.email = "",
     this.loading = false,
+    this.otp = "",
   });
 
-  LupaPasswordState copyWith({
+  LupaPasswordOtpState copyWith({
     String? email,
     bool? loading,
+    String? otp,
   }) {
-    return LupaPasswordState(
+    return LupaPasswordOtpState(
       email: email ?? this.email,
       loading: loading ?? this.loading,
+      otp: otp ?? this.otp,
     );
   }
 }
