@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../misc/colors.dart';
@@ -56,7 +57,7 @@ class RegisterKetuaView extends StatelessWidget {
                   size: 32,
                 ),
                 onPressed: () {
-                  Navigator.pop(context);
+                  GoRouter.of(context).pop();
                 },
               ),
               backgroundColor: Colors.transparent,

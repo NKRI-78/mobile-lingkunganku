@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
@@ -42,7 +43,7 @@ class LoginView extends StatelessWidget {
               size: 32,
             ),
             onPressed: () {
-              Navigator.pop(context);
+              GoRouter.of(context).pop();
             },
           ),
           backgroundColor: Colors.transparent,
@@ -78,7 +79,7 @@ class LoginView extends StatelessWidget {
                         height: 300,
                       ),
                     ),
-                    ...customTextfieldsLogin(),
+                    CustomTextfieldLogin(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -125,8 +126,7 @@ class LoginView extends StatelessWidget {
                       horizontalPadding: 120,
                       text: 'Masuk',
                       onPressed: () {
-                        //
-                        print('Masuk Login :');
+                        context.read<LoginCubit>().submit(context);
                       },
                     )
                   ],

@@ -46,8 +46,8 @@ class BottomNavBarSection extends StatelessWidget {
             ),
           ],
           type: BottomNavigationBarType.fixed,
-          backgroundColor: Colors.transparent, // Pastikan transparan
-          elevation: 0, // Hilangkan shadow
+          backgroundColor: Colors.transparent,
+          elevation: 0,
           selectedItemColor: AppColors.unselectColor,
           unselectedItemColor: AppColors.unselectColor,
           currentIndex: currentIndex,

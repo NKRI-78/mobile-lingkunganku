@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import '../widget/custom_textfield_change.dart';
 import '../../../widgets/button/custom_button.dart';
 
@@ -42,7 +43,7 @@ class LupaPasswordChangeView extends StatelessWidget {
               size: 32,
             ),
             onPressed: () {
-              Navigator.pop(context);
+              GoRouter.of(context).pop();
             },
           ),
           backgroundColor: Colors.transparent,

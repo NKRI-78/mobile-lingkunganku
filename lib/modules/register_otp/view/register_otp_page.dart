@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
+import 'package:go_router/go_router.dart';
 import 'package:mobile_lingkunganku/modules/register_otp/cubit/register_otp_cubit.dart';
 import 'package:mobile_lingkunganku/widgets/background/custom_background.dart';
 
@@ -46,7 +47,7 @@ class RegisterOtpView extends StatelessWidget {
                   size: 32,
                 ),
                 onPressed: () {
-                  Navigator.pop(context);
+                  GoRouter.of(context).pop();
                 },
               ),
               backgroundColor: Colors.transparent,

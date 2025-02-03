@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
+
 import '../../misc/api_url.dart';
 import '../../misc/http_client.dart';
 import '../../misc/injections.dart';
@@ -27,6 +29,33 @@ class AuthRepository {
   String get auth => '${MyApi.baseUrl}/api/v1/auth';
 
   final http = getIt<BaseNetworkClient>();
+
+  Future<LoggedIn> login(
+      {required String email, required String password}) async {
+    try {
+      final res = await http.post(Uri.parse(auth), body: {
+        'email': email,
+        'password': password,
+      });
+
+      debugPrint(res.body);
+      final Map<String, dynamic> json = jsonDecode(res.body);
+      if (res.statusCode == 200) {
+        return LoggedIn(
+          user: User.fromJson(
+            json['data'],
+          ),
+          token: json['data']['token'],
+        );
+      }
+      if (res.statusCode == 400) {
+        throw json['message'] ?? "Terjadi Kesalahan";
+      }
+      throw json['message'] ?? "Terjadi Kesalahan";
+    } catch (e) {
+      rethrow;
+    }
+  }
 
   Future<void> registerChief({
     String email = '',
@@ -115,51 +144,51 @@ class AuthRepository {
     return null;
   }
 
-  Future<LoggedIn> login(
-      {required String email, required String password}) async {
-    try {
-      final res = await http.post(Uri.parse(auth), body: {
-        'email': email,
-        'password': password,
-      });
+  // Future<LoggedIn> login(
+  //     {required String email, required String password}) async {
+  //   try {
+  //     final res = await http.post(Uri.parse(auth), body: {
+  //       'email': email,
+  //       'password': password,
+  //     });
 
-      print(res.body);
-      print('Status : ${res.statusCode}');
+  //     print(res.body);
+  //     print('Status : ${res.statusCode}');
 
-      final json = jsonDecode(res.body);
+  //     final json = jsonDecode(res.body);
 
-      // print('Email Status : ${json["data"]['email_verified']}');
-      if (res.statusCode == 200) {
-        if (json['data']['deleted_at'] != null) {
-          throw "Akun telah dihapus";
-        }
+  //     // print('Email Status : ${json["data"]['email_verified']}');
+  //     if (res.statusCode == 200) {
+  //       if (json['data']['deleted_at'] != null) {
+  //         throw "Akun telah dihapus";
+  //       }
 
-        if (json["data"] != null && json["data"]['email_verified'] == null) {
-          throw EmailNotActivatedFailure(
-              message: json['message'] ?? "Terjadi kesalahan");
-        }
+  //       if (json["data"] != null && json["data"]['email_verified'] == null) {
+  //         throw EmailNotActivatedFailure(
+  //             message: json['message'] ?? "Terjadi kesalahan");
+  //       }
 
-        return LoggedIn(
-          token: json['data']['token'],
-          user: User.fromJson(
-            json['data'],
-          ),
-        );
-      }
+  //       return LoggedIn(
+  //         token: json['data']['token'],
+  //         user: User.fromJson(
+  //           json['data'],
+  //         ),
+  //       );
+  //     }
 
-      if (res.statusCode == 401) {
-        throw EmailNotActivatedFailure(
-            message: json['message'] ?? "Terjadi kesalahan");
-      }
-      if (res.statusCode == 400) {
-        throw json['message'] ?? "Terjadi kesalahan";
-      }
-      if (res.statusCode == 404) {
-        throw json['message'] ?? "Terjadi kesalahan";
-      }
-      throw json['message'] ?? "Terjadi kesalahan";
-    } catch (e) {
-      rethrow;
-    }
-  }
+  //     if (res.statusCode == 401) {
+  //       throw EmailNotActivatedFailure(
+  //           message: json['message'] ?? "Terjadi kesalahan");
+  //     }
+  //     if (res.statusCode == 400) {
+  //       throw json['message'] ?? "Terjadi kesalahan";
+  //     }
+  //     if (res.statusCode == 404) {
+  //       throw json['message'] ?? "Terjadi kesalahan";
+  //     }
+  //     throw json['message'] ?? "Terjadi kesalahan";
+  //   } catch (e) {
+  //     rethrow;
+  //   }
+  // }
 }

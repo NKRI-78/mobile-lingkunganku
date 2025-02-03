@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile_lingkunganku/modules/home/bloc/home_bloc.dart';
 import 'package:mobile_lingkunganku/modules/home/widget/show_dialog_section.dart';
 
 import '../../../misc/text_style.dart';
@@ -8,7 +9,6 @@ import '../../../router/builder.dart';
 import '../../../widgets/background/custom_background.dart';
 import '../../../widgets/button/custom_button.dart';
 import '../../../widgets/header/custom_header_container.dart';
-import '../cubit/home_cubit.dart';
 import '../widget/bottom_nav_bar_section.dart';
 import '../widget/drawer_section.dart';
 
@@ -18,7 +18,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => HomeCubit()..init(),
+      create: (_) => HomeBloc()..add(HomeInit()),
       child: const HomeView(),
     );
   }
@@ -34,8 +34,8 @@ class HomeView extends StatelessWidget {
       'assets/images/contoh.png',
       'assets/images/contoh.png',
     ];
-    return BlocBuilder<HomeCubit, int>(
-      builder: (context, currentIndex) {
+    return BlocBuilder<HomeBloc, HomeState>(
+      builder: (context, state) {
         return Scaffold(
           body: Stack(
             children: [
@@ -161,33 +161,27 @@ class HomeView extends StatelessWidget {
                   },
                 ),
               ),
-              // Panggil BottomNavBarSection di sini
               Positioned(
                 bottom: 20,
                 left: 20,
                 right: 20,
                 child: BottomNavBarSection(
-                  currentIndex: currentIndex,
+                  currentIndex: state.selectedIndex,
                   onTap: (index) {
                     switch (index) {
                       case 0:
-                        RegisterRoute().go(context);
                         break;
                       case 1:
-                        RegisterRoute().go(context);
                         break;
                       case 2:
-                        RegisterRoute().go(context);
                         break;
                       case 3:
-                        RegisterRoute().go(context);
                         break;
                       case 4:
                         SosRoute().go(context);
                         break;
                     }
-                    // Update currentIndex di HomeCubit
-                    context.read<HomeCubit>().navigateTo(index);
+                    context.read<HomeBloc>().add(HomeNavigate(index));
                   },
                 ),
               ),
