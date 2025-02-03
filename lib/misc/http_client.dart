@@ -17,6 +17,10 @@ class BaseNetworkClient extends http.BaseClient {
 
   final http.Client _httpClient = http.Client();
 
+  void removeTokenFromHeader() {
+    _mergedHeaders({HttpHeaders.authorizationHeader: ''});
+  }
+
   addTokenToHeader(String token) {
     _mergedHeaders({HttpHeaders.authorizationHeader: 'Bearer $token'});
   }

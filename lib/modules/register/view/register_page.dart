@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
@@ -30,7 +31,7 @@ class RegisterPage extends StatelessWidget {
             size: 32,
           ),
           onPressed: () {
-            Navigator.pop(context);
+            GoRouter.of(context).pop();
           },
         ),
         backgroundColor: Colors.transparent,
