@@ -1,101 +1,69 @@
 part of 'register_warga_cubit.dart';
 
 class RegisterWargaState extends Equatable {
+  final bool isLoading;
   final bool isPasswordObscured;
   final bool isConfirmPasswordObscured;
-
-  final String? name;
-  final String? registerAddress;
-  final String? province;
-  final String? city;
-  final String? subDistrict;
-  final String? postalCode;
-  final String? district;
-  final LatLng? registerLocation;
-  final SelectedAdministration? selectedAdministration;
-  final bool loading;
-  final double latitude;
-  final double longitude;
-  final String currentAddress;
-  final File? fileImage;
+  final String name;
+  final String email;
+  final String phone;
+  final String detailAddress;
+  final String password;
+  final String passwordConfirm;
+  final String referral;
 
   const RegisterWargaState({
-    this.isPasswordObscured = true, // Initially, password is obscured
-    this.isConfirmPasswordObscured = true, // Similarly for confirm password
-
-    this.name,
-    this.registerLocation,
-    this.district,
-    this.registerAddress,
-    this.province,
-    this.city,
-    this.subDistrict,
-    this.postalCode,
-    this.selectedAdministration,
-    this.loading = false, // Default loading is false
-    this.latitude = 0.0,
-    this.longitude = 0.0,
-    this.currentAddress = "",
-    this.fileImage,
+    this.isLoading = false,
+    this.isPasswordObscured = true,
+    this.isConfirmPasswordObscured = true,
+    this.name = '',
+    this.email = '',
+    this.phone = '',
+    this.detailAddress = '',
+    this.password = '',
+    this.passwordConfirm = '',
+    this.referral = '',
   });
 
   @override
   List<Object?> get props => [
+        isLoading,
         isPasswordObscured,
         isConfirmPasswordObscured,
         name,
-        registerLocation,
-        district,
-        registerAddress,
-        province,
-        city,
-        subDistrict,
-        postalCode,
-        selectedAdministration,
-        loading,
-        latitude,
-        longitude,
-        currentAddress,
-        fileImage,
+        email,
+        phone,
+        detailAddress,
+        password,
+        passwordConfirm,
+        referral,
       ];
 
   RegisterWargaState copyWith({
+    bool? isLoading,
     bool? isPasswordObscured,
     bool? isConfirmPasswordObscured,
     String? name,
-    LatLng? registerLocation,
-    String? registerAddress,
-    String? province,
-    String? city,
-    String? subDistrict,
-    String? postalCode,
-    String? district,
-    SelectedAdministration? selectedAdministration,
-    bool? loading,
-    double? latitude,
-    double? longitude,
-    String? currentAddress,
-    File? fileImage,
+    String? email,
+    String? phone,
+    String? detailAddress,
+    String? password,
+    String? passwordConfirm,
+    String? referral,
   }) {
+    print('Referral before copyWith: $referral'); // Debugging
     return RegisterWargaState(
+      isLoading: isLoading ?? this.isLoading,
       isPasswordObscured: isPasswordObscured ?? this.isPasswordObscured,
       isConfirmPasswordObscured:
           isConfirmPasswordObscured ?? this.isConfirmPasswordObscured,
-      registerLocation: registerLocation ?? this.registerLocation,
-      district: district ?? this.district,
-      registerAddress: registerAddress ?? this.registerAddress,
-      province: province ?? this.province,
-      city: city ?? this.city,
-      subDistrict: subDistrict ?? this.subDistrict,
-      postalCode: postalCode ?? this.postalCode,
-      selectedAdministration:
-          selectedAdministration ?? this.selectedAdministration,
-      loading: loading ?? this.loading,
-      latitude: latitude ?? this.latitude,
-      longitude: longitude ?? this.longitude,
-      currentAddress: currentAddress ?? this.currentAddress,
-      fileImage: fileImage ?? this.fileImage,
       name: name ?? this.name,
+      email: email ?? this.email,
+      phone: phone ?? this.phone,
+      detailAddress: detailAddress ?? this.detailAddress,
+      password: password ?? this.password,
+      passwordConfirm: passwordConfirm ?? this.passwordConfirm,
+      referral: referral ?? this.referral,
     );
   }
 }

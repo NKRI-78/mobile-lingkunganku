@@ -45,6 +45,12 @@ class AppTextStyles {
     color: AppColors.blackColor,
     fontFamily: 'Inter',
   );
+  static TextStyle textWelcome = TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.normal,
+    color: AppColors.blackColor.withOpacity(0.5),
+    fontFamily: 'Inter',
+  );
 
   AppTextStyles._();
 }
