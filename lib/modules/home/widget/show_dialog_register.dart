@@ -3,7 +3,7 @@ import 'package:mobile_lingkunganku/misc/colors.dart';
 import 'package:mobile_lingkunganku/misc/text_style.dart';
 import 'package:mobile_lingkunganku/router/builder.dart';
 
-void showDialogSection(BuildContext context) {
+void showRegisterDialog(BuildContext context) {
   showDialog(
     context: context,
     builder: (BuildContext context) {

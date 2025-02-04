@@ -92,6 +92,36 @@ class AuthRepository {
     }
   }
 
+  Future<void> registerMember({
+    String name = '',
+    String email = '',
+    String phone = '',
+    String detailAddress = '',
+    String password = '',
+    String referral = '',
+  }) async {
+    try {
+      final response =
+          await http.post(Uri.parse('$auth/register/member'), body: {
+        'name': name,
+        'email': email,
+        'phone': phone,
+        'detail_address': detailAddress,
+        'password': password,
+        'referral': referral,
+      });
+      final json = jsonDecode(response.body);
+      if (response.statusCode == 200) {
+        return;
+      }
+      if (response.statusCode == 400) {
+        throw json['message'] ?? "Terjadi kesalahan";
+      }
+    } on SocketException {
+      throw "Terjadi kesalahan jaringan";
+    }
+  }
+
   Future<void> forgotPasswordVerifyOTP(String email, String otp) async {
     try {
       final res = await http.post(Uri.parse('$auth/forgot-password'), body: {

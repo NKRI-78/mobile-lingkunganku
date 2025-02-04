@@ -26,65 +26,69 @@ class RegisterWargaView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(80),
-        child: AppBar(
-          toolbarHeight: 80,
-          title: Text(
-            'Registrasi',
-            style: AppTextStyles.textStyle1,
-          ),
-          leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back_ios_new,
-              color: AppColors.buttonColor2,
-              size: 32,
-            ),
-            onPressed: () {
-              GoRouter.of(context).pop();
-            },
-          ),
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          flexibleSpace: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [Colors.white.withOpacity(0.3), Colors.transparent],
+    return BlocBuilder<RegisterWargaCubit, RegisterWargaState>(
+      builder: (context, state) {
+        return Scaffold(
+          extendBodyBehindAppBar: true,
+          appBar: PreferredSize(
+            preferredSize: Size.fromHeight(80),
+            child: AppBar(
+              toolbarHeight: 80,
+              title: Text(
+                'Registrasi',
+                style: AppTextStyles.textStyle1,
               ),
-            ),
-          ),
-        ),
-      ),
-      body: Stack(
-        children: [
-          CustomBackground(),
-          Padding(
-            padding: EdgeInsets.only(top: 85),
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 30),
-                child: Column(
-                  children: [
-                    ...customTextfieldsWarga(context),
-                    SizedBox(height: 20),
-                    CustomButton(
-                      horizontalPadding: 110,
-                      text: 'Kode OTP',
-                      onPressed: () {
-                        //
-                      },
-                    ),
-                  ],
+              leading: IconButton(
+                icon: Icon(
+                  Icons.arrow_back_ios_new,
+                  color: AppColors.buttonColor2,
+                  size: 32,
+                ),
+                onPressed: () {
+                  GoRouter.of(context).pop();
+                },
+              ),
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              flexibleSpace: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [Colors.white.withOpacity(0.3), Colors.transparent],
+                  ),
                 ),
               ),
             ),
           ),
-        ],
-      ),
+          body: Stack(
+            children: [
+              CustomBackground(),
+              Padding(
+                padding: EdgeInsets.only(top: 85),
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+                    child: Column(
+                      children: [
+                        CustomTextfieldWarga(),
+                        SizedBox(height: 20),
+                        CustomButton(
+                          horizontalPadding: 110,
+                          text: 'Kode OTP',
+                          onPressed: () {
+                            context.read<RegisterWargaCubit>().submit(context);
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }
