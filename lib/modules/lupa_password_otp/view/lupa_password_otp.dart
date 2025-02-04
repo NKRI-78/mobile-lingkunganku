@@ -113,6 +113,10 @@ class LupaPasswordOtpView extends StatelessWidget {
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
                                 print('Anda sudah klik');
+                                // trigger send otp
+                                context
+                                    .read<LupaPasswordOtpCubit>()
+                                    .forgotPasswordSendOTP(context);
                               },
                           ),
                           TextSpan(

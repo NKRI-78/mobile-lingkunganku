@@ -40,12 +40,26 @@ class LupaPasswordOtpCubit extends Cubit<LupaPasswordOtpState> {
     try {
       emit(state.copyWith(loading: true));
       await repo.forgotPasswordSendOTP(state.email);
-      debugPrint("Berhasil");
+      if (context.mounted) {
+        ShowSnackbar.snackbar(
+          context,
+          'OTP telah dikirim ke email Anda. Silakan cek email Anda.',
+          '',
+          AppColors.secondaryColor,
+        );
+      }
+
+      debugPrint("OTP berhasil dikirim");
     } catch (e) {
       if (!context.mounted) {
         return;
       }
-      ShowSnackbar.snackbar(context, e.toString(), '', AppColors.redColor);
+      ShowSnackbar.snackbar(
+        context,
+        'Gagal mengirim OTP: ${e.toString()}',
+        '',
+        AppColors.redColor,
+      );
     } finally {
       emit(state.copyWith(loading: false));
     }

@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mobile_lingkunganku/modules/app/bloc/app_bloc.dart';
-import 'package:mobile_lingkunganku/router/builder.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
@@ -79,9 +76,6 @@ class SettingsPage extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(height: 20),
-              _logoutButton(context),
-              const SizedBox(height: 20),
             ],
           ),
         ),
@@ -89,7 +83,6 @@ class SettingsPage extends StatelessWidget {
     );
   }
 
-  /// Divider untuk memisahkan setiap pengaturan
   Widget _divider() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -97,56 +90,6 @@ class SettingsPage extends StatelessWidget {
         color: Colors.grey.shade400,
         thickness: 1,
       ),
-    );
-  }
-
-  /// Tombol Logout dengan konfirmasi
-  Widget _logoutButton(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.red, // Warna tombol logout
-          padding: const EdgeInsets.symmetric(vertical: 16),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-        ),
-        onPressed: () {
-          _showLogoutDialog(context);
-        },
-        child: Text(
-          "Logout",
-          style: AppTextStyles.textStyle1.copyWith(color: Colors.white),
-        ),
-      ),
-    );
-  }
-
-  /// Menampilkan konfirmasi logout
-  void _showLogoutDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext dialogContext) {
-        return AlertDialog(
-          title: Text("Logout"),
-          content: Text("Apakah Anda yakin ingin logout?"),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(dialogContext),
-              child: Text("Batal", style: TextStyle(color: Colors.grey)),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.pop(dialogContext); // Tutup dialog
-                context.read<AppBloc>().add(SetUserLogout());
-                HomeRoute().go(context);
-              },
-              child: Text("Logout", style: TextStyle(color: Colors.red)),
-            ),
-          ],
-        );
-      },
     );
   }
 }
