@@ -92,6 +92,28 @@ class AuthRepository {
     }
   }
 
+  Future<void> forgotPasswordVerifyOTP(String email, String otp) async {
+    try {
+      final res = await http.post(Uri.parse('$auth/forgot-password'), body: {
+        'email': email,
+        'step': "VERIFICATION_OTP",
+        'otp': otp,
+      });
+      debugPrint("email : $email");
+      debugPrint(res.body);
+
+      final json = jsonDecode(res.body);
+      if (res.statusCode == 200) {
+        return;
+      }
+      if (res.statusCode == 400) {
+        throw json['message'] ?? "Terjadi kesalahan";
+      }
+    } on SocketException {
+      throw "Terjadi kesalahan jaringan";
+    }
+  }
+
   Future<void> resendOtp(String email) async {
     try {
       final res = await http.post(Uri.parse('$auth/verify-email'),
@@ -144,51 +166,48 @@ class AuthRepository {
     return null;
   }
 
-  // Future<LoggedIn> login(
-  //     {required String email, required String password}) async {
-  //   try {
-  //     final res = await http.post(Uri.parse(auth), body: {
-  //       'email': email,
-  //       'password': password,
-  //     });
+  Future<void> forgotPasswordSendOTP(String email) async {
+    try {
+      final res = await http.post(Uri.parse('$auth/forgot-password'), body: {
+        'email': email,
+        'step': "SENDING_OTP",
+      });
+      debugPrint("email : $email");
+      debugPrint(res.body);
 
-  //     print(res.body);
-  //     print('Status : ${res.statusCode}');
+      final json = jsonDecode(res.body);
+      if (res.statusCode == 200) {
+        return;
+      }
+      if (res.statusCode == 400) {
+        throw json['message'] ?? "Terjadi kesalahan";
+      }
+    } on SocketException {
+      throw "Terjadi kesalahan jaringan";
+    }
+  }
 
-  //     final json = jsonDecode(res.body);
+  Future<void> forgotPasswordChangePass(
+      String email, String otp, String password) async {
+    try {
+      final res = await http.post(Uri.parse('$auth/forgot-password'), body: {
+        'email': email,
+        'step': "CHANGE_PASSWORD",
+        'otp': otp,
+        'password': password,
+      });
+      debugPrint("email : $email");
+      debugPrint(res.body);
 
-  //     // print('Email Status : ${json["data"]['email_verified']}');
-  //     if (res.statusCode == 200) {
-  //       if (json['data']['deleted_at'] != null) {
-  //         throw "Akun telah dihapus";
-  //       }
-
-  //       if (json["data"] != null && json["data"]['email_verified'] == null) {
-  //         throw EmailNotActivatedFailure(
-  //             message: json['message'] ?? "Terjadi kesalahan");
-  //       }
-
-  //       return LoggedIn(
-  //         token: json['data']['token'],
-  //         user: User.fromJson(
-  //           json['data'],
-  //         ),
-  //       );
-  //     }
-
-  //     if (res.statusCode == 401) {
-  //       throw EmailNotActivatedFailure(
-  //           message: json['message'] ?? "Terjadi kesalahan");
-  //     }
-  //     if (res.statusCode == 400) {
-  //       throw json['message'] ?? "Terjadi kesalahan";
-  //     }
-  //     if (res.statusCode == 404) {
-  //       throw json['message'] ?? "Terjadi kesalahan";
-  //     }
-  //     throw json['message'] ?? "Terjadi kesalahan";
-  //   } catch (e) {
-  //     rethrow;
-  //   }
-  // }
+      final json = jsonDecode(res.body);
+      if (res.statusCode == 200) {
+        return;
+      }
+      if (res.statusCode == 400) {
+        throw json['message'] ?? "Terjadi kesalahan";
+      }
+    } on SocketException {
+      throw "Terjadi kesalahan jaringan";
+    }
+  }
 }

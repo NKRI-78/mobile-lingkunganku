@@ -103,16 +103,25 @@ class LupaPasswordRoute extends GoRouteData {
 }
 
 class LupaPasswordOtpRoute extends GoRouteData {
+  final String email;
+
+  LupaPasswordOtpRoute({required this.email});
+
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return LupaPasswordOtpPage();
+    return LupaPasswordOtpPage(email: email);
   }
 }
 
 class LupaPasswordChangeRoute extends GoRouteData {
+  final String email;
+  final String otp;
+
+  LupaPasswordChangeRoute({required this.email, required this.otp});
+
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return LupaPasswordChangePage();
+    return LupaPasswordChangePage(email: email, otp: otp);
   }
 }
 

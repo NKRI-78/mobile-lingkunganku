@@ -39,17 +39,16 @@ class CustomButton extends StatelessWidget {
       ),
       onPressed: onPressed,
       child: Row(
-        mainAxisSize: MainAxisSize.min, // Agar ukuran tombol sesuai konten
+        mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          if (icon != null) // Jika ikon tersedia, tambahkan
+          if (icon != null)
             Icon(
               icon,
               size: iconSize,
               color: textColor,
             ),
-          if (icon != null)
-            const SizedBox(width: 8), // Jarak antara ikon dan teks
+          if (icon != null) const SizedBox(width: 8),
           Text(
             text,
             style: TextStyle(

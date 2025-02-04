@@ -161,10 +161,15 @@ extension $LupaPasswordRouteExtension on LupaPasswordRoute {
 
 extension $LupaPasswordOtpRouteExtension on LupaPasswordOtpRoute {
   static LupaPasswordOtpRoute _fromState(GoRouterState state) =>
-      LupaPasswordOtpRoute();
+      LupaPasswordOtpRoute(
+        email: state.uri.queryParameters['email']!,
+      );
 
   String get location => GoRouteData.$location(
         '/home/login/lupa-password/lupa-password-otp',
+        queryParams: {
+          'email': email,
+        },
       );
 
   void go(BuildContext context) => context.go(location);
@@ -179,10 +184,17 @@ extension $LupaPasswordOtpRouteExtension on LupaPasswordOtpRoute {
 
 extension $LupaPasswordChangeRouteExtension on LupaPasswordChangeRoute {
   static LupaPasswordChangeRoute _fromState(GoRouterState state) =>
-      LupaPasswordChangeRoute();
+      LupaPasswordChangeRoute(
+        email: state.uri.queryParameters['email']!,
+        otp: state.uri.queryParameters['otp']!,
+      );
 
   String get location => GoRouteData.$location(
         '/home/login/lupa-password/lupa-password-otp/lupa-password-change',
+        queryParams: {
+          'email': email,
+          'otp': otp,
+        },
       );
 
   void go(BuildContext context) => context.go(location);
