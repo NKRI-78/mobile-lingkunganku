@@ -36,14 +36,7 @@ class AppBloc extends HydratedBloc<AppEvent, AppState> {
   }
 
   FutureOr<void> _onSetUserLogout(SetUserLogout event, Emitter<AppState> emit) {
-    // Hapus token dari HTTP header
-    getIt<BaseNetworkClient>().removeTokenFromHeader();
-
-    // Reset state ke kondisi awal
-    emit(AppInitial());
-
-    // Hapus data yang tersimpan di HydratedBloc
-    clear();
+    emit(state.logout());
   }
 
   FutureOr<void> _onSetUserData(SetUserData event, Emitter<AppState> emit) {

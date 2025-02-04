@@ -1,10 +1,10 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_lingkunganku/misc/colors.dart';
-import 'package:mobile_lingkunganku/misc/text_style.dart';
-import 'package:mobile_lingkunganku/modules/app/bloc/app_bloc.dart';
-import 'package:mobile_lingkunganku/router/builder.dart';
+import '../../../misc/colors.dart';
+import '../../../misc/text_style.dart';
+import '../../app/bloc/app_bloc.dart';
+import '../../../router/builder.dart';
 
 import '../../../misc/injections.dart';
 import '../../../repositories/auth_repository/auth_repository.dart';

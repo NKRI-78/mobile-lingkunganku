@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mobile_lingkunganku/modules/register_otp/cubit/register_otp_cubit.dart';
-import 'package:mobile_lingkunganku/widgets/background/custom_background.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
+import '../../../widgets/background/custom_background.dart';
+import '../cubit/register_otp_cubit.dart';
 
 class RegisterOtpPage extends StatelessWidget {
   const RegisterOtpPage({super.key, required this.email});

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../misc/colors.dart';
+import '../../app/bloc/app_bloc.dart';
+import '../widget/show_dialog_register.dart';
 
 class BottomNavBarSection extends StatelessWidget {
   final int currentIndex;
@@ -14,6 +17,8 @@ class BottomNavBarSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isLoggedIn = context.read<AppBloc>().state.isAlreadyLogin;
+
     return ClipRRect(
       borderRadius: BorderRadius.circular(32),
       child: Container(
@@ -51,7 +56,15 @@ class BottomNavBarSection extends StatelessWidget {
           selectedItemColor: AppColors.unselectColor,
           unselectedItemColor: AppColors.unselectColor,
           currentIndex: currentIndex,
-          onTap: onTap,
+          onTap: (index) {
+            if (!isLoggedIn && index != 4) {
+              // Jika belum login dan bukan SOS, tampilkan dialog registrasi
+              showRegisterDialog(context);
+            } else {
+              // Jika sudah login atau tombol SOS ditekan, jalankan navigasi
+              onTap(index);
+            }
+          },
         ),
       ),
     );

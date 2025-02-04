@@ -1,18 +1,18 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_lingkunganku/misc/injections.dart';
-import 'package:mobile_lingkunganku/modules/app/bloc/app_bloc.dart';
-import 'package:mobile_lingkunganku/modules/home/bloc/home_bloc.dart';
-import 'package:mobile_lingkunganku/modules/home/widget/show_dialog_register.dart';
 
+import '../../../misc/injections.dart';
 import '../../../misc/text_style.dart';
 import '../../../router/builder.dart';
 import '../../../widgets/background/custom_background.dart';
 import '../../../widgets/button/custom_button.dart';
 import '../../../widgets/header/custom_header_container.dart';
+import '../../app/bloc/app_bloc.dart';
+import '../bloc/home_bloc.dart';
 import '../widget/bottom_nav_bar_section.dart';
 import '../widget/drawer_section.dart';
+import '../widget/show_dialog_register.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});

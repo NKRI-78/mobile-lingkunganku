@@ -51,6 +51,18 @@ class AppTextStyles {
     color: AppColors.blackColor.withOpacity(0.5),
     fontFamily: 'Inter',
   );
+  static TextStyle textProfileBold = const TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.bold,
+    color: AppColors.whiteColor,
+    fontFamily: 'Inter',
+  );
+  static TextStyle textProfileNormal = const TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.normal,
+    color: AppColors.whiteColor,
+    fontFamily: 'Inter',
+  );
 
   AppTextStyles._();
 }

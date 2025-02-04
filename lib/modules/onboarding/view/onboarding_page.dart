@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_lingkunganku/modules/onboarding/cubit/onboarding_cubit.dart';
 
 import '../../../router/builder.dart';
+import '../cubit/onboarding_cubit.dart';
 import '../models/onboarding_data.dart';
 import '../widget/onboarding_pageview.dart';
 

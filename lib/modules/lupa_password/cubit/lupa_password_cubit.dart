@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_lingkunganku/misc/colors.dart';
-import 'package:mobile_lingkunganku/modules/lupa_password/cubit/lupa_password_state.dart';
-import 'package:mobile_lingkunganku/router/builder.dart';
 
+import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';
 import '../../../misc/snackbar.dart';
 import '../../../repositories/auth_repository/auth_repository.dart';
+import '../../../router/builder.dart';
+import 'lupa_password_state.dart';
 
 class LupaPasswordCubit extends Cubit<LupaPasswordState> {
   LupaPasswordCubit() : super(LupaPasswordState());

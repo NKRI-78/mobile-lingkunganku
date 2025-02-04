@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_lingkunganku/misc/colors.dart';
-import 'package:mobile_lingkunganku/misc/text_style.dart';
-import 'package:mobile_lingkunganku/router/builder.dart';
+
+import '../../../misc/colors.dart';
+import '../../../misc/text_style.dart';
+import '../../../router/builder.dart';
 
 void showRegisterDialog(BuildContext context) {
   showDialog(
@@ -39,7 +40,7 @@ void showRegisterDialog(BuildContext context) {
                       width: 130,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.green,
+                          backgroundColor: AppColors.secondaryColor,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
                           ),

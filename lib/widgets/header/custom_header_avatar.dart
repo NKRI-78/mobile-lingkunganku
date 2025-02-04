@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_lingkunganku/modules/app/bloc/app_bloc.dart';
+import '../../misc/injections.dart';
+import '../../modules/app/bloc/app_bloc.dart';
 
 import '../../../misc/colors.dart';
 
@@ -11,17 +12,24 @@ class CustomHeaderAvatar extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<AppBloc, AppState>(
       builder: (context, state) {
+        final appState = getIt<AppBloc>().state;
+        final bool isLoggedIn = appState.isAlreadyLogin;
         final user = state.user;
         return Column(
           children: [
             CircleAvatar(
               radius: 50,
               backgroundColor: AppColors.textColor1,
-              child: Icon(
-                Icons.person,
-                size: 60,
-                color: Colors.white,
-              ),
+              child: isLoggedIn
+                  ? ClipOval(
+                      child: Image.asset(
+                        'assets/icons/user_avatar.png',
+                        fit: BoxFit.cover,
+                        width: 100,
+                        height: 100,
+                      ),
+                    )
+                  : Icon(Icons.person, size: 60, color: AppColors.whiteColor),
             ),
             const SizedBox(height: 10),
             Text(

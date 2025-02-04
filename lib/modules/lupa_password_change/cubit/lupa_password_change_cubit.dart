@@ -1,11 +1,12 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_lingkunganku/misc/colors.dart';
-import 'package:mobile_lingkunganku/misc/injections.dart';
-import 'package:mobile_lingkunganku/misc/snackbar.dart';
-import 'package:mobile_lingkunganku/repositories/auth_repository/auth_repository.dart';
-import 'package:mobile_lingkunganku/router/builder.dart';
+
+import '../../../misc/colors.dart';
+import '../../../misc/injections.dart';
+import '../../../misc/snackbar.dart';
+import '../../../repositories/auth_repository/auth_repository.dart';
+import '../../../router/builder.dart';
 
 part 'lupa_password_change_state.dart';
 
