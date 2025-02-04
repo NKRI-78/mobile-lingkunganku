@@ -4,7 +4,6 @@ class LoginState extends Equatable {
   final String email;
   final String password;
   final bool loading;
-
   final bool isPasswordObscured;
 
   const LoginState({
