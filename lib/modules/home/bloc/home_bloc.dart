@@ -9,7 +9,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc() : super(const HomeState(selectedIndex: 0)) {
     on<HomeInit>((event, emit) async {
       await determinePosition();
-      print('masuk :');
     });
 
     on<HomeNavigate>((event, emit) {

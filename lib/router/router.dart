@@ -7,7 +7,8 @@ class MyRouter {
   static GoRouter init(AppBloc app) {
     return GoRouter(
       routes: $appRoutes,
-      initialLocation: OnboardingRoute().location,
+      initialLocation: app.state.alreadyOnboarding ? HomeRoute().location 
+      : OnboardingRoute().location,
     );
   }
 }

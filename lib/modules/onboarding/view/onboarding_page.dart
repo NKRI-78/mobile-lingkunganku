@@ -1,17 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile_lingkunganku/modules/onboarding/cubit/onboarding_cubit.dart';
 
 import '../../../router/builder.dart';
 import '../models/onboarding_data.dart';
 import '../widget/onboarding_pageview.dart';
 
-class OnboardingPage extends StatefulWidget {
+class OnboardingPage extends StatelessWidget {
   const OnboardingPage({super.key});
 
   @override
-  State<OnboardingPage> createState() => _OnboardingScreenState();
+  Widget build(BuildContext context) {
+    return BlocProvider<OnboardingCubit>(
+      create: (context) => OnboardingCubit(),
+      child: const OnboardingView(),
+    );
+  }
 }
 
-class _OnboardingScreenState extends State<OnboardingPage> {
+class OnboardingView extends StatefulWidget {
+  const OnboardingView({super.key});
+
+  @override
+  State<OnboardingView> createState() => _OnboardingScreenState();
+}
+
+class _OnboardingScreenState extends State<OnboardingView> {
   final PageController _pageController = PageController();
   int _currentIndex = 0;
 
@@ -56,7 +70,10 @@ class _OnboardingScreenState extends State<OnboardingPage> {
                 currentIndex: _currentIndex,
                 totalSteps: onboardingContent.length,
                 onNext: nextPage,
-                onFinish: finishOnboarding,
+                onFinish: () {
+                  context.read<OnboardingCubit>().finishOnboarding(context);
+                  HomeRoute().go(context);
+                },
                 titleStyle: const TextStyle(
                     fontSize: 28,
                     fontWeight: FontWeight.bold,
