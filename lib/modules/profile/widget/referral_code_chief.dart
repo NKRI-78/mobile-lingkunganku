@@ -4,16 +4,27 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/services.dart';
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
-import '../../app/bloc/app_bloc.dart';
+import '../../profile/cubit/profile_cubit.dart';
 
-class ReferralCodeSection extends StatelessWidget {
-  const ReferralCodeSection({super.key});
+class ReferralCodeChief extends StatelessWidget {
+  const ReferralCodeChief({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AppBloc, AppState>(
+    return BlocBuilder<ProfileCubit, ProfileState>(
       builder: (context, state) {
-        // final referralCode = state.user?.chief?.referral ?? 'Tidak tersedia';
+        if (state.isLoading) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        if (state.errorMessage != null) {
+          // Menampilkan pesan error yang didapat dari API
+          return Center(child: Text("Error: ${state.errorMessage}"));
+        }
+
+        final referralCode = state.chiefReferral.isNotEmpty
+            ? state.chiefReferral
+            : 'Tidak tersedia';
 
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -39,27 +50,31 @@ class ReferralCodeSection extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Kode Referral",
+                          "Referral Code Warga",
                           style: AppTextStyles.textProfileNormal,
                         ),
                         Text(
-                          // referralCode
-                          '',
-                          style: TextStyle(
-                            color: AppColors.secondaryColor,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          referralCode,
+                          style: AppTextStyles.textProfileBold,
                         ),
                       ],
                     ),
                     IconButton(
-                      icon: const Icon(Icons.copy, color: AppColors.whiteColor),
+                      icon: const Icon(
+                        Icons.copy,
+                        color: AppColors.whiteColor,
+                      ),
                       onPressed: () {
-                        Clipboard.setData(ClipboardData(text: 'referralCode'));
+                        Clipboard.setData(
+                          ClipboardData(text: referralCode),
+                        );
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text("Kode referral berhasil disalin!"),
+                          SnackBar(
+                            content: Text(
+                              "Kode referral berhasil disalin!",
+                              style: AppTextStyles.textProfileNormal,
+                            ),
+                            backgroundColor: AppColors.secondaryColor,
                           ),
                         );
                       },

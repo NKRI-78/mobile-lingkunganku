@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:mobile_lingkunganku/repositories/profile_repository/profile_repository.dart';
 
 import '../modules/app/bloc/app_bloc.dart';
 import '../modules/onboarding/cubit/onboarding_cubit.dart';
@@ -17,5 +18,6 @@ class MyInjection {
     getIt.registerLazySingleton<OnboardingCubit>(() => OnboardingCubit());
 
     getIt.registerLazySingleton<AuthRepository>(() => AuthRepository());
+    getIt.registerLazySingleton<ProfileRepository>(() => ProfileRepository());
   }
 }

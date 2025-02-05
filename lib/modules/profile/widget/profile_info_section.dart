@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile_lingkunganku/router/builder.dart';
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
 import '../../app/bloc/app_bloc.dart';
@@ -59,7 +60,7 @@ class ProfileInfoSection extends StatelessWidget {
                               size: 20,
                             ),
                             onPressed: () {
-                              // EditProfileRoute().go(context);
+                              ProfileUpdateRoute().go(context);
                             },
                           ),
                         ),
