@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_lingkunganku/misc/colors.dart';
-import 'package:mobile_lingkunganku/router/builder.dart';
 
+import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';
 import '../../../repositories/auth_repository/auth_repository.dart';
+import '../../../router/builder.dart';
 import '../../app/bloc/app_bloc.dart';
 
 part 'register_otp_state.dart';

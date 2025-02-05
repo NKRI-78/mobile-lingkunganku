@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
-
+import '../../misc/text_style.dart';
 import '../../../misc/colors.dart';
-import 'custom_header_avatar.dart'; // Import CustomHeaderAvatar
+import 'custom_header_avatar.dart';
 
 class CustomHeaderContainer extends StatelessWidget {
-  final VoidCallback onMenuPressed;
-  final VoidCallback onNotificationPressed;
-  final List<Widget> children; // Parameter untuk widget tambahan
+  final VoidCallback? onBackPressed;
+  final VoidCallback? onMenuPressed;
+  final VoidCallback? onNotificationPressed;
+  final String? title;
+
+  final List<Widget> children;
 
   const CustomHeaderContainer({
     super.key,
-    required this.onMenuPressed,
-    required this.onNotificationPressed,
-    this.children = const [], // Default kosong
+    this.onBackPressed,
+    this.onMenuPressed,
+    this.onNotificationPressed,
+    this.title,
+    this.children = const [],
   });
 
   @override
@@ -36,57 +41,43 @@ class CustomHeaderContainer extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              // Tombol Menu
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.5),
-                      blurRadius: 6,
-                      offset: const Offset(0, 3),
-                    ),
-                  ],
-                ),
-                child: IconButton(
-                  icon: Icon(
-                    Icons.menu,
-                    color: AppColors.blackColor,
-                    size: 32,
+              // **Tombol Back / Menu di Kiri**
+              if (onBackPressed != null || onMenuPressed != null)
+                _buildIconButton(
+                  icon: onBackPressed != null
+                      ? Icons.arrow_back_ios_new
+                      : Icons.menu,
+                  onPressed: onBackPressed ?? onMenuPressed!,
+                )
+              else
+                const SizedBox(width: 48),
+
+              // **Title di Tengah**
+              if (title != null)
+                Expanded(
+                  child: Text(
+                    title!,
+                    style: AppTextStyles.textRegister2,
+                    textAlign: TextAlign.center,
                   ),
-                  onPressed: onMenuPressed,
-                ),
-              ),
-              // Tombol Notifikasi
-              Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.3),
-                      blurRadius: 6,
-                      offset: const Offset(0, 3),
-                    ),
-                  ],
-                ),
-                child: Stack(
+                )
+              else
+                const Spacer(),
+
+              // **Tombol Notifikasi di Kanan**
+              if (onNotificationPressed != null)
+                Stack(
                   children: [
-                    IconButton(
-                      icon: Icon(
-                        Icons.notifications_on_outlined,
-                        color: AppColors.blackColor,
-                        size: 32,
-                      ),
-                      onPressed: onNotificationPressed,
+                    _buildIconButton(
+                      icon: Icons.notifications_on_outlined,
+                      onPressed: onNotificationPressed!,
                     ),
                     Positioned(
                       right: 6,
                       top: 6,
                       child: Container(
                         padding: const EdgeInsets.all(2),
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           color: Colors.red,
                           shape: BoxShape.circle,
                         ),
@@ -105,15 +96,38 @@ class CustomHeaderContainer extends StatelessWidget {
                       ),
                     ),
                   ],
-                ),
-              ),
+                )
+              else
+                const SizedBox(width: 48),
             ],
           ),
-          const CustomHeaderAvatar(), // Gunakan CustomHeaderAvatar
-          const SizedBox(height: 10), // Spasi antara avatar dan teks
-
-          ...children, // Tambahkan widget-widget tambahan di sini
+          const CustomHeaderAvatar(),
+          const SizedBox(height: 10),
+          ...children,
         ],
+      ),
+    );
+  }
+
+  /// Fungsi untuk membangun tombol dengan dekorasi
+  Widget _buildIconButton(
+      {required IconData icon, required VoidCallback onPressed}) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.5),
+            blurRadius: 6,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: IconButton(
+        icon:
+            Icon(icon, color: AppColors.blackColor.withOpacity(0.7), size: 32),
+        onPressed: onPressed,
       ),
     );
   }

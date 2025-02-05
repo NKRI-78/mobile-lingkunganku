@@ -1,13 +1,15 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mobile_lingkunganku/misc/injections.dart';
-import 'package:mobile_lingkunganku/modules/app/bloc/app_bloc.dart';
-import 'package:mobile_lingkunganku/modules/home/widget/show_dialog_logout.dart';
 
 import '../../../misc/colors.dart';
+import '../../../misc/injections.dart';
 import '../../../misc/text_style.dart';
 import '../../../router/builder.dart';
 import '../../../widgets/button/custom_button.dart';
+import '../../app/bloc/app_bloc.dart';
+import 'show_dialog_logout.dart';
 
 class DrawerSection extends StatelessWidget {
   const DrawerSection({super.key});
@@ -19,7 +21,7 @@ class DrawerSection extends StatelessWidget {
 
     return Drawer(
       child: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/images/bg.png'),
             fit: BoxFit.cover,
@@ -29,19 +31,19 @@ class DrawerSection extends StatelessWidget {
           children: [
             Expanded(
               child: ListView(
-                padding: EdgeInsets.only(top: 50),
+                padding: const EdgeInsets.only(top: 50),
                 children: <Widget>[
                   /// **Logo Aplikasi**
                   Container(
                     height: 100,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       image: DecorationImage(
                         image: AssetImage('assets/icons/lingkunganku.png'),
                         fit: BoxFit.none,
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
 
                   CircleAvatar(
                     radius: 50,
@@ -58,51 +60,67 @@ class DrawerSection extends StatelessWidget {
                         : Icon(Icons.person,
                             size: 60, color: AppColors.whiteColor),
                   ),
-                  SizedBox(height: 40),
+                  const SizedBox(height: 40),
 
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(12),
-                    child: Container(
-                      margin: EdgeInsets.symmetric(horizontal: 30),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.15),
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(
-                          color: AppColors.whiteColor,
-                          width: 1,
-                        ),
-                      ),
-                      child: Column(
+                  /// **Container dengan Blur Efek Hanya di Dalamnya**
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 30),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: Stack(
                         children: [
-                          if (isLoggedIn)
-                            ListTile(
-                              leading: Icon(Icons.person_outline,
-                                  color: AppColors.whiteColor),
-                              title: Text("Profile",
-                                  style: AppTextStyles.buttonText1),
-                              onTap: () {
-                                // ProfileRoute().go(context);
-                              },
+                          // Efek Blur di dalam Container
+                          Positioned.fill(
+                            child: BackdropFilter(
+                              filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+                              child: Container(color: Colors.transparent),
                             ),
-                          ListTile(
-                            leading: Icon(Icons.settings_outlined,
-                                color: AppColors.whiteColor),
-                            title: Text("Settings",
-                                style: AppTextStyles.buttonText1),
-                            onTap: () {
-                              SettingsRoute().go(context);
-                            },
                           ),
-                          if (isLoggedIn)
-                            ListTile(
-                              leading: Icon(Icons.description_outlined,
-                                  color: AppColors.whiteColor),
-                              title: Text("Kepengurusan",
-                                  style: AppTextStyles.buttonText1),
-                              onTap: () {
-                                // ManagementRoute().go(context);
-                              },
+                          // Isi Container
+                          Container(
+                            padding: const EdgeInsets.symmetric(vertical: 8),
+                            decoration: BoxDecoration(
+                              color: Colors.white.withOpacity(0.15),
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(
+                                color: AppColors.whiteColor,
+                                width: 1,
+                              ),
                             ),
+                            child: Column(
+                              children: [
+                                if (isLoggedIn)
+                                  ListTile(
+                                    leading: Icon(Icons.person_outline,
+                                        color: AppColors.whiteColor),
+                                    title: Text("Profile",
+                                        style: AppTextStyles.buttonText1),
+                                    onTap: () {
+                                      ProfileRoute().go(context);
+                                    },
+                                  ),
+                                ListTile(
+                                  leading: Icon(Icons.settings_outlined,
+                                      color: AppColors.whiteColor),
+                                  title: Text("Settings",
+                                      style: AppTextStyles.buttonText1),
+                                  onTap: () {
+                                    SettingsRoute().go(context);
+                                  },
+                                ),
+                                if (isLoggedIn)
+                                  ListTile(
+                                    leading: Icon(Icons.description_outlined,
+                                        color: AppColors.whiteColor),
+                                    title: Text("Kepengurusan",
+                                        style: AppTextStyles.buttonText1),
+                                    onTap: () {
+                                      // ManagementRoute().go(context);
+                                    },
+                                  ),
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -113,7 +131,7 @@ class DrawerSection extends StatelessWidget {
             Container(
               margin: const EdgeInsets.only(bottom: 40),
               child: CustomButton(
-                text: isLoggedIn ? 'Logout' : 'Close App',
+                text: isLoggedIn ? 'LogOut' : 'Close App',
                 onPressed: () {
                   if (isLoggedIn) {
                     showLogoutDialog(context);

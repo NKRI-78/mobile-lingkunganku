@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_lingkunganku/misc/colors.dart';
+
+import 'colors.dart';
 
 class ShowSnackbar {
   ShowSnackbar._();

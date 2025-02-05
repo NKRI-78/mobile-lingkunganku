@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mobile_lingkunganku/modules/lupa_password_otp/cubit/lupa_password_otp_cubit.dart';
-import 'package:mobile_lingkunganku/modules/lupa_password_otp/cubit/lupa_password_otp_state.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
 import '../../../widgets/background/custom_background.dart';
+import '../cubit/lupa_password_otp_cubit.dart';
+import '../cubit/lupa_password_otp_state.dart';
 
 class LupaPasswordOtpPage extends StatelessWidget {
   final String email;

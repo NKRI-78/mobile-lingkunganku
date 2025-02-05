@@ -4,12 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:mobile_lingkunganku/misc/colors.dart';
-import 'package:mobile_lingkunganku/misc/injections.dart';
-import 'package:mobile_lingkunganku/repositories/auth_repository/auth_repository.dart';
-import 'package:mobile_lingkunganku/router/builder.dart';
 
+import '../../../misc/colors.dart';
+import '../../../misc/injections.dart';
 import '../../../misc/snackbar.dart';
+import '../../../repositories/auth_repository/auth_repository.dart';
+import '../../../router/builder.dart';
 
 part 'register_ketua_state.dart';
 
