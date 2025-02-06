@@ -8,7 +8,7 @@ class CustomHeaderContainer extends StatelessWidget {
   final VoidCallback? onMenuPressed;
   final VoidCallback? onNotificationPressed;
   final String? title;
-  final bool showAvatarText;
+  final bool showText;
 
   final List<Widget> children;
 
@@ -19,7 +19,7 @@ class CustomHeaderContainer extends StatelessWidget {
     this.onNotificationPressed,
     this.title,
     this.children = const [],
-    this.showAvatarText = true,
+    required this.showText,
   });
 
   @override
@@ -103,7 +103,9 @@ class CustomHeaderContainer extends StatelessWidget {
                 const SizedBox(width: 48),
             ],
           ),
-          CustomHeaderAvatar(showText: showAvatarText),
+          CustomHeaderAvatarPage(
+            showText: showText,
+          ),
           const SizedBox(height: 10),
           ...children,
         ],

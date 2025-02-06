@@ -53,7 +53,7 @@ class HomeView extends StatelessWidget {
                       SliverToBoxAdapter(
                         child: Column(
                           children: [
-                            const SizedBox(height: 300),
+                            const SizedBox(height: 290),
                             CarouselSlider(
                               options: CarouselOptions(
                                 autoPlay: true,
@@ -108,7 +108,6 @@ class HomeView extends StatelessWidget {
                                 ),
                               )
                             else
-                              // List News dari State
                               ListView.builder(
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
@@ -117,7 +116,9 @@ class HomeView extends StatelessWidget {
                                   final newsItem = state.news[index];
                                   return Card(
                                     margin: const EdgeInsets.symmetric(
-                                        horizontal: 20, vertical: 10),
+                                      horizontal: 20,
+                                      vertical: 10,
+                                    ),
                                     elevation: 4,
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(18),
@@ -190,6 +191,7 @@ class HomeView extends StatelessWidget {
                     child: Builder(
                       builder: (context) {
                         return CustomHeaderContainer(
+                          showText: true,
                           onMenuPressed: () {
                             Scaffold.of(context).openDrawer();
                           },
@@ -197,7 +199,7 @@ class HomeView extends StatelessWidget {
                           children: [
                             app
                                 ? Text(
-                                    'Selamat datang di Aplikasi Lingkunganku\nyang memudahkan Anda untuk terhubung dengan\nwarga sekitar dan menjaga lingkungan tetap harmonis.',
+                                    'Selamat datang di Lingkunganku, aplikasi untuk terhubung dengan warga dan menjaga lingkungan.',
                                     style: AppTextStyles.textWelcome,
                                     textAlign: TextAlign.center,
                                   )
@@ -213,7 +215,7 @@ class HomeView extends StatelessWidget {
                     ),
                   ),
                   Positioned(
-                    bottom: 20,
+                    bottom: 25,
                     left: 20,
                     right: 20,
                     child: BottomNavBarSection(

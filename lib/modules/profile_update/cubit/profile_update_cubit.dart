@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile_lingkunganku/misc/colors.dart';
 import 'package:mobile_lingkunganku/misc/injections.dart';
 import 'package:mobile_lingkunganku/misc/snackbar.dart';
+import 'package:mobile_lingkunganku/modules/profile/cubit/profile_cubit.dart';
 import 'package:mobile_lingkunganku/repositories/profile_repository/profile_repository.dart';
 
 part 'profile_update_state.dart';
@@ -70,6 +71,7 @@ class ProfileUpdateCubit extends Cubit<ProfileUpdateState> {
         isLoading: false,
         successMessage: 'Profile berhasil diperbarui',
       ));
+      getIt<ProfileCubit>().getProfile();
     } catch (error) {
       // Update state to error if something goes wrong
       emit(state.copyWith(

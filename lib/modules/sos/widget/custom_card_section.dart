@@ -5,13 +5,12 @@ import '../../../misc/colors.dart';
 Widget customCardSection({
   required String icon,
   required String label,
-  required VoidCallback onTap, // Menambahkan parameter onTap
+  required VoidCallback onTap,
 }) {
   return GestureDetector(
-    onTap: onTap, // Menentukan aksi saat opsi ditekan
+    onTap: onTap,
     child: Stack(
       children: [
-        // Kontainer latar belakang putih
         Container(
           width: double.infinity,
           decoration: BoxDecoration(
@@ -39,8 +38,6 @@ Widget customCardSection({
             ],
           ),
         ),
-
-        // Kontainer hijau di bagian atas
         Positioned(
           top: 10,
           left: 10,
@@ -53,8 +50,6 @@ Widget customCardSection({
             ),
           ),
         ),
-
-        // Lingkaran putih di belakang avatar
         Center(
           child: Container(
             width: 70,

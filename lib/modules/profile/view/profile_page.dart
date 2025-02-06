@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile_lingkunganku/misc/injections.dart';
 import 'package:mobile_lingkunganku/modules/profile/cubit/profile_cubit.dart';
 import 'package:mobile_lingkunganku/modules/profile/widget/family_member_section.dart';
 import 'package:mobile_lingkunganku/modules/profile/widget/referral_code_chief.dart';
@@ -15,8 +16,8 @@ class ProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<ProfileCubit>(
-      create: (context) => ProfileCubit()..loadProfile(),
+    return BlocProvider.value(
+      value: getIt<ProfileCubit>()..getProfile(),
       child: const ProfileView(),
     );
   }
@@ -29,12 +30,6 @@ class ProfileView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ProfileCubit, ProfileState>(
       builder: (context, state) {
-        if (state.isLoading) {
-          return const Center(child: CircularProgressIndicator());
-        }
-        if (state.errorMessage != null) {
-          return Center(child: Text('Error: ${state.errorMessage}'));
-        }
         return Scaffold(
           body: Stack(
             children: [
@@ -42,7 +37,7 @@ class ProfileView extends StatelessWidget {
               Column(
                 children: [
                   CustomHeaderContainer(
-                    showAvatarText: false,
+                    showText: false,
                     title: 'Profile',
                     onBackPressed: () => Navigator.pop(context),
                   ),

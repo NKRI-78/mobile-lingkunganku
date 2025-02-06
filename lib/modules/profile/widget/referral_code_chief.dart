@@ -13,19 +13,6 @@ class ReferralCodeChief extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ProfileCubit, ProfileState>(
       builder: (context, state) {
-        if (state.isLoading) {
-          return const Center(child: CircularProgressIndicator());
-        }
-
-        if (state.errorMessage != null) {
-          // Menampilkan pesan error yang didapat dari API
-          return Center(child: Text("Error: ${state.errorMessage}"));
-        }
-
-        final referralCode = state.chiefReferral.isNotEmpty
-            ? state.chiefReferral
-            : 'Tidak tersedia';
-
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
           child: ClipRRect(
@@ -54,7 +41,7 @@ class ReferralCodeChief extends StatelessWidget {
                           style: AppTextStyles.textProfileNormal,
                         ),
                         Text(
-                          referralCode,
+                          state.profile?.chief?.referral ?? "Tidak Tersedia",
                           style: AppTextStyles.textProfileBold,
                         ),
                       ],
@@ -66,7 +53,9 @@ class ReferralCodeChief extends StatelessWidget {
                       ),
                       onPressed: () {
                         Clipboard.setData(
-                          ClipboardData(text: referralCode),
+                          ClipboardData(
+                              text: state.profile?.chief?.referral ??
+                                  "Tidak Tersedia"),
                         );
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
