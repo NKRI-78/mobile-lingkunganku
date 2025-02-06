@@ -42,6 +42,7 @@ class ProfileView extends StatelessWidget {
               Column(
                 children: [
                   CustomHeaderContainer(
+                    showAvatarText: false,
                     title: 'Profile',
                     onBackPressed: () => Navigator.pop(context),
                   ),

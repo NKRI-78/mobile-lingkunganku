@@ -6,7 +6,8 @@ import '../../modules/app/bloc/app_bloc.dart';
 import '../../../misc/colors.dart';
 
 class CustomHeaderAvatar extends StatelessWidget {
-  const CustomHeaderAvatar({super.key});
+  final bool showText;
+  const CustomHeaderAvatar({super.key, this.showText = true});
 
   @override
   Widget build(BuildContext context) {
@@ -31,15 +32,17 @@ class CustomHeaderAvatar extends StatelessWidget {
                     )
                   : Icon(Icons.person, size: 60, color: AppColors.whiteColor),
             ),
-            const SizedBox(height: 10),
-            Text(
-              'Hi ${user?.profile?.fullname ?? 'User'},',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
+            if (showText) ...[
+              const SizedBox(height: 10),
+              Text(
+                'Hi ${user?.profile?.fullname ?? 'User'},',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
               ),
-            ),
+            ]
           ],
         );
       },

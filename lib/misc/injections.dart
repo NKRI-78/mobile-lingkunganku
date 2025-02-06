@@ -4,6 +4,7 @@ import 'package:mobile_lingkunganku/repositories/profile_repository/profile_repo
 import '../modules/app/bloc/app_bloc.dart';
 import '../modules/onboarding/cubit/onboarding_cubit.dart';
 import '../repositories/auth_repository/auth_repository.dart';
+import '../repositories/home_repository/home_repository.dart';
 import 'http_client.dart';
 
 final getIt = GetIt.instance;
@@ -19,5 +20,6 @@ class MyInjection {
 
     getIt.registerLazySingleton<AuthRepository>(() => AuthRepository());
     getIt.registerLazySingleton<ProfileRepository>(() => ProfileRepository());
+    getIt.registerLazySingleton<HomeRepository>(() => HomeRepository());
   }
 }

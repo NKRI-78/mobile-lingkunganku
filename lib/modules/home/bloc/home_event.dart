@@ -14,3 +14,11 @@ class HomeNavigate extends HomeEvent {
   @override
   List<Object?> get props => [index];
 }
+
+final class HomeCopyState extends HomeEvent {
+  final HomeState newState;
+
+  HomeCopyState({required this.newState});
+}
+
+class HomeFetchMoreNews extends HomeEvent {}

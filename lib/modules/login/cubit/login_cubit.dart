@@ -42,7 +42,7 @@ class LoginCubit extends Cubit<LoginState> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           backgroundColor: AppColors.secondaryColor,
-          content: Text(e.toString(), style: AppTextStyles.textDialog),
+          content: Text(e.toString(), style: AppTextStyles.textProfileNormal),
         ),
       );
     } finally {
