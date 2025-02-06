@@ -2,19 +2,19 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile_lingkunganku/modules/profile/cubit/profile_cubit.dart';
 import 'package:mobile_lingkunganku/router/builder.dart';
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
-import '../../app/bloc/app_bloc.dart';
 
 class ProfileInfoSection extends StatelessWidget {
   const ProfileInfoSection({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AppBloc, AppState>(
+    return BlocBuilder<ProfileCubit, ProfileState>(
       builder: (context, state) {
-        final user = state.user;
+        final user = state.profile;
 
         if (user == null) {
           return const Center(

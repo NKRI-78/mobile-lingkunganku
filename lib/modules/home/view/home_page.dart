@@ -1,6 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile_lingkunganku/misc/colors.dart';
+import 'package:mobile_lingkunganku/repositories/home_repository/home_repository.dart';
 
 import '../../../misc/injections.dart';
 import '../../../misc/text_style.dart';
@@ -20,7 +22,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => HomeBloc()..add(HomeInit()),
+      create: (_) => HomeBloc(getIt<HomeRepository>())..add(HomeInit()),
       child: const HomeView(),
     );
   }
@@ -36,6 +38,7 @@ class HomeView extends StatelessWidget {
       'assets/images/contoh.png',
       'assets/images/contoh.png',
     ];
+
     return BlocBuilder<AppBloc, AppState>(
       builder: (context, appState) {
         final app = getIt<AppBloc>().state.isAlreadyLogin;
@@ -44,15 +47,13 @@ class HomeView extends StatelessWidget {
             return Scaffold(
               body: Stack(
                 children: [
-                  // CustomBackground sebagai gambar latar belakang
                   const CustomBackground(),
-                  // CustomScrollView untuk konten yang dapat di-scroll
                   CustomScrollView(
                     slivers: [
                       SliverToBoxAdapter(
                         child: Column(
                           children: [
-                            const SizedBox(height: 300),
+                            const SizedBox(height: 290),
                             CarouselSlider(
                               options: CarouselOptions(
                                 autoPlay: true,
@@ -69,6 +70,8 @@ class HomeView extends StatelessWidget {
                                 );
                               }).toList(),
                             ),
+
+                            // Title Section
                             Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 30),
@@ -77,73 +80,110 @@ class HomeView extends StatelessWidget {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text("News", style: AppTextStyles.textStyle1),
-                                  Text("See all",
-                                      style: AppTextStyles.textStyle2),
+                                  GestureDetector(
+                                    onTap: () {
+                                      // Arahkan ke halaman semua berita
+                                    },
+                                    child: Text(
+                                      "See all",
+                                      style: AppTextStyles.textStyle2.copyWith(
+                                        color: AppColors.secondaryColor,
+                                      ),
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
-                            const SizedBox(height: 5),
-                            ...List.generate(
-                              5,
-                              (index) => Card(
-                                margin: const EdgeInsets.symmetric(
-                                    horizontal: 20, vertical: 10),
-                                elevation: 4,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(18),
+                            // Kondisi: Menampilkan indikator loading
+                            if (state.loading)
+                              const Center(
+                                child: CircularProgressIndicator(),
+                              )
+                            else if (state.news.isEmpty)
+                              // Jika news kosong
+                              const Center(
+                                child: Text(
+                                  "No news available",
+                                  style: TextStyle(color: AppColors.textColor),
                                 ),
-                                child: SizedBox(
-                                  height: 120,
-                                  child: Row(
-                                    children: [
-                                      ClipRRect(
-                                        borderRadius: const BorderRadius.only(
-                                            topLeft: Radius.circular(18),
-                                            bottomLeft: Radius.circular(18)),
-                                        child: Image.asset(
-                                          'assets/images/contoh_card.png',
-                                          fit: BoxFit.fill,
-                                          width: 150,
-                                          height: 150,
-                                        ),
+                              )
+                            else
+                              ListView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: state.news.length,
+                                itemBuilder: (context, index) {
+                                  final newsItem = state.news[index];
+                                  return Card(
+                                    margin: const EdgeInsets.symmetric(
+                                      horizontal: 20,
+                                      vertical: 10,
+                                    ),
+                                    elevation: 4,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(18),
+                                    ),
+                                    child: SizedBox(
+                                      height: 120,
+                                      child: Row(
+                                        children: [
+                                          ClipRRect(
+                                            borderRadius:
+                                                const BorderRadius.only(
+                                                    topLeft:
+                                                        Radius.circular(18),
+                                                    bottomLeft:
+                                                        Radius.circular(18)),
+                                            child: Image.network(
+                                              newsItem.linkImage,
+                                              fit: BoxFit.fill,
+                                              width: 150,
+                                              height: 150,
+                                            ),
+                                          ),
+                                          const SizedBox(width: 16),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  newsItem.title,
+                                                  style: const TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16,
+                                                  ),
+                                                  maxLines: 2,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                ),
+                                                const SizedBox(height: 4),
+                                                Text(
+                                                  newsItem.content,
+                                                  style: const TextStyle(
+                                                    fontSize: 14,
+                                                    color: Colors.grey,
+                                                  ),
+                                                  maxLines: 2,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                ),
+                                              ],
+                                            ),
+                                          )
+                                        ],
                                       ),
-                                      const SizedBox(width: 16),
-                                      Expanded(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: const [
-                                            Text(
-                                              'Sample News Title',
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 16,
-                                              ),
-                                            ),
-                                            SizedBox(height: 4),
-                                            Text(
-                                              'Short description goes here...',
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                                color: Colors.grey,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                ),
+                                    ),
+                                  );
+                                },
                               ),
-                            ),
                           ],
                         ),
                       ),
                     ],
                   ),
-                  // CustomHeaderContainer tetap statis di atas
                   Positioned(
                     top: 0,
                     left: 0,
@@ -151,16 +191,15 @@ class HomeView extends StatelessWidget {
                     child: Builder(
                       builder: (context) {
                         return CustomHeaderContainer(
+                          showText: true,
                           onMenuPressed: () {
                             Scaffold.of(context).openDrawer();
                           },
-                          onNotificationPressed: () {
-                            // Handle notification button press
-                          },
+                          onNotificationPressed: () {},
                           children: [
                             app
                                 ? Text(
-                                    'Selamat datang di Aplikasi Lingkunganku\nyang memudahkan Anda untuk terhubung dengan\nwarga sekitar dan menjaga lingkungan tetap harmonis.',
+                                    'Selamat datang di Lingkunganku, aplikasi untuk terhubung dengan warga dan menjaga lingkungan.',
                                     style: AppTextStyles.textWelcome,
                                     textAlign: TextAlign.center,
                                   )
@@ -175,9 +214,8 @@ class HomeView extends StatelessWidget {
                       },
                     ),
                   ),
-
                   Positioned(
-                    bottom: 20,
+                    bottom: 25,
                     left: 20,
                     right: 20,
                     child: BottomNavBarSection(

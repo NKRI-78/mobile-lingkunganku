@@ -26,7 +26,6 @@ class ProfielUpdateView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<ProfileUpdateCubit, ProfileUpdateState>(
       listener: (context, state) {
-        // Check if the update was successful
         if (state.successMessage.isNotEmpty) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -54,6 +53,7 @@ class ProfielUpdateView extends StatelessWidget {
               Column(
                 children: [
                   CustomHeaderContainer(
+                    showText: false,
                     title: 'Edit Profile',
                     onBackPressed: () => Navigator.pop(context),
                   ),
@@ -65,6 +65,7 @@ class ProfielUpdateView extends StatelessWidget {
                       children: [
                         CustomTextfieldName(),
                         CustomTextfieldPhone(),
+                        SizedBox(height: 10),
                         CustomButton(
                           horizontalPadding: 140,
                           text: 'Save',

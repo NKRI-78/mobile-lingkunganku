@@ -96,8 +96,6 @@ class LoginView extends StatelessWidget {
                         ),
                         GestureDetector(
                           onTap: () {
-                            // Navigate to resetpassword
-                            print('KLIK DISINI PINDAH HALAMAN PASSWORD');
                             LupaPasswordRoute().go(context);
                           },
                           child: Text(

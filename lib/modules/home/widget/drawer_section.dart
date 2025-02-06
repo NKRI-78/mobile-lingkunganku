@@ -64,7 +64,7 @@ class DrawerSection extends StatelessWidget {
 
                   /// **Container dengan Blur Efek Hanya di Dalamnya**
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 30),
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(12),
                       child: Stack(
@@ -115,7 +115,7 @@ class DrawerSection extends StatelessWidget {
                                     title: Text("Kepengurusan",
                                         style: AppTextStyles.buttonText1),
                                     onTap: () {
-                                      // ManagementRoute().go(context);
+                                      ManagementRoute().go(context);
                                     },
                                   ),
                               ],

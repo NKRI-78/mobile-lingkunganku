@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_lingkunganku/modules/profile/cubit/profile_cubit.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';
@@ -44,6 +45,7 @@ void showLogoutDialog(BuildContext context) {
                     Navigator.pop(dialogContext); // Tutup dialog
                     Navigator.pop(context); // Tutup drawer
                     getIt<AppBloc>().add(SetUserLogout()); // Logout
+                    getIt<ProfileCubit>().getProfile();
                     HomeRoute().go(context);
                   },
                   child: const Text("Logout",
