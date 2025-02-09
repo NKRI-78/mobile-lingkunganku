@@ -9,11 +9,15 @@ class CustomHeaderContainer extends StatelessWidget {
   final VoidCallback? onNotificationPressed;
   final String? title;
   final bool showText;
+  final bool isLoggedIn;
+  final String displayText;
 
   final List<Widget> children;
 
   const CustomHeaderContainer({
     super.key,
+    required this.displayText,
+    required this.isLoggedIn,
     this.onBackPressed,
     this.onMenuPressed,
     this.onNotificationPressed,
@@ -103,7 +107,9 @@ class CustomHeaderContainer extends StatelessWidget {
                 const SizedBox(width: 48),
             ],
           ),
-          CustomHeaderAvatarPage(
+          CustomHeaderAvatar(
+            displayText: displayText,
+            isLoggedIn: isLoggedIn,
             showText: showText,
           ),
           const SizedBox(height: 10),

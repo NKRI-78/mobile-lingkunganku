@@ -20,12 +20,12 @@ class BottomNavBarSection extends StatelessWidget {
     final bool isLoggedIn = context.read<AppBloc>().state.isAlreadyLogin;
 
     return ClipRRect(
-      borderRadius: BorderRadius.circular(32),
+      borderRadius: BorderRadius.circular(24),
       child: Container(
-        height: 70,
+        height: 75,
         decoration: BoxDecoration(
           color: AppColors.buttonColor2,
-          borderRadius: BorderRadius.circular(32),
+          borderRadius: BorderRadius.circular(24),
         ),
         child: BottomNavigationBar(
           items: const [
@@ -46,13 +46,18 @@ class BottomNavBarSection extends StatelessWidget {
               label: 'Event',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.sos),
+              icon: Icon(Icons.sensors_sharp),
               label: 'SOS',
             ),
           ],
           type: BottomNavigationBarType.fixed,
           backgroundColor: Colors.transparent,
           elevation: 0,
+          selectedFontSize: 12,
+          unselectedFontSize: 12,
+          showUnselectedLabels: true,
+          showSelectedLabels: true,
+          iconSize: 25,
           selectedItemColor: AppColors.unselectColor,
           unselectedItemColor: AppColors.unselectColor,
           currentIndex: currentIndex,

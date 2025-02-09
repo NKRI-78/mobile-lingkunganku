@@ -53,6 +53,8 @@ class ProfielUpdateView extends StatelessWidget {
               Column(
                 children: [
                   CustomHeaderContainer(
+                    displayText: '',
+                    isLoggedIn: true,
                     showText: false,
                     title: 'Edit Profile',
                     onBackPressed: () => Navigator.pop(context),
