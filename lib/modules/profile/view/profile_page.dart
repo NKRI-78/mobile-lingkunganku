@@ -5,6 +5,7 @@ import 'package:mobile_lingkunganku/modules/profile/cubit/profile_cubit.dart';
 import 'package:mobile_lingkunganku/modules/profile/widget/family_member_section.dart';
 import 'package:mobile_lingkunganku/modules/profile/widget/referral_code_chief.dart';
 import 'package:mobile_lingkunganku/modules/profile/widget/referral_code_family.dart';
+import 'package:mobile_lingkunganku/widgets/button/custom_button.dart';
 
 import '../../../widgets/background/custom_background.dart';
 import '../../../widgets/header/custom_header_container.dart';
@@ -37,6 +38,8 @@ class ProfileView extends StatelessWidget {
               Column(
                 children: [
                   CustomHeaderContainer(
+                    isLoggedIn: true,
+                    displayText: '',
                     showText: false,
                     title: 'Profile',
                     onBackPressed: () => Navigator.pop(context),
@@ -49,13 +52,25 @@ class ProfileView extends StatelessWidget {
                       ),
                       child: Column(
                         spacing: 20,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
                           ProfileInfoSection(),
                           TransferManagementSection(),
                           FamilyMemberSection(),
                           ReferralCodeChief(),
                           ReferralCodeFamily(),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: SizedBox(
+                              width: double.infinity,
+                              child: CustomButton(
+                                text: 'Copy Download Link',
+                                onPressed: () {
+                                  // LINK APPS / LINK REFERRAL
+                                },
+                              ),
+                            ),
+                          )
                         ],
                       ),
                     ),

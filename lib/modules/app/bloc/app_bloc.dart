@@ -7,6 +7,8 @@ import 'package:json_annotation/json_annotation.dart';
 import '../../../misc/http_client.dart';
 import '../../../misc/injections.dart';
 import '../../../repositories/auth_repository/models/user/user_model.dart';
+import '../../home/bloc/home_bloc.dart';
+import '../../profile/cubit/profile_cubit.dart';
 
 part 'app_bloc.g.dart';
 part 'app_event.dart';
@@ -37,11 +39,15 @@ class AppBloc extends HydratedBloc<AppEvent, AppState> {
 
   FutureOr<void> _onSetUserLogout(SetUserLogout event, Emitter<AppState> emit) {
     emit(state.logout());
+    getIt<ProfileCubit>().emit(ProfileState());
+    getIt<HomeBloc>().emit(HomeState(selectedIndex: 0));
   }
 
   FutureOr<void> _onSetUserData(SetUserData event, Emitter<AppState> emit) {
     getIt<BaseNetworkClient>().addTokenToHeader(event.token);
     emit(state.copyWith(token: event.token, user: event.user));
+    getIt<ProfileCubit>().getProfile();
+    getIt<HomeBloc>().add(HomeInit());
     state.copyWith();
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/widgets.dart';
 import 'package:mobile_lingkunganku/misc/api_url.dart';
 import 'package:mobile_lingkunganku/misc/http_client.dart';
 import 'package:mobile_lingkunganku/misc/injections.dart';
@@ -15,7 +16,7 @@ class ProfileRepository {
     try {
       final res = await http.get(Uri.parse(profile));
 
-      print(res.body);
+      debugPrint(res.body);
       final json = jsonDecode(res.body);
       if (res.statusCode == 200) {
         return ProfileModel.fromJson(json['data']);

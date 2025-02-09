@@ -22,3 +22,5 @@ final class HomeCopyState extends HomeEvent {
 }
 
 class HomeFetchMoreNews extends HomeEvent {}
+
+class LoadProfile extends HomeEvent {}
