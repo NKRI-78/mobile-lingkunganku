@@ -214,6 +214,7 @@ class HomeView extends StatelessWidget {
                     child: BlocBuilder<HomeBloc, HomeState>(
                       builder: (context, state) {
                         final user = state.profile;
+
                         return Builder(
                           builder: (context) {
                             return CustomHeaderContainer(
