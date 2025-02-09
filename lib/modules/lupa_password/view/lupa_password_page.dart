@@ -84,12 +84,14 @@ class LupaPasswordView extends StatelessWidget {
                   SizedBox(height: 20),
                   _FieldEmail(),
                   SizedBox(height: 20),
-                  CustomButton(
-                    horizontalPadding: 120,
-                    text: 'Kirim',
-                    onPressed: () {
-                      context.read<LupaPasswordCubit>().submit(context);
-                    },
+                  SizedBox(
+                    width: double.infinity,
+                    child: CustomButton(
+                      text: 'Kirim',
+                      onPressed: () {
+                        context.read<LupaPasswordCubit>().submit(context);
+                      },
+                    ),
                   )
                 ],
               ),

@@ -68,22 +68,24 @@ class ProfielUpdateView extends StatelessWidget {
                         CustomTextfieldName(),
                         CustomTextfieldPhone(),
                         SizedBox(height: 10),
-                        CustomButton(
-                          horizontalPadding: 140,
-                          text: 'Save',
-                          onPressed: () {
-                            context.read<ProfileUpdateCubit>().updateProfile(
-                                  context: context,
-                                  fullname: context
-                                      .read<ProfileUpdateCubit>()
-                                      .state
-                                      .fullname,
-                                  phone: context
-                                      .read<ProfileUpdateCubit>()
-                                      .state
-                                      .phone,
-                                );
-                          },
+                        SizedBox(
+                          width: double.infinity,
+                          child: CustomButton(
+                            text: 'Save',
+                            onPressed: () {
+                              context.read<ProfileUpdateCubit>().updateProfile(
+                                    context: context,
+                                    fullname: context
+                                        .read<ProfileUpdateCubit>()
+                                        .state
+                                        .fullname,
+                                    phone: context
+                                        .read<ProfileUpdateCubit>()
+                                        .state
+                                        .phone,
+                                  );
+                            },
+                          ),
                         )
                       ],
                     ),

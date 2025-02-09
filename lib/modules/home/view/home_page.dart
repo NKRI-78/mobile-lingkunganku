@@ -228,18 +228,19 @@ class HomeView extends StatelessWidget {
                               },
                               onNotificationPressed: () {},
                               children: [
-                                app
-                                    ? Text(
-                                        'Selamat datang di Lingkunganku, aplikasi untuk terhubung dengan warga dan menjaga lingkungan.',
-                                        style: AppTextStyles.textWelcome,
-                                        textAlign: TextAlign.center,
-                                      )
-                                    : CustomButton(
-                                        text: 'Yuk registrasi baru !',
-                                        onPressed: () {
-                                          showRegisterDialog(context);
-                                        },
-                                      ),
+                                if (app)
+                                  Text(
+                                    'Selamat datang di Lingkunganku, aplikasi untuk terhubung dengan warga dan menjaga lingkungan.',
+                                    style: AppTextStyles.textWelcome,
+                                    textAlign: TextAlign.center,
+                                  )
+                                else
+                                  CustomButton(
+                                    text: 'Yuk registrasi baru !',
+                                    onPressed: () {
+                                      showRegisterDialog(context);
+                                    },
+                                  ),
                               ],
                             );
                           },
