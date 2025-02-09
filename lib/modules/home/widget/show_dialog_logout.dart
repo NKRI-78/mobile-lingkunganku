@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_lingkunganku/misc/text_style.dart';
 import 'package:mobile_lingkunganku/modules/profile/cubit/profile_cubit.dart';
 
 import '../../../misc/colors.dart';
@@ -11,11 +12,11 @@ void showLogoutDialog(BuildContext context) {
     context: context,
     builder: (BuildContext dialogContext) {
       return AlertDialog(
-        title: const Text("Konfirmasi Logout"),
+        title: const Text("Konfirmasi LogOut"),
         content: const Text("Apakah Anda yakin ingin logout?"),
         actions: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
                 child: ElevatedButton(
@@ -28,11 +29,13 @@ void showLogoutDialog(BuildContext context) {
                   onPressed: () {
                     Navigator.pop(dialogContext);
                   },
-                  child: const Text("Batal",
-                      style: TextStyle(color: AppColors.whiteColor)),
+                  child: Text(
+                    "Batal",
+                    style: AppTextStyles.textProfileBold,
+                  ),
                 ),
               ),
-              const SizedBox(width: 10),
+              const SizedBox(width: 8),
               Expanded(
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
@@ -48,8 +51,12 @@ void showLogoutDialog(BuildContext context) {
                     getIt<ProfileCubit>().getProfile();
                     HomeRoute().go(context);
                   },
-                  child: const Text("Logout",
-                      style: TextStyle(color: AppColors.whiteColor)),
+                  child: Text(
+                    "LogOut",
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTextStyles.textProfileBold,
+                  ),
                 ),
               ),
             ],

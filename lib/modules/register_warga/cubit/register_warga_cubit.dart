@@ -81,28 +81,29 @@ class RegisterWargaCubit extends Cubit<RegisterWargaState> {
         referral: state.referral,
       );
 
-      // Jika validasi berhasil
-      if (isClear) {
-        debugPrint("Referral setelah validasi: ${state.referral}");
-        await repo.registerMember(
-          name: state.name,
-          email: state.email,
-          phone: state.phone,
-          detailAddress: state.detailAddress,
-          password: state.password,
-          referral: state.referral, // Pastikan referral diteruskan
-        );
-
-        // Navigasi ke halaman OTP jika berhasil
-        if (context.mounted) {
-          RegisterOtpRoute(email: state.email).push(context);
-        }
-      }
-    } catch (e) {
-      // Tangani error
-      if (!context.mounted) {
+      // Jika validasi gagal, hentikan proses
+      if (!isClear) {
+        emit(state.copyWith(isLoading: false));
         return;
       }
+
+      debugPrint("Referral setelah validasi: ${state.referral}");
+
+      await repo.registerMember(
+        name: state.name,
+        email: state.email,
+        phone: state.phone,
+        detailAddress: state.detailAddress,
+        password: state.password,
+        referral: state.referral,
+      );
+
+      // Navigasi ke halaman OTP jika berhasil
+      if (context.mounted) {
+        RegisterOtpRoute(email: state.email).push(context);
+      }
+    } catch (e) {
+      if (!context.mounted) return;
       print(e);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -114,7 +115,6 @@ class RegisterWargaCubit extends Cubit<RegisterWargaState> {
         ),
       );
     } finally {
-      // Set loading state to false
       emit(state.copyWith(isLoading: false));
     }
   }

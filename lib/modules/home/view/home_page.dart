@@ -12,7 +12,7 @@ import '../../../widgets/background/custom_background.dart';
 import '../../../widgets/button/custom_button.dart';
 import '../../../widgets/header/custom_header_container.dart';
 import '../../app/bloc/app_bloc.dart';
-import '../../news_detail/view/detail_news_page.dart';
+import '../../detail_news/view/detail_news_page.dart';
 import '../bloc/home_bloc.dart';
 import '../widget/bottom_nav_bar_section.dart';
 import '../widget/drawer_section.dart';

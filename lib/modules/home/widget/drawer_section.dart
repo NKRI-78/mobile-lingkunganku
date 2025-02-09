@@ -112,7 +112,7 @@ class DrawerSection extends StatelessWidget {
                                   ListTile(
                                     leading: Icon(Icons.description_outlined,
                                         color: AppColors.whiteColor),
-                                    title: Text("Kepengurusan",
+                                    title: Text("Management",
                                         style: AppTextStyles.buttonText1),
                                     onTap: () {
                                       ManagementRoute().go(context);
