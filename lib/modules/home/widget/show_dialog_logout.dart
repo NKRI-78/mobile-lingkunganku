@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_lingkunganku/misc/text_style.dart';
-import 'package:mobile_lingkunganku/modules/profile/cubit/profile_cubit.dart';
+import '../../../misc/text_style.dart';
+import '../../profile/cubit/profile_cubit.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';

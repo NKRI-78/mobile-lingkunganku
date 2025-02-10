@@ -1,13 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:mobile_lingkunganku/misc/api_url.dart';
-import 'package:mobile_lingkunganku/misc/http_client.dart';
-import 'package:mobile_lingkunganku/misc/injections.dart';
-import 'package:mobile_lingkunganku/repositories/home_repository/models/data_pagination.dart';
-import 'package:mobile_lingkunganku/repositories/home_repository/models/home_model.dart';
-import 'package:mobile_lingkunganku/repositories/home_repository/models/news_model.dart';
-import 'package:mobile_lingkunganku/repositories/home_repository/models/pagination_model.dart';
+import '../../misc/api_url.dart';
+import '../../misc/http_client.dart';
+import '../../misc/injections.dart';
+import 'models/data_pagination.dart';
+import 'models/home_model.dart';
+import 'models/news_model.dart';
+import 'models/pagination_model.dart';
 
 class HomeRepository {
   String get profile => '${MyApi.baseUrl}/api/v1/profile';

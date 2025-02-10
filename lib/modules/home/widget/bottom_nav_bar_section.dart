@@ -42,7 +42,7 @@ class BottomNavBarSection extends StatelessWidget {
                 ),
                 const BottomNavigationBarItem(
                   icon: Icon(Icons.receipt_long_outlined),
-                  label: 'PPOB',
+                  label: 'Pulsa & Tagihan',
                 ),
                 const BottomNavigationBarItem(
                   icon: Icon(Icons.event_outlined),

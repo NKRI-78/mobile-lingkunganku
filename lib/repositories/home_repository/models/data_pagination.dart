@@ -1,4 +1,4 @@
-import 'package:mobile_lingkunganku/repositories/home_repository/models/pagination_model.dart';
+import 'pagination_model.dart';
 
 class DataPagination<T> {
   final List<T> list;

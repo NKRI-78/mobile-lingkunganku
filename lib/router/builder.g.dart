@@ -42,6 +42,10 @@ RouteBase get $homeRoute => GoRouteData.$route(
           factory: $SettingsRouteExtension._fromState,
         ),
         GoRouteData.$route(
+          path: 'detail-news',
+          factory: $DetailNewsRouteExtension._fromState,
+        ),
+        GoRouteData.$route(
           path: 'profile',
           factory: $ProfileRouteExtension._fromState,
           routes: [
@@ -126,6 +130,28 @@ extension $SettingsRouteExtension on SettingsRoute {
 
   String get location => GoRouteData.$location(
         '/home/settings',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $DetailNewsRouteExtension on DetailNewsRoute {
+  static DetailNewsRoute _fromState(GoRouterState state) => DetailNewsRoute(
+        newsId: int.parse(state.uri.queryParameters['news-id']!),
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/detail-news',
+        queryParams: {
+          'news-id': newsId.toString(),
+        },
       );
 
   void go(BuildContext context) => context.go(location);

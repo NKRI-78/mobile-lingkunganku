@@ -1,6 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:mobile_lingkunganku/misc/text_style.dart';
+import '../../../misc/text_style.dart';
 
 class FamilyMemberSection extends StatelessWidget {
   const FamilyMemberSection({super.key});

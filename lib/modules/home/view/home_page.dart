@@ -1,9 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_lingkunganku/misc/colors.dart';
-import 'package:mobile_lingkunganku/modules/profile/cubit/profile_cubit.dart';
-import 'package:mobile_lingkunganku/repositories/home_repository/home_repository.dart';
+import '../../../misc/colors.dart';
+import '../../profile/cubit/profile_cubit.dart';
+import '../../../repositories/home_repository/home_repository.dart';
 
 import '../../../misc/injections.dart';
 import '../../../misc/text_style.dart';
@@ -12,7 +12,6 @@ import '../../../widgets/background/custom_background.dart';
 import '../../../widgets/button/custom_button.dart';
 import '../../../widgets/header/custom_header_container.dart';
 import '../../app/bloc/app_bloc.dart';
-import '../../detail_news/view/detail_news_page.dart';
 import '../bloc/home_bloc.dart';
 import '../widget/bottom_nav_bar_section.dart';
 import '../widget/drawer_section.dart';
@@ -124,13 +123,10 @@ class HomeView extends StatelessWidget {
                                   final newsItem = state.news[index];
                                   return GestureDetector(
                                     onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => DetailNewsPage(
-                                              newsItem: newsItem),
-                                        ),
-                                      );
+                                      if (newsItem.id != null) {
+                                        DetailNewsRoute(newsId: newsItem.id!)
+                                            .go(context);
+                                      }
                                     },
                                     child: Card(
                                       margin: const EdgeInsets.only(

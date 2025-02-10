@@ -2,8 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_lingkunganku/misc/text_style.dart';
-import 'package:mobile_lingkunganku/modules/profile_update/cubit/profile_update_cubit.dart';
+import '../../../misc/text_style.dart';
+import '../cubit/profile_update_cubit.dart';
 
 import '../../../misc/colors.dart';
 
