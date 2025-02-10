@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_lingkunganku/repositories/profile_repository/models/profile_model.dart';
-import 'package:mobile_lingkunganku/repositories/profile_repository/profile_repository.dart';
+import '../../../repositories/profile_repository/models/profile_model.dart';
+import '../../../repositories/profile_repository/profile_repository.dart';
 import '../../../misc/injections.dart';
 import '../../../misc/location.dart';
 import '../../../repositories/home_repository/home_repository.dart';

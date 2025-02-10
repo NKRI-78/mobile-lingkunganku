@@ -37,7 +37,7 @@ void showTransferManagementDialog(BuildContext context) {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SizedBox(
-                      width: 130,
+                      width: 120,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.secondaryColor,
@@ -49,11 +49,12 @@ void showTransferManagementDialog(BuildContext context) {
                           ManagementRoute().go(context);
                           Navigator.of(context).pop();
                         },
-                        child: Text("Yakin",
-                            style: AppTextStyles.textProfileNormal),
+                        child:
+                            Text("Yakin", style: AppTextStyles.textProfileBold),
                       ),
                     ),
                     SizedBox(
+                      width: 120,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.red,
@@ -64,8 +65,8 @@ void showTransferManagementDialog(BuildContext context) {
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
-                        child: Text("Tidak Yakin",
-                            style: AppTextStyles.textProfileNormal),
+                        child: Text("Tidak\nYakin",
+                            style: AppTextStyles.textProfileBold),
                       ),
                     ),
                   ],

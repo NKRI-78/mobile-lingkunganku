@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_lingkunganku/misc/injections.dart';
-import 'package:mobile_lingkunganku/repositories/news_repository/news_repository.dart';
+import '../../../misc/injections.dart';
+import '../../../repositories/news_repository/news_repository.dart';
 
 import '../../../repositories/news_repository/models/news_detail_model.dart';
 

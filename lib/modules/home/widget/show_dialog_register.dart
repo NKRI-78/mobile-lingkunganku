@@ -37,7 +37,7 @@ void showRegisterDialog(BuildContext context) {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     SizedBox(
-                      width: 130,
+                      width: 120,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.secondaryColor,
@@ -49,12 +49,12 @@ void showRegisterDialog(BuildContext context) {
                           LoginRoute().go(context);
                           Navigator.of(context).pop();
                         },
-                        child: const Text("Sudah",
-                            style: TextStyle(color: AppColors.whiteColor)),
+                        child:
+                            Text("Sudah", style: AppTextStyles.textProfileBold),
                       ),
                     ),
                     SizedBox(
-                      width: 130,
+                      width: 120,
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.red,
@@ -66,8 +66,8 @@ void showRegisterDialog(BuildContext context) {
                           RegisterRoute().go(context);
                           Navigator.of(context).pop();
                         },
-                        child: const Text("Belum",
-                            style: TextStyle(color: AppColors.whiteColor)),
+                        child:
+                            Text("Belum", style: AppTextStyles.textProfileBold),
                       ),
                     ),
                   ],

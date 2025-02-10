@@ -1,11 +1,11 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_lingkunganku/misc/colors.dart';
-import 'package:mobile_lingkunganku/misc/injections.dart';
-import 'package:mobile_lingkunganku/misc/snackbar.dart';
-import 'package:mobile_lingkunganku/modules/profile/cubit/profile_cubit.dart';
-import 'package:mobile_lingkunganku/repositories/profile_repository/profile_repository.dart';
+import '../../../misc/colors.dart';
+import '../../../misc/injections.dart';
+import '../../../misc/snackbar.dart';
+import '../../profile/cubit/profile_cubit.dart';
+import '../../../repositories/profile_repository/profile_repository.dart';
 
 part 'profile_update_state.dart';
 

@@ -1,9 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_lingkunganku/misc/colors.dart';
-import 'package:mobile_lingkunganku/modules/profile/cubit/profile_cubit.dart';
-import 'package:mobile_lingkunganku/repositories/home_repository/home_repository.dart';
+import '../../../misc/colors.dart';
+import '../../profile/cubit/profile_cubit.dart';
+import '../../../repositories/home_repository/home_repository.dart';
 
 import '../../../misc/injections.dart';
 import '../../../misc/text_style.dart';
@@ -12,7 +12,6 @@ import '../../../widgets/background/custom_background.dart';
 import '../../../widgets/button/custom_button.dart';
 import '../../../widgets/header/custom_header_container.dart';
 import '../../app/bloc/app_bloc.dart';
-import '../../news_detail/view/detail_news_page.dart';
 import '../bloc/home_bloc.dart';
 import '../widget/bottom_nav_bar_section.dart';
 import '../widget/drawer_section.dart';
@@ -92,7 +91,7 @@ class HomeView extends StatelessWidget {
                                   ),
                                   GestureDetector(
                                     onTap: () {
-                                      // Arahkan ke halaman semua berita
+                                      ShowMoreNewsRoute().go(context);
                                     },
                                     child: Text(
                                       "See all",
@@ -124,13 +123,10 @@ class HomeView extends StatelessWidget {
                                   final newsItem = state.news[index];
                                   return GestureDetector(
                                     onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => DetailNewsPage(
-                                              newsItem: newsItem),
-                                        ),
-                                      );
+                                      if (newsItem.id != null) {
+                                        DetailNewsRoute(newsId: newsItem.id!)
+                                            .go(context);
+                                      }
                                     },
                                     child: Card(
                                       margin: const EdgeInsets.only(
@@ -169,11 +165,8 @@ class HomeView extends StatelessWidget {
                                                 children: [
                                                   Text(
                                                     newsItem.title,
-                                                    style: const TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 16,
-                                                    ),
+                                                    style: AppTextStyles
+                                                        .textDialog,
                                                     maxLines: 2,
                                                     overflow:
                                                         TextOverflow.ellipsis,
@@ -181,10 +174,8 @@ class HomeView extends StatelessWidget {
                                                   const SizedBox(height: 4),
                                                   Text(
                                                     newsItem.content,
-                                                    style: const TextStyle(
-                                                      fontSize: 14,
-                                                      color: Colors.grey,
-                                                    ),
+                                                    style: AppTextStyles
+                                                        .textWelcome,
                                                     maxLines: 2,
                                                     overflow:
                                                         TextOverflow.ellipsis,
@@ -228,18 +219,19 @@ class HomeView extends StatelessWidget {
                               },
                               onNotificationPressed: () {},
                               children: [
-                                app
-                                    ? Text(
-                                        'Selamat datang di Lingkunganku, aplikasi untuk terhubung dengan warga dan menjaga lingkungan.',
-                                        style: AppTextStyles.textWelcome,
-                                        textAlign: TextAlign.center,
-                                      )
-                                    : CustomButton(
-                                        text: 'Yuk registrasi baru !',
-                                        onPressed: () {
-                                          showRegisterDialog(context);
-                                        },
-                                      ),
+                                if (app)
+                                  Text(
+                                    'Selamat datang di Lingkunganku, aplikasi untuk terhubung dengan warga dan menjaga lingkungan.',
+                                    style: AppTextStyles.textWelcome,
+                                    textAlign: TextAlign.center,
+                                  )
+                                else
+                                  CustomButton(
+                                    text: 'Yuk registrasi baru !',
+                                    onPressed: () {
+                                      showRegisterDialog(context);
+                                    },
+                                  ),
                               ],
                             );
                           },

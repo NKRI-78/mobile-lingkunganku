@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_lingkunganku/misc/colors.dart';
-import 'package:mobile_lingkunganku/modules/profile_update/cubit/profile_update_cubit.dart';
-import 'package:mobile_lingkunganku/modules/profile_update/widget/custom_textfield_name.dart';
-import 'package:mobile_lingkunganku/modules/profile_update/widget/custom_textfield_phone.dart';
-import 'package:mobile_lingkunganku/widgets/background/custom_background.dart';
-import 'package:mobile_lingkunganku/widgets/button/custom_button.dart';
-import 'package:mobile_lingkunganku/widgets/header/custom_header_container.dart';
+import '../../../misc/colors.dart';
+import '../cubit/profile_update_cubit.dart';
+import '../widget/custom_textfield_name.dart';
+import '../widget/custom_textfield_phone.dart';
+import '../../../widgets/background/custom_background.dart';
+import '../../../widgets/button/custom_button.dart';
+import '../../../widgets/header/custom_header_container.dart';
 
 class ProfileUpdatePage extends StatelessWidget {
   const ProfileUpdatePage({super.key});
@@ -68,22 +68,24 @@ class ProfielUpdateView extends StatelessWidget {
                         CustomTextfieldName(),
                         CustomTextfieldPhone(),
                         SizedBox(height: 10),
-                        CustomButton(
-                          horizontalPadding: 140,
-                          text: 'Save',
-                          onPressed: () {
-                            context.read<ProfileUpdateCubit>().updateProfile(
-                                  context: context,
-                                  fullname: context
-                                      .read<ProfileUpdateCubit>()
-                                      .state
-                                      .fullname,
-                                  phone: context
-                                      .read<ProfileUpdateCubit>()
-                                      .state
-                                      .phone,
-                                );
-                          },
+                        SizedBox(
+                          width: double.infinity,
+                          child: CustomButton(
+                            text: 'Save',
+                            onPressed: () {
+                              context.read<ProfileUpdateCubit>().updateProfile(
+                                    context: context,
+                                    fullname: context
+                                        .read<ProfileUpdateCubit>()
+                                        .state
+                                        .fullname,
+                                    phone: context
+                                        .read<ProfileUpdateCubit>()
+                                        .state
+                                        .phone,
+                                  );
+                            },
+                          ),
                         )
                       ],
                     ),

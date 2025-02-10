@@ -88,16 +88,18 @@ class RegisterKetuaView extends StatelessWidget {
                           // Add Text Field Widgets Here
                           CustomTextfieldKetua(),
                           SizedBox(height: 20),
-                          CustomButton(
-                            horizontalPadding: 110,
-                            text: 'Kode OTP',
-                            onPressed: state.isLoading
-                                ? null
-                                : () {
-                                    context
-                                        .read<RegisterKetuaCubit>()
-                                        .submit(context);
-                                  },
+                          SizedBox(
+                            width: double.infinity,
+                            child: CustomButton(
+                              text: 'Kode OTP',
+                              onPressed: state.isLoading
+                                  ? null
+                                  : () {
+                                      context
+                                          .read<RegisterKetuaCubit>()
+                                          .submit(context);
+                                    },
+                            ),
                           ),
                         ],
                       ),

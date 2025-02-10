@@ -96,12 +96,14 @@ class LupaPasswordChangeView extends StatelessWidget {
             bottom: 30,
             left: 24,
             right: 24,
-            child: CustomButton(
-              horizontalPadding: 120,
-              text: 'Konfirmasi',
-              onPressed: () {
-                context.read<LupaPasswordChangeCubit>().submit(context);
-              },
+            child: SizedBox(
+              width: double.infinity,
+              child: CustomButton(
+                text: 'Konfirmasi',
+                onPressed: () {
+                  context.read<LupaPasswordChangeCubit>().submit(context);
+                },
+              ),
             ),
           ),
         ],

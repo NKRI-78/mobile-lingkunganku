@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:mobile_lingkunganku/modules/profile/widget/show_dialog_transfer_management.dart';
+import 'show_dialog_transfer_management.dart';
 import '../../../misc/colors.dart';
 
 class TransferManagementSection extends StatelessWidget {
@@ -25,7 +25,6 @@ class TransferManagementSection extends StatelessWidget {
             ),
             child: Row(
               children: [
-                /// **Gunakan Expanded agar teks tidak menyebabkan overflow**
                 Expanded(
                   child: Text(
                     "Alihkan kepengurusan\nLingkungan",
@@ -49,7 +48,6 @@ class TransferManagementSection extends StatelessWidget {
                     ),
                   ),
                   onPressed: () {
-                    /// Navigasi ke halaman pemilihan anggota
                     showTransferManagementDialog(context);
                   },
                   child: Text(

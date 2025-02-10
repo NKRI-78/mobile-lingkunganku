@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_lingkunganku/misc/injections.dart';
-import 'package:mobile_lingkunganku/modules/profile/cubit/profile_cubit.dart';
-import 'package:mobile_lingkunganku/modules/profile/widget/family_member_section.dart';
-import 'package:mobile_lingkunganku/modules/profile/widget/referral_code_chief.dart';
-import 'package:mobile_lingkunganku/modules/profile/widget/referral_code_family.dart';
-import 'package:mobile_lingkunganku/widgets/button/custom_button.dart';
+import '../../../misc/injections.dart';
+import '../../home/bloc/home_bloc.dart';
+import '../cubit/profile_cubit.dart';
+import '../widget/family_member_section.dart';
+import '../widget/referral_code_chief.dart';
+import '../widget/referral_code_family.dart';
+import '../../../widgets/button/custom_button.dart';
 
 import '../../../widgets/background/custom_background.dart';
 import '../../../widgets/header/custom_header_container.dart';
@@ -19,13 +20,15 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider.value(
       value: getIt<ProfileCubit>()..getProfile(),
-      child: const ProfileView(),
+      child: ProfileView(),
     );
   }
 }
 
 class ProfileView extends StatelessWidget {
-  const ProfileView({super.key});
+  ProfileView({super.key});
+
+  final role = getIt<HomeBloc>().state.profile?.roleApp ?? '';
 
   @override
   Widget build(BuildContext context) {
@@ -55,9 +58,9 @@ class ProfileView extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           ProfileInfoSection(),
-                          TransferManagementSection(),
+                          if (role != "MEMBER") TransferManagementSection(),
                           FamilyMemberSection(),
-                          ReferralCodeChief(),
+                          if (role != "MEMBER") ReferralCodeChief(),
                           ReferralCodeFamily(),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 10),

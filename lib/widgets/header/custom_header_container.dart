@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../misc/text_style.dart';
+
 import '../../../misc/colors.dart';
+import '../../misc/text_style.dart';
 import 'custom_header_avatar.dart';
 
 class CustomHeaderContainer extends StatelessWidget {

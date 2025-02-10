@@ -73,12 +73,16 @@ class RegisterWargaView extends StatelessWidget {
                       children: [
                         CustomTextfieldWarga(),
                         SizedBox(height: 20),
-                        CustomButton(
-                          horizontalPadding: 110,
-                          text: 'Kode OTP',
-                          onPressed: () {
-                            context.read<RegisterWargaCubit>().submit(context);
-                          },
+                        SizedBox(
+                          width: double.infinity,
+                          child: CustomButton(
+                            text: 'Kode OTP',
+                            onPressed: () {
+                              context
+                                  .read<RegisterWargaCubit>()
+                                  .submit(context);
+                            },
+                          ),
                         ),
                       ],
                     ),

@@ -119,13 +119,16 @@ class SosPage extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 30, left: 30, right: 30),
-                child: CustomButton(
-                  icon: Icons.phone_in_talk,
-                  text: 'Hubungi Keamanan',
-                  onPressed: () {
-                    // Navigate To Register
-                    RegisterRoute().go(context);
-                  },
+                child: SizedBox(
+                  width: double.infinity,
+                  child: CustomButton(
+                    icon: Icons.phone_in_talk,
+                    text: 'Hubungi Keamanan',
+                    onPressed: () {
+                      // Navigate To Register
+                      RegisterRoute().go(context);
+                    },
+                  ),
                 ),
               ),
             ],

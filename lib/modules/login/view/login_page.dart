@@ -120,12 +120,14 @@ class LoginView extends StatelessWidget {
                       ],
                     ),
                     SizedBox(height: 30),
-                    CustomButton(
-                      horizontalPadding: 120,
-                      text: 'Masuk',
-                      onPressed: () {
-                        context.read<LoginCubit>().submit(context);
-                      },
+                    SizedBox(
+                      width: double.infinity,
+                      child: CustomButton(
+                        text: 'Masuk',
+                        onPressed: () {
+                          context.read<LoginCubit>().submit(context);
+                        },
+                      ),
                     )
                   ],
                 ),
