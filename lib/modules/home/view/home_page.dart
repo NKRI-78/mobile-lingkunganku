@@ -91,7 +91,7 @@ class HomeView extends StatelessWidget {
                                   ),
                                   GestureDetector(
                                     onTap: () {
-                                      // Arahkan ke halaman semua berita
+                                      ShowMoreNewsRoute().go(context);
                                     },
                                     child: Text(
                                       "See all",
@@ -165,11 +165,8 @@ class HomeView extends StatelessWidget {
                                                 children: [
                                                   Text(
                                                     newsItem.title,
-                                                    style: const TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 16,
-                                                    ),
+                                                    style: AppTextStyles
+                                                        .textDialog,
                                                     maxLines: 2,
                                                     overflow:
                                                         TextOverflow.ellipsis,
@@ -177,10 +174,8 @@ class HomeView extends StatelessWidget {
                                                   const SizedBox(height: 4),
                                                   Text(
                                                     newsItem.content,
-                                                    style: const TextStyle(
-                                                      fontSize: 14,
-                                                      color: Colors.grey,
-                                                    ),
+                                                    style: AppTextStyles
+                                                        .textWelcome,
                                                     maxLines: 2,
                                                     overflow:
                                                         TextOverflow.ellipsis,

@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import '../modules/home/bloc/home_bloc.dart';
 import '../modules/profile/cubit/profile_cubit.dart';
 import '../repositories/profile_repository/profile_repository.dart';
 
@@ -15,6 +16,10 @@ final getIt = GetIt.instance;
 class MyInjection {
   static setup() {
     getIt.registerLazySingleton<AppBloc>(() => AppBloc());
+    getIt.registerLazySingleton<HomeBloc>(
+      () => HomeBloc(getIt<HomeRepository>(), getIt<ProfileCubit>()),
+    );
+
     getIt.registerLazySingleton<BaseNetworkClient>(
       () => BaseNetworkClient(),
     );

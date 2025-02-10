@@ -40,7 +40,7 @@ class DetailNewsView extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             title: Text(
-              "News",
+              "Detail News",
               style: AppTextStyles.textStyle1,
             ),
             centerTitle: true,
