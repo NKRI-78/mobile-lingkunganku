@@ -9,6 +9,7 @@ import '../../../misc/text_style.dart';
 import '../../../router/builder.dart';
 import '../../../widgets/button/custom_button.dart';
 import '../../app/bloc/app_bloc.dart';
+import '../bloc/home_bloc.dart';
 import 'show_dialog_logout.dart';
 
 class DrawerSection extends StatelessWidget {
@@ -18,6 +19,7 @@ class DrawerSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final appState = getIt<AppBloc>().state;
     final bool isLoggedIn = appState.isAlreadyLogin;
+    final role = getIt<HomeBloc>().state.profile?.roleApp ?? '';
 
     return Drawer(
       child: Container(
@@ -33,7 +35,6 @@ class DrawerSection extends StatelessWidget {
               child: ListView(
                 padding: const EdgeInsets.only(top: 50),
                 children: <Widget>[
-                  /// **Logo Aplikasi**
                   Container(
                     height: 100,
                     decoration: const BoxDecoration(
@@ -109,15 +110,16 @@ class DrawerSection extends StatelessWidget {
                                   },
                                 ),
                                 if (isLoggedIn)
-                                  ListTile(
-                                    leading: Icon(Icons.description_outlined,
-                                        color: AppColors.whiteColor),
-                                    title: Text("Management",
-                                        style: AppTextStyles.buttonText1),
-                                    onTap: () {
-                                      ManagementRoute().go(context);
-                                    },
-                                  ),
+                                  if (role != "MEMBER")
+                                    ListTile(
+                                      leading: Icon(Icons.description_outlined,
+                                          color: AppColors.whiteColor),
+                                      title: Text("Management",
+                                          style: AppTextStyles.buttonText1),
+                                      onTap: () {
+                                        ManagementRoute().go(context);
+                                      },
+                                    ),
                               ],
                             ),
                           ),

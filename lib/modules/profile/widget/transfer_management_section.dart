@@ -25,7 +25,6 @@ class TransferManagementSection extends StatelessWidget {
             ),
             child: Row(
               children: [
-                /// **Gunakan Expanded agar teks tidak menyebabkan overflow**
                 Expanded(
                   child: Text(
                     "Alihkan kepengurusan\nLingkungan",
@@ -49,7 +48,6 @@ class TransferManagementSection extends StatelessWidget {
                     ),
                   ),
                   onPressed: () {
-                    /// Navigasi ke halaman pemilihan anggota
                     showTransferManagementDialog(context);
                   },
                   child: Text(
