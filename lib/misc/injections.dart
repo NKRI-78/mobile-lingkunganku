@@ -3,6 +3,7 @@ import 'package:mobile_lingkunganku/modules/management/cubit/management_cubit.da
 import 'package:mobile_lingkunganku/repositories/management_repository/management_repository.dart';
 import '../modules/home/bloc/home_bloc.dart';
 import '../modules/profile/cubit/profile_cubit.dart';
+import '../modules/profile_update/cubit/profile_update_cubit.dart';
 import '../repositories/profile_repository/profile_repository.dart';
 
 import '../modules/app/bloc/app_bloc.dart';
@@ -28,6 +29,7 @@ class MyInjection {
 
     getIt.registerLazySingleton<OnboardingCubit>(() => OnboardingCubit());
     getIt.registerLazySingleton<ProfileCubit>(() => ProfileCubit());
+    getIt.registerLazySingleton<ProfileUpdateCubit>(() => ProfileUpdateCubit());
     getIt.registerLazySingleton<DetailNewsCubit>(() => DetailNewsCubit());
     getIt.registerLazySingleton<ManagementCubit>(
         () => ManagementCubit(getIt<ManagementRepository>()));

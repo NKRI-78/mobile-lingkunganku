@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_lingkunganku/misc/text_style.dart';
 import 'package:mobile_lingkunganku/misc/theme.dart';
+import 'package:mobile_lingkunganku/router/builder.dart';
 
 class MemberTile extends StatelessWidget {
   final String name;
@@ -28,7 +29,10 @@ class MemberTile extends StatelessWidget {
       title: Text(name, style: AppTextStyles.textDialog),
       subtitle: Text(role, style: TextStyle(color: Colors.grey.shade600)),
       trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-      onTap: () {},
+      onTap: () {
+        print("Member $name ditekan");
+        ManagementDetailRoute().go(context);
+      },
     );
   }
 }

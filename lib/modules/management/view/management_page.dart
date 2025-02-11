@@ -117,7 +117,7 @@ class ManagementViewState extends State<ManagementView> {
                           valueListenable: isExpanded,
                           builder: (context, expanded, child) {
                             return AnimatedCrossFade(
-                              duration: const Duration(milliseconds: 300),
+                              duration: const Duration(milliseconds: 400),
                               crossFadeState: expanded
                                   ? CrossFadeState.showFirst
                                   : CrossFadeState.showSecond,
@@ -129,7 +129,7 @@ class ManagementViewState extends State<ManagementView> {
                                         return MemberTile(
                                           name: member.profile?.fullname ??
                                               "Tidak diketahui",
-                                          role: member.roleApp ?? "Warga",
+                                          role: member.roleApp ?? "Member",
                                           avatarUrl: member.profile?.avatarLink,
                                         );
                                       }).toList(),

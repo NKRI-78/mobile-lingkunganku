@@ -60,15 +60,14 @@ class ProfileModel {
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
     neighborhood = json['neighborhood'] != null
-        ? new Neighborhood.fromJson(json['neighborhood'])
+        ? Neighborhood.fromJson(json['neighborhood'])
         : null;
-    chief = json['chief'] != null ? new Chief.fromJson(json['chief']) : null;
+    chief = json['chief'] != null ? Chief.fromJson(json['chief']) : null;
     treasurer = json['treasurer'];
     secertary = json['secertary'];
     profile =
-        json['profile'] != null ? new Profile.fromJson(json['profile']) : null;
-    family =
-        json['family'] != null ? new Family.fromJson(json['family']) : null;
+        json['profile'] != null ? Profile.fromJson(json['profile']) : null;
+    family = json['family'] != null ? Family.fromJson(json['family']) : null;
     roleApp = json['roleApp'];
   }
 
@@ -109,36 +108,41 @@ class ProfileModel {
 
 class Neighborhood {
   int? id;
-  Null? name;
+  String? name;
   String? detailAddress;
   double? latitude;
   double? longitude;
   int? chiefId;
-  Null? secretaryId;
-  Null? treasurerId;
+  int? secretaryId;
+  int? treasurerId;
   String? createdAt;
   String? updatedAt;
-  Null? deletedAt;
+  String? deletedAt;
 
-  Neighborhood(
-      {this.id,
-      this.name,
-      this.detailAddress,
-      this.latitude,
-      this.longitude,
-      this.chiefId,
-      this.secretaryId,
-      this.treasurerId,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt});
+  Neighborhood({
+    this.id,
+    this.name,
+    this.detailAddress,
+    this.latitude,
+    this.longitude,
+    this.chiefId,
+    this.secretaryId,
+    this.treasurerId,
+    this.createdAt,
+    this.updatedAt,
+    this.deletedAt,
+  });
 
   Neighborhood.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     detailAddress = json['detail_address'];
-    latitude = json['latitude'];
-    longitude = json['longitude'];
+    latitude = json['latitude'] != null
+        ? double.tryParse(json['latitude'].toString())
+        : null;
+    longitude = json['longitude'] != null
+        ? double.tryParse(json['longitude'].toString())
+        : null;
     chiefId = json['chief_id'];
     secretaryId = json['secretary_id'];
     treasurerId = json['treasurer_id'];
@@ -223,23 +227,24 @@ class Profile {
 
 class Family {
   int? id;
-  Null? name;
+  String? name;
   String? referral;
   int? neighborhoodId;
   int? headmasterId;
   String? createdAt;
   String? updatedAt;
-  Null? deletedAt;
+  String? deletedAt;
 
-  Family(
-      {this.id,
-      this.name,
-      this.referral,
-      this.neighborhoodId,
-      this.headmasterId,
-      this.createdAt,
-      this.updatedAt,
-      this.deletedAt});
+  Family({
+    this.id,
+    this.name,
+    this.referral,
+    this.neighborhoodId,
+    this.headmasterId,
+    this.createdAt,
+    this.updatedAt,
+    this.deletedAt,
+  });
 
   Family.fromJson(Map<String, dynamic> json) {
     id = json['id'];
