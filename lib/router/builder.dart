@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mobile_lingkunganku/modules/management_detail/view/management_detail_page.dart';
 import 'package:mobile_lingkunganku/modules/show_more_news/view/show_more_news_page.dart';
 import '../modules/management/view/management_page.dart';
 import '../modules/profile_update/view/profile_update_page.dart';
@@ -36,7 +37,9 @@ class OnboardingRoute extends GoRouteData {
   TypedGoRoute<ProfileRoute>(path: 'profile', routes: [
     TypedGoRoute<ProfileUpdateRoute>(path: 'profile-update'),
   ]),
-  TypedGoRoute<ManagementRoute>(path: 'management'),
+  TypedGoRoute<ManagementRoute>(path: 'management', routes: [
+    TypedGoRoute<ManagementDetailRoute>(path: 'management-detail'),
+  ]),
   TypedGoRoute<LoginRoute>(path: 'login', routes: [
     TypedGoRoute<LupaPasswordRoute>(path: 'lupa-password', routes: [
       TypedGoRoute<LupaPasswordOtpRoute>(path: 'lupa-password-otp', routes: [
@@ -106,6 +109,18 @@ class ManagementRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return ManagementPage();
+  }
+}
+
+class ManagementDetailRoute extends GoRouteData {
+  final String userId;
+
+  ManagementDetailRoute({required this.userId});
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return ManagementDetailPage(
+      userId: userId,
+    );
   }
 }
 

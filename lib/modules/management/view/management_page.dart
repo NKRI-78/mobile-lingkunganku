@@ -116,20 +116,26 @@ class ManagementViewState extends State<ManagementView> {
                         ValueListenableBuilder<bool>(
                           valueListenable: isExpanded,
                           builder: (context, expanded, child) {
+                            final members = List.from(
+                                state.memberData?.data?.members ??
+                                    []); // Buat salinan list
+                            members.sort((a, b) =>
+                                a.id.compareTo(b.id)); // Urutkan berdasarkan ID
+
                             return AnimatedCrossFade(
-                              duration: const Duration(milliseconds: 300),
+                              duration: const Duration(milliseconds: 400),
                               crossFadeState: expanded
                                   ? CrossFadeState.showFirst
                                   : CrossFadeState.showSecond,
-                              firstChild: state.memberData?.data?.members !=
-                                      null
+                              firstChild: members.isNotEmpty
                                   ? Column(
-                                      children: state.memberData!.data!.members!
-                                          .map((member) {
+                                      children: members.map((member) {
                                         return MemberTile(
+                                          userId: member.id.toString(),
                                           name: member.profile?.fullname ??
-                                              "Tidak diketahui",
-                                          role: member.roleApp ?? "Warga",
+                                              "Nama tidak tersedia",
+                                          role: member.roleApp ??
+                                              "Role tidak tersedia",
                                           avatarUrl: member.profile?.avatarLink,
                                         );
                                       }).toList(),

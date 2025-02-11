@@ -20,6 +20,7 @@ class ManagementMemberModel {
 }
 
 class Data {
+  int? id;
   String? name;
   String? detailAddress;
   double? latitude;
@@ -30,6 +31,7 @@ class Data {
   int? totalMember;
 
   Data({
+    this.id,
     this.name,
     this.detailAddress,
     this.latitude,
@@ -42,6 +44,7 @@ class Data {
 
   factory Data.fromJson(Map<String, dynamic> json) {
     return Data(
+      id: json['id'] as int?,
       name: json['name'] as String?,
       detailAddress: json['detail_address'] as String?,
       latitude: json['latitude'] != null
@@ -52,15 +55,16 @@ class Data {
           : null,
       referral: json['referral'] as String?,
       createdAt: json['created_at'] as String?,
-      members: json['members'] != null
-          ? List<Members>.from(json['members'].map((v) => Members.fromJson(v)))
-          : [],
+      members: (json['members'] as List<dynamic>?)
+          ?.map((v) => Members.fromJson(v))
+          .toList(),
       totalMember: json['total_member'] as int?,
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'name': name,
       'detail_address': detailAddress,
       'latitude': latitude,
@@ -74,21 +78,23 @@ class Data {
 }
 
 class Members {
+  int? id;
   String? email;
   String? phone;
   String? createdAt;
   String? treasurer;
-  String? secertary;
+  String? secretary; // Fix typo dari `secertary`
   Profile? profile;
   Family? family;
   String? roleApp;
 
   Members({
+    this.id,
     this.email,
     this.phone,
     this.createdAt,
     this.treasurer,
-    this.secertary,
+    this.secretary,
     this.profile,
     this.family,
     this.roleApp,
@@ -96,11 +102,12 @@ class Members {
 
   factory Members.fromJson(Map<String, dynamic> json) {
     return Members(
+      id: json['id'] as int?,
       email: json['email'] as String?,
       phone: json['phone'] as String?,
       createdAt: json['created_at'] as String?,
       treasurer: json['treasurer'] as String?,
-      secertary: json['secertary'] as String?,
+      secretary: json['secretary'] as String?,
       profile:
           json['profile'] != null ? Profile.fromJson(json['profile']) : null,
       family: json['family'] != null ? Family.fromJson(json['family']) : null,
@@ -110,11 +117,12 @@ class Members {
 
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'email': email,
       'phone': phone,
       'created_at': createdAt,
       'treasurer': treasurer,
-      'secertary': secertary,
+      'secretary': secretary,
       'profile': profile?.toJson(),
       'family': family?.toJson(),
       'roleApp': roleApp,
@@ -124,15 +132,15 @@ class Members {
 
 class Profile {
   String? fullname;
-  String? avatarLink;
+  String avatarLink; // Default menjadi string kosong jika null
   String? detailAddress;
 
-  Profile({this.fullname, this.avatarLink, this.detailAddress});
+  Profile({this.fullname, this.avatarLink = "", this.detailAddress});
 
   factory Profile.fromJson(Map<String, dynamic> json) {
     return Profile(
       fullname: json['fullname'] as String?,
-      avatarLink: json['avatar_link'] as String?,
+      avatarLink: json['avatar_link'] as String? ?? "", // Default string kosong
       detailAddress: json['detail_address'] as String?,
     );
   }
@@ -147,18 +155,21 @@ class Profile {
 }
 
 class Family {
+  int? id;
   String? referral;
 
-  Family({this.referral});
+  Family({this.id, this.referral});
 
   factory Family.fromJson(Map<String, dynamic> json) {
     return Family(
+      id: json['id'] as int?,
       referral: json['referral'] as String?,
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'referral': referral,
     };
   }

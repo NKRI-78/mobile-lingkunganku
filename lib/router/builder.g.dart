@@ -62,6 +62,12 @@ RouteBase get $homeRoute => GoRouteData.$route(
         GoRouteData.$route(
           path: 'management',
           factory: $ManagementRouteExtension._fromState,
+          routes: [
+            GoRouteData.$route(
+              path: 'management-detail',
+              factory: $ManagementDetailRouteExtension._fromState,
+            ),
+          ],
         ),
         GoRouteData.$route(
           path: 'login',
@@ -226,6 +232,29 @@ extension $ManagementRouteExtension on ManagementRoute {
 
   String get location => GoRouteData.$location(
         '/home/management',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $ManagementDetailRouteExtension on ManagementDetailRoute {
+  static ManagementDetailRoute _fromState(GoRouterState state) =>
+      ManagementDetailRoute(
+        userId: state.uri.queryParameters['user-id']!,
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/management/management-detail',
+        queryParams: {
+          'user-id': userId,
+        },
       );
 
   void go(BuildContext context) => context.go(location);
