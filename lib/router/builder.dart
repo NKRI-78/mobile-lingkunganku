@@ -113,9 +113,14 @@ class ManagementRoute extends GoRouteData {
 }
 
 class ManagementDetailRoute extends GoRouteData {
+  final String userId;
+
+  ManagementDetailRoute({required this.userId});
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return ManagementDetailPage();
+    return ManagementDetailPage(
+      userId: userId,
+    );
   }
 }
 

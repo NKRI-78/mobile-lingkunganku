@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_lingkunganku/misc/colors.dart';
 import 'package:mobile_lingkunganku/misc/text_style.dart';
+import 'package:mobile_lingkunganku/repositories/management_repository/models/management_member_model.dart';
 
 part '_show_dialog_remove.dart';
 
 class RemoveUserSection extends StatelessWidget {
-  const RemoveUserSection({super.key});
+  final Members? member;
+  const RemoveUserSection({super.key, this.member});
 
   @override
   Widget build(BuildContext context) {

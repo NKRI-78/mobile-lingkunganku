@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:mobile_lingkunganku/misc/colors.dart';
 import 'package:mobile_lingkunganku/misc/text_style.dart';
 import 'package:mobile_lingkunganku/misc/theme.dart';
+import 'package:mobile_lingkunganku/repositories/management_repository/models/management_member_model.dart';
 
 class ProfileSection extends StatelessWidget {
-  const ProfileSection({super.key});
+  final Members? member;
+
+  const ProfileSection({super.key, this.member});
 
   @override
   Widget build(BuildContext context) {
@@ -20,13 +23,16 @@ class ProfileSection extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: 50,
-            backgroundImage: AssetImage(avatarDefault),
+            backgroundImage: member?.profile?.avatarLink != null &&
+                    member!.profile!.avatarLink.isNotEmpty
+                ? NetworkImage(member!.profile!.avatarLink)
+                : AssetImage(avatarDefault) as ImageProvider,
           ),
           const SizedBox(height: 10),
           SizedBox(
             width: double.infinity,
             child: Text(
-              'Hernan Febri Rahmatullah',
+              member?.profile?.fullname ?? "Nama tidak tersedia",
               style: AppTextStyles.textDialog.copyWith(
                 fontWeight: FontWeight.bold,
               ),
@@ -34,7 +40,7 @@ class ProfileSection extends StatelessWidget {
             ),
           ),
           Text(
-            'Member',
+            member?.roleApp ?? 'Role tidak tersedia',
             style: AppTextStyles.textWelcome,
             textAlign: TextAlign.center,
           ),

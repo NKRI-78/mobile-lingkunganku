@@ -15,13 +15,15 @@ import '../../../misc/colors.dart';
 import '../../../repositories/management_repository/management_repository.dart';
 
 class ManagementDetailPage extends StatelessWidget {
-  const ManagementDetailPage({super.key});
+  final String userId;
+
+  const ManagementDetailPage({super.key, required this.userId});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => ManagementDetailCubit(getIt<ManagementRepository>())
-        ..fetchManagementDetailMembers(),
+        ..fetchManagementDetailMembers(userId: userId),
       child: ManagementDetailView(),
     );
   }
@@ -70,20 +72,40 @@ class ManagementDetailView extends StatelessWidget {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.only(bottom: 20, left: 20, right: 20),
-        child: Column(
-          spacing: 20,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ProfileSection(),
-            JoinDateSection(),
-            UserInfoSection(),
-            PaymentSection(),
-            ManagementAccesSection(),
-            RemoveUserSection(),
-          ],
-        ),
+      body: BlocBuilder<ManagementDetailCubit, ManagementDetailState>(
+        builder: (context, state) {
+          if (state.isLoading) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          if (state.errorMessage != null) {
+            return Center(child: Text(state.errorMessage!));
+          }
+
+          final member = state.memberDetail;
+
+          return SingleChildScrollView(
+            padding: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
+            child: Column(
+              spacing: 20,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ProfileSection(member: member),
+                JoinDateSection(
+                  member: member,
+                ),
+                UserInfoSection(
+                  member: member,
+                ),
+                PaymentSection(),
+                ManagementAccesSection(),
+                RemoveUserSection(
+                  member: member,
+                ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }

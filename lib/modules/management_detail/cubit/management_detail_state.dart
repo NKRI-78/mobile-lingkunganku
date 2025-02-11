@@ -2,7 +2,7 @@ part of 'management_detail_cubit.dart';
 
 class ManagementDetailState extends Equatable {
   final bool isLoading;
-  final ManagementMemberModel? memberDetail;
+  final Members? memberDetail;
   final String? errorMessage;
 
   const ManagementDetailState({
@@ -13,13 +13,13 @@ class ManagementDetailState extends Equatable {
 
   ManagementDetailState copyWith({
     bool? isLoading,
-    ManagementMemberModel? memberDetail,
+    Members? memberDetail,
     String? errorMessage,
   }) {
     return ManagementDetailState(
       isLoading: isLoading ?? this.isLoading,
       memberDetail: memberDetail ?? this.memberDetail,
-      errorMessage: errorMessage ?? this.errorMessage,
+      errorMessage: errorMessage,
     );
   }
 

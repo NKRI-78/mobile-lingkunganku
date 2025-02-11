@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_lingkunganku/misc/colors.dart';
+import 'package:mobile_lingkunganku/repositories/management_repository/models/management_member_model.dart';
 
 import '../../../misc/text_style.dart';
 
 class UserInfoSection extends StatelessWidget {
-  const UserInfoSection({super.key});
+  final Members? member;
+  const UserInfoSection({super.key, this.member});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,7 @@ class UserInfoSection extends StatelessWidget {
             style: AppTextStyles.textWelcome.copyWith(fontSize: 14),
           ),
           Text(
-            "Hernan Febri Rahmatullah",
+            member?.profile?.fullname ?? "Nama tidak tersedia",
             style: AppTextStyles.textStyle2.copyWith(fontSize: 18),
           ),
           Text(
@@ -32,7 +34,7 @@ class UserInfoSection extends StatelessWidget {
             style: AppTextStyles.textWelcome.copyWith(fontSize: 14),
           ),
           Text(
-            "Jl. Bambu Kuning no. 53",
+            member?.profile?.detailAddress ?? "Alamat tidak tersedia",
             style: AppTextStyles.textStyle2.copyWith(fontSize: 18),
           ),
           Text(
@@ -40,7 +42,7 @@ class UserInfoSection extends StatelessWidget {
             style: AppTextStyles.textWelcome.copyWith(fontSize: 14),
           ),
           Text(
-            "hernanfebri@gmail.com",
+            member?.email ?? "Email tidak tersedia",
             style: AppTextStyles.textStyle2.copyWith(fontSize: 18),
           ),
         ],

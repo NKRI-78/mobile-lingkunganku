@@ -246,10 +246,15 @@ extension $ManagementRouteExtension on ManagementRoute {
 
 extension $ManagementDetailRouteExtension on ManagementDetailRoute {
   static ManagementDetailRoute _fromState(GoRouterState state) =>
-      ManagementDetailRoute();
+      ManagementDetailRoute(
+        userId: state.uri.queryParameters['user-id']!,
+      );
 
   String get location => GoRouteData.$location(
         '/home/management/management-detail',
+        queryParams: {
+          'user-id': userId,
+        },
       );
 
   void go(BuildContext context) => context.go(location);
