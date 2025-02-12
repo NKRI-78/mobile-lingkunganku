@@ -1,6 +1,6 @@
 part of 'remove_user_section.dart';
 
-void _showRemoveManagementMemberDialog(BuildContext context) {
+void _showRemoveManagementMemberDialog(BuildContext context, Members member) {
   showDialog(
     context: context,
     builder: (context) {
@@ -23,7 +23,7 @@ void _showRemoveManagementMemberDialog(BuildContext context) {
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  "Apakah kamu yakin hapus 'Name' dari Grup ? ",
+                  "Apakah kamu yakin hapus ${member.profile?.fullname ?? "Nama Tidak Diketahui"} dari Grup?",
                   maxLines: 2,
                   textAlign: TextAlign.center,
                   style: AppTextStyles.textDialog,
@@ -42,7 +42,6 @@ void _showRemoveManagementMemberDialog(BuildContext context) {
                           ),
                         ),
                         onPressed: () {
-                          // hapus member dari grup
                           Navigator.of(context).pop();
                         },
                         child:

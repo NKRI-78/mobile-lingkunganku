@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mobile_lingkunganku/modules/forum/view/forum_page.dart';
 import 'package:mobile_lingkunganku/modules/management_detail/view/management_detail_page.dart';
 import 'package:mobile_lingkunganku/modules/show_more_news/view/show_more_news_page.dart';
 import '../modules/management/view/management_page.dart';
@@ -54,6 +55,7 @@ class OnboardingRoute extends GoRouteData {
     TypedGoRoute<RegisterWargaRoute>(path: 'register-warga'),
   ]),
   TypedGoRoute<SosRoute>(path: 'sos'),
+  TypedGoRoute<ForumRoute>(path: 'forum'),
 ])
 class HomeRoute extends GoRouteData {
   @override
@@ -198,5 +200,12 @@ class SosRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return SosPage();
+  }
+}
+
+class ForumRoute extends GoRouteData {
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return ForumPage();
   }
 }

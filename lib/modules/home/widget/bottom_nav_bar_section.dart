@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile_lingkunganku/router/builder.dart';
 
 import '../../../misc/colors.dart';
 import '../../app/bloc/app_bloc.dart';
@@ -65,11 +66,15 @@ class BottomNavBarSection extends StatelessWidget {
               unselectedItemColor: AppColors.unselectColor,
               currentIndex: currentIndex,
               onTap: (index) {
-                if (index != 4) {
-                  if (!isLoggedIn) {
-                    showRegisterDialog(context);
-                    return;
-                  }
+                if (!isLoggedIn) {
+                  showRegisterDialog(context);
+                  return;
+                }
+
+                // Navigasi ke halaman forum jika index 0 (Forum)
+                if (index == 0) {
+                  ForumRoute().go(context);
+                } else {
                   onTap(index);
                 }
               },

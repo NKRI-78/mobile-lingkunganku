@@ -1,7 +1,8 @@
 part of 'management_acces_section.dart';
 
-void _showManagementAccesDialog(BuildContext context) {
-  String? selectedRole;
+void _showManagementAccesDialog(BuildContext context, String? currentRole) {
+  String? selectedRole = currentRole;
+
   showDialog(
     context: context,
     builder: (context) {
@@ -14,49 +15,61 @@ void _showManagementAccesDialog(BuildContext context) {
             return Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text(
-                  "Pilih Jenis Kepengurusan",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                Align(
+                  alignment: Alignment.topRight,
+                  child: IconButton(
+                    icon: Icon(Icons.close, color: AppColors.greyColor),
+                    onPressed: () => Navigator.pop(context),
+                  ),
                 ),
-                const SizedBox(height: 12),
+                Text(
+                  "Pilih Jenis Kepengurusan",
+                  style: AppTextStyles.textDialog,
+                ),
                 Column(
                   children: [
                     RadioListTile<String>(
-                      title: const Text("Wakil Ketua"),
-                      value: "Wakil Ketua",
+                      title: const Text("Sekretaris"),
+                      value: "Sekretaris",
                       groupValue: selectedRole,
+                      activeColor: AppColors.secondaryColor,
                       onChanged: (value) {
-                        setState(() => selectedRole = value);
+                        setState(() {
+                          selectedRole = value;
+                        });
                       },
                     ),
                     RadioListTile<String>(
                       title: const Text("Bendahara"),
                       value: "Bendahara",
                       groupValue: selectedRole,
+                      activeColor: AppColors.secondaryColor,
                       onChanged: (value) {
-                        setState(() => selectedRole = value);
+                        setState(() {
+                          selectedRole = value;
+                        });
                       },
                     ),
                   ],
                 ),
-                const SizedBox(height: 16),
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
+                      print("Select : $selectedRole");
                       if (selectedRole != null) {
                         Navigator.pop(context, selectedRole);
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
+                      backgroundColor: AppColors.secondaryColor,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                     ),
-                    child: const Text(
+                    child: Text(
                       "Yakin",
-                      style: TextStyle(color: Colors.white),
+                      style: AppTextStyles.textProfileBold,
                     ),
                   ),
                 ),

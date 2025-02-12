@@ -115,6 +115,10 @@ RouteBase get $homeRoute => GoRouteData.$route(
           path: 'sos',
           factory: $SosRouteExtension._fromState,
         ),
+        GoRouteData.$route(
+          path: 'forum',
+          factory: $ForumRouteExtension._fromState,
+        ),
       ],
     );
 
@@ -430,6 +434,23 @@ extension $SosRouteExtension on SosRoute {
 
   String get location => GoRouteData.$location(
         '/home/sos',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $ForumRouteExtension on ForumRoute {
+  static ForumRoute _fromState(GoRouterState state) => ForumRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/forum',
       );
 
   void go(BuildContext context) => context.go(location);

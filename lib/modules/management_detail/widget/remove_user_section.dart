@@ -14,7 +14,7 @@ class RemoveUserSection extends StatelessWidget {
     return ElevatedButton(
       onPressed: () {
         //
-        _showRemoveManagementMemberDialog(context);
+        _showRemoveManagementMemberDialog(context, member!);
       },
       style: ElevatedButton.styleFrom(
         backgroundColor: AppColors.whiteColor,

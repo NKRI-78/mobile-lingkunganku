@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_lingkunganku/repositories/management_repository/models/management_member_model.dart';
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
 
 part '_show_dialog_management_acces.dart';
 
 class ManagementAccesSection extends StatelessWidget {
-  const ManagementAccesSection({super.key});
+  final Members? member;
+  const ManagementAccesSection({super.key, this.member});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +22,8 @@ class ManagementAccesSection extends StatelessWidget {
         ElevatedButton(
           onPressed: () {
             //
-            _showManagementAccesDialog(context);
+            _showManagementAccesDialog(
+                context, member?.secretary ?? member?.treasurer);
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: AppColors.secondaryColor,
