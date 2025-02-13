@@ -39,7 +39,7 @@ class CustomHeaderAvatar extends StatelessWidget {
         if (showText) ...[
           const SizedBox(height: 8),
           Text(
-            'Hi $displayText,',
+            'Hi, $displayText',
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 18,

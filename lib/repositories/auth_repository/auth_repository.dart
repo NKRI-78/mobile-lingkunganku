@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
+import 'package:http/http.dart' as httpupload;
 
 import '../../misc/api_url.dart';
 import '../../misc/http_client.dart';
@@ -27,8 +28,34 @@ enum VerifyEmailType { sendingOtp, verified }
 
 class AuthRepository {
   String get auth => '${MyApi.baseUrl}/api/v1/auth';
+  String get mediaUpload => '${MyApi.baseUrlUpload}/api/v1/media';
 
   final http = getIt<BaseNetworkClient>();
+
+  Future<List<dynamic>> postMedia(
+      {required String folder, required File media}) async {
+    try {
+      var request = httpupload.MultipartRequest('PUT', Uri.parse(mediaUpload));
+      request.fields.addAll({'folder': 'profile', 'app': 'LINGKUNGANKU'});
+      var headers = {'Authorization': 'Bearer ${http.token}'};
+      request.headers.addAll(headers);
+      debugPrint("Image : $media");
+      request.files
+          .add(await httpupload.MultipartFile.fromPath('images', media.path));
+
+      httpupload.StreamedResponse response = await request.send();
+      if (response.statusCode == 200) {
+        final data = await response.stream.bytesToString();
+        return jsonDecode(data)['data'];
+      } else {
+        debugPrint(response.reasonPhrase);
+      }
+      return [];
+    } catch (e) {
+      debugPrint('error profile $e');
+      rethrow;
+    }
+  }
 
   Future<LoggedIn> login(
       {required String email, required String password}) async {
@@ -99,6 +126,7 @@ class AuthRepository {
     String detailAddress = '',
     String password = '',
     String referral = '',
+    String avatarLink = '',
   }) async {
     try {
       final response =
@@ -109,6 +137,7 @@ class AuthRepository {
         'detail_address': detailAddress,
         'password': password,
         'referral': referral,
+        'avatar_link': avatarLink,
       });
       final json = jsonDecode(response.body);
       if (response.statusCode == 200) {

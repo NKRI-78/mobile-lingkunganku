@@ -62,7 +62,19 @@ class RegisterOtpCubit extends Cubit<RegisterOtpState> {
     try {
       emit(state.copyWith(loading: true));
       await repo.resendOtp(state.email);
-      debugPrint("Berhasil");
+
+      // Tampilkan Snackbar jika OTP berhasil dikirim ulang
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            backgroundColor: AppColors.textColor1,
+            content: Text(
+              'Kode OTP sudah dikirim ulang, Silahkan cek kembali email Anda.',
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        );
+      }
     } catch (e) {
       if (!context.mounted) {
         return;

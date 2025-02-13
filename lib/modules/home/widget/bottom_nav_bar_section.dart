@@ -4,7 +4,6 @@ import 'package:mobile_lingkunganku/router/builder.dart';
 
 import '../../../misc/colors.dart';
 import '../../app/bloc/app_bloc.dart';
-import '../widget/show_dialog_register.dart';
 
 class BottomNavBarSection extends StatelessWidget {
   final int currentIndex;
@@ -67,10 +66,9 @@ class BottomNavBarSection extends StatelessWidget {
               currentIndex: currentIndex,
               onTap: (index) {
                 if (!isLoggedIn) {
-                  showRegisterDialog(context);
+                  RegisterRoute().go(context);
                   return;
                 }
-
                 // Navigasi ke halaman forum jika index 0 (Forum)
                 if (index == 0) {
                   ForumRoute().go(context);

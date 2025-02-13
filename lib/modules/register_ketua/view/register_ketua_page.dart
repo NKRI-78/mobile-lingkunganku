@@ -91,14 +91,13 @@ class RegisterKetuaView extends StatelessWidget {
                           SizedBox(
                             width: double.infinity,
                             child: CustomButton(
-                              text: 'Kode OTP',
-                              onPressed: state.isLoading
-                                  ? null
-                                  : () {
-                                      context
-                                          .read<RegisterKetuaCubit>()
-                                          .submit(context);
-                                    },
+                              text: 'Submit',
+                              isLoading: state.isLoading,
+                              onPressed: () {
+                                context
+                                    .read<RegisterKetuaCubit>()
+                                    .submit(context);
+                              },
                             ),
                           ),
                         ],

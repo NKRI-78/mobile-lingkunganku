@@ -227,7 +227,7 @@ class HomeView extends StatelessWidget {
                                   )
                                 else
                                   CustomButton(
-                                    text: 'Yuk registrasi baru !',
+                                    text: 'Yuk Registrasi Baru !',
                                     onPressed: () {
                                       showRegisterDialog(context);
                                     },

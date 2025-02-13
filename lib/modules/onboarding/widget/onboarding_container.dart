@@ -53,6 +53,7 @@ class OnboardingContainer extends StatelessWidget {
                     child: Text(
                       description,
                       textAlign: TextAlign.justify,
+                      softWrap: true,
                       style: descriptionStyle ??
                           const TextStyle(
                             fontSize: 16,

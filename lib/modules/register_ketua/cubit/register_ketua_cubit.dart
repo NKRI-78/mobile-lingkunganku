@@ -77,6 +77,7 @@ class RegisterKetuaCubit extends Cubit<RegisterKetuaState> {
         password: state.password,
         passwordConfirm: state.passwordConfirm,
       );
+
       if (isClear) {
         await repo.registerChief(
           name: state.name,
@@ -88,7 +89,20 @@ class RegisterKetuaCubit extends Cubit<RegisterKetuaState> {
           latitude: state.latitude.toString(),
           longitude: state.longitude.toString(),
         );
+
         if (context.mounted) {
+          // Tampilkan Snackbar jika OTP berhasil dikirim
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              backgroundColor: AppColors.textColor1, // Warna hijau untuk sukses
+              content: Text(
+                'Kode OTP telah dikirim, silakan cek email Anda.',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          );
+
+          // Navigasi ke halaman OTP
           RegisterOtpRoute(email: state.email).push(context);
         }
       }

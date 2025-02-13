@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_lingkunganku/misc/api_url.dart';
 import 'package:mobile_lingkunganku/misc/http_client.dart';
 import 'package:mobile_lingkunganku/misc/injections.dart';
+import 'package:mobile_lingkunganku/repositories/management_repository/models/management_detail_member_model.dart';
 import 'package:mobile_lingkunganku/repositories/management_repository/models/management_member_model.dart';
 
 class ManagementRepository {
@@ -31,7 +32,7 @@ class ManagementRepository {
     }
   }
 
-  Future<Members> getMemberDetail(String userId) async {
+  Future<ManagementDetailMemberModel> getMemberDetail(String userId) async {
     final res = await http.get(Uri.parse('$managementMember/$userId'));
 
     debugPrint("📡 Response status: ${res.statusCode}");
@@ -40,9 +41,55 @@ class ManagementRepository {
     final Map<String, dynamic> json = jsonDecode(res.body);
 
     if (res.statusCode == 200) {
-      return Members.fromJson(json['data']);
+      return ManagementDetailMemberModel.fromJson(json);
     } else {
       throw Exception("API Error: ${json['message'] ?? 'Unknown error'}");
+    }
+  }
+
+  Future<void> postMemberSecretary(String userId) async {
+    try {
+      final res = await http.post(
+        Uri.parse('$managementMember/$userId/giveRoleSecretary'),
+      );
+
+      debugPrint("📡 Response status: ${res.statusCode}");
+      debugPrint("📜 Response body: ${res.body}");
+
+      final Map<String, dynamic> json = jsonDecode(res.body);
+
+      if (res.statusCode == 200) {
+        return;
+      } else {
+        debugPrint("❌ API Error: ${json['message'] ?? 'Unknown error'}");
+        throw Exception("API Error: ${json['message'] ?? 'Unknown error'}");
+      }
+    } catch (e) {
+      debugPrint("❌ Exception caught: $e");
+      throw Exception("Failed to update member role: $e");
+    }
+  }
+
+  Future<void> postMemberTreasure(String userId) async {
+    try {
+      final res = await http.post(
+        Uri.parse('$managementMember/$userId/giveRoleTreasure'),
+      );
+
+      debugPrint("📡 Response status: ${res.statusCode}");
+      debugPrint("📜 Response body: ${res.body}");
+
+      final Map<String, dynamic> json = jsonDecode(res.body);
+
+      if (res.statusCode == 200) {
+        return;
+      } else {
+        debugPrint("❌ API Error: ${json['message'] ?? 'Unknown error'}");
+        throw Exception("API Error: ${json['message'] ?? 'Unknown error'}");
+      }
+    } catch (e) {
+      debugPrint("❌ Exception caught: ${jsonEncode(e)}");
+      rethrow;
     }
   }
 }

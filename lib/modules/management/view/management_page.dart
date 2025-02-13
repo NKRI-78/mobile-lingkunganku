@@ -44,7 +44,7 @@ class ManagementViewState extends State<ManagementView> {
     return BlocBuilder<ManagementCubit, ManagementState>(
       builder: (context, state) {
         if (!hasInitialized && state.memberData?.data?.members != null) {
-          isExpanded.value = state.memberData!.data!.members!.isNotEmpty;
+          isExpanded.value = state.memberData!.data!.members.isNotEmpty;
           hasInitialized = true;
         }
 
@@ -57,10 +57,10 @@ class ManagementViewState extends State<ManagementView> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Alamat", style: AppTextStyles.textStyle2),
+                  Text("Nama Lingkungan", style: AppTextStyles.textStyle2),
                   const SizedBox(height: 4),
-                  Text(state.memberData?.data?.detailAddress ?? "",
-                      style: AppTextStyles.textRegister2),
+                  Text(state.memberData?.data?.name ?? "",
+                      style: AppTextStyles.textStyle1),
                   const SizedBox(height: 20),
                   Row(
                     children: [
@@ -85,7 +85,7 @@ class ManagementViewState extends State<ManagementView> {
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Text(
-                          "${state.memberData?.data?.totalMember?.toString() ?? 'N/A'} Member",
+                          "${state.memberData?.data?.totalMember.toString() ?? 'N/A'} Member",
                           style: AppTextStyles.textProfileBold,
                         ),
                       )
@@ -117,10 +117,8 @@ class ManagementViewState extends State<ManagementView> {
                           valueListenable: isExpanded,
                           builder: (context, expanded, child) {
                             final members = List.from(
-                                state.memberData?.data?.members ??
-                                    []); // Buat salinan list
-                            members.sort((a, b) =>
-                                a.id.compareTo(b.id)); // Urutkan berdasarkan ID
+                                state.memberData?.data?.members ?? []);
+                            members.sort((a, b) => a.id.compareTo(b.id));
 
                             return AnimatedCrossFade(
                               duration: const Duration(milliseconds: 400),

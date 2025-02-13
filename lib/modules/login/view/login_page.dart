@@ -26,116 +26,121 @@ class LoginView extends StatelessWidget {
   const LoginView({super.key});
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(80),
-        child: AppBar(
-          toolbarHeight: 80,
-          title: Text(
-            'Login',
-            style: AppTextStyles.textStyle1,
-          ),
-          leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back_ios_new,
-              color: AppColors.buttonColor2,
-              size: 32,
-            ),
-            onPressed: () {
-              GoRouter.of(context).pop();
-            },
-          ),
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          flexibleSpace: Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [Colors.white.withOpacity(0.3), Colors.transparent],
+    return BlocBuilder<LoginCubit, LoginState>(
+      builder: (context, state) {
+        return Scaffold(
+          extendBodyBehindAppBar: true,
+          appBar: PreferredSize(
+            preferredSize: Size.fromHeight(80),
+            child: AppBar(
+              toolbarHeight: 80,
+              title: Text(
+                'Login',
+                style: AppTextStyles.textStyle1,
               ),
-            ),
-          ),
-        ),
-      ),
-      body: Stack(
-        children: [
-          CustomBackground(),
-          Padding(
-            padding: const EdgeInsets.only(top: 85),
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(32),
-                child: Column(
-                  spacing: 20,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Center(
-                      child: Image.asset(
-                        'assets/icons/lingkunganku.png',
-                        width: 200,
-                        height: 300,
-                      ),
-                    ),
-                    CustomTextfieldLogin(),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      spacing: 5,
-                      children: [
-                        Text(
-                          "Klik",
-                          style: TextStyle(
-                            color: AppColors.whiteColor,
-                            fontSize: 14,
-                            fontWeight: FontWeight.normal,
-                            fontFamily: 'Intel',
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            LupaPasswordRoute().go(context);
-                          },
-                          child: Text(
-                            "Disini",
-                            style: TextStyle(
-                              color: AppColors.redColor,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'Intel',
-                            ),
-                          ),
-                        ),
-                        Text(
-                          "jika lupa Password",
-                          style: TextStyle(
-                            color: AppColors.whiteColor,
-                            fontSize: 14,
-                            fontWeight: FontWeight.normal,
-                            fontFamily: 'Intel',
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 30),
-                    SizedBox(
-                      width: double.infinity,
-                      child: CustomButton(
-                        text: 'Masuk',
-                        onPressed: () {
-                          context.read<LoginCubit>().submit(context);
-                        },
-                      ),
-                    )
-                  ],
+              leading: IconButton(
+                icon: Icon(
+                  Icons.arrow_back_ios_new,
+                  color: AppColors.buttonColor2,
+                  size: 32,
+                ),
+                onPressed: () {
+                  GoRouter.of(context).pop();
+                },
+              ),
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              flexibleSpace: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [Colors.white.withOpacity(0.3), Colors.transparent],
+                  ),
                 ),
               ),
             ),
           ),
-        ],
-      ),
+          body: Stack(
+            children: [
+              CustomBackground(),
+              Padding(
+                padding: const EdgeInsets.only(top: 85),
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(32),
+                    child: Column(
+                      spacing: 20,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Center(
+                          child: Image.asset(
+                            'assets/icons/lingkunganku.png',
+                            width: 200,
+                            height: 300,
+                          ),
+                        ),
+                        CustomTextfieldLogin(),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          spacing: 5,
+                          children: [
+                            Text(
+                              "Klik",
+                              style: TextStyle(
+                                color: AppColors.whiteColor,
+                                fontSize: 14,
+                                fontWeight: FontWeight.normal,
+                                fontFamily: 'Intel',
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                LupaPasswordRoute().go(context);
+                              },
+                              child: Text(
+                                "Disini",
+                                style: TextStyle(
+                                  color: AppColors.redColor,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Intel',
+                                ),
+                              ),
+                            ),
+                            Text(
+                              "jika lupa Password",
+                              style: TextStyle(
+                                color: AppColors.whiteColor,
+                                fontSize: 14,
+                                fontWeight: FontWeight.normal,
+                                fontFamily: 'Intel',
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 30),
+                        SizedBox(
+                          width: double.infinity,
+                          child: CustomButton(
+                            isLoading: state.loading,
+                            text: 'Masuk',
+                            onPressed: () {
+                              context.read<LoginCubit>().submit(context);
+                            },
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

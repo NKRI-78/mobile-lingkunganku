@@ -90,6 +90,7 @@ class RegisterWargaCubit extends Cubit<RegisterWargaState> {
 
       debugPrint("Referral setelah validasi: ${state.referral}");
 
+      // Mencoba mendaftarkan pengguna
       await repo.registerMember(
         name: state.name,
         email: state.email,
@@ -99,13 +100,20 @@ class RegisterWargaCubit extends Cubit<RegisterWargaState> {
         referral: state.referral,
       );
 
-      // Navigasi ke halaman OTP jika berhasil
+      // Jika berhasil, langsung pindah halaman
       if (context.mounted) {
         RegisterOtpRoute(email: state.email).push(context);
+        ShowSnackbar.snackbar(
+          context,
+          "Kode OTP telah dikirim, silakan cek email Anda.",
+          '',
+          AppColors.textColor1,
+        );
       }
     } catch (e) {
       if (!context.mounted) return;
-      print(e);
+      debugPrint("Error saat registrasi: $e");
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           backgroundColor: AppColors.redColor,

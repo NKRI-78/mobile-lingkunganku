@@ -1,27 +1,28 @@
 import 'package:flutter/material.dart';
-
-import '../../../misc/colors.dart'; // Import warna yang diperlukan
+import '../../../misc/colors.dart';
 
 class CustomButton extends StatelessWidget {
-  final String text; // Teks yang akan ditampilkan di tombol
-  final void Function()? onPressed; // Callback untuk tombol
+  final String text; // Teks tombol
+  final void Function()? onPressed; // Callback tombol
   final Color backgroundColor; // Warna background tombol
   final Color textColor; // Warna teks tombol
   final double horizontalPadding; // Padding horizontal
   final double verticalPadding; // Padding vertikal
   final IconData? icon; // Ikon opsional
   final double iconSize; // Ukuran ikon
+  final bool isLoading; // Status loading
 
   const CustomButton({
     super.key,
     required this.text,
     required this.onPressed,
-    this.backgroundColor = AppColors.textColor2, // Default warna background
-    this.textColor = Colors.white, // Default warna teks
-    this.horizontalPadding = 35, // Default padding horizontal
-    this.verticalPadding = 15, // Default padding vertikal
-    this.icon, // Default null jika tidak ada ikon
-    this.iconSize = 24.0, // Default ukuran ikon
+    this.backgroundColor = AppColors.textColor2,
+    this.textColor = Colors.white,
+    this.horizontalPadding = 35,
+    this.verticalPadding = 15,
+    this.icon,
+    this.iconSize = 24.0,
+    this.isLoading = false, // Default tidak loading
   });
 
   @override
@@ -37,28 +38,37 @@ class CustomButton extends StatelessWidget {
           vertical: verticalPadding,
         ),
       ),
-      onPressed: onPressed,
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          if (icon != null)
-            Icon(
-              icon,
-              size: iconSize,
-              color: textColor,
+      onPressed: isLoading ? null : onPressed, // Disable tombol saat loading
+      child: isLoading
+          ? const SizedBox(
+              width: 20,
+              height: 20,
+              child: CircularProgressIndicator(
+                color: Colors.white,
+                strokeWidth: 2,
+              ),
+            )
+          : Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                if (icon != null)
+                  Icon(
+                    icon,
+                    size: iconSize,
+                    color: textColor,
+                  ),
+                if (icon != null) const SizedBox(width: 8),
+                Text(
+                  text,
+                  style: TextStyle(
+                    color: textColor,
+                    fontSize: 16,
+                    fontFamily: 'Inter',
+                  ),
+                ),
+              ],
             ),
-          if (icon != null) const SizedBox(width: 8),
-          Text(
-            text,
-            style: TextStyle(
-              color: textColor,
-              fontSize: 16,
-              fontFamily: 'Inter',
-            ),
-          ),
-        ],
-      ),
     );
   }
 }

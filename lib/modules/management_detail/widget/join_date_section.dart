@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart'; // Import intl package
-import 'package:mobile_lingkunganku/repositories/management_repository/models/management_member_model.dart';
+import 'package:mobile_lingkunganku/repositories/management_repository/models/management_detail_member_model.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
 
 class JoinDateSection extends StatelessWidget {
-  final Members? member;
+  final MemberData? member;
   const JoinDateSection({super.key, this.member});
 
   /// Fungsi untuk mengubah format tanggal ISO menjadi "5 Februari 2025"

@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';
@@ -130,20 +129,16 @@ class DrawerSection extends StatelessWidget {
                 ],
               ),
             ),
-            Container(
-              margin: const EdgeInsets.only(bottom: 40),
-              child: CustomButton(
-                text: isLoggedIn ? 'LogOut' : 'Close App',
-                onPressed: () {
-                  if (isLoggedIn) {
-                    showLogoutDialog(context);
-                  } else {
-                    GoRouter.of(context).pop();
-                  }
-                },
-                backgroundColor: AppColors.redColor,
-              ),
-            ),
+            isLoggedIn
+                ? Container(
+                    margin: const EdgeInsets.only(bottom: 40),
+                    child: CustomButton(
+                      text: 'LogOut',
+                      onPressed: () => showLogoutDialog(context),
+                      backgroundColor: AppColors.redColor,
+                    ),
+                  )
+                : SizedBox(),
           ],
         ),
       ),

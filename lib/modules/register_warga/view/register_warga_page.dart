@@ -76,7 +76,8 @@ class RegisterWargaView extends StatelessWidget {
                         SizedBox(
                           width: double.infinity,
                           child: CustomButton(
-                            text: 'Kode OTP',
+                            text: 'Submit',
+                            isLoading: state.isLoading,
                             onPressed: () {
                               context
                                   .read<RegisterWargaCubit>()
