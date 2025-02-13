@@ -7,6 +7,7 @@ import '../../../misc/text_style.dart';
 import '../../../widgets/background/custom_background.dart';
 import '../../../widgets/button/custom_button.dart';
 import '../cubit/register_warga_cubit.dart';
+import '../widget/customfield_warga_foto.dart';
 import '../widget/custom_textfield_warga.dart';
 
 class RegisterWargaPage extends StatelessWidget {
@@ -70,9 +71,10 @@ class RegisterWargaView extends StatelessWidget {
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 30),
                     child: Column(
+                      spacing: 20,
                       children: [
+                        CustomfieldWargaFoto(),
                         CustomTextfieldWarga(),
-                        SizedBox(height: 20),
                         SizedBox(
                           width: double.infinity,
                           child: CustomButton(

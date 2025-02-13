@@ -1,6 +1,7 @@
 part of 'remove_user_section.dart';
 
-void _showRemoveManagementMemberDialog(BuildContext context, Members member) {
+void _showRemoveManagementMemberDialog(
+    BuildContext context, MemberData member) {
   showDialog(
     context: context,
     builder: (context) {

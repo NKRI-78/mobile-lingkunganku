@@ -101,7 +101,9 @@ class ManagementDetailView extends StatelessWidget {
                 ManagementAccesSection(
                   member: memberManagement,
                 ),
-                RemoveUserSection(),
+                RemoveUserSection(
+                  member: memberManagement,
+                ),
               ],
             ),
           );

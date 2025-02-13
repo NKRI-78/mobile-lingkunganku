@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';
 import '../../../misc/snackbar.dart';
+import '../../../repositories/profile_repository/models/profile_model.dart';
 import '../../profile/cubit/profile_cubit.dart';
 import '../../../repositories/profile_repository/profile_repository.dart';
 

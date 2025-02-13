@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../misc/colors.dart';
 import '../../profile/cubit/profile_cubit.dart';
 import '../../../repositories/home_repository/home_repository.dart';
-
 import '../../../misc/injections.dart';
 import '../../../misc/text_style.dart';
 import '../../../router/builder.dart';
@@ -43,7 +42,7 @@ class HomeView extends StatelessWidget {
 
     return BlocBuilder<AppBloc, AppState>(
       builder: (context, appState) {
-        final app = getIt<AppBloc>().state.isAlreadyLogin;
+        final bool isLoggedIn = appState.isAlreadyLogin;
         return BlocBuilder<HomeBloc, HomeState>(
           builder: (context, state) {
             return Scaffold(
@@ -57,6 +56,8 @@ class HomeView extends StatelessWidget {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             const SizedBox(height: 300),
+
+                            // Carousel Slider
                             CarouselSlider(
                               options: CarouselOptions(
                                 autoPlay: true,
@@ -66,12 +67,16 @@ class HomeView extends StatelessWidget {
                               ),
                               items: imgList.map((item) {
                                 return ClipRRect(
-                                  borderRadius: const BorderRadius.all(
-                                    Radius.circular(16.0),
-                                  ),
+                                  borderRadius: BorderRadius.circular(16.0),
                                   child: Image.asset(
                                     item,
                                     fit: BoxFit.contain,
+                                    errorBuilder:
+                                        (context, error, stackTrace) =>
+                                            Image.asset(
+                                      'assets/images/placeholder.png',
+                                      fit: BoxFit.contain,
+                                    ),
                                   ),
                                 );
                               }).toList(),
@@ -85,29 +90,22 @@ class HomeView extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(
-                                    "News",
-                                    style: AppTextStyles.textStyle1,
-                                  ),
+                                  Text("News", style: AppTextStyles.textStyle1),
                                   GestureDetector(
                                     onTap: () {
                                       ShowMoreNewsRoute().go(context);
                                     },
-                                    child: Text(
-                                      "See all",
-                                      style: AppTextStyles.textStyle2,
-                                    ),
+                                    child: Text("See all",
+                                        style: AppTextStyles.textStyle2),
                                   ),
                                 ],
                               ),
                             ),
-                            // Kondisi: Menampilkan indikator loading
+
+                            // Kondisi: Loading, Kosong, atau Menampilkan News
                             if (state.isLoading)
-                              const Center(
-                                child: CircularProgressIndicator(),
-                              )
+                              const Center(child: CircularProgressIndicator())
                             else if (state.news.isEmpty)
-                              // Jika news kosong
                               const Center(
                                 child: Text(
                                   "No news available",
@@ -129,11 +127,7 @@ class HomeView extends StatelessWidget {
                                       }
                                     },
                                     child: Card(
-                                      margin: const EdgeInsets.only(
-                                        bottom: 28,
-                                        left: 20,
-                                        right: 20,
-                                      ),
+                                      margin: const EdgeInsets.all(10),
                                       elevation: 4,
                                       shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(18),
@@ -144,15 +138,22 @@ class HomeView extends StatelessWidget {
                                           children: [
                                             ClipRRect(
                                               borderRadius:
-                                                  const BorderRadius.only(
-                                                topLeft: Radius.circular(18),
-                                                bottomLeft: Radius.circular(18),
+                                                  const BorderRadius.horizontal(
+                                                left: Radius.circular(18),
                                               ),
                                               child: Image.network(
                                                 newsItem.linkImage,
-                                                fit: BoxFit.fill,
+                                                fit: BoxFit.cover,
                                                 width: 150,
                                                 height: 150,
+                                                errorBuilder: (context, error,
+                                                        stackTrace) =>
+                                                    Image.asset(
+                                                  'assets/images/placeholder.png',
+                                                  fit: BoxFit.cover,
+                                                  width: 150,
+                                                  height: 150,
+                                                ),
                                               ),
                                             ),
                                             const SizedBox(width: 16),
@@ -182,7 +183,7 @@ class HomeView extends StatelessWidget {
                                                   ),
                                                 ],
                                               ),
-                                            )
+                                            ),
                                           ],
                                         ),
                                       ),
@@ -190,14 +191,14 @@ class HomeView extends StatelessWidget {
                                   );
                                 },
                               ),
-                            SizedBox(
-                              height: 80,
-                            ),
+                            const SizedBox(height: 80),
                           ],
                         ),
                       ),
                     ],
                   ),
+
+                  // Header Section
                   Positioned(
                     top: 0,
                     left: 0,
@@ -206,39 +207,35 @@ class HomeView extends StatelessWidget {
                       builder: (context, state) {
                         final user = state.profile;
 
-                        return Builder(
-                          builder: (context) {
-                            return CustomHeaderContainer(
-                              displayText: appState.isAlreadyLogin
-                                  ? user?.profile?.fullname ?? ''
-                                  : 'User',
-                              isLoggedIn: appState.isAlreadyLogin,
-                              showText: true,
-                              onMenuPressed: () {
-                                Scaffold.of(context).openDrawer();
-                              },
-                              onNotificationPressed: () {},
-                              children: [
-                                if (app)
-                                  Text(
-                                    'Selamat datang di Lingkunganku, aplikasi untuk terhubung dengan warga dan menjaga lingkungan.',
-                                    style: AppTextStyles.textWelcome,
-                                    textAlign: TextAlign.center,
-                                  )
-                                else
-                                  CustomButton(
-                                    text: 'Yuk Registrasi Baru !',
-                                    onPressed: () {
-                                      showRegisterDialog(context);
-                                    },
-                                  ),
-                              ],
-                            );
-                          },
+                        return CustomHeaderContainer(
+                          avatarLink: user?.profile?.avatarLink ?? '',
+                          displayText: isLoggedIn
+                              ? user?.profile?.fullname ?? ''
+                              : 'User',
+                          isLoggedIn: isLoggedIn,
+                          showText: true,
+                          onMenuPressed: () =>
+                              Scaffold.of(context).openDrawer(),
+                          onNotificationPressed: () {},
+                          children: [
+                            if (isLoggedIn)
+                              Text(
+                                'Selamat datang di Lingkunganku, aplikasi untuk terhubung dengan warga dan menjaga lingkungan.',
+                                style: AppTextStyles.textWelcome,
+                                textAlign: TextAlign.center,
+                              )
+                            else
+                              CustomButton(
+                                text: 'Yuk Registrasi Baru !',
+                                onPressed: () => showRegisterDialog(context),
+                              ),
+                          ],
                         );
                       },
                     ),
                   ),
+
+                  // Bottom Navigation Bar
                   Positioned(
                     bottom: 10,
                     left: 20,
@@ -246,19 +243,7 @@ class HomeView extends StatelessWidget {
                     child: BottomNavBarSection(
                       currentIndex: state.selectedIndex,
                       onTap: (index) {
-                        switch (index) {
-                          case 0:
-                            break;
-                          case 1:
-                            break;
-                          case 2:
-                            break;
-                          case 3:
-                            break;
-                          case 4:
-                            SosRoute().go(context);
-                            break;
-                        }
+                        if (index == 4) SosRoute().go(context);
                         context.read<HomeBloc>().add(HomeNavigate(index));
                       },
                     ),

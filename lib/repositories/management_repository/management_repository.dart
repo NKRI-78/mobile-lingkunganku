@@ -15,19 +15,19 @@ class ManagementRepository {
     try {
       final res = await http.get(Uri.parse(managementMember));
 
-      debugPrint("📡 Response status: ${res.statusCode}");
-      debugPrint("📜 Response body: ${res.body}");
+      debugPrint(" Response status: ${res.statusCode}");
+      debugPrint(" Response body: ${res.body}");
 
       final Map<String, dynamic> json = jsonDecode(res.body);
 
       if (res.statusCode == 200) {
         return ManagementMemberModel.fromJson(json);
       } else {
-        debugPrint("❌ Error API: ${json['message'] ?? 'Unknown error'}");
+        debugPrint(" Error API: ${json['message'] ?? 'Unknown error'}");
         throw Exception("API Error: ${json['message'] ?? 'Unknown error'}");
       }
     } catch (e) {
-      debugPrint("❌ Exception caught: $e");
+      debugPrint(" Exception caught: $e");
       throw Exception("Failed to fetch management members: $e");
     }
   }
@@ -35,8 +35,8 @@ class ManagementRepository {
   Future<ManagementDetailMemberModel> getMemberDetail(String userId) async {
     final res = await http.get(Uri.parse('$managementMember/$userId'));
 
-    debugPrint("📡 Response status: ${res.statusCode}");
-    debugPrint("📜 Response body: ${res.body}");
+    debugPrint(" Response status: ${res.statusCode}");
+    debugPrint(" Response body: ${res.body}");
 
     final Map<String, dynamic> json = jsonDecode(res.body);
 
@@ -47,48 +47,62 @@ class ManagementRepository {
     }
   }
 
-  Future<void> postMemberSecretary(String userId) async {
+  Future<ManagementDetailMemberModel> postMemberSecretary(String userId) async {
     try {
       final res = await http.post(
         Uri.parse('$managementMember/$userId/giveRoleSecretary'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ${http.token}',
+        },
+        body: jsonEncode({"roleApp": "SECRETARY"}),
       );
 
-      debugPrint("📡 Response status: ${res.statusCode}");
-      debugPrint("📜 Response body: ${res.body}");
-
-      final Map<String, dynamic> json = jsonDecode(res.body);
+      debugPrint(" Response status: ${res.statusCode}");
+      debugPrint(" Response body: ${res.body}");
 
       if (res.statusCode == 200) {
-        return;
+        debugPrint(" Role berhasil diubah menjadi SECRETARY");
+
+        // 🔹 Ambil data terbaru setelah role berubah
+        return await getMemberDetail(userId);
       } else {
-        debugPrint("❌ API Error: ${json['message'] ?? 'Unknown error'}");
+        final Map<String, dynamic> json = jsonDecode(res.body);
+        debugPrint(" API Error: ${json['message'] ?? 'Unknown error'}");
         throw Exception("API Error: ${json['message'] ?? 'Unknown error'}");
       }
     } catch (e) {
-      debugPrint("❌ Exception caught: $e");
+      debugPrint(" Exception caught: $e");
       throw Exception("Failed to update member role: $e");
     }
   }
 
-  Future<void> postMemberTreasure(String userId) async {
+  Future<ManagementDetailMemberModel> postMemberTreasure(String userId) async {
     try {
       final res = await http.post(
         Uri.parse('$managementMember/$userId/giveRoleTreasure'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ${http.token}',
+        },
+        body: jsonEncode({"roleApp": "TREASURER"}),
       );
 
-      debugPrint("📡 Response status: ${res.statusCode}");
-      debugPrint("📜 Response body: ${res.body}");
-
-      final Map<String, dynamic> json = jsonDecode(res.body);
+      debugPrint(" Response status: ${res.statusCode}");
+      debugPrint(" Response body: ${res.body}");
 
       if (res.statusCode == 200) {
-        return;
+        debugPrint(" Role berhasil diubah menjadi TREASURER");
+
+        // 🔹 Ambil data terbaru setelah role berubah
+        return await getMemberDetail(userId);
       } else {
-        debugPrint("❌ API Error: ${json['message'] ?? 'Unknown error'}");
+        final Map<String, dynamic> json = jsonDecode(res.body);
+        debugPrint(" API Error: ${json['message'] ?? 'Unknown error'}");
         throw Exception("API Error: ${json['message'] ?? 'Unknown error'}");
       }
     } catch (e) {
-      debugPrint("❌ Exception caught: ${jsonEncode(e)}");
+      debugPrint(" Exception caught: ${jsonEncode(e)}");
       rethrow;
     }
   }

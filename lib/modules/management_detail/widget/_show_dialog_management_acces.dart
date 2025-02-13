@@ -59,7 +59,7 @@ void _showManagementAccesDialog(
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         if (selectedRole != null) {
                           Navigator.pop(dialogContext, selectedRole);
                         }
@@ -82,11 +82,18 @@ void _showManagementAccesDialog(
           ),
         );
       },
-    ).then((selectedRole) {
-      if (selectedRole == "Sekretaris") {
-        context.read<ManagementDetailCubit>().updateToSecretary(userId);
-      } else if (selectedRole == "Bendahara") {
-        context.read<ManagementDetailCubit>().updateToTreasure(userId);
+    ).then((selectedRole) async {
+      if (selectedRole != null) {
+        final cubit = context.read<ManagementDetailCubit>();
+
+        if (selectedRole == "Sekretaris") {
+          await cubit.updateToSecretary(userId);
+        } else if (selectedRole == "Bendahara") {
+          await cubit.updateToTreasure(userId);
+        }
+
+        // Fetch ulang data agar roleApp diperbarui
+        await cubit.fetchManagementDetailMembers(userId: userId);
       }
     });
   });

@@ -12,6 +12,7 @@ class CustomHeaderContainer extends StatelessWidget {
   final bool showText;
   final bool isLoggedIn;
   final String displayText;
+  final String avatarLink;
 
   final List<Widget> children;
 
@@ -25,6 +26,7 @@ class CustomHeaderContainer extends StatelessWidget {
     this.title,
     this.children = const [],
     required this.showText,
+    required this.avatarLink,
   });
 
   @override
@@ -109,6 +111,7 @@ class CustomHeaderContainer extends StatelessWidget {
             ],
           ),
           CustomHeaderAvatar(
+            avatarLink: avatarLink,
             displayText: displayText,
             isLoggedIn: isLoggedIn,
             showText: showText,

@@ -40,9 +40,9 @@ class BottomNavBarSection extends StatelessWidget {
                   icon: Icon(Icons.payments_outlined),
                   label: 'Iuran',
                 ),
-                const BottomNavigationBarItem(
-                  icon: Icon(Icons.receipt_long_outlined),
-                  label: 'Pulsa & Tagihan',
+                BottomNavigationBarItem(
+                  icon: const Icon(Icons.receipt_long_outlined),
+                  label: 'Pulsa &\nTagihan',
                 ),
                 const BottomNavigationBarItem(
                   icon: Icon(Icons.event_outlined),
@@ -56,8 +56,8 @@ class BottomNavBarSection extends StatelessWidget {
               type: BottomNavigationBarType.fixed,
               backgroundColor: Colors.transparent,
               elevation: 0,
-              selectedFontSize: 12,
-              unselectedFontSize: 12,
+              selectedFontSize: 11,
+              unselectedFontSize: 11,
               showUnselectedLabels: true,
               showSelectedLabels: true,
               iconSize: 24,
@@ -69,7 +69,6 @@ class BottomNavBarSection extends StatelessWidget {
                   RegisterRoute().go(context);
                   return;
                 }
-                // Navigasi ke halaman forum jika index 0 (Forum)
                 if (index == 0) {
                   ForumRoute().go(context);
                 } else {
@@ -80,7 +79,7 @@ class BottomNavBarSection extends StatelessWidget {
           ),
         ),
 
-        // Tombol SOS melayang (hanya gambarnya yang besar)
+        // Tombol SOS melayang
         Positioned(
           right: -5,
           bottom: 0,
@@ -89,7 +88,7 @@ class BottomNavBarSection extends StatelessWidget {
             child: Container(
               width: 80,
               height: 80,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 shape: BoxShape.circle,
                 color: Colors.transparent,
               ),

@@ -50,6 +50,7 @@ Widget _buildTextFormField({
             controller: controller,
             maxLines: maxLines,
             keyboardType: keyboardType,
+            textCapitalization: TextCapitalization.characters,
             obscureText: obscureText,
             onChanged: onChanged,
             decoration: InputDecoration(

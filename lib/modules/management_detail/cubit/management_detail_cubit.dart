@@ -44,15 +44,16 @@ class ManagementDetailCubit extends Cubit<ManagementDetailState> {
   Future<void> updateToSecretary(String userId) async {
     try {
       emit(state.copyWith(isLoading: true, errorMessage: null));
+
       await repository.postMemberSecretary(userId);
 
-      emit(state.copyWith(
-        isLoading: false,
-      ));
+      await fetchManagementDetailMembers(userId: userId);
+
+      emit(state.copyWith(isLoading: false));
     } catch (e) {
       emit(state.copyWith(
         isLoading: false,
-        errorMessage: "Gagal memuat data: $e",
+        errorMessage: "Gagal mengubah role menjadi SECRETARY: $e",
       ));
     }
   }
@@ -60,15 +61,16 @@ class ManagementDetailCubit extends Cubit<ManagementDetailState> {
   Future<void> updateToTreasure(String userId) async {
     try {
       emit(state.copyWith(isLoading: true, errorMessage: null));
+
       await repository.postMemberTreasure(userId);
 
-      emit(state.copyWith(
-        isLoading: false,
-      ));
+      await fetchManagementDetailMembers(userId: userId);
+
+      emit(state.copyWith(isLoading: false));
     } catch (e) {
       emit(state.copyWith(
         isLoading: false,
-        errorMessage: "Gagal memuat data: $e",
+        errorMessage: "Gagal mengubah role menjadi TREASURER: $e",
       ));
     }
   }

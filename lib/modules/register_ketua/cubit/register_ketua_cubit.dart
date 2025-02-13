@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -78,6 +81,12 @@ class RegisterKetuaCubit extends Cubit<RegisterKetuaState> {
         passwordConfirm: state.passwordConfirm,
       );
 
+      final linkImage =
+          await repo.postMedia(folder: "images", media: state.fileImage!);
+      final remaplink =
+          linkImage.map((e) => {'url': e, 'type': "image"}).toList();
+
+      print("remap : ${jsonEncode(remaplink[0]['url']['url'])}");
       if (isClear) {
         await repo.registerChief(
           name: state.name,
@@ -88,6 +97,7 @@ class RegisterKetuaCubit extends Cubit<RegisterKetuaState> {
           password: state.password,
           latitude: state.latitude.toString(),
           longitude: state.longitude.toString(),
+          avatarLink: remaplink[0]['url']['url'],
         );
 
         if (context.mounted) {

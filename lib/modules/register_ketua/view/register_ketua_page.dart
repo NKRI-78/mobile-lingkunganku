@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:mobile_lingkunganku/modules/register_ketua/widget/customfield_ketua_foto.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
@@ -84,10 +85,10 @@ class RegisterKetuaView extends StatelessWidget {
                     child: Form(
                       key: _formKey,
                       child: Column(
+                        spacing: 20,
                         children: [
-                          // Add Text Field Widgets Here
+                          CustomfieldKetuaFoto(),
                           CustomTextfieldKetua(),
-                          SizedBox(height: 20),
                           SizedBox(
                             width: double.infinity,
                             child: CustomButton(

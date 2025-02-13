@@ -60,7 +60,9 @@ class MemberData {
     secertary = json['secertary'] != null
         ? Secertary.fromJson(json['secertary'])
         : null;
-    json['profile'] != null ? Profile.fromJson(json['profile']) : null;
+    profile =
+        json['profile'] != null ? Profile.fromJson(json['profile']) : null;
+
     family = json['family'] != null ? Treasurer.fromJson(json['family']) : null;
     if (json['families'] != null) {
       families = <Families>[];

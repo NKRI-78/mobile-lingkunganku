@@ -93,6 +93,7 @@ class AuthRepository {
     required String latitude,
     required String longitude,
     String name = '',
+    String avatarLink = '',
   }) async {
     try {
       final response =
@@ -105,6 +106,7 @@ class AuthRepository {
         'latitude': latitude,
         'longitude': longitude,
         'name': name,
+        'avatar_link': avatarLink,
       });
 
       final json = jsonDecode(response.body);

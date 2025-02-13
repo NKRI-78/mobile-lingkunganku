@@ -27,7 +27,8 @@ class ManagementAccesSection extends StatelessWidget {
 
             _showManagementAccesDialog(
               context,
-              (member?.secertary ?? member?.treasurer) as String?,
+              (member?.secertary?.id?.toString() ??
+                  member?.treasurer?.id?.toString()),
               member?.id.toString() ?? "",
             );
           },

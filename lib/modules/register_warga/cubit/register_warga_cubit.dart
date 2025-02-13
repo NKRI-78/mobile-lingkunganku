@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -90,7 +93,13 @@ class RegisterWargaCubit extends Cubit<RegisterWargaState> {
 
       debugPrint("Referral setelah validasi: ${state.referral}");
 
+      final linkImage =
+          await repo.postMedia(folder: "images", media: state.fileImage!);
+      final remaplink =
+          linkImage.map((e) => {'url': e, 'type': "image"}).toList();
+
       // Mencoba mendaftarkan pengguna
+      print("remap : ${jsonEncode(remaplink[0]['url']['url'])}");
       await repo.registerMember(
         name: state.name,
         email: state.email,
@@ -98,6 +107,7 @@ class RegisterWargaCubit extends Cubit<RegisterWargaState> {
         detailAddress: state.detailAddress,
         password: state.password,
         referral: state.referral,
+        avatarLink: remaplink[0]['url']['url'],
       );
 
       // Jika berhasil, langsung pindah halaman
