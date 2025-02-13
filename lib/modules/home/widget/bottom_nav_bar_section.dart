@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile_lingkunganku/router/builder.dart';
 
 import '../../../misc/colors.dart';
 import '../../app/bloc/app_bloc.dart';
-import '../widget/show_dialog_register.dart';
 
 class BottomNavBarSection extends StatelessWidget {
   final int currentIndex;
@@ -40,9 +40,9 @@ class BottomNavBarSection extends StatelessWidget {
                   icon: Icon(Icons.payments_outlined),
                   label: 'Iuran',
                 ),
-                const BottomNavigationBarItem(
-                  icon: Icon(Icons.receipt_long_outlined),
-                  label: 'Pulsa & Tagihan',
+                BottomNavigationBarItem(
+                  icon: const Icon(Icons.receipt_long_outlined),
+                  label: 'Pulsa &\nTagihan',
                 ),
                 const BottomNavigationBarItem(
                   icon: Icon(Icons.event_outlined),
@@ -56,8 +56,8 @@ class BottomNavBarSection extends StatelessWidget {
               type: BottomNavigationBarType.fixed,
               backgroundColor: Colors.transparent,
               elevation: 0,
-              selectedFontSize: 12,
-              unselectedFontSize: 12,
+              selectedFontSize: 11,
+              unselectedFontSize: 11,
               showUnselectedLabels: true,
               showSelectedLabels: true,
               iconSize: 24,
@@ -65,11 +65,13 @@ class BottomNavBarSection extends StatelessWidget {
               unselectedItemColor: AppColors.unselectColor,
               currentIndex: currentIndex,
               onTap: (index) {
-                if (index != 4) {
-                  if (!isLoggedIn) {
-                    showRegisterDialog(context);
-                    return;
-                  }
+                if (!isLoggedIn) {
+                  RegisterRoute().go(context);
+                  return;
+                }
+                if (index == 0) {
+                  ForumRoute().go(context);
+                } else {
                   onTap(index);
                 }
               },
@@ -77,7 +79,7 @@ class BottomNavBarSection extends StatelessWidget {
           ),
         ),
 
-        // Tombol SOS melayang (hanya gambarnya yang besar)
+        // Tombol SOS melayang
         Positioned(
           right: -5,
           bottom: 0,
@@ -86,7 +88,7 @@ class BottomNavBarSection extends StatelessWidget {
             child: Container(
               width: 80,
               height: 80,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 shape: BoxShape.circle,
                 color: Colors.transparent,
               ),

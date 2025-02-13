@@ -12,6 +12,7 @@ class CustomHeaderContainer extends StatelessWidget {
   final bool showText;
   final bool isLoggedIn;
   final String displayText;
+  final String avatarLink;
 
   final List<Widget> children;
 
@@ -25,6 +26,7 @@ class CustomHeaderContainer extends StatelessWidget {
     this.title,
     this.children = const [],
     required this.showText,
+    required this.avatarLink,
   });
 
   @override
@@ -79,29 +81,29 @@ class CustomHeaderContainer extends StatelessWidget {
                       icon: Icons.notifications_on_outlined,
                       onPressed: onNotificationPressed!,
                     ),
-                    Positioned(
-                      right: 6,
-                      top: 6,
-                      child: Container(
-                        padding: const EdgeInsets.all(2),
-                        decoration: const BoxDecoration(
-                          color: Colors.red,
-                          shape: BoxShape.circle,
-                        ),
-                        constraints: const BoxConstraints(
-                          minWidth: 16,
-                          minHeight: 16,
-                        ),
-                        child: const Text(
-                          '5',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 12,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ),
+                    // Positioned(
+                    //   right: 6,
+                    //   top: 6,
+                    //   child: Container(
+                    //     padding: const EdgeInsets.all(2),
+                    //     decoration: const BoxDecoration(
+                    //       color: Colors.red,
+                    //       shape: BoxShape.circle,
+                    //     ),
+                    //     constraints: const BoxConstraints(
+                    //       minWidth: 16,
+                    //       minHeight: 16,
+                    //     ),
+                    //     child: const Text(
+                    //       '5',
+                    //       style: TextStyle(
+                    //         color: Colors.white,
+                    //         fontSize: 12,
+                    //       ),
+                    //       textAlign: TextAlign.center,
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 )
               else
@@ -109,6 +111,7 @@ class CustomHeaderContainer extends StatelessWidget {
             ],
           ),
           CustomHeaderAvatar(
+            avatarLink: avatarLink,
             displayText: displayText,
             isLoggedIn: isLoggedIn,
             showText: showText,

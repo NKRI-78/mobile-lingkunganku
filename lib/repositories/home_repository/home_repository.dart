@@ -11,9 +11,10 @@ import 'models/pagination_model.dart';
 
 class HomeRepository {
   String get profile => '${MyApi.baseUrl}/api/v1/profile';
-  final http = getIt<BaseNetworkClient>();
 
   String get news => '${MyApi.baseUrl}/api/v1/news';
+
+  final http = getIt<BaseNetworkClient>();
 
   Future<DataPagination<NewsModel>> getNews({int page = 1}) async {
     try {

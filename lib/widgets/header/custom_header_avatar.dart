@@ -6,12 +6,14 @@ class CustomHeaderAvatar extends StatelessWidget {
   final bool showText;
   final bool isLoggedIn;
   final String displayText;
+  final String avatarLink;
 
   const CustomHeaderAvatar({
     super.key,
     required this.isLoggedIn,
     required this.showText,
     required this.displayText,
+    required this.avatarLink,
   });
 
   @override
@@ -22,12 +24,17 @@ class CustomHeaderAvatar extends StatelessWidget {
           radius: 50,
           backgroundColor: AppColors.textColor1,
           child: ClipOval(
-            child: isLoggedIn
-                ? Image.asset(
-                    'assets/icons/user_avatar.png',
+            child: isLoggedIn && avatarLink.isNotEmpty
+                ? Image.network(
+                    avatarLink,
                     fit: BoxFit.cover,
                     width: 100,
                     height: 100,
+                    errorBuilder: (context, error, stackTrace) => Icon(
+                      Icons.person,
+                      size: 60,
+                      color: AppColors.whiteColor,
+                    ),
                   )
                 : Icon(
                     Icons.person,
@@ -39,9 +46,9 @@ class CustomHeaderAvatar extends StatelessWidget {
         if (showText) ...[
           const SizedBox(height: 8),
           Text(
-            'Hi $displayText,',
+            'Hi, $displayText',
             textAlign: TextAlign.center,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
               color: Colors.black,

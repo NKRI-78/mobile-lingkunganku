@@ -2,12 +2,11 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../misc/colors.dart';
-import '../../../misc/text_style.dart';
-import '../../app/bloc/app_bloc.dart';
-import '../../../router/builder.dart';
-
 import '../../../misc/injections.dart';
+import '../../../misc/snackbar.dart';
 import '../../../repositories/auth_repository/auth_repository.dart';
+import '../../../router/builder.dart';
+import '../../app/bloc/app_bloc.dart';
 
 part 'login_state.dart';
 
@@ -21,38 +20,63 @@ class LoginCubit extends Cubit<LoginState> {
   }
 
   Future<void> submit(BuildContext context) async {
+    // 🔹 Validasi sebelum login
+    if (!_validateInputs(context)) return;
+
     try {
       emit(state.copyWith(loading: true));
+
       final loggedIn =
           await repo.login(email: state.email, password: state.password);
+
       if (context.mounted) {
         getIt<AppBloc>()
             .add(SetUserData(user: loggedIn.user, token: loggedIn.token));
         HomeRoute().go(context);
       }
     } on EmailNotActivatedFailure {
-      if (!context.mounted) {
-        return;
-      }
+      if (!context.mounted) return;
       RegisterOtpRoute(email: state.email).push(context);
     } catch (e) {
-      if (!context.mounted) {
-        return;
-      }
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          backgroundColor: AppColors.secondaryColor,
-          content: Text(e.toString(), style: AppTextStyles.textProfileNormal),
-        ),
+      if (!context.mounted) return;
+      ShowSnackbar.snackbar(
+        context,
+        e.toString(),
+        '',
+        AppColors.redColor,
       );
     } finally {
       emit(state.copyWith(loading: false));
     }
   }
 
+  /// 🔹 Validasi email dan password sebelum login
+  bool _validateInputs(BuildContext context) {
+    if (state.email.isEmpty) {
+      ShowSnackbar.snackbar(
+          context, "Email tidak boleh kosong", '', AppColors.redColor);
+      return false;
+    }
+    if (!RegExp(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")
+        .hasMatch(state.email)) {
+      ShowSnackbar.snackbar(
+          context, "Format email tidak valid", '', AppColors.redColor);
+      return false;
+    }
+    if (state.password.isEmpty) {
+      ShowSnackbar.snackbar(
+          context, "Password tidak boleh kosong", '', AppColors.redColor);
+      return false;
+    }
+    if (state.password.length < 8) {
+      ShowSnackbar.snackbar(
+          context, "Password harus minimal 8 karakter", '', AppColors.redColor);
+      return false;
+    }
+    return true;
+  }
+
   void togglePasswordVisibility() {
-    emit(LoginState(
-      isPasswordObscured: !state.isPasswordObscured,
-    ));
+    emit(state.copyWith(isPasswordObscured: !state.isPasswordObscured));
   }
 }

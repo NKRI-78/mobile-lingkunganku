@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';
@@ -49,18 +48,40 @@ class DrawerSection extends StatelessWidget {
                   CircleAvatar(
                     radius: 50,
                     backgroundColor: AppColors.textColor1,
-                    child: isLoggedIn
+                    child: isLoggedIn &&
+                            (getIt<HomeBloc>()
+                                        .state
+                                        .profile
+                                        ?.profile
+                                        ?.avatarLink ??
+                                    '')
+                                .isNotEmpty
                         ? ClipOval(
-                            child: Image.asset(
-                              'assets/icons/user_avatar.png',
+                            child: Image.network(
+                              getIt<HomeBloc>()
+                                      .state
+                                      .profile
+                                      ?.profile
+                                      ?.avatarLink ??
+                                  '',
                               fit: BoxFit.cover,
                               width: 100,
                               height: 100,
+                              errorBuilder: (context, error, stackTrace) =>
+                                  Icon(
+                                Icons.person,
+                                size: 60,
+                                color: AppColors.whiteColor,
+                              ),
                             ),
                           )
-                        : Icon(Icons.person,
-                            size: 60, color: AppColors.whiteColor),
+                        : Icon(
+                            Icons.person,
+                            size: 60,
+                            color: AppColors.whiteColor,
+                          ),
                   ),
+
                   const SizedBox(height: 40),
 
                   /// **Container dengan Blur Efek Hanya di Dalamnya**
@@ -130,20 +151,16 @@ class DrawerSection extends StatelessWidget {
                 ],
               ),
             ),
-            Container(
-              margin: const EdgeInsets.only(bottom: 40),
-              child: CustomButton(
-                text: isLoggedIn ? 'LogOut' : 'Close App',
-                onPressed: () {
-                  if (isLoggedIn) {
-                    showLogoutDialog(context);
-                  } else {
-                    GoRouter.of(context).pop();
-                  }
-                },
-                backgroundColor: AppColors.redColor,
-              ),
-            ),
+            isLoggedIn
+                ? Container(
+                    margin: const EdgeInsets.only(bottom: 40),
+                    child: CustomButton(
+                      text: 'LogOut',
+                      onPressed: () => showLogoutDialog(context),
+                      backgroundColor: AppColors.redColor,
+                    ),
+                  )
+                : SizedBox(),
           ],
         ),
       ),

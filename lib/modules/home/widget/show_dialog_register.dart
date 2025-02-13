@@ -27,8 +27,8 @@ void showRegisterDialog(BuildContext context) {
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  "Apakah kamu belum memiliki akun lingkungan ku?",
-                  maxLines: 2,
+                  "Yuk bagi yang belum punya akun pilih Registrasi ya, Bagi yang sudah silahkan Login",
+                  maxLines: 3,
                   textAlign: TextAlign.center,
                   style: AppTextStyles.textDialog,
                 ),
@@ -50,7 +50,7 @@ void showRegisterDialog(BuildContext context) {
                           Navigator.of(context).pop();
                         },
                         child:
-                            Text("Sudah", style: AppTextStyles.textProfileBold),
+                            Text("Login", style: AppTextStyles.textProfileBold),
                       ),
                     ),
                     SizedBox(
@@ -66,8 +66,12 @@ void showRegisterDialog(BuildContext context) {
                           RegisterRoute().go(context);
                           Navigator.of(context).pop();
                         },
-                        child:
-                            Text("Belum", style: AppTextStyles.textProfileBold),
+                        child: FittedBox(
+                          child: Text(
+                            "Registrasi",
+                            style: AppTextStyles.textProfileBold,
+                          ),
+                        ),
                       ),
                     ),
                   ],

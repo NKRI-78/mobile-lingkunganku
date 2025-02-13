@@ -14,6 +14,7 @@ class AppColors {
   static const blackColor = Color.fromARGB(255, 0, 0, 0);
   static const blackNewsColor = Color(0xFF21252A);
   static const greyColor = Color(0xff7E7E7E);
+  static const likeColor = Color(0xff1030DA);
 
   AppColors._();
 }

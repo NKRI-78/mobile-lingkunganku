@@ -82,7 +82,7 @@ class ManagementDetailView extends StatelessWidget {
             return Center(child: Text(state.errorMessage!));
           }
 
-          final member = state.memberDetail;
+          final memberManagement = state.memberDetail?.data;
 
           return SingleChildScrollView(
             padding: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
@@ -90,17 +90,19 @@ class ManagementDetailView extends StatelessWidget {
               spacing: 20,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ProfileSection(member: member),
+                ProfileSection(member: memberManagement),
                 JoinDateSection(
-                  member: member,
+                  member: memberManagement,
                 ),
                 UserInfoSection(
-                  member: member,
+                  member: memberManagement,
                 ),
                 PaymentSection(),
-                ManagementAccesSection(),
+                ManagementAccesSection(
+                  member: memberManagement,
+                ),
                 RemoveUserSection(
-                  member: member,
+                  member: memberManagement,
                 ),
               ],
             ),

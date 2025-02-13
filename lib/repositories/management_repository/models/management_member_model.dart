@@ -1,12 +1,12 @@
 class ManagementMemberModel {
-  String? message;
-  Data? data;
+  final String message;
+  final Data? data;
 
-  ManagementMemberModel({this.message, this.data});
+  ManagementMemberModel({required this.message, this.data});
 
   factory ManagementMemberModel.fromJson(Map<String, dynamic> json) {
     return ManagementMemberModel(
-      message: json['message'] as String?,
+      message: json['message'] ?? 'No message',
       data: json['data'] != null ? Data.fromJson(json['data']) : null,
     );
   }
@@ -20,45 +20,42 @@ class ManagementMemberModel {
 }
 
 class Data {
-  int? id;
-  String? name;
-  String? detailAddress;
-  double? latitude;
-  double? longitude;
-  String? referral;
-  String? createdAt;
-  List<Members>? members;
-  int? totalMember;
+  final int id;
+  final String name;
+  final String detailAddress;
+  final double latitude;
+  final double longitude;
+  final String referral;
+  final String createdAt;
+  final List<Members> members;
+  final int totalMember;
 
   Data({
-    this.id,
-    this.name,
-    this.detailAddress,
-    this.latitude,
-    this.longitude,
-    this.referral,
-    this.createdAt,
-    this.members,
-    this.totalMember,
+    required this.id,
+    required this.name,
+    required this.detailAddress,
+    required this.latitude,
+    required this.longitude,
+    required this.referral,
+    required this.createdAt,
+    required this.members,
+    required this.totalMember,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) {
     return Data(
-      id: json['id'] as int?,
-      name: json['name'] as String?,
-      detailAddress: json['detail_address'] as String?,
-      latitude: json['latitude'] != null
-          ? double.tryParse(json['latitude'].toString())
-          : null,
-      longitude: json['longitude'] != null
-          ? double.tryParse(json['longitude'].toString())
-          : null,
-      referral: json['referral'] as String?,
-      createdAt: json['created_at'] as String?,
+      id: json['id'] ?? 0,
+      name: json['name'] ?? 'Unknown',
+      detailAddress: json['detail_address'] ?? 'No address',
+      latitude: (json['latitude'] ?? 0.0).toDouble(),
+      longitude: (json['longitude'] ?? 0.0).toDouble(),
+      referral: json['referral'] ?? '',
+      createdAt: json['created_at'] ?? '',
       members: (json['members'] as List<dynamic>?)
-          ?.map((v) => Members.fromJson(v))
-          .toList(),
-      totalMember: json['total_member'] as int?,
+              ?.map((v) => Members.fromJson(v))
+              .toList() ??
+          [],
+      totalMember: json['total_member'] ?? 0,
     );
   }
 
@@ -71,47 +68,51 @@ class Data {
       'longitude': longitude,
       'referral': referral,
       'created_at': createdAt,
-      'members': members?.map((v) => v.toJson()).toList(),
+      'members': members.map((v) => v.toJson()).toList(),
       'total_member': totalMember,
     };
   }
 }
 
 class Members {
-  int? id;
-  String? email;
-  String? phone;
-  String? createdAt;
-  String? treasurer;
-  String? secretary; // Fix typo dari `secertary`
-  Profile? profile;
-  Family? family;
-  String? roleApp;
+  final int id;
+  final String email;
+  final String phone;
+  final String createdAt;
+  final Treasurer? treasurer;
+  final Secertary? secertary; // Mengubah secertary menjadi Secertary?
+  final Profile? profile;
+  final Family? family;
+  final String roleApp;
 
   Members({
-    this.id,
-    this.email,
-    this.phone,
-    this.createdAt,
+    required this.id,
+    required this.email,
+    required this.phone,
+    required this.createdAt,
     this.treasurer,
-    this.secretary,
+    this.secertary,
     this.profile,
     this.family,
-    this.roleApp,
+    required this.roleApp,
   });
 
   factory Members.fromJson(Map<String, dynamic> json) {
     return Members(
-      id: json['id'] as int?,
-      email: json['email'] as String?,
-      phone: json['phone'] as String?,
-      createdAt: json['created_at'] as String?,
-      treasurer: json['treasurer'] as String?,
-      secretary: json['secretary'] as String?,
+      id: json['id'] ?? 0,
+      email: json['email'] ?? '',
+      phone: json['phone'] ?? '',
+      createdAt: json['created_at'] ?? '',
+      treasurer: json['treasurer'] != null
+          ? Treasurer.fromJson(json['treasurer'])
+          : null,
+      secertary: json['secertary'] != null
+          ? Secertary.fromJson(json['secertary'])
+          : null,
       profile:
           json['profile'] != null ? Profile.fromJson(json['profile']) : null,
       family: json['family'] != null ? Family.fromJson(json['family']) : null,
-      roleApp: json['roleApp'] as String?,
+      roleApp: json['roleApp'] ?? 'MEMBER',
     );
   }
 
@@ -121,8 +122,8 @@ class Members {
       'email': email,
       'phone': phone,
       'created_at': createdAt,
-      'treasurer': treasurer,
-      'secretary': secretary,
+      'treasurer': treasurer?.toJson(),
+      'secertary': secertary?.toJson(),
       'profile': profile?.toJson(),
       'family': family?.toJson(),
       'roleApp': roleApp,
@@ -130,18 +131,50 @@ class Members {
   }
 }
 
-class Profile {
-  String? fullname;
-  String avatarLink; // Default menjadi string kosong jika null
-  String? detailAddress;
+class Treasurer {
+  final int id;
 
-  Profile({this.fullname, this.avatarLink = "", this.detailAddress});
+  Treasurer({required this.id});
+
+  factory Treasurer.fromJson(Map<String, dynamic> json) {
+    return Treasurer(id: json['id'] ?? 0);
+  }
+
+  Map<String, dynamic> toJson() {
+    return {'id': id};
+  }
+}
+
+class Secertary {
+  final int id;
+
+  Secertary({required this.id});
+
+  factory Secertary.fromJson(Map<String, dynamic> json) {
+    return Secertary(id: json['id'] ?? 0);
+  }
+
+  Map<String, dynamic> toJson() {
+    return {'id': id};
+  }
+}
+
+class Profile {
+  final String fullname;
+  final String avatarLink;
+  final String detailAddress;
+
+  Profile({
+    required this.fullname,
+    required this.avatarLink,
+    required this.detailAddress,
+  });
 
   factory Profile.fromJson(Map<String, dynamic> json) {
     return Profile(
-      fullname: json['fullname'] as String?,
-      avatarLink: json['avatar_link'] as String? ?? "", // Default string kosong
-      detailAddress: json['detail_address'] as String?,
+      fullname: json['fullname'] ?? 'Nama tidak tersedia',
+      avatarLink: json['avatar_link'] ?? '',
+      detailAddress: json['detail_address'] ?? 'Alamat tidak tersedia',
     );
   }
 
@@ -155,15 +188,18 @@ class Profile {
 }
 
 class Family {
-  int? id;
-  String? referral;
+  final int id;
+  final String referral;
 
-  Family({this.id, this.referral});
+  Family({
+    required this.id,
+    required this.referral,
+  });
 
   factory Family.fromJson(Map<String, dynamic> json) {
     return Family(
-      id: json['id'] as int?,
-      referral: json['referral'] as String?,
+      id: json['id'] ?? 0,
+      referral: json['referral'] ?? '',
     );
   }
 

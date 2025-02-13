@@ -46,6 +46,7 @@ class ProfielUpdateView extends StatelessWidget {
         }
       },
       builder: (context, state) {
+        final user = state.profile;
         return Scaffold(
           body: Stack(
             children: [
@@ -53,6 +54,7 @@ class ProfielUpdateView extends StatelessWidget {
               Column(
                 children: [
                   CustomHeaderContainer(
+                    avatarLink: user?.profile?.avatarLink ?? '',
                     displayText: '',
                     isLoggedIn: true,
                     showText: false,
