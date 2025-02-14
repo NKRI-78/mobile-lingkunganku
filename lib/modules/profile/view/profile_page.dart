@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';
 import '../../../misc/text_style.dart';
@@ -31,11 +32,37 @@ class ProfileView extends StatelessWidget {
 
   final String role = getIt<HomeBloc>().state.profile?.roleApp ?? '';
 
+  void _shareReferralCode(BuildContext context, String referralCodeWarga,
+      String referralCodeFamily) async {
+    const apkDownloadLink =
+        "https://drive.google.com/file/d/1R_KRK6AWNbMLGNqYRcq5F7p2GFZTBdI9/view";
+
+    final message = Uri.encodeComponent(
+        "Halo! Saya ingin mengajak Anda untuk bergabung.\n\n"
+        " Kode Referral Warga: $referralCodeWarga\n"
+        " Kode Referral Keluarga: $referralCodeFamily\n\n"
+        " Download aplikasinya di: $apkDownloadLink\n\n"
+        "Yuk, gabung sekarang!");
+
+    final Uri url = Uri.parse("https://wa.me/?text=$message");
+
+    if (!await canLaunchUrl(url)) {
+      await launchUrl(url, mode: LaunchMode.externalApplication);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Tidak dapat membuka WhatsApp")));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ProfileCubit, ProfileState>(
       builder: (context, state) {
         final saldo = state.profile?.balance ?? 0;
+        final referralCodeWarga = state.profile?.chief?.referral ?? "Tidak ada";
+        final referralCodeFamily =
+            state.profile?.family?.referral ?? "Tidak ada";
+
         return Scaffold(
           body: Stack(
             children: [
@@ -144,7 +171,11 @@ class ProfileView extends StatelessWidget {
                         children: [
                           ProfileInfoSection(),
                           if (role != "MEMBER") TransferManagementSection(),
-                          FamilyMemberSection(),
+                          if (state.families != null &&
+                              state.families!.isNotEmpty)
+                            FamilyMemberSection(
+                              families: state.families!,
+                            ),
                           if (role != "MEMBER") ReferralCodeChief(),
                           ReferralCodeFamily(),
                           Padding(
@@ -152,9 +183,10 @@ class ProfileView extends StatelessWidget {
                             child: SizedBox(
                               width: double.infinity,
                               child: CustomButton(
-                                text: 'Copy Download Link',
+                                text: 'Bagikan ke WhatsApp',
                                 onPressed: () {
-                                  // LINK APPS / LINK REFERRAL
+                                  _shareReferralCode(context, referralCodeWarga,
+                                      referralCodeFamily);
                                 },
                               ),
                             ),

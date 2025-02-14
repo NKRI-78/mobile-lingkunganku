@@ -392,12 +392,14 @@ extension $RegisterKetuaRouteExtension on RegisterKetuaRoute {
 extension $RegisterOtpRouteExtension on RegisterOtpRoute {
   static RegisterOtpRoute _fromState(GoRouterState state) => RegisterOtpRoute(
         email: state.uri.queryParameters['email']!,
+        isLogin: _$boolConverter(state.uri.queryParameters['is-login']!),
       );
 
   String get location => GoRouteData.$location(
         '/home/register/register-ketua/register-otp',
         queryParams: {
           'email': email,
+          'is-login': isLogin.toString(),
         },
       );
 
@@ -461,4 +463,15 @@ extension $ForumRouteExtension on ForumRoute {
       context.pushReplacement(location);
 
   void replace(BuildContext context) => context.replace(location);
+}
+
+bool _$boolConverter(String value) {
+  switch (value) {
+    case 'true':
+      return true;
+    case 'false':
+      return false;
+    default:
+      throw UnsupportedError('Cannot convert "$value" into a bool.');
+  }
 }

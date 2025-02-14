@@ -97,6 +97,21 @@ class Members {
     required this.roleApp,
   });
 
+  String get translateRoleApp {
+    switch (roleApp.trim().toUpperCase()) {
+      case 'CHIEF':
+        return 'Ketua';
+      case 'SECRETARY':
+        return 'Sekretaris';
+      case 'TRASURER':
+        return 'Bendahara';
+      case 'MEMBER':
+        return 'Anggota';
+      default:
+        return 'Role tidak tersedia';
+    }
+  }
+
   factory Members.fromJson(Map<String, dynamic> json) {
     return Members(
       id: json['id'] ?? 0,

@@ -1,9 +1,13 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:mobile_lingkunganku/misc/colors.dart';
 import '../../../misc/text_style.dart';
+import '../../profile/models/families_model.dart';
 
 class FamilyMemberSection extends StatelessWidget {
-  const FamilyMemberSection({super.key});
+  final List<FamiliesModel> families;
+
+  const FamilyMemberSection({super.key, required this.families});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +21,7 @@ class FamilyMemberSection extends StatelessWidget {
             width: double.infinity,
             padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.1),
+              color: Colors.black.withOpacity(0.1),
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
                 color: Colors.white,
@@ -32,89 +36,44 @@ class FamilyMemberSection extends StatelessWidget {
                   style: AppTextStyles.textProfileNormal,
                 ),
                 const SizedBox(height: 12),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: const [
-                    CircleAvatar(
-                      radius: 20,
-                      backgroundColor: Colors.blue,
-                      child: Icon(Icons.person, color: Colors.white),
-                    ),
-                    SizedBox(width: 5),
-                    CircleAvatar(
-                      radius: 20,
-                      backgroundColor: Colors.blue,
-                      child: Icon(Icons.person, color: Colors.white),
-                    ),
-                    SizedBox(width: 5),
-                    CircleAvatar(
-                      radius: 20,
-                      backgroundColor: Colors.blue,
-                      child: Icon(Icons.person, color: Colors.white),
-                    ),
-                    SizedBox(width: 5),
-                    CircleAvatar(
-                      radius: 20,
-                      backgroundColor: Colors.blue,
-                      child: Icon(Icons.person, color: Colors.white),
-                    ),
-                    SizedBox(width: 5),
-                    CircleAvatar(
-                      radius: 20,
-                      backgroundColor: Colors.blue,
-                      child: Icon(Icons.person, color: Colors.white),
-                    ),
-                  ],
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: families.map((family) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 5),
+                        child: CircleAvatar(
+                          radius: 20,
+                          backgroundColor: AppColors.secondaryColor,
+                          backgroundImage:
+                              family.profile!.profile?.avatarLink != null
+                                  ? NetworkImage(
+                                      family.profile!.profile!.avatarLink!)
+                                  : null,
+                          child: family.profile!.profile?.avatarLink == null
+                              ? const Icon(Icons.person, color: Colors.white)
+                              : null,
+                        ),
+                      );
+                    }).toList(),
+                  ),
                 ),
                 const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Flexible(
-                      child: Text(
-                        'Nan',
-                        style: AppTextStyles.textProfileNormal,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                      ),
-                    ),
-                    const SizedBox(width: 5),
-                    Flexible(
-                      child: Text(
-                        'Anton',
-                        style: AppTextStyles.textProfileNormal,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                      ),
-                    ),
-                    const SizedBox(width: 5),
-                    Flexible(
-                      child: Text(
-                        'Rangga',
-                        style: AppTextStyles.textProfileNormal,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                      ),
-                    ),
-                    const SizedBox(width: 5),
-                    Flexible(
-                      child: Text(
-                        'Udin',
-                        style: AppTextStyles.textProfileNormal,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                      ),
-                    ),
-                    const SizedBox(width: 5),
-                    Flexible(
-                      child: Text(
-                        'Abdul',
-                        style: AppTextStyles.textProfileNormal,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                      ),
-                    ),
-                  ],
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: families.map((family) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 5),
+                        child: Text(
+                          family.profile?.profile?.fullname ?? "",
+                          style: AppTextStyles.textProfileNormal,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                        ),
+                      );
+                    }).toList(),
+                  ),
                 ),
               ],
             ),

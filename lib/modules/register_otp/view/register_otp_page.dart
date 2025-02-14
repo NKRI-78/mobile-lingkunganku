@@ -10,14 +10,16 @@ import '../../../widgets/background/custom_background.dart';
 import '../cubit/register_otp_cubit.dart';
 
 class RegisterOtpPage extends StatelessWidget {
-  const RegisterOtpPage({super.key, required this.email});
+  const RegisterOtpPage(
+      {super.key, required this.email, required this.isLogin});
 
   final String email;
+  final bool isLogin;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider<RegisterOtpCubit>(
-      create: (context) => RegisterOtpCubit()..init(email),
+      create: (context) => RegisterOtpCubit(isLogin)..init(email),
       child: RegisterOtpView(),
     );
   }

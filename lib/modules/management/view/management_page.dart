@@ -7,6 +7,7 @@ import 'package:mobile_lingkunganku/repositories/management_repository/managemen
 
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
+import '../../../repositories/management_repository/models/management_detail_member_model.dart';
 import '../widget/member_tile_section.dart';
 
 class ManagementPage extends StatelessWidget {
@@ -23,7 +24,9 @@ class ManagementPage extends StatelessWidget {
 }
 
 class ManagementView extends StatefulWidget {
-  const ManagementView({super.key});
+  final MemberData? member;
+
+  const ManagementView({super.key, this.member});
 
   @override
   ManagementViewState createState() => ManagementViewState();
@@ -132,8 +135,10 @@ class ManagementViewState extends State<ManagementView> {
                                           userId: member.id.toString(),
                                           name: member.profile?.fullname ??
                                               "Nama tidak tersedia",
-                                          role: member.roleApp ??
-                                              "Role tidak tersedia",
+                                          role:
+                                              member.translateRoleApp.isNotEmpty
+                                                  ? member.translateRoleApp
+                                                  : "Role tidak tersedia",
                                           avatarUrl: member.profile?.avatarLink,
                                         );
                                       }).toList(),

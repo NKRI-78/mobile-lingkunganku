@@ -142,11 +142,16 @@ class RegisterKetuaRoute extends GoRouteData {
 
 class RegisterOtpRoute extends GoRouteData {
   final String email;
+  final bool isLogin;
 
-  RegisterOtpRoute({required this.email});
+  RegisterOtpRoute({
+    required this.email,
+    required this.isLogin,
+  });
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return RegisterOtpPage(
+      isLogin: isLogin,
       email: email,
     );
   }

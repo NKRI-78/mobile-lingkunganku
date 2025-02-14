@@ -29,25 +29,37 @@ class ProfileRepository {
   }
 
   Future<void> updateProfile({
-    String linkAvatar = '',
+    String avatarLink = '',
     String fullname = '',
     String phone = '',
   }) async {
     try {
       final response = await http.post(Uri.parse(profile), body: {
-        'avatar_link': linkAvatar,
+        'avatar_link': avatarLink,
         'fullname': fullname,
         'phone': phone,
       });
+
       final json = jsonDecode(response.body);
+
       if (response.statusCode == 200) {
         return;
-      }
-      if (response.statusCode == 400) {
-        throw json['message'] ?? "Terjadi kesalahan";
+      } else if (response.statusCode == 400) {
+        String errorMessage = json['message'] ?? "Terjadi kesalahan";
+
+        // Pastikan hanya 1 kali error untuk phone already exists
+        if (errorMessage.toLowerCase().contains("phone_user already")) {
+          throw "Nomor telepon sudah digunakan, silakan gunakan nomor lain.";
+        } else {
+          throw errorMessage;
+        }
+      } else {
+        throw "Terjadi kesalahan server (${response.statusCode})";
       }
     } on SocketException {
-      throw "Terjadi kesalahan jaringan";
+      throw "Terjadi kesalahan jaringan, periksa koneksi Anda.";
+    } catch (e) {
+      throw "Terjadi kesalahan: $e";
     }
   }
 }

@@ -33,6 +33,21 @@ class MemberData {
   List<Families>? families;
   String? roleApp;
 
+  String get translateRoleApp {
+    switch (roleApp) {
+      case 'CHIEF':
+        return 'Ketua';
+      case 'SECRETARY':
+        return 'Sekretaris';
+      case 'TRASURER':
+        return 'Bendahara';
+      case 'MEMBER':
+        return 'Anggota';
+      default:
+        return 'Role tidak tersedia';
+    }
+  }
+
   MemberData(
       {this.id,
       this.email,
@@ -176,7 +191,7 @@ class Families {
   String? email;
   String? phone;
   int? id;
-  Null? chief;
+  Null chief;
   Treasurer? treasurer;
   Secertary? secertary;
   ProfileFamily? profile;
