@@ -33,6 +33,7 @@ class RegisterWargaCubit extends Cubit<RegisterWargaState> {
 
   bool submissionValidation(
     BuildContext context, {
+    required String name,
     required String phone,
     required String email,
     required String password,
@@ -40,7 +41,11 @@ class RegisterWargaCubit extends Cubit<RegisterWargaState> {
     required String referral,
   }) {
     debugPrint("Password $password Confirm Password $passwordConfirm");
-    if (!email
+    if (name.isEmpty) {
+      ShowSnackbar.snackbar(
+          context, "Harap masukkan nama", '', AppColors.redColor);
+      return false;
+    } else if (!email
         .contains(RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$'))) {
       ShowSnackbar.snackbar(
           context, "Harap masukkan email yang tepat", '', AppColors.redColor);
@@ -74,10 +79,17 @@ class RegisterWargaCubit extends Cubit<RegisterWargaState> {
       emit(state.copyWith(isLoading: true));
 
       debugPrint("Referral sebelum validasi: ${state.referral}");
+      if (state.fileImage == null) {
+        ShowSnackbar.snackbar(
+            context, "Harap masukkan foto", '', AppColors.redColor);
+        emit(state.copyWith(isLoading: false));
+        return;
+      }
 
       // Validasi input
       final bool isClear = submissionValidation(
         context,
+        name: state.name,
         phone: state.phone,
         email: state.email,
         password: state.password,
@@ -112,7 +124,10 @@ class RegisterWargaCubit extends Cubit<RegisterWargaState> {
 
       // Jika berhasil, langsung pindah halaman
       if (context.mounted) {
-        RegisterOtpRoute(email: state.email).push(context);
+        RegisterOtpRoute(
+          email: state.email,
+          isLogin: true,
+        ).push(context);
         ShowSnackbar.snackbar(
           context,
           "Kode OTP telah dikirim, silakan cek email Anda.",

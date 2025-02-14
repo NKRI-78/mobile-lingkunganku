@@ -8,6 +8,7 @@ class ProfileUpdateState extends Equatable {
   final bool isLoading;
   final String successMessage;
   final String? errorMessage;
+  final File? fileImage;
 
   const ProfileUpdateState({
     this.profile,
@@ -17,6 +18,7 @@ class ProfileUpdateState extends Equatable {
     this.isLoading = false,
     this.successMessage = '',
     this.errorMessage,
+    this.fileImage,
   });
 
   @override
@@ -28,6 +30,7 @@ class ProfileUpdateState extends Equatable {
         isLoading,
         successMessage,
         errorMessage,
+        fileImage,
       ];
 
   ProfileUpdateState copyWith({
@@ -38,6 +41,7 @@ class ProfileUpdateState extends Equatable {
     bool? isLoading,
     String? successMessage,
     String? errorMessage,
+    ValueGetter<File?>? fileImage,
   }) {
     return ProfileUpdateState(
       profile: profile ?? this.profile,
@@ -47,6 +51,7 @@ class ProfileUpdateState extends Equatable {
       isLoading: isLoading ?? this.isLoading,
       successMessage: successMessage ?? this.successMessage,
       errorMessage: errorMessage ?? this.errorMessage,
+      fileImage: fileImage != null ? fileImage() : this.fileImage,
     );
   }
 }

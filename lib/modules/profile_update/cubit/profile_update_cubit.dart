@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';
 import '../../../misc/snackbar.dart';
+import '../../../repositories/auth_repository/auth_repository.dart';
 import '../../../repositories/profile_repository/models/profile_model.dart';
 import '../../profile/cubit/profile_cubit.dart';
 import '../../../repositories/profile_repository/profile_repository.dart';
@@ -11,9 +14,21 @@ import '../../../repositories/profile_repository/profile_repository.dart';
 part 'profile_update_state.dart';
 
 class ProfileUpdateCubit extends Cubit<ProfileUpdateState> {
-  ProfileUpdateCubit() : super(ProfileUpdateState());
+  ProfileUpdateCubit() : super(ProfileUpdateState()) {
+    _fetchProfile();
+  }
 
   final ProfileRepository profile = getIt<ProfileRepository>();
+  AuthRepository repo = getIt<AuthRepository>();
+
+  Future<void> _fetchProfile() async {
+    try {
+      final userProfile = await profile.getProfile();
+      emit(state.copyWith(profile: userProfile));
+    } catch (e) {
+      emit(state.copyWith(errorMessage: "Gagal memuat profil"));
+    }
+  }
 
   void copyState({required ProfileUpdateState newState}) {
     emit(newState);
@@ -42,12 +57,12 @@ class ProfileUpdateCubit extends Cubit<ProfileUpdateState> {
     return true;
   }
 
-  // Fungsi untuk update profile
+  // Fungsi untuk update profile (Foto tidak wajib)
   Future<void> updateProfile({
     required BuildContext context,
-    String linkAvatar = '',
-    String fullname = '',
-    String phone = '',
+    required String fullname,
+    required String phone,
+    File? avatarFile, // Foto opsional
   }) async {
     try {
       // Check validation before proceeding
@@ -57,24 +72,38 @@ class ProfileUpdateCubit extends Cubit<ProfileUpdateState> {
         return;
       }
 
+      // Ambil foto lama jika user tidak mengupload yang baru
+      String avatarUrl = state.profile?.profile?.avatarLink ?? '';
+
+      if (avatarFile != null) {
+        // Upload foto baru jika diberikan
+        final linkImage =
+            await repo.postMedia(folder: "images", media: avatarFile);
+        final remaplink =
+            linkImage.map((e) => {'url': e, 'type': "image"}).toList();
+
+        avatarUrl = remaplink[0]['url']['url'];
+      }
+
       // Set state to loading
       emit(state.copyWith(isLoading: true));
 
-      // Update profile using repository
+      // Update profile menggunakan avatar lama atau yang baru
       await profile.updateProfile(
-        linkAvatar: linkAvatar,
         fullname: fullname,
         phone: phone,
+        avatarLink: avatarUrl,
       );
 
-      // Update state to success
+      // Update state ke sukses
       emit(state.copyWith(
         isLoading: false,
         successMessage: 'Profile berhasil diperbarui',
       ));
+
       getIt<ProfileCubit>().getProfile();
     } catch (error) {
-      // Update state to error if something goes wrong
+      // Update state ke error jika ada masalah
       emit(state.copyWith(
         isLoading: false,
         errorMessage: error.toString(),

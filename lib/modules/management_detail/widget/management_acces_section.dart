@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile_lingkunganku/repositories/management_repository/models/management_detail_member_model.dart';
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
+import '../../management/cubit/management_cubit.dart';
 import '../cubit/management_detail_cubit.dart';
 
 part '_show_dialog_management_acces.dart';
@@ -31,6 +32,7 @@ class ManagementAccesSection extends StatelessWidget {
                   member?.treasurer?.id?.toString()),
               member?.id.toString() ?? "",
             );
+            context.read<ManagementCubit>().fetchManagementMembers();
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: AppColors.secondaryColor,

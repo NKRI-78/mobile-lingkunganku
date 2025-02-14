@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../../../misc/colors.dart';
 import '../../misc/text_style.dart';
 import 'custom_header_avatar.dart';
@@ -10,10 +9,10 @@ class CustomHeaderContainer extends StatelessWidget {
   final VoidCallback? onNotificationPressed;
   final String? title;
   final bool showText;
+  final bool showAvatar; // Tambahan: Bisa pilih tampil/tidak
   final bool isLoggedIn;
   final String displayText;
-  final String avatarLink;
-
+  final String? avatarLink;
   final List<Widget> children;
 
   const CustomHeaderContainer({
@@ -26,7 +25,8 @@ class CustomHeaderContainer extends StatelessWidget {
     this.title,
     this.children = const [],
     required this.showText,
-    required this.avatarLink,
+    this.avatarLink,
+    this.showAvatar = true, // Default: Avatar ditampilkan
   });
 
   @override
@@ -75,47 +75,33 @@ class CustomHeaderContainer extends StatelessWidget {
 
               // **Tombol Notifikasi di Kanan**
               if (onNotificationPressed != null)
-                Stack(
-                  children: [
-                    _buildIconButton(
-                      icon: Icons.notifications_on_outlined,
-                      onPressed: onNotificationPressed!,
-                    ),
-                    // Positioned(
-                    //   right: 6,
-                    //   top: 6,
-                    //   child: Container(
-                    //     padding: const EdgeInsets.all(2),
-                    //     decoration: const BoxDecoration(
-                    //       color: Colors.red,
-                    //       shape: BoxShape.circle,
-                    //     ),
-                    //     constraints: const BoxConstraints(
-                    //       minWidth: 16,
-                    //       minHeight: 16,
-                    //     ),
-                    //     child: const Text(
-                    //       '5',
-                    //       style: TextStyle(
-                    //         color: Colors.white,
-                    //         fontSize: 12,
-                    //       ),
-                    //       textAlign: TextAlign.center,
-                    //     ),
-                    //   ),
-                    // ),
-                  ],
+                _buildIconButton(
+                  icon: Icons.notifications_on_outlined,
+                  onPressed: onNotificationPressed!,
                 )
               else
                 const SizedBox(width: 48),
             ],
           ),
-          CustomHeaderAvatar(
-            avatarLink: avatarLink,
-            displayText: displayText,
-            isLoggedIn: isLoggedIn,
-            showText: showText,
-          ),
+
+          // **Menampilkan Avatar hanya jika `showAvatar` == true**
+          if (showAvatar)
+            CustomHeaderAvatar(
+              avatarLink: avatarLink,
+              displayText: displayText,
+              isLoggedIn: isLoggedIn,
+              showText: showText,
+            )
+          else if (showText) // Jika avatar tidak tampil, tapi text tetap ada
+            Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: Text(
+                'Hi, $displayText',
+                style: AppTextStyles.textRegister2,
+                textAlign: TextAlign.center,
+              ),
+            ),
+
           const SizedBox(height: 10),
           ...children,
         ],

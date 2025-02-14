@@ -20,8 +20,12 @@ class LoggedIn {
 
 class EmailNotActivatedFailure implements Exception {
   final String message;
+  EmailNotActivatedFailure({this.message = 'Akun belum diverifikasi.'});
+}
 
-  EmailNotActivatedFailure({this.message = 'Terjadi kesalahan'});
+class EmailNotFoundFailure implements Exception {
+  final String message;
+  EmailNotFoundFailure({this.message = 'Email tidak ditemukan.'});
 }
 
 enum VerifyEmailType { sendingOtp, verified }
@@ -66,8 +70,17 @@ class AuthRepository {
       });
 
       debugPrint(res.body);
-      final Map<String, dynamic> json = jsonDecode(res.body);
+      final json = jsonDecode(res.body);
+
       if (res.statusCode == 200) {
+        if (json['data']['deleted_at'] != null) {
+          throw "Akun telah dihapus";
+        }
+
+        if (json["data"] != null && json["data"]['email_verified'] == null) {
+          throw EmailNotActivatedFailure(
+              message: json['message'] ?? "Terjadi kesalahan");
+        }
         return LoggedIn(
           user: User.fromJson(
             json['data'],

@@ -32,7 +32,7 @@ class ProfileInfoSection extends StatelessWidget {
                 width: double.infinity,
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.1),
+                  color: Colors.black.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(color: AppColors.whiteColor, width: 1),
                 ),
@@ -47,8 +47,8 @@ class ProfileInfoSection extends StatelessWidget {
                           style: AppTextStyles.textProfileNormal,
                         ),
                         Container(
-                          height: 40,
-                          width: 40,
+                          height: 35,
+                          width: 35,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),
                             color: AppColors.secondaryColor,
@@ -57,7 +57,7 @@ class ProfileInfoSection extends StatelessWidget {
                             icon: const Icon(
                               Icons.edit_outlined,
                               color: AppColors.whiteColor,
-                              size: 20,
+                              size: 18,
                             ),
                             onPressed: () {
                               ProfileUpdateRoute().go(context);
@@ -77,6 +77,8 @@ class ProfileInfoSection extends StatelessWidget {
                       "Email",
                       style: AppTextStyles.textProfileNormal,
                     ),
+                    SizedBox(height: 5),
+
                     Text(
                       user.email ?? 'Tidak tersedia',
                       style: AppTextStyles.textProfileBold,
@@ -85,9 +87,10 @@ class ProfileInfoSection extends StatelessWidget {
 
                     /// **Baris Nomor Tlp & Tombol Edit**
                     Text(
-                      "Nomor Tlp",
+                      "Nomor Telepon",
                       style: AppTextStyles.textProfileNormal,
                     ),
+                    SizedBox(height: 5),
                     Text(
                       user.phone ?? 'Tidak tersedia',
                       style: AppTextStyles.textProfileBold,

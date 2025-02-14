@@ -10,13 +10,16 @@ import '../../app/bloc/app_bloc.dart';
 part 'register_otp_state.dart';
 
 class RegisterOtpCubit extends Cubit<RegisterOtpState> {
-  RegisterOtpCubit() : super(RegisterOtpState());
+  RegisterOtpCubit(this.isLogin) : super(RegisterOtpState());
+
+  final bool isLogin;
 
   AuthRepository repo = getIt<AuthRepository>();
 
   void init(String email) async {
     emit(state.copyWith(email: email));
-    await repo.resendOtp(state.email);
+    repo.verifyOtp(email, '', VerifyEmailType.sendingOtp);
+    repo.resendOtp(state.email);
   }
 
   Future<void> submit(String verificationCode, BuildContext context) async {
@@ -24,7 +27,12 @@ class RegisterOtpCubit extends Cubit<RegisterOtpState> {
       emit(state.copyWith(loading: true));
       final loggedIn = await repo.verifyOtp(
           state.email, verificationCode, VerifyEmailType.verified);
+
       if (context.mounted) {
+        getIt<AppBloc>()
+            .add(SetUserData(user: loggedIn!.user, token: loggedIn.token));
+
+        // Tampilkan Snackbar sebelum navigasi
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             backgroundColor: AppColors.textColor1,
@@ -32,11 +40,12 @@ class RegisterOtpCubit extends Cubit<RegisterOtpState> {
               'Verify berhasil, selamat datang di Lingkunganku.',
               style: TextStyle(color: Colors.white),
             ),
+            duration: Duration(milliseconds: 1500),
           ),
         );
-        getIt<AppBloc>().add(
-          SetUserData(user: loggedIn!.user, token: loggedIn.token),
-        );
+
+        // // Tunggu Snackbar sebelum pindah halaman
+        // await Future.delayed(const Duration(milliseconds: 1700));
 
         HomeRoute().go(context);
       }

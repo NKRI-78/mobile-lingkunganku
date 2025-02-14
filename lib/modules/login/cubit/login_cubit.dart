@@ -20,7 +20,6 @@ class LoginCubit extends Cubit<LoginState> {
   }
 
   Future<void> submit(BuildContext context) async {
-    // 🔹 Validasi sebelum login
     if (!_validateInputs(context)) return;
 
     try {
@@ -33,10 +32,17 @@ class LoginCubit extends Cubit<LoginState> {
         getIt<AppBloc>()
             .add(SetUserData(user: loggedIn.user, token: loggedIn.token));
         HomeRoute().go(context);
+        ShowSnackbar.snackbar(context, 'Selamat datang di Lingkunganku', '',
+            AppColors.secondaryColor);
       }
     } on EmailNotActivatedFailure {
-      if (!context.mounted) return;
-      RegisterOtpRoute(email: state.email).push(context);
+      if (!context.mounted) {
+        return;
+      }
+      RegisterOtpRoute(
+        email: state.email,
+        isLogin: true,
+      ).push(context);
     } catch (e) {
       if (!context.mounted) return;
       ShowSnackbar.snackbar(

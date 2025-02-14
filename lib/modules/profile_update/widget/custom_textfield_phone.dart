@@ -14,8 +14,9 @@ class CustomTextfieldPhone extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ProfileUpdateCubit, ProfileUpdateState>(
       builder: (context, state) {
+        // final user = state.profile;
         return _buildTextFormField(
-          label: 'Phone',
+          label: 'Nomor Telepon',
           onChanged: (value) {
             var cubit = context.read<ProfileUpdateCubit>();
             cubit.copyState(newState: cubit.state.copyWith(phone: value));
@@ -42,7 +43,7 @@ Widget _buildTextFormField({
         filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.1),
+            color: Colors.black.withOpacity(0.1),
             borderRadius: BorderRadius.circular(12),
             border: Border.all(color: AppColors.whiteColor),
           ),

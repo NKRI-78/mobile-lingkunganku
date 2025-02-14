@@ -29,8 +29,22 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
   const HomeView({super.key});
+
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(const Duration(milliseconds: 200), () {
+      debugPrint("Fetching initial data...");
+      context.read<HomeBloc>().add(HomeInit());
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +70,6 @@ class HomeView extends StatelessWidget {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             const SizedBox(height: 300),
-
                             // Carousel Slider
                             CarouselSlider(
                               options: CarouselOptions(
@@ -81,7 +94,6 @@ class HomeView extends StatelessWidget {
                                 );
                               }).toList(),
                             ),
-
                             // Title Section
                             Padding(
                               padding:
@@ -102,14 +114,16 @@ class HomeView extends StatelessWidget {
                               ),
                             ),
 
-                            // Kondisi: Loading, Kosong, atau Menampilkan News
+                            // Loading, Empty, or Showing News
                             if (state.isLoading)
                               const Center(child: CircularProgressIndicator())
                             else if (state.news.isEmpty)
                               const Center(
+                                heightFactor: 5,
                                 child: Text(
-                                  "No news available",
-                                  style: TextStyle(color: AppColors.textColor),
+                                  "No News Available",
+                                  style: TextStyle(
+                                      color: AppColors.blackNewsColor),
                                 ),
                               )
                             else

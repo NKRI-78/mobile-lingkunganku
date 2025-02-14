@@ -103,11 +103,12 @@ class BaseNetworkClient extends http.BaseClient {
   }
 
   Response _checkError(Response response) {
-    final int statusCode = response.statusCode;
+    // final int statusCode = response.statusCode;
 
-    if (statusCode < 200 || statusCode > 400) {
-      throw response;
-    }
+    // if (statusCode < 200 || statusCode >= 400) {
+    //   // ✅ Perbaikan batas error
+    //   throw Exception("HTTP Error: ${response.statusCode}, ${response.body}");
+    // }
     return response;
   }
 }

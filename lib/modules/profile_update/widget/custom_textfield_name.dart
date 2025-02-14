@@ -42,7 +42,7 @@ Widget _buildTextFormField({
         filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
         child: Container(
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.1),
+            color: Colors.black.withOpacity(0.1),
             borderRadius: BorderRadius.circular(12),
             border: Border.all(color: AppColors.whiteColor),
           ),

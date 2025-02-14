@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
-
 import '../../../misc/colors.dart';
 
 class CustomHeaderAvatar extends StatelessWidget {
   final bool showText;
   final bool isLoggedIn;
   final String displayText;
-  final String avatarLink;
+  final String? avatarLink;
 
   const CustomHeaderAvatar({
     super.key,
     required this.isLoggedIn,
     required this.showText,
     required this.displayText,
-    required this.avatarLink,
+    this.avatarLink, // Dibuat opsional
   });
 
   @override
@@ -24,23 +23,7 @@ class CustomHeaderAvatar extends StatelessWidget {
           radius: 50,
           backgroundColor: AppColors.textColor1,
           child: ClipOval(
-            child: isLoggedIn && avatarLink.isNotEmpty
-                ? Image.network(
-                    avatarLink,
-                    fit: BoxFit.cover,
-                    width: 100,
-                    height: 100,
-                    errorBuilder: (context, error, stackTrace) => Icon(
-                      Icons.person,
-                      size: 60,
-                      color: AppColors.whiteColor,
-                    ),
-                  )
-                : Icon(
-                    Icons.person,
-                    size: 60,
-                    color: AppColors.whiteColor,
-                  ),
+            child: _buildAvatar(),
           ),
         ),
         if (showText) ...[
@@ -56,6 +39,35 @@ class CustomHeaderAvatar extends StatelessWidget {
           ),
         ]
       ],
+    );
+  }
+
+  Widget _buildAvatar() {
+    if (isLoggedIn && avatarLink != null && avatarLink!.isNotEmpty) {
+      return Image.network(
+        avatarLink!,
+        fit: BoxFit.cover,
+        width: 100,
+        height: 100,
+        errorBuilder: (context, error, stackTrace) => _defaultAvatar(),
+      );
+    }
+    return _defaultAvatar();
+  }
+
+  Widget _defaultAvatar() {
+    return Container(
+      width: 100,
+      height: 100,
+      decoration: BoxDecoration(
+        color: AppColors.textColor1,
+        shape: BoxShape.circle,
+      ),
+      child: const Icon(
+        Icons.person,
+        size: 60,
+        color: Colors.white,
+      ),
     );
   }
 }

@@ -45,7 +45,7 @@ class ProfileSection extends StatelessWidget {
             ),
           ),
           Text(
-            member?.roleApp ?? 'Role tidak tersedia',
+            member?.translateRoleApp ?? 'Role tidak tersedia',
             style: AppTextStyles.textWelcome,
             textAlign: TextAlign.center,
           ),

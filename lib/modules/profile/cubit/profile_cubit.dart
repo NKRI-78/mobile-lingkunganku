@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile_lingkunganku/modules/profile/models/families_model.dart';
 import '../../../misc/injections.dart';
 import '../../home/bloc/home_bloc.dart';
 import '../../../repositories/profile_repository/models/profile_model.dart';
@@ -15,12 +16,16 @@ class ProfileCubit extends Cubit<ProfileState> {
   Future<void> getProfile() async {
     try {
       emit(state.copyWith(isLoading: true));
+
       final profile = await repo.getProfile();
+      print("Families Data: ${profile.families}");
+
       emit(state.copyWith(
         profile: profile,
+        families: profile.families,
       ));
     } catch (e) {
-      rethrow;
+      emit(state.copyWith(errorMessage: "Gagal memuat profil: $e"));
     } finally {
       emit(state.copyWith(isLoading: false));
     }

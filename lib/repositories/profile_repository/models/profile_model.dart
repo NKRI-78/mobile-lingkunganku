@@ -1,3 +1,5 @@
+import '../../../modules/profile/models/families_model.dart';
+
 class ProfileModel {
   int? id;
   String? username;
@@ -20,6 +22,7 @@ class ProfileModel {
   Profile? profile;
   Family? family;
   String? roleApp;
+  final List<FamiliesModel> families;
 
   ProfileModel({
     this.id,
@@ -43,6 +46,7 @@ class ProfileModel {
     this.profile,
     this.family,
     this.roleApp,
+    required this.families,
   });
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) {
@@ -75,6 +79,11 @@ class ProfileModel {
           json['profile'] != null ? Profile.fromJson(json['profile']) : null,
       family: json['family'] != null ? Family.fromJson(json['family']) : null,
       roleApp: json['roleApp'],
+      families:
+          (json['families'] as List?) // ✅ Pastikan parsing list dengan benar
+                  ?.map((item) => FamiliesModel.fromJson(item))
+                  .toList() ??
+              [],
     );
   }
 
