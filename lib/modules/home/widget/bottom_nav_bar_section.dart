@@ -60,7 +60,7 @@ class BottomNavBarSection extends StatelessWidget {
               unselectedFontSize: 11,
               showUnselectedLabels: true,
               showSelectedLabels: true,
-              iconSize: 24,
+              iconSize: 22,
               selectedItemColor: AppColors.unselectColor,
               unselectedItemColor: AppColors.unselectColor,
               currentIndex: currentIndex,

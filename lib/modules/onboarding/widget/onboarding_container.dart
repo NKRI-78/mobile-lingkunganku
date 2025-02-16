@@ -22,13 +22,12 @@ class OnboardingContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Mendapatkan lebar dan tinggi layar perangkat
     double screenHeight = MediaQuery.of(context).size.height;
-    double screenWidth = MediaQuery.of(context).size.width;
+    // double screenWidth = MediaQuery.of(context).size.width;
 
     // Menentukan tinggi kontainer agar responsif
-    double containerHeight = screenHeight * 0.4; // 35% dari tinggi layar
-    double containerWidth = screenWidth * 0.9; // 90% dari lebar layar
+    double containerHeight = screenHeight * 0.4;
+    // double containerWidth = screenWidth * 0.9;
 
     return SizedBox(
       height: containerHeight,
@@ -62,12 +61,13 @@ class OnboardingContainer extends StatelessWidget {
                     ),
                   ),
                 ),
+                SizedBox(height: 10),
               ],
             ),
             Align(
               alignment: Alignment.bottomCenter,
               child: Padding(
-                padding: const EdgeInsets.only(bottom: 20),
+                padding: const EdgeInsets.only(bottom: 10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: List.generate(

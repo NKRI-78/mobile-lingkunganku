@@ -106,7 +106,7 @@ class Members {
       case 'TRASURER':
         return 'Bendahara';
       case 'MEMBER':
-        return 'Anggota';
+        return 'Warga';
       default:
         return 'Role tidak tersedia';
     }

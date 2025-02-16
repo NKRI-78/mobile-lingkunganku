@@ -116,12 +116,15 @@ class _HomeViewState extends State<HomeView> {
 
                             // Loading, Empty, or Showing News
                             if (state.isLoading)
-                              const Center(child: CircularProgressIndicator())
+                              const Center(
+                                  child: CircularProgressIndicator(
+                                color: AppColors.secondaryColor,
+                              ))
                             else if (state.news.isEmpty)
                               const Center(
                                 heightFactor: 5,
                                 child: Text(
-                                  "No News Available",
+                                  "No News Available..",
                                   style: TextStyle(
                                       color: AppColors.blackNewsColor),
                                 ),

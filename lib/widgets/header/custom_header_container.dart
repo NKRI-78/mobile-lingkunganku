@@ -9,7 +9,7 @@ class CustomHeaderContainer extends StatelessWidget {
   final VoidCallback? onNotificationPressed;
   final String? title;
   final bool showText;
-  final bool showAvatar; // Tambahan: Bisa pilih tampil/tidak
+  final bool showAvatar;
   final bool isLoggedIn;
   final String displayText;
   final String? avatarLink;
@@ -26,7 +26,7 @@ class CustomHeaderContainer extends StatelessWidget {
     this.children = const [],
     required this.showText,
     this.avatarLink,
-    this.showAvatar = true, // Default: Avatar ditampilkan
+    this.showAvatar = true,
   });
 
   @override
@@ -113,6 +113,8 @@ class CustomHeaderContainer extends StatelessWidget {
   Widget _buildIconButton(
       {required IconData icon, required VoidCallback onPressed}) {
     return Container(
+      width: 40,
+      height: 40,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
@@ -126,7 +128,7 @@ class CustomHeaderContainer extends StatelessWidget {
       ),
       child: IconButton(
         icon:
-            Icon(icon, color: AppColors.blackColor.withOpacity(0.7), size: 32),
+            Icon(icon, color: AppColors.blackColor.withOpacity(0.7), size: 24),
         onPressed: onPressed,
       ),
     );

@@ -39,9 +39,9 @@ class ProfileView extends StatelessWidget {
 
     final message = Uri.encodeComponent(
         "Halo! Saya ingin mengajak Anda untuk bergabung.\n\n"
-        " Kode Referral Warga: $referralCodeWarga\n"
-        " Kode Referral Keluarga: $referralCodeFamily\n\n"
-        " Download aplikasinya di: $apkDownloadLink\n\n"
+        "Kode Referral Warga: $referralCodeWarga\n"
+        "Kode Referral Keluarga: $referralCodeFamily\n\n"
+        "Download aplikasinya di: $apkDownloadLink\n\n"
         "Yuk, gabung sekarang!");
 
     final Uri url = Uri.parse("https://wa.me/?text=$message");

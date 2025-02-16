@@ -18,7 +18,9 @@ class ProfileInfoSection extends StatelessWidget {
 
         if (user == null) {
           return const Center(
-            child: CircularProgressIndicator(),
+            child: CircularProgressIndicator(
+              color: AppColors.secondaryColor,
+            ),
           );
         }
 

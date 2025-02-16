@@ -36,6 +36,7 @@ class FamilyMemberSection extends StatelessWidget {
                   style: AppTextStyles.textProfileNormal,
                 ),
                 const SizedBox(height: 12),
+                // Avatar List (Tetap menggunakan SingleChildScrollView untuk horizontal scrolling)
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
@@ -46,11 +47,11 @@ class FamilyMemberSection extends StatelessWidget {
                           radius: 20,
                           backgroundColor: AppColors.secondaryColor,
                           backgroundImage:
-                              family.profile!.profile?.avatarLink != null
+                              family.profile?.profile?.avatarLink != null
                                   ? NetworkImage(
                                       family.profile!.profile!.avatarLink!)
                                   : null,
-                          child: family.profile!.profile?.avatarLink == null
+                          child: family.profile?.profile?.avatarLink == null
                               ? const Icon(Icons.person, color: Colors.white)
                               : null,
                         ),
@@ -59,21 +60,26 @@ class FamilyMemberSection extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 10),
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: families.map((family) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 5),
-                        child: Text(
-                          family.profile?.profile?.fullname ?? "",
-                          style: AppTextStyles.textProfileNormal,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                        ),
-                      );
-                    }).toList(),
-                  ),
+
+                // Wrap digunakan untuk menampilkan teks agar tidak overflow
+                Wrap(
+                  alignment: WrapAlignment.start,
+                  spacing: 10,
+                  runSpacing: 2,
+                  children: families.map((family) {
+                    return ConstrainedBox(
+                      constraints: const BoxConstraints(
+                        maxWidth: 100,
+                      ),
+                      child: Text(
+                        family.username,
+                        style: AppTextStyles.textProfileNormal,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        textAlign: TextAlign.justify,
+                      ),
+                    );
+                  }).toList(),
                 ),
               ],
             ),

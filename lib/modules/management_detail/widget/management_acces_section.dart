@@ -32,7 +32,13 @@ class ManagementAccesSection extends StatelessWidget {
                   member?.treasurer?.id?.toString()),
               member?.id.toString() ?? "",
             );
-            context.read<ManagementCubit>().fetchManagementMembers();
+
+            // Pastikan ManagementCubit dipanggil hanya jika sudah ada dalam tree
+            try {
+              context.read<ManagementCubit>().fetchManagementMembers();
+            } catch (e) {
+              print("Error: ManagementCubit tidak ditemukan dalam context.");
+            }
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: AppColors.secondaryColor,

@@ -1,3 +1,5 @@
+import '../../home_repository/models/home_model.dart';
+
 class ManagementDetailMemberModel {
   String? message;
   MemberData? data;
@@ -42,7 +44,7 @@ class MemberData {
       case 'TRASURER':
         return 'Bendahara';
       case 'MEMBER':
-        return 'Anggota';
+        return 'Warga';
       default:
         return 'Role tidak tersedia';
     }
@@ -191,7 +193,7 @@ class Families {
   String? email;
   String? phone;
   int? id;
-  Null chief;
+  Chief? chief;
   Treasurer? treasurer;
   Secertary? secertary;
   ProfileFamily? profile;
@@ -211,7 +213,7 @@ class Families {
     email = json['email'];
     phone = json['phone'];
     id = json['id'];
-    chief = json['chief'];
+    chief = json['chief'] != null ? Chief.fromJson(json['chief']) : null;
     treasurer = json['treasurer'];
     secertary = json['secertary'];
     profile = json['profile'] != null
@@ -225,7 +227,9 @@ class Families {
     data['email'] = email;
     data['phone'] = phone;
     data['id'] = id;
-    data['chief'] = chief;
+    if (chief != null) {
+      data['chief'] = chief!.toJson();
+    }
     data['treasurer'] = treasurer;
     data['secertary'] = secertary;
     if (profile != null) {

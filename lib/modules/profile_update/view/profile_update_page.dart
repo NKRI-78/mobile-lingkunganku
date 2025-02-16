@@ -1,7 +1,9 @@
 import 'dart:io';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:mobile_lingkunganku/misc/theme.dart';
 import '../../../misc/colors.dart';
 import '../cubit/profile_update_cubit.dart';
 import '../widget/custom_textfield_name.dart';
@@ -76,12 +78,22 @@ class ProfielUpdateView extends StatelessWidget {
                                     height: 100,
                                     fit: BoxFit.cover,
                                   )
-                                : Image.network(
-                                    user?.profile?.avatarLink ??
-                                        'https://via.placeholder.com/100',
+                                : CachedNetworkImage(
+                                    imageUrl: user?.profile?.avatarLink ?? '',
                                     width: 100,
                                     height: 100,
                                     fit: BoxFit.cover,
+                                    placeholder: (context, url) =>
+                                        CircularProgressIndicator(
+                                      color: AppColors.secondaryColor,
+                                    ),
+                                    errorWidget: (context, url, error) =>
+                                        Image.asset(
+                                      avatarDefault,
+                                      width: 100,
+                                      height: 100,
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                           ),
                           GestureDetector(
