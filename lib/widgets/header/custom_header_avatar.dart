@@ -12,7 +12,7 @@ class CustomHeaderAvatar extends StatelessWidget {
     required this.isLoggedIn,
     required this.showText,
     required this.displayText,
-    this.avatarLink, // Dibuat opsional
+    this.avatarLink,
   });
 
   @override

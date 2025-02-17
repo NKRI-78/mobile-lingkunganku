@@ -37,7 +37,7 @@ class OnboardingPageView extends StatelessWidget {
             children: [
               Image.asset(
                 'assets/icons/lingkunganku.png',
-                height: 200,
+                height: 150,
               ),
               Image.asset(
                 image,

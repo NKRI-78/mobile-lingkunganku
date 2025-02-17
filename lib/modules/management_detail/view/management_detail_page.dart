@@ -75,7 +75,10 @@ class ManagementDetailView extends StatelessWidget {
       body: BlocBuilder<ManagementDetailCubit, ManagementDetailState>(
         builder: (context, state) {
           if (state.isLoading) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(
+                child: CircularProgressIndicator(
+              color: AppColors.secondaryColor,
+            ));
           }
 
           if (state.errorMessage != null) {
@@ -101,8 +104,11 @@ class ManagementDetailView extends StatelessWidget {
                 ManagementAccesSection(
                   member: memberManagement,
                 ),
-                RemoveUserSection(
-                  member: memberManagement,
+                BlocProvider.value(
+                  value: context.read<ManagementDetailCubit>(),
+                  child: RemoveUserSection(
+                    member: memberManagement,
+                  ),
                 ),
               ],
             ),

@@ -74,4 +74,19 @@ class ManagementDetailCubit extends Cubit<ManagementDetailState> {
       ));
     }
   }
+
+  Future<void> removeMember(String userId) async {
+    try {
+      emit(state.copyWith(isLoading: true, errorMessage: null));
+
+      await repository.removeMember(userId);
+      await fetchManagementDetailMembers(userId: userId);
+      emit(state.copyWith(isLoading: false));
+    } catch (e) {
+      emit(state.copyWith(
+        isLoading: false,
+        errorMessage: "Terjadi kesalahan saat menghapus anggota: $e",
+      ));
+    }
+  }
 }

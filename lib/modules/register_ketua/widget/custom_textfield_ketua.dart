@@ -189,6 +189,11 @@ Widget _buildTextFormField({
             maxLines: maxLines,
             keyboardType: keyboardType,
             obscureText: obscureText,
+            textCapitalization: (label == 'Nama Lengkap' ||
+                    label == 'Nama Lingkungan / Komplek' ||
+                    label == 'Detail Alamat')
+                ? TextCapitalization.words
+                : TextCapitalization.none,
             onChanged: onChanged,
             decoration: InputDecoration(
               labelText: label,

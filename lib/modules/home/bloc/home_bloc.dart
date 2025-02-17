@@ -1,5 +1,8 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:permission_handler/permission_handler.dart';
 import '../../../repositories/profile_repository/models/profile_model.dart';
 import '../../../repositories/profile_repository/profile_repository.dart';
 import '../../../misc/injections.dart';
@@ -22,7 +25,32 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       : super(const HomeState(selectedIndex: 0)) {
     on<HomeInit>((event, emit) async {
       await fetchNews(emit, isRefresh: true);
-      determinePosition();
+      if (event.context != null) {
+        try {
+          // Periksa status izin lokasi
+          var status = await Permission.location.status;
+          if (status.isDenied) {
+            // Jika izin ditolak, coba meminta izin kembali
+            await Permission.location.request();
+            status = await Permission
+                .location.status; // Periksa status setelah permintaan izin
+          }
+          await Permission.location.request();
+
+          if (status.isGranted) {
+            // Jika izin diberikan, ambil posisi pengguna
+            Position position = await determinePosition(event.context!);
+            print('Position: $position');
+          } else {
+            print('Permission denied: Unable to access location');
+            // Tampilkan dialog atau beri tahu pengguna bahwa izin lokasi diperlukan
+
+            showPermissionDialog(event.context!);
+          }
+        } catch (e) {
+          print('Failed to get position: $e');
+        }
+      }
       await getProfile(emit);
       add(LoadProfile());
     });

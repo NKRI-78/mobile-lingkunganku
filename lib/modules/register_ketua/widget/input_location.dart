@@ -45,7 +45,9 @@ class InputLocation extends StatelessWidget {
               markers: Set.from(markers),
               onMapCreated: (GoogleMapController controller) {
                 mapsController.complete(controller);
-                context.read<RegisterKetuaCubit>().setAreaCurrent(controller);
+                context
+                    .read<RegisterKetuaCubit>()
+                    .setAreaCurrent(controller, context);
                 RegisterKetuaCubit.googleMapCheckIn = controller;
               },
             ),

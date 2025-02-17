@@ -18,33 +18,38 @@ class OnboardingButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 0),
-      child: Align(
-        alignment: Alignment.center,
-        child: ElevatedButton(
-          onPressed: currentIndex < totalSteps - 1 ? onNext : onFinish,
-          style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.buttonColor1,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        double buttonWidth = constraints.maxWidth * 0.8;
+        return Container(
+          margin: const EdgeInsets.only(bottom: 0),
+          child: Align(
+            alignment: Alignment.center,
+            child: ElevatedButton(
+              onPressed: currentIndex < totalSteps - 1 ? onNext : onFinish,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.buttonColor1,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 15,
+                ),
+                minimumSize: Size(buttonWidth, 50),
+              ),
+              child: Text(
+                currentIndex == totalSteps - 1 ? 'HOME' : 'SELANJUTNYA',
+                style: const TextStyle(
+                  fontSize: 16,
+                  color: AppColors.whiteColor,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Inter',
+                ),
+              ),
             ),
-            padding: const EdgeInsets.symmetric(
-              vertical: 15,
-            ),
-            minimumSize: const Size(300, 50),
           ),
-          child: Text(
-            currentIndex == totalSteps - 1 ? 'HOME' : 'SELANJUTNYA',
-            style: const TextStyle(
-              fontSize: 16,
-              color: AppColors.whiteColor,
-              fontWeight: FontWeight.bold,
-              fontFamily: 'Inter',
-            ),
-          ),
-        ),
-      ),
+        );
+      },
     );
   }
 }

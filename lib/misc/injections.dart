@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:mobile_lingkunganku/modules/forum/cubit/forum_cubit.dart';
 import 'package:mobile_lingkunganku/modules/management/cubit/management_cubit.dart';
+import 'package:mobile_lingkunganku/modules/management_detail/cubit/management_detail_cubit.dart';
 import 'package:mobile_lingkunganku/repositories/management_repository/management_repository.dart';
 import '../modules/home/bloc/home_bloc.dart';
 import '../modules/profile/cubit/profile_cubit.dart';
@@ -34,19 +35,18 @@ class MyInjection {
     getIt.registerLazySingleton<ProfileUpdateCubit>(() => ProfileUpdateCubit());
     getIt.registerLazySingleton<DetailNewsCubit>(() => DetailNewsCubit());
     getIt.registerLazySingleton<ManagementCubit>(
-      () => ManagementCubit(
-        getIt<ManagementRepository>(),
-      ),
-    );
+        () => ManagementCubit(getIt<ManagementRepository>()));
     getIt.registerLazySingleton<ForumCubit>(() => ForumCubit());
+    getIt.registerLazySingleton<ManagementDetailCubit>(
+      () => ManagementDetailCubit(getIt<ManagementRepository>()),
+    );
 
     getIt.registerLazySingleton<AuthRepository>(() => AuthRepository());
     getIt.registerLazySingleton<ProfileRepository>(() => ProfileRepository());
     getIt.registerLazySingleton<HomeRepository>(() => HomeRepository());
     getIt.registerLazySingleton<NewsRepository>(() => NewsRepository());
     getIt.registerLazySingleton<ManagementRepository>(
-      () => ManagementRepository(),
-    );
+        () => ManagementRepository());
     getIt.registerLazySingleton<ForumRepository>(() => ForumRepository());
   }
 }

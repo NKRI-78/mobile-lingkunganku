@@ -9,7 +9,7 @@ final List<Map<String, dynamic>> onboardingContent = [
         text: 'Pembayaran ',
         style: TextStyle(
             color: AppColors.textColor1,
-            fontSize: 40,
+            fontSize: 32,
             fontWeight: FontWeight.bold,
             fontFamily: 'Inter'),
       ),
@@ -17,7 +17,7 @@ final List<Map<String, dynamic>> onboardingContent = [
         text: 'Iuran',
         style: TextStyle(
             color: AppColors.textColor2,
-            fontSize: 40,
+            fontSize: 32,
             fontWeight: FontWeight.bold,
             fontFamily: 'Inter'),
       ),
@@ -32,7 +32,7 @@ final List<Map<String, dynamic>> onboardingContent = [
         text: 'Fitur ',
         style: TextStyle(
             color: AppColors.textColor1,
-            fontSize: 40,
+            fontSize: 32,
             fontWeight: FontWeight.bold,
             fontFamily: 'Inter'),
       ),
@@ -40,7 +40,7 @@ final List<Map<String, dynamic>> onboardingContent = [
         text: 'Forum',
         style: TextStyle(
             color: AppColors.textColor2,
-            fontSize: 40,
+            fontSize: 32,
             fontWeight: FontWeight.bold,
             fontFamily: 'Inter'),
       ),
@@ -55,7 +55,7 @@ final List<Map<String, dynamic>> onboardingContent = [
         text: 'Fitur ',
         style: TextStyle(
             color: AppColors.textColor1,
-            fontSize: 40,
+            fontSize: 32,
             fontWeight: FontWeight.bold,
             fontFamily: 'Inter'),
       ),
@@ -63,7 +63,7 @@ final List<Map<String, dynamic>> onboardingContent = [
         text: 'Panic Button',
         style: TextStyle(
             color: AppColors.textColor2,
-            fontSize: 40,
+            fontSize: 32,
             fontWeight: FontWeight.bold,
             fontFamily: 'Inter'),
       ),

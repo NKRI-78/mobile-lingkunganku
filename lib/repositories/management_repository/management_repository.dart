@@ -106,4 +106,21 @@ class ManagementRepository {
       rethrow;
     }
   }
+
+  Future<bool> removeMember(String userId) async {
+    try {
+      final response = await http.post(
+        Uri.parse('$managementMember/$userId/removeMember'),
+      );
+
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> json = jsonDecode(response.body);
+        return json["success"] ?? false;
+      } else {
+        throw Exception("Gagal menghapus anggota: ${response.body}");
+      }
+    } catch (e) {
+      throw Exception("Terjadi kesalahan saat menghapus anggota.");
+    }
+  }
 }

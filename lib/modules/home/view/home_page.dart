@@ -23,7 +23,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider<HomeBloc>(
       create: (_) => HomeBloc(getIt<HomeRepository>(), getIt<ProfileCubit>())
-        ..add(HomeInit()),
+        ..add(HomeInit(context: context)),
       child: const HomeView(),
     );
   }
@@ -40,10 +40,10 @@ class _HomeViewState extends State<HomeView> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(milliseconds: 200), () {
-      debugPrint("Fetching initial data...");
-      context.read<HomeBloc>().add(HomeInit());
-    });
+    // Future.delayed(const Duration(milliseconds: 200), () {
+    //   debugPrint("Fetching initial data...");
+    //   context.read<HomeBloc>().add(HomeInit());
+    // });
   }
 
   @override
@@ -116,12 +116,15 @@ class _HomeViewState extends State<HomeView> {
 
                             // Loading, Empty, or Showing News
                             if (state.isLoading)
-                              const Center(child: CircularProgressIndicator())
+                              const Center(
+                                  child: CircularProgressIndicator(
+                                color: AppColors.secondaryColor,
+                              ))
                             else if (state.news.isEmpty)
                               const Center(
                                 heightFactor: 5,
                                 child: Text(
-                                  "No News Available",
+                                  "No News Available..",
                                   style: TextStyle(
                                       color: AppColors.blackNewsColor),
                                 ),
