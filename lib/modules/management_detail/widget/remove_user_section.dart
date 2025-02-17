@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile_lingkunganku/misc/colors.dart';
 import 'package:mobile_lingkunganku/misc/text_style.dart';
+import 'package:mobile_lingkunganku/modules/management_detail/cubit/management_detail_cubit.dart';
+import 'package:mobile_lingkunganku/router/builder.dart';
 import '../../../repositories/management_repository/models/management_detail_member_model.dart';
 
 part '_show_dialog_remove.dart';
@@ -16,7 +19,7 @@ class RemoveUserSection extends StatelessWidget {
       onPressed: member == null
           ? null
           : () {
-              _showRemoveManagementMemberDialog(context, MemberData());
+              _showRemoveManagementMemberDialog(context, member!);
             },
       style: ElevatedButton.styleFrom(
         backgroundColor: AppColors.whiteColor,

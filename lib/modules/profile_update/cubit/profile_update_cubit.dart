@@ -62,10 +62,9 @@ class ProfileUpdateCubit extends Cubit<ProfileUpdateState> {
     required BuildContext context,
     required String fullname,
     required String phone,
-    File? avatarFile, // Foto opsional
+    File? avatarFile,
   }) async {
     try {
-      // Check validation before proceeding
       final isValid =
           submissionValidation(context, fullname: fullname, phone: phone);
       if (!isValid) {

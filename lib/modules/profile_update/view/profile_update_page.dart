@@ -132,19 +132,14 @@ class ProfielUpdateView extends StatelessWidget {
                             child: CustomButton(
                               text: 'Save',
                               onPressed: () {
-                                context
-                                    .read<ProfileUpdateCubit>()
-                                    .updateProfile(
-                                      context: context,
-                                      fullname: context
-                                          .read<ProfileUpdateCubit>()
-                                          .state
-                                          .fullname,
-                                      phone: context
-                                          .read<ProfileUpdateCubit>()
-                                          .state
-                                          .phone,
-                                    );
+                                final cubit =
+                                    context.read<ProfileUpdateCubit>();
+                                cubit.updateProfile(
+                                  context: context,
+                                  fullname: cubit.state.fullname,
+                                  phone: cubit.state.phone,
+                                  avatarFile: cubit.state.fileImage,
+                                );
                               },
                             ),
                           ),

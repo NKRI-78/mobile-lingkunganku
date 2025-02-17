@@ -1,6 +1,7 @@
 import '../../../modules/profile/models/families_model.dart';
 
 class ProfileModel {
+  String? avatarLink;
   int? id;
   String? username;
   String? email;
@@ -25,6 +26,7 @@ class ProfileModel {
   final List<FamiliesModel> families;
 
   ProfileModel({
+    this.avatarLink,
     this.id,
     this.username,
     this.email,
@@ -51,6 +53,7 @@ class ProfileModel {
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) {
     return ProfileModel(
+      avatarLink: json['avatar_link'],
       id: json['id'],
       username: json['username'],
       email: json['email'],
@@ -89,6 +92,7 @@ class ProfileModel {
 
   Map<String, dynamic> toJson() {
     return {
+      'avatar_link': avatarLink,
       'id': id,
       'username': username,
       'email': email,

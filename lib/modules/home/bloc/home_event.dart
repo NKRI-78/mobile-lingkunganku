@@ -5,7 +5,11 @@ abstract class HomeEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class HomeInit extends HomeEvent {}
+class HomeInit extends HomeEvent {
+  final BuildContext? context;
+
+  HomeInit({this.context});
+}
 
 class HomeNavigate extends HomeEvent {
   final int index;

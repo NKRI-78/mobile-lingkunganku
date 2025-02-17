@@ -9,6 +9,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';
+import '../../../misc/location.dart';
 import '../../../misc/snackbar.dart';
 import '../../../repositories/auth_repository/auth_repository.dart';
 import '../../../router/builder.dart';
@@ -152,26 +153,38 @@ class RegisterKetuaCubit extends Cubit<RegisterKetuaState> {
     }
   }
 
-  Future<void> setAreaCurrent(GoogleMapController mapController) async {
-    await Geolocator.requestPermission();
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.low);
-    List<Placemark> placemarks =
-        await placemarkFromCoordinates(position.latitude, position.longitude);
-    Placemark place = placemarks[0];
+  Future<void> setAreaCurrent(
+      GoogleMapController mapController, BuildContext context) async {
+    try {
+      // Memastikan izin lokasi sebelum melanjutkan
+      await determinePosition(context);
 
-    emit(state.copyWith(
+      Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.low,
+      );
+      List<Placemark> placemarks =
+          await placemarkFromCoordinates(position.latitude, position.longitude);
+      Placemark place = placemarks[0];
+
+      emit(state.copyWith(
         latitude: position.latitude,
         longitude: position.longitude,
         currentAddress:
-            "${place.thoroughfare} ${place.subThoroughfare} \n${place.locality}, ${place.postalCode}"));
+            "${place.thoroughfare} ${place.subThoroughfare} \n${place.locality}, ${place.postalCode}",
+      ));
 
-    mapController.moveCamera(
-        CameraUpdate.newLatLng(LatLng(position.latitude, position.longitude)));
-    mapController.moveCamera(CameraUpdate.newCameraPosition(CameraPosition(
-      target: LatLng(state.latitude, state.longitude),
-      zoom: 15.0,
-    )));
+      mapController.moveCamera(
+        CameraUpdate.newLatLng(LatLng(position.latitude, position.longitude)),
+      );
+      mapController.moveCamera(CameraUpdate.newCameraPosition(
+        CameraPosition(
+          target: LatLng(state.latitude, state.longitude),
+          zoom: 15.0,
+        ),
+      ));
+    } catch (e) {
+      debugPrint('Error: $e');
+    }
   }
 
   Future<void> updateCurrentPositionCheckIn(

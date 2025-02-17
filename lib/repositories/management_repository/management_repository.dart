@@ -113,9 +113,6 @@ class ManagementRepository {
         Uri.parse('$managementMember/$userId/removeMember'),
       );
 
-      debugPrint("Response status: ${response.statusCode}");
-      debugPrint("Response body: ${response.body}");
-
       if (response.statusCode == 200) {
         final Map<String, dynamic> json = jsonDecode(response.body);
         return json["success"] ?? false;
@@ -123,7 +120,6 @@ class ManagementRepository {
         throw Exception("Gagal menghapus anggota: ${response.body}");
       }
     } catch (e) {
-      debugPrint("Error saat menghapus anggota: $e");
       throw Exception("Terjadi kesalahan saat menghapus anggota.");
     }
   }

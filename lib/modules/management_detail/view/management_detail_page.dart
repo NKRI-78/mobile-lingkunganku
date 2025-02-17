@@ -104,8 +104,11 @@ class ManagementDetailView extends StatelessWidget {
                 ManagementAccesSection(
                   member: memberManagement,
                 ),
-                RemoveUserSection(
-                  member: memberManagement,
+                BlocProvider.value(
+                  value: context.read<ManagementDetailCubit>(),
+                  child: RemoveUserSection(
+                    member: memberManagement,
+                  ),
                 ),
               ],
             ),

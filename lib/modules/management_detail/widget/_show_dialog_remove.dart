@@ -4,12 +4,12 @@ void _showRemoveManagementMemberDialog(
     BuildContext context, MemberData member) {
   showDialog(
     context: context,
-    builder: (context) {
+    builder: (dialogContext) {
       return AlertDialog(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
         ),
-        contentPadding: EdgeInsets.all(12),
+        contentPadding: const EdgeInsets.all(12),
         content: Stack(
           clipBehavior: Clip.none,
           children: [
@@ -24,7 +24,7 @@ void _showRemoveManagementMemberDialog(
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  "Apakah kamu yakin hapus ${member.profile?.fullname ?? "Nama Tidak Diketahui"} dari Grup?",
+                  "Apakah kamu yakin ingin menghapus ${member.profile?.fullname ?? "Nama Tidak Diketahui"} dari Grup?",
                   maxLines: 2,
                   textAlign: TextAlign.center,
                   style: AppTextStyles.textDialog,
@@ -43,7 +43,11 @@ void _showRemoveManagementMemberDialog(
                           ),
                         ),
                         onPressed: () {
-                          Navigator.of(context).pop();
+                          final cubit = context.read<ManagementDetailCubit>();
+                          cubit.removeMember(member.id.toString());
+
+                          Navigator.of(dialogContext).pop();
+                          ManagementRoute().go(context);
                         },
                         child:
                             Text("Yakin", style: AppTextStyles.textProfileBold),
@@ -59,7 +63,7 @@ void _showRemoveManagementMemberDialog(
                           ),
                         ),
                         onPressed: () {
-                          Navigator.of(context).pop();
+                          Navigator.of(dialogContext).pop();
                         },
                         child:
                             Text("Tidak", style: AppTextStyles.textProfileBold),
@@ -75,7 +79,7 @@ void _showRemoveManagementMemberDialog(
               child: IconButton(
                 icon: const Icon(Icons.close, color: AppColors.textColor),
                 onPressed: () {
-                  Navigator.of(context).pop();
+                  Navigator.of(dialogContext).pop();
                 },
               ),
             ),

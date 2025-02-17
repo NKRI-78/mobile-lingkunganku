@@ -43,7 +43,7 @@ class _CustomSelectMapLocationWidgetState
       mapController = controller;
     });
 
-    final position = await determinePosition();
+    final position = await determinePosition(context);
     controller.moveCamera(
         CameraUpdate.newLatLng(LatLng(position.latitude, position.longitude)));
     markers = [
