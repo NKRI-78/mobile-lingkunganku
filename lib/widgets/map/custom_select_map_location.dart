@@ -125,7 +125,7 @@ class _CustomSelectMapLocationWidgetState
                         decoration: InputDecoration(
                           hintStyle: const TextStyle(fontSize: 12),
                           filled: true,
-                          suffixIcon: const Icon(
+                          suffixIcon: Icon(
                             Icons.search_rounded,
                           ),
                           contentPadding:
@@ -166,7 +166,10 @@ class _CustomSelectMapLocationWidgetState
                                           maxLines: 5,
                                         ),
                                       ),
-                                      const Divider(),
+                                      Divider(
+                                        color: AppColors.greyColor
+                                            .withOpacity(0.5),
+                                      ),
                                     ],
                                   ),
                                 )

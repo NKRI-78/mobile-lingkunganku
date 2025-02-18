@@ -41,7 +41,10 @@ class GoogleMapApiRepository {
   }
 
   Future<LatLng?> getCoordinatePlace(String placeId) async {
-    final response = await http.get(Uri.parse(placeId));
+    final response = await http.get(Uri.parse(urlCoor(placeId)));
+
+    print("Response Maps $response");
+    print("Place ID $placeId");
 
     if (response.statusCode == 200) {
       final data = response.body;

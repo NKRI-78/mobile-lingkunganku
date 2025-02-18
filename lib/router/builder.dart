@@ -202,9 +202,14 @@ class LupaPasswordChangeRoute extends GoRouteData {
 }
 
 class SosRoute extends GoRouteData {
+  final bool isLoggedIn;
+
+  SosRoute({required this.isLoggedIn});
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return SosPage();
+    return SosPage(
+      isLoggedIn: isLoggedIn,
+    );
   }
 }
 

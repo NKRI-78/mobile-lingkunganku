@@ -432,10 +432,15 @@ extension $RegisterWargaRouteExtension on RegisterWargaRoute {
 }
 
 extension $SosRouteExtension on SosRoute {
-  static SosRoute _fromState(GoRouterState state) => SosRoute();
+  static SosRoute _fromState(GoRouterState state) => SosRoute(
+        isLoggedIn: _$boolConverter(state.uri.queryParameters['is-logged-in']!),
+      );
 
   String get location => GoRouteData.$location(
         '/home/sos',
+        queryParams: {
+          'is-logged-in': isLoggedIn.toString(),
+        },
       );
 
   void go(BuildContext context) => context.go(location);

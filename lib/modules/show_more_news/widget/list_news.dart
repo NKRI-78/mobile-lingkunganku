@@ -47,7 +47,7 @@ class ListNews extends StatelessWidget {
               width: 10,
             ),
             Expanded(
-              flex: 3,
+              flex: 2,
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 5),
                 child: Column(
@@ -65,9 +65,9 @@ class ListNews extends StatelessWidget {
                     ),
                     Text(
                       news.content.replaceAll(RegExp(r'<[^>]*>|&[^;]+;'), ""),
-                      maxLines: 3,
+                      maxLines: 2,
                       style: AppTextStyles.textWelcome,
-                      overflow: TextOverflow.visible,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ],
                 ),

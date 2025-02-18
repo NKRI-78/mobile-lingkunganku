@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:mobile_lingkunganku/misc/colors.dart';
 import 'package:mobile_lingkunganku/misc/text_style.dart';
 
 class EmptyPage extends StatelessWidget {
@@ -24,7 +25,8 @@ class EmptyPage extends StatelessWidget {
           ),
           Text(
             msg,
-            style: AppTextStyles.textProfileNormal,
+            style: AppTextStyles.textProfileNormal
+                .copyWith(color: AppColors.blackColor),
           ),
         ],
       ),

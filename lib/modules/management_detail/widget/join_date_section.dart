@@ -47,8 +47,8 @@ class JoinDateSection extends StatelessWidget {
           ),
           Flexible(
             child: Text(
-              formatJoinDate(member?.createdAt), // Gunakan fungsi format
-              style: AppTextStyles.textStyle2,
+              formatJoinDate(member?.createdAt),
+              style: AppTextStyles.textStyle2.copyWith(fontSize: 12),
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.right,
             ),

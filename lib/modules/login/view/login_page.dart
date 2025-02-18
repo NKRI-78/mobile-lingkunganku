@@ -38,6 +38,7 @@ class LoginView extends StatelessWidget {
                 'Login',
                 style: AppTextStyles.textStyle1,
               ),
+              centerTitle: true,
               leading: IconButton(
                 icon: Icon(
                   Icons.arrow_back_ios_new,

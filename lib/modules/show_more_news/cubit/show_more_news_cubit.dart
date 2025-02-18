@@ -46,9 +46,10 @@ class ShowMoreNewsCubit extends Cubit<ShowMoreNewsState> {
 
     emit(
       state.copyWith(
-          news: data.list,
-          nextPageNews: data.paginate.next,
-          newsPagination: data.paginate),
+        news: data.list,
+        nextPageNews: data.paginate.next,
+        newsPagination: data.paginate,
+      ),
     );
     newsRefreshCtrl.refreshCompleted();
   }

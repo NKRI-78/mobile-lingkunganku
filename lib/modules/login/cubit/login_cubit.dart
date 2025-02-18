@@ -45,12 +45,21 @@ class LoginCubit extends Cubit<LoginState> {
       ).push(context);
     } catch (e) {
       if (!context.mounted) return;
-      ShowSnackbar.snackbar(
-        context,
-        e.toString(),
-        '',
-        AppColors.redColor,
-      );
+      if (e is EmailNotFoundFailure) {
+        ShowSnackbar.snackbar(
+          context,
+          "Pengguna tidak ditemukan. Silakan periksa kembali email atau daftar akun baru.",
+          '',
+          AppColors.redColor,
+        );
+      } else {
+        ShowSnackbar.snackbar(
+          context,
+          e.toString(),
+          '',
+          AppColors.redColor,
+        );
+      }
     } finally {
       emit(state.copyWith(loading: false));
     }

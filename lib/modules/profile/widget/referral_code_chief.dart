@@ -1,13 +1,50 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter/services.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
 import '../../profile/cubit/profile_cubit.dart';
 
 class ReferralCodeChief extends StatelessWidget {
   const ReferralCodeChief({super.key});
+
+  void _shareReferralCode(
+      BuildContext context, String referralCodeWarga) async {
+    const apkDownloadLink =
+        "https://drive.google.com/file/d/1R_KRK6AWNbMLGNqYRcq5F7p2GFZTBdI9/view";
+
+    final message = Uri.encodeComponent(
+        "Halo! Saya ingin mengajak Anda untuk bergabung.\n\n"
+        "Kode Referral Warga: $referralCodeWarga\n\n"
+        "Download aplikasinya di: $apkDownloadLink\n\n"
+        "Yuk, gabung sekarang!");
+
+    final Uri waUrl1 = Uri.parse("https://wa.me/?text=$message");
+    final Uri waUrl2 = Uri.parse("whatsapp://send?text=$message");
+
+    try {
+      // Coba dengan metode pertama
+      if (!await canLaunchUrl(waUrl1)) {
+        await launchUrl(waUrl1, mode: LaunchMode.externalApplication);
+      }
+      // Coba dengan metode kedua (fallback untuk Android 12 ke bawah)
+      else if (!await canLaunchUrl(waUrl2)) {
+        await launchUrl(waUrl2, mode: LaunchMode.externalApplication);
+      }
+      // Jika masih gagal, pakai launch() sebagai alternatif
+      else {
+        await launch(waUrl2.toString());
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Tidak dapat membuka WhatsApp"),
+          backgroundColor: AppColors.redColor,
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,24 +85,12 @@ class ReferralCodeChief extends StatelessWidget {
                     ),
                     IconButton(
                       icon: const Icon(
-                        Icons.copy,
+                        Icons.ios_share_rounded,
                         color: AppColors.whiteColor,
                       ),
                       onPressed: () {
-                        Clipboard.setData(
-                          ClipboardData(
-                              text: state.profile?.chief?.referral ??
-                                  "Tidak Tersedia"),
-                        );
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              "Kode referral berhasil disalin!",
-                              style: AppTextStyles.textProfileNormal,
-                            ),
-                            backgroundColor: AppColors.secondaryColor,
-                          ),
-                        );
+                        _shareReferralCode(context,
+                            state.profile?.chief?.referral ?? "Tidak Tersedia");
                       },
                     ),
                   ],

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -10,16 +12,31 @@ import '../../app/bloc/app_bloc.dart';
 part 'register_otp_state.dart';
 
 class RegisterOtpCubit extends Cubit<RegisterOtpState> {
-  RegisterOtpCubit(this.isLogin) : super(RegisterOtpState());
+  RegisterOtpCubit(this.isLogin) : super(RegisterOtpState()) {
+    _startTimer();
+  }
 
   final bool isLogin;
+  Timer? _timer;
+  int _start = 120;
 
   AuthRepository repo = getIt<AuthRepository>();
+
+  void _startTimer() {
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      if (_start > 0) {
+        _start--;
+        emit(state.copyWith(timeRemaining: _start, timerFinished: false));
+      } else {
+        _timer?.cancel();
+        emit(state.copyWith(timerFinished: true)); // Timer selesai
+      }
+    });
+  }
 
   void init(String email) async {
     emit(state.copyWith(email: email));
     repo.verifyOtp(email, '', VerifyEmailType.sendingOtp);
-    repo.resendOtp(state.email);
   }
 
   Future<void> submit(String verificationCode, BuildContext context) async {
@@ -32,7 +49,6 @@ class RegisterOtpCubit extends Cubit<RegisterOtpState> {
         getIt<AppBloc>()
             .add(SetUserData(user: loggedIn!.user, token: loggedIn.token));
 
-        // Tampilkan Snackbar sebelum navigasi
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             backgroundColor: AppColors.textColor1,
@@ -43,9 +59,6 @@ class RegisterOtpCubit extends Cubit<RegisterOtpState> {
             duration: Duration(milliseconds: 1500),
           ),
         );
-
-        // // Tunggu Snackbar sebelum pindah halaman
-        // await Future.delayed(const Duration(milliseconds: 1700));
 
         HomeRoute().go(context);
       }
@@ -68,11 +81,13 @@ class RegisterOtpCubit extends Cubit<RegisterOtpState> {
   }
 
   Future<void> resendOtp(BuildContext context) async {
+    _start = 120;
+    _startTimer();
+    emit(state.copyWith(timeRemaining: _start, timerFinished: false));
     try {
       emit(state.copyWith(loading: true));
       await repo.resendOtp(state.email);
 
-      // Tampilkan Snackbar jika OTP berhasil dikirim ulang
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -101,30 +116,6 @@ class RegisterOtpCubit extends Cubit<RegisterOtpState> {
       emit(state.copyWith(loading: false));
     }
   }
-
-  // Future<void> chageEmailOtp(BuildContext context) async {
-  //   try {
-  //     emit(state.copyWith(loading: true));
-  //     await repo.chageEmailOtp(state.email, state.newEmail);
-  //     debugPrint("Berhasil");
-  //     emit(state.copyWith(email: state.newEmail));
-  //   } catch (e) {
-  //     if (!context.mounted) {
-  //       return;
-  //     }
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       SnackBar(
-  //         backgroundColor: AppColors.redColor,
-  //         content: Text(
-  //           e.toString(),
-  //           style: const TextStyle(color: Colors.white),
-  //         ),
-  //       ),
-  //     );
-  //   } finally {
-  //     emit(state.copyWith(loading: false));
-  //   }
-  // }
 
   void copyState({required RegisterOtpState newState}) {
     emit(newState);

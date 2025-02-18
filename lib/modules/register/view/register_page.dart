@@ -23,7 +23,8 @@ class RegisterPage extends StatelessWidget {
             fontFamily: 'Intel',
           ),
         ),
-        toolbarHeight: 120,
+        centerTitle: true,
+        toolbarHeight: 140,
         leading: IconButton(
           icon: Icon(
             Icons.arrow_back_ios_new,
@@ -93,7 +94,7 @@ class RegisterPage extends StatelessWidget {
                               ),
                             ),
                             Positioned(
-                              left: 5,
+                              left: 15,
                               top: -50,
                               bottom: 0,
                               child: Image.asset(
@@ -149,7 +150,7 @@ class RegisterPage extends StatelessWidget {
                               ),
                             ),
                             Positioned(
-                              right: 0,
+                              right: 10,
                               top: -50,
                               bottom: 0,
                               child: Image.asset(

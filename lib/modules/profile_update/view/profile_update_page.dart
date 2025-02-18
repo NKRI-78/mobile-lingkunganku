@@ -51,6 +51,10 @@ class ProfielUpdateView extends StatelessWidget {
         }
       },
       builder: (context, state) {
+        final TextEditingController ctrName =
+            TextEditingController(text: state.profile?.profile?.fullname);
+        final TextEditingController ctrPhone =
+            TextEditingController(text: state.profile?.phone);
         final user = state.profile;
         return Scaffold(
           body: Stack(
@@ -124,8 +128,12 @@ class ProfielUpdateView extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          CustomTextfieldName(),
-                          CustomTextfieldPhone(),
+                          CustomTextfieldName(
+                            ctrName: ctrName,
+                          ),
+                          CustomTextfieldPhone(
+                            ctrPhone: ctrPhone,
+                          ),
                           SizedBox(height: 10),
                           SizedBox(
                             width: double.infinity,
@@ -136,8 +144,8 @@ class ProfielUpdateView extends StatelessWidget {
                                     context.read<ProfileUpdateCubit>();
                                 cubit.updateProfile(
                                   context: context,
-                                  fullname: cubit.state.fullname,
-                                  phone: cubit.state.phone,
+                                  fullname: ctrName.text,
+                                  phone: ctrPhone.text,
                                   avatarFile: cubit.state.fileImage,
                                 );
                               },

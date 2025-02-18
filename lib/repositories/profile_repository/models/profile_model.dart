@@ -202,6 +202,7 @@ class Profile {
   int? id;
   String? username;
   String? fullname;
+  // String? phone;
   String? avatarLink;
   String? detailAddress;
   int? userId;
@@ -212,6 +213,7 @@ class Profile {
     this.id,
     this.username,
     this.fullname,
+    // this.phone,
     this.avatarLink,
     this.detailAddress,
     this.userId,
@@ -224,6 +226,7 @@ class Profile {
       id: json['id'],
       username: json['username'],
       fullname: json['fullname'],
+      // phone: json['phone'],
       avatarLink: json['avatar_link'],
       detailAddress: json['detail_address'],
       userId: json['user_id'],
@@ -237,6 +240,7 @@ class Profile {
       'id': id,
       'username': username,
       'fullname': fullname,
+      // 'phone': phone,
       'avatar_link': avatarLink,
       'detail_address': detailAddress,
       'user_id': userId,
