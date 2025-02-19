@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_lingkunganku/misc/colors.dart';
 
 class LoadingPage extends StatelessWidget {
   const LoadingPage({super.key});
@@ -11,7 +12,9 @@ class LoadingPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          CircularProgressIndicator.adaptive(),
+          CircularProgressIndicator(
+            color: AppColors.secondaryColor,
+          ),
         ],
       ),
     );

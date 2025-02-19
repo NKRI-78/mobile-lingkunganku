@@ -17,7 +17,9 @@ class ShowMoreNewsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ShowMoreNewsCubit()..fetchNews(),
+      create: (context) => ShowMoreNewsCubit()
+        ..fetchNews()
+        ..fetchProfile(),
       child: ShowMoreNewsView(),
     );
   }
@@ -30,6 +32,9 @@ class ShowMoreNewsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ShowMoreNewsCubit, ShowMoreNewsState>(
       builder: (_, state) {
+        final String role = (state.profile?.roleApp ?? 'MEMBER').toUpperCase();
+        print("Role Pengguna: ${state.profile?.roleApp}");
+
         return Scaffold(
           backgroundColor: Colors.grey[100],
           appBar: AppBar(
@@ -47,12 +52,26 @@ class ShowMoreNewsView extends StatelessWidget {
               icon: const Icon(
                 Icons.arrow_back_ios_new,
                 color: AppColors.buttonColor2,
-                size: 32,
+                size: 30,
               ),
               onPressed: () {
                 GoRouter.of(context).pop();
               },
             ),
+            actions: [
+              if (role != "MEMBER" && role != "TREASURER")
+                IconButton(
+                  icon: const Icon(
+                    Icons.add,
+                    color: AppColors.buttonColor2,
+                    size: 34,
+                  ),
+                  onPressed: () {
+                    // create news
+                    print('ini di klik');
+                  },
+                ),
+            ],
           ),
           body: SmartRefresher(
             controller: ShowMoreNewsCubit.newsRefreshCtrl,
@@ -64,6 +83,24 @@ class ShowMoreNewsView extends StatelessWidget {
             onLoading: () async {
               await context.read<ShowMoreNewsCubit>().loadMoreNews();
             },
+            header: ClassicHeader(
+              textStyle: const TextStyle(color: AppColors.secondaryColor),
+              iconPos: IconPosition.left,
+              spacing: 5.0,
+              refreshingText: "Memuat berita...",
+              idleText: "Tarik untuk menyegarkan",
+              releaseText: "Lepaskan untuk menyegarkan",
+              completeText: "Berhasil diperbarui",
+              failedText: "Gagal memperbarui",
+              refreshingIcon:
+                  const Icon(Icons.autorenew, color: AppColors.secondaryColor),
+              failedIcon: const Icon(Icons.error, color: Colors.red),
+              completeIcon: const Icon(Icons.done, color: AppColors.textColor1),
+              idleIcon: const Icon(Icons.arrow_downward,
+                  color: AppColors.secondaryColor),
+              releaseIcon:
+                  const Icon(Icons.refresh, color: AppColors.secondaryColor),
+            ),
             child: CustomScrollView(
               shrinkWrap: true,
               physics: const ScrollPhysics(),
@@ -80,7 +117,7 @@ class ShowMoreNewsView extends StatelessWidget {
                           state.loading
                               ? const LoadingPage()
                               : state.news.isEmpty
-                                  ? const EmptyPage(msg: "Tidak ada Berita")
+                                  ? const EmptyPage(msg: "Tidak ada Berita..")
                                   : Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,

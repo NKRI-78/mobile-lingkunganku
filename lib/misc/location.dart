@@ -1,6 +1,7 @@
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_lingkunganku/misc/colors.dart';
+import 'package:mobile_lingkunganku/misc/text_style.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 Future<Position> determinePosition(BuildContext context) async {
@@ -41,7 +42,7 @@ void showPermissionDialog(BuildContext context) {
     builder: (context) {
       return WillPopScope(
         onWillPop: () async {
-          return false; // Menyatakan bahwa dialog tidak dapat ditutup dengan tombol back
+          return false;
         },
         child: AlertDialog(
           title: Text(
@@ -57,11 +58,10 @@ void showPermissionDialog(BuildContext context) {
             mainAxisSize: MainAxisSize.min,
             children: [
               Icon(
-                Icons.location_on,
-                size: 50,
+                Icons.location_on_rounded,
+                size: 60,
                 color: AppColors.secondaryColor,
               ),
-              SizedBox(height: 10),
               Text(
                 'Izin lokasi diperlukan agar aplikasi dapat berfungsi dengan baik. '
                 'Harap aktifkan izin lokasi di pengaturan aplikasi.',
@@ -91,7 +91,12 @@ void showPermissionDialog(BuildContext context) {
                       color: Colors.white,
                     ),
                   ),
-                  child: Text('Ke Pengaturan'),
+                  child: FittedBox(
+                    child: Text(
+                      'Ke Pengaturan',
+                      style: AppTextStyles.textProfileBold,
+                    ),
+                  ),
                 ),
               ),
             ),

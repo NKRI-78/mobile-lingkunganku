@@ -31,11 +31,11 @@ class DetailNewsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<DetailNewsCubit, DetailNewsState>(
-      buildWhen: (previous, current) => previous.news != current.news,
       builder: (context, state) {
         final newsData = state.news?.data;
-        final imageUrl =
-            (newsData?.linkImage ?? "").isNotEmpty ? newsData!.linkImage : null;
+        final imageUrl = newsData?.linkImage?.isNotEmpty == true
+            ? newsData?.linkImage
+            : null;
 
         return Scaffold(
           appBar: AppBar(
@@ -64,31 +64,55 @@ class DetailNewsView extends StatelessWidget {
               children: [
                 _buildImageCard(imageUrl),
                 const SizedBox(height: 16),
-                Text(
-                  newsData?.title ?? "-",
-                  style: const TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  _formatDateTime(newsData?.createdAt),
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey[600],
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  newsData?.content ?? "-",
-                  style: const TextStyle(fontSize: 16),
-                ),
+                state.loading
+                    ? _buildLoadingContent()
+                    : _buildContent(newsData),
               ],
             ),
           ),
         );
       },
+    );
+  }
+
+  Widget _buildLoadingContent() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _buildShimmerPlaceholder(),
+        const SizedBox(height: 8),
+        _buildShimmerPlaceholder(),
+        const SizedBox(height: 8),
+        _buildShimmerPlaceholder(),
+      ],
+    );
+  }
+
+  Widget _buildContent(newsData) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          newsData?.title ?? "-",
+          style: const TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          _formatDateTime(newsData?.createdAt),
+          style: TextStyle(
+            fontSize: 14,
+            color: Colors.grey[600],
+          ),
+        ),
+        const SizedBox(height: 8),
+        Text(
+          newsData?.content ?? "-",
+          style: const TextStyle(fontSize: 16),
+        ),
+      ],
     );
   }
 
@@ -115,18 +139,14 @@ class DetailNewsView extends StatelessWidget {
   }
 
   Widget _buildShimmerPlaceholder() {
-    return SizedBox(
-      width: double.infinity,
-      height: 200,
-      child: Shimmer.fromColors(
-        baseColor: Colors.grey[300]!,
-        highlightColor: Colors.grey[200]!,
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
-          ),
-        ),
+    return Shimmer.fromColors(
+      baseColor: Colors.grey[300]!,
+      highlightColor: Colors.grey[200]!,
+      child: Container(
+        width: double.infinity,
+        height: 20,
+        color: Colors.white,
+        margin: const EdgeInsets.only(bottom: 10),
       ),
     );
   }

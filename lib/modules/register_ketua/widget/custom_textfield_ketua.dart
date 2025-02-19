@@ -74,6 +74,7 @@ class _FieldPhone extends StatelessWidget {
       buildWhen: (previous, current) => previous.phone != current.phone,
       builder: (context, state) {
         return _buildTextFormField(
+          maxLength: 13,
           label: 'No Handphone',
           keyboardType: TextInputType.phone,
           onChanged: (value) {
@@ -172,6 +173,7 @@ Widget _buildTextFormField({
   bool obscureText = false,
   int maxLines = 1,
   required ValueChanged<String> onChanged,
+  int? maxLength,
 }) {
   return Padding(
     padding: const EdgeInsets.only(bottom: 12),
@@ -186,6 +188,7 @@ Widget _buildTextFormField({
             border: Border.all(color: AppColors.whiteColor),
           ),
           child: TextFormField(
+            maxLength: maxLength,
             maxLines: maxLines,
             keyboardType: keyboardType,
             obscureText: obscureText,

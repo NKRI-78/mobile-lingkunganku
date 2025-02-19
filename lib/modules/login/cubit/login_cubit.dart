@@ -45,9 +45,22 @@ class LoginCubit extends Cubit<LoginState> {
       ).push(context);
     } catch (e) {
       if (!context.mounted) return;
+
+      String errorMessage;
+
+      if (e is EmailNotFoundFailure) {
+        errorMessage =
+            "Email ini tidak terdaftar. Silakan coba lagi atau daftar akun baru.";
+      } else if (e.toString().toLowerCase().contains("user not found")) {
+        errorMessage =
+            "Email ini tidak terdaftar. Pastikan email yang Anda masukkan benar.";
+      } else {
+        errorMessage = e.toString();
+      }
+
       ShowSnackbar.snackbar(
         context,
-        e.toString(),
+        errorMessage,
         '',
         AppColors.redColor,
       );

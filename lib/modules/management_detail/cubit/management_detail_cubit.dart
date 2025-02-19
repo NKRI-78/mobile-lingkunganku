@@ -15,12 +15,7 @@ class ManagementDetailCubit extends Cubit<ManagementDetailState> {
     try {
       emit(state.copyWith(isLoading: true, errorMessage: null));
 
-      print("Fetching member detail for userId: $userId");
-
       final memberDetail = await repository.getMemberDetail(userId);
-
-      // Debugging untuk memastikan data diterima
-      print("📥 Data dari API: ${memberDetail.data}");
 
       if (memberDetail.data != null) {
         emit(state.copyWith(

@@ -107,6 +107,36 @@ class ManagementRepository {
     }
   }
 
+  Future<ManagementDetailMemberModel> postChief(String userId) async {
+    try {
+      final res = await http.post(
+        Uri.parse('$managementMember/$userId/giveRoleChief'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ${http.token}',
+        },
+        body: jsonEncode({"roleApp": "CHIEF"}),
+      );
+
+      debugPrint(" Response status: ${res.statusCode}");
+      debugPrint(" Response body: ${res.body}");
+
+      if (res.statusCode == 200) {
+        debugPrint(" Role berhasil diubah menjadi CHIEF");
+
+        // 🔹 Ambil data terbaru setelah role berubah
+        return await getMemberDetail(userId);
+      } else {
+        final Map<String, dynamic> json = jsonDecode(res.body);
+        debugPrint(" API Error: ${json['message'] ?? 'Unknown error'}");
+        throw Exception("API Error: ${json['message'] ?? 'Unknown error'}");
+      }
+    } catch (e) {
+      debugPrint(" Exception caught: ${jsonEncode(e)}");
+      rethrow;
+    }
+  }
+
   Future<bool> removeMember(String userId) async {
     try {
       final response = await http.post(

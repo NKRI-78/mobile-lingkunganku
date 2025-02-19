@@ -29,7 +29,7 @@ class MemberData {
   int? familyId;
   String? updatedAt;
   Treasurer? treasurer;
-  Secertary? secertary;
+  Secretary? secretary;
   Profile? profile;
   Treasurer? family;
   List<Families>? families;
@@ -41,7 +41,7 @@ class MemberData {
         return 'Ketua';
       case 'SECRETARY':
         return 'Sekretaris';
-      case 'TRASURER':
+      case 'TREASURER':
         return 'Bendahara';
       case 'MEMBER':
         return 'Warga';
@@ -58,7 +58,7 @@ class MemberData {
       this.familyId,
       this.updatedAt,
       this.treasurer,
-      this.secertary,
+      this.secretary,
       this.profile,
       this.family,
       this.families,
@@ -74,8 +74,8 @@ class MemberData {
     treasurer = json['treasurer'] != null
         ? Treasurer.fromJson(json['treasurer'])
         : null;
-    secertary = json['secertary'] != null
-        ? Secertary.fromJson(json['secertary'])
+    secretary = json['secretary'] != null
+        ? Secretary.fromJson(json['secretary'])
         : null;
     profile =
         json['profile'] != null ? Profile.fromJson(json['profile']) : null;
@@ -101,7 +101,7 @@ class MemberData {
     if (treasurer != null) {
       data['treasurer'] = treasurer!.toJson();
     }
-    data['secertary'] = secertary;
+    data['secretary'] = secretary;
     if (profile != null) {
       data['profile'] = profile!.toJson();
     }
@@ -132,12 +132,12 @@ class Treasurer {
   }
 }
 
-class Secertary {
+class Secretary {
   int? id;
 
-  Secertary({this.id});
+  Secretary({this.id});
 
-  Secertary.fromJson(Map<String, dynamic> json) {
+  Secretary.fromJson(Map<String, dynamic> json) {
     id = json['id'];
   }
 
@@ -195,7 +195,8 @@ class Families {
   int? id;
   Chief? chief;
   Treasurer? treasurer;
-  Secertary? secertary;
+  Secretary? secretary;
+  //
   ProfileFamily? profile;
   Treasurer? family;
 
@@ -205,7 +206,7 @@ class Families {
       this.id,
       this.chief,
       this.treasurer,
-      this.secertary,
+      this.secretary,
       this.profile,
       this.family});
 
@@ -214,8 +215,12 @@ class Families {
     phone = json['phone'];
     id = json['id'];
     chief = json['chief'] != null ? Chief.fromJson(json['chief']) : null;
-    treasurer = json['treasurer'];
-    secertary = json['secertary'];
+    treasurer = json['treasurer'] != null
+        ? Treasurer.fromJson(json['treasurer'])
+        : null;
+    secretary = json['secretary'] != null
+        ? Secretary.fromJson(json['secretary'])
+        : null;
     profile = json['profile'] != null
         ? ProfileFamily.fromJson(json['profile'])
         : null;
@@ -231,7 +236,7 @@ class Families {
       data['chief'] = chief!.toJson();
     }
     data['treasurer'] = treasurer;
-    data['secertary'] = secertary;
+    data['secretary'] = secretary;
     if (profile != null) {
       data['profile'] = profile!.toJson();
     }

@@ -39,6 +39,7 @@ class RegisterWargaView extends StatelessWidget {
                 'Registrasi',
                 style: AppTextStyles.textStyle1,
               ),
+              centerTitle: true,
               leading: IconButton(
                 icon: Icon(
                   Icons.arrow_back_ios_new,

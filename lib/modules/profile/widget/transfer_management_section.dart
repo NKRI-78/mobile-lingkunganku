@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'show_dialog_transfer_management.dart';
+import 'package:mobile_lingkunganku/router/builder.dart';
 import '../../../misc/colors.dart';
 
 class TransferManagementSection extends StatelessWidget {
@@ -48,7 +48,7 @@ class TransferManagementSection extends StatelessWidget {
                     ),
                   ),
                   onPressed: () {
-                    showTransferManagementDialog(context);
+                    TransferManagementRoute().go(context);
                   },
                   child: Text(
                     "Pilih Anggota",

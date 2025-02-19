@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';
 import '../../../misc/text_style.dart';
-import '../../home/bloc/home_bloc.dart';
 import '../cubit/profile_cubit.dart';
 import '../widget/family_member_section.dart';
 import '../widget/referral_code_chief.dart';
 import '../widget/referral_code_family.dart';
-import '../../../widgets/button/custom_button.dart';
 import '../../../widgets/background/custom_background.dart';
 import '../../../widgets/header/custom_header_container.dart';
 import '../widget/profile_info_section.dart';
@@ -28,56 +25,15 @@ class ProfilePage extends StatelessWidget {
 }
 
 class ProfileView extends StatelessWidget {
-  ProfileView({super.key});
-
-  final String role = getIt<HomeBloc>().state.profile?.roleApp ?? '';
-
-  void _shareReferralCode(BuildContext context, String referralCodeWarga,
-      String referralCodeFamily) async {
-    const apkDownloadLink =
-        "https://drive.google.com/file/d/1R_KRK6AWNbMLGNqYRcq5F7p2GFZTBdI9/view";
-
-    final message = Uri.encodeComponent(
-        "Halo! Saya ingin mengajak Anda untuk bergabung.\n\n"
-        "Kode Referral Warga: $referralCodeWarga\n"
-        "Kode Referral Keluarga: $referralCodeFamily\n\n"
-        "Download aplikasinya di: $apkDownloadLink\n\n"
-        "Yuk, gabung sekarang!");
-
-    final Uri waUrl1 = Uri.parse("https://wa.me/?text=$message");
-    final Uri waUrl2 = Uri.parse("whatsapp://send?text=$message");
-
-    try {
-      // Coba dengan metode pertama
-      if (!await canLaunchUrl(waUrl1)) {
-        await launchUrl(waUrl1, mode: LaunchMode.externalApplication);
-      }
-      // Coba dengan metode kedua (fallback untuk Android 12 ke bawah)
-      else if (!await canLaunchUrl(waUrl2)) {
-        await launchUrl(waUrl2, mode: LaunchMode.externalApplication);
-      }
-      // Jika masih gagal, pakai launch() sebagai alternatif
-      else {
-        await launch(waUrl2.toString());
-      }
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Tidak dapat membuka WhatsApp"),
-          backgroundColor: AppColors.redColor,
-        ),
-      );
-    }
-  }
+  const ProfileView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ProfileCubit, ProfileState>(
       builder: (context, state) {
+        final String role = state.profile?.roleApp ?? '';
+
         final saldo = state.profile?.balance ?? 0;
-        final referralCodeWarga = state.profile?.chief?.referral ?? "Tidak ada";
-        final referralCodeFamily =
-            state.profile?.family?.referral ?? "Tidak ada";
 
         return Scaffold(
           body: Stack(
@@ -186,27 +142,23 @@ class ProfileView extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           ProfileInfoSection(),
-                          if (role != "MEMBER") TransferManagementSection(),
-                          if (state.families != null &&
-                              state.families!.isNotEmpty)
-                            FamilyMemberSection(
-                              families: state.families!,
-                            ),
-                          if (role != "MEMBER") ReferralCodeChief(),
-                          ReferralCodeFamily(),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: SizedBox(
-                              width: double.infinity,
-                              child: CustomButton(
-                                text: 'Bagikan ke WhatsApp',
-                                onPressed: () {
-                                  _shareReferralCode(context, referralCodeWarga,
-                                      referralCodeFamily);
-                                },
+                          if (role != "MEMBER" &&
+                              role != "SECRETARY" &&
+                              role != "TREASURER")
+                            TransferManagementSection(),
+                          if (role != "MEMBER" &&
+                              role != "SECRETARY" &&
+                              role != "TREASURER")
+                            if (state.families != null &&
+                                state.families!.isNotEmpty)
+                              FamilyMemberSection(
+                                families: state.families!,
                               ),
-                            ),
-                          ),
+                          if (role != "MEMBER" &&
+                              role != "SECRETARY" &&
+                              role != "TREASURER")
+                            ReferralCodeChief(),
+                          ReferralCodeFamily(),
                         ],
                       ),
                     ),

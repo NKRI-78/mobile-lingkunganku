@@ -9,7 +9,9 @@ import '../../../widgets/button/custom_button.dart';
 import '../widget/custom_card_section.dart';
 
 class SosPage extends StatelessWidget {
-  const SosPage({super.key});
+  const SosPage({super.key, required this.isLoggedIn});
+
+  final bool isLoggedIn;
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +22,7 @@ class SosPage extends StatelessWidget {
           'SOS',
           style: AppTextStyles.textStyle1,
         ),
+        centerTitle: true,
         toolbarHeight: 100,
         leading: IconButton(
           icon: Icon(
@@ -63,56 +66,62 @@ class SosPage extends StatelessWidget {
                     customCardSection(
                       icon: 'assets/images/kecelakaan.png',
                       label: 'Kecelakaan',
-                      onTap: () {
-                        RegisterRoute().go(context);
-                        // Aksi untuk opsi Kecelakaan
-                        print('Kecelakaan dipilih');
-                      },
+                      onTap: isLoggedIn
+                          ? () {} // Provide an empty callback if already logged in
+                          : () {
+                              RegisterRoute().go(context);
+                              print('Kecelakaan dipilih');
+                            },
                     ),
                     customCardSection(
                       icon: 'assets/images/pencurian.png',
                       label: 'Pencurian',
-                      onTap: () {
-                        RegisterRoute().go(context);
-                        // Aksi untuk opsi Pencurian
-                        print('Pencurian dipilih');
-                      },
+                      onTap: isLoggedIn
+                          ? () {}
+                          : () {
+                              RegisterRoute().go(context);
+                              print('Pencurian dipilih');
+                            },
                     ),
                     customCardSection(
                       icon: 'assets/images/kebakaran.png',
                       label: 'Kebakaran',
-                      onTap: () {
-                        RegisterRoute().go(context);
-                        // Aksi untuk opsi Kebakaran
-                        print('Kebakaran dipilih');
-                      },
+                      onTap: isLoggedIn
+                          ? () {}
+                          : () {
+                              RegisterRoute().go(context);
+                              print('Kebakaran dipilih');
+                            },
                     ),
                     customCardSection(
                       icon: 'assets/images/bencana_alam.png',
                       label: 'Bencana Alam',
-                      onTap: () {
-                        RegisterRoute().go(context);
-                        // Aksi untuk opsi Bencana Alam
-                        print('Bencana Alam dipilih');
-                      },
+                      onTap: isLoggedIn
+                          ? () {}
+                          : () {
+                              RegisterRoute().go(context);
+                              print('Bencana Alam dipilih');
+                            },
                     ),
                     customCardSection(
                       icon: 'assets/images/donor_darah.png',
                       label: 'Donor Darah',
-                      onTap: () {
-                        RegisterRoute().go(context);
-                        // Aksi untuk opsi Donor Darah
-                        print('Donor Darah dipilih');
-                      },
+                      onTap: isLoggedIn
+                          ? () {}
+                          : () {
+                              RegisterRoute().go(context);
+                              print('Donor Darah dipilih');
+                            },
                     ),
                     customCardSection(
                       icon: 'assets/images/kerusuhan.png',
                       label: 'Kerusuhan',
-                      onTap: () {
-                        RegisterRoute().go(context);
-                        // Aksi untuk opsi Kerusuhan
-                        print('Kerusuhan dipilih');
-                      },
+                      onTap: isLoggedIn
+                          ? () {}
+                          : () {
+                              RegisterRoute().go(context);
+                              print('Kerusuhan dipilih');
+                            },
                     ),
                   ],
                 ),
@@ -124,10 +133,11 @@ class SosPage extends StatelessWidget {
                   child: CustomButton(
                     icon: Icons.phone_in_talk,
                     text: 'Hubungi Keamanan',
-                    onPressed: () {
-                      // Navigate To Register
-                      RegisterRoute().go(context);
-                    },
+                    onPressed: isLoggedIn
+                        ? null
+                        : () {
+                            RegisterRoute().go(context);
+                          },
                   ),
                 ),
               ),

@@ -75,12 +75,13 @@ class _OnboardingScreenState extends State<OnboardingView> {
                   HomeRoute().go(context);
                 },
                 titleStyle: const TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.green,
-                    fontFamily: 'Inter'),
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.green,
+                  fontFamily: 'Inter',
+                ),
                 descriptionStyle: const TextStyle(
-                  fontSize: 12,
+                  fontSize: 13,
                   color: Colors.grey,
                   fontFamily: 'Inter',
                 ),

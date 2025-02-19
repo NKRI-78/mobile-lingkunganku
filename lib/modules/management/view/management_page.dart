@@ -17,7 +17,7 @@ class ManagementPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => ManagementCubit(getIt<ManagementRepository>())
-        ..fetchManagementMembers(), // Fetch data awal
+        ..fetchManagementMembers(),
       child: const ManagementView(),
     );
   }

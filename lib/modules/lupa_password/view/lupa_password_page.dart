@@ -41,6 +41,7 @@ class LupaPasswordView extends StatelessWidget {
               'Reset Password',
               style: AppTextStyles.textStyle1,
             ),
+            centerTitle: true,
             leading: IconButton(
               icon: Icon(
                 Icons.arrow_back_ios_new,

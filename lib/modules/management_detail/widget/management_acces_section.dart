@@ -14,6 +14,9 @@ class ManagementAccesSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isAlreadyPromoted =
+        (member?.secretary?.id != null) || (member?.treasurer?.id != null);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -23,31 +26,36 @@ class ManagementAccesSection extends StatelessWidget {
         ),
         const SizedBox(height: 10),
         ElevatedButton(
-          onPressed: () {
-            print("Dialog muncul");
+          onPressed: isAlreadyPromoted
+              ? null
+              : () {
+                  print("Dialog muncul");
+                  _showManagementAccesDialog(
+                    context,
+                    (member?.secretary?.id?.toString() ??
+                        member?.treasurer?.id?.toString()),
+                    member?.id.toString() ?? "",
+                  );
 
-            _showManagementAccesDialog(
-              context,
-              (member?.secertary?.id?.toString() ??
-                  member?.treasurer?.id?.toString()),
-              member?.id.toString() ?? "",
-            );
-
-            // Pastikan ManagementCubit dipanggil hanya jika sudah ada dalam tree
-            try {
-              context.read<ManagementCubit>().fetchManagementMembers();
-            } catch (e) {
-              print("Error: ManagementCubit tidak ditemukan dalam context.");
-            }
-          },
+                  try {
+                    context.read<ManagementCubit>().fetchManagementMembers();
+                  } catch (e) {
+                    print(
+                        "Error: ManagementCubit tidak ditemukan dalam context.");
+                  }
+                },
           style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.secondaryColor,
+            backgroundColor: isAlreadyPromoted
+                ? Colors.grey.shade400
+                : AppColors.secondaryColor,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             minimumSize: const Size(double.infinity, 50),
           ),
           child: Text(
-            "Berikan Kepengurusan",
+            isAlreadyPromoted
+                ? "Kepengurusan Telah Diberikan"
+                : "Berikan Kepengurusan",
             style: AppTextStyles.textProfileBold.copyWith(
               color: AppColors.whiteColor,
             ),

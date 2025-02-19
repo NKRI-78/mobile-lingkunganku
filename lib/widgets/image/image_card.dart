@@ -47,7 +47,7 @@ class ImageCard extends StatelessWidget {
       errorWidget: (BuildContext context, String text, dynamic _) {
         return Container(
           decoration: const BoxDecoration(
-              color: AppColors.redColor,
+              color: AppColors.secondaryColor,
               borderRadius: BorderRadius.all(Radius.circular(10.0))),
           child: Image.asset(
             "assets/images/no_image.png",

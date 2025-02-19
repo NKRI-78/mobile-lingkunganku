@@ -89,8 +89,14 @@ class AuthRepository {
         );
       }
       if (res.statusCode == 400) {
+        if (json['error'] != null &&
+            json['error']['message'] == "Email tidak ditemukan") {
+          throw EmailNotFoundFailure();
+        }
+
         throw json['message'] ?? "Terjadi Kesalahan";
       }
+
       throw json['message'] ?? "Terjadi Kesalahan";
     } catch (e) {
       rethrow;

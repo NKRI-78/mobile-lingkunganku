@@ -103,7 +103,7 @@ class Members {
         return 'Ketua';
       case 'SECRETARY':
         return 'Sekretaris';
-      case 'TRASURER':
+      case 'TREASURER':
         return 'Bendahara';
       case 'MEMBER':
         return 'Warga';

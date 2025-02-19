@@ -2,17 +2,14 @@ part of 'management_acces_section.dart';
 
 void _showManagementAccesDialog(
     BuildContext context, String? currentRole, String userId) {
-  print("Memanggil showDialog...");
   String? selectedRole = currentRole;
-  print("userId $userId");
 
   WidgetsBinding.instance.addPostFrameCallback((_) {
     showDialog<String>(
       context: context,
       builder: (BuildContext dialogContext) {
         return BlocProvider.value(
-          value: context.read<
-              ManagementDetailCubit>(), // Pastikan cubit tersedia di dialog
+          value: context.read<ManagementDetailCubit>(),
           child: AlertDialog(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16.0),

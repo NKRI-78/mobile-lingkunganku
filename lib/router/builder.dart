@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mobile_lingkunganku/modules/forum/view/forum_page.dart';
 import 'package:mobile_lingkunganku/modules/management_detail/view/management_detail_page.dart';
 import 'package:mobile_lingkunganku/modules/show_more_news/view/show_more_news_page.dart';
+import 'package:mobile_lingkunganku/modules/transfer_management/view/transfer_management_page.dart';
 import '../modules/management/view/management_page.dart';
 import '../modules/profile_update/view/profile_update_page.dart';
 import '../modules/detail_news/view/detail_news_page.dart';
@@ -37,6 +38,7 @@ class OnboardingRoute extends GoRouteData {
   TypedGoRoute<ShowMoreNewsRoute>(path: 'show-more-news'),
   TypedGoRoute<ProfileRoute>(path: 'profile', routes: [
     TypedGoRoute<ProfileUpdateRoute>(path: 'profile-update'),
+    TypedGoRoute<TransferManagementRoute>(path: 'transfer-management'),
   ]),
   TypedGoRoute<ManagementRoute>(path: 'management', routes: [
     TypedGoRoute<ManagementDetailRoute>(path: 'management-detail'),
@@ -104,6 +106,13 @@ class ProfileUpdateRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return ProfileUpdatePage();
+  }
+}
+
+class TransferManagementRoute extends GoRouteData {
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return TransferManagementPage();
   }
 }
 
@@ -202,9 +211,14 @@ class LupaPasswordChangeRoute extends GoRouteData {
 }
 
 class SosRoute extends GoRouteData {
+  final bool isLoggedIn;
+
+  SosRoute({required this.isLoggedIn});
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return SosPage();
+    return SosPage(
+      isLoggedIn: isLoggedIn,
+    );
   }
 }
 
