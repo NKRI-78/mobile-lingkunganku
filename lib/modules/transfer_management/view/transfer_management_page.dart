@@ -1,36 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mobile_lingkunganku/misc/colors.dart';
 import 'package:mobile_lingkunganku/misc/injections.dart';
-import 'package:mobile_lingkunganku/modules/management/cubit/management_cubit.dart';
+import 'package:mobile_lingkunganku/modules/transfer_management/cubit/transfer_management_cubit.dart';
+import 'package:mobile_lingkunganku/modules/transfer_management/widget/member_list_section.dart';
 import 'package:mobile_lingkunganku/repositories/management_repository/management_repository.dart';
-import 'package:url_launcher/url_launcher.dart';
 
-import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
-import '../widget/member_tile_section.dart';
 
-class ManagementPage extends StatelessWidget {
-  const ManagementPage({super.key});
+class TransferManagementPage extends StatelessWidget {
+  const TransferManagementPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ManagementCubit(getIt<ManagementRepository>())
-        ..fetchManagementMembers(),
-      child: const ManagementView(),
+      create: (context) =>
+          TransferManagementCubit(getIt<ManagementRepository>())
+            ..fetchManagementMembers(),
+      child: TransferManagementView(),
     );
   }
 }
 
-class ManagementView extends StatefulWidget {
-  const ManagementView({super.key});
+class TransferManagementView extends StatefulWidget {
+  const TransferManagementView({super.key});
 
   @override
-  ManagementViewState createState() => ManagementViewState();
+  State<TransferManagementView> createState() => _TransferManagementViewState();
 }
 
-class ManagementViewState extends State<ManagementView> {
+class _TransferManagementViewState extends State<TransferManagementView> {
   final ValueNotifier<bool> isExpanded = ValueNotifier(false);
   bool hasInitialized = false;
 
@@ -39,7 +39,7 @@ class ManagementViewState extends State<ManagementView> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       // Pastikan data di-fetch ulang setiap kali halaman ini ditampilkan kembali
-      context.read<ManagementCubit>().fetchManagementMembers();
+      context.read<TransferManagementCubit>().fetchManagementMembers();
     });
   }
 
@@ -51,35 +51,38 @@ class ManagementViewState extends State<ManagementView> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<ManagementCubit, ManagementState>(
+    return BlocListener<TransferManagementCubit, TransferManagementState>(
       listener: (context, state) {
         if (!hasInitialized && state.memberData?.data?.members != null) {
           isExpanded.value = state.memberData!.data!.members.isNotEmpty;
           hasInitialized = true;
         }
       },
-      child: BlocBuilder<ManagementCubit, ManagementState>(
+      child: BlocBuilder<TransferManagementCubit, TransferManagementState>(
         builder: (context, state) {
           return Scaffold(
             backgroundColor: Colors.green.shade100,
             body: RefreshIndicator(
               color: AppColors.secondaryColor,
               onRefresh: () async {
-                context.read<ManagementCubit>().fetchManagementMembers();
+                context
+                    .read<TransferManagementCubit>()
+                    .fetchManagementMembers();
               },
               child: SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(),
+                physics: AlwaysScrollableScrollPhysics(),
                 child: Padding(
-                  padding: const EdgeInsets.only(
-                      top: 50, bottom: 20, right: 20, left: 20),
+                  padding:
+                      EdgeInsets.only(top: 50, bottom: 20, right: 20, left: 20),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Nama Lingkungan", style: AppTextStyles.textStyle2),
-                      const SizedBox(height: 4),
                       Text(state.memberData?.data?.name ?? "",
                           style: AppTextStyles.textStyle1),
-                      const SizedBox(height: 20),
+                      SizedBox(height: 10),
+                      Text("Pilih Ketua Lingkungan Baru",
+                          style: AppTextStyles.textStyle2),
+                      SizedBox(height: 10),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -92,7 +95,10 @@ class ManagementViewState extends State<ManagementView> {
                               onPressed: () {
                                 GoRouter.of(context).pop();
                               },
-                              icon: const Icon(Icons.home, color: Colors.white),
+                              icon: Icon(
+                                Icons.home_outlined,
+                                color: AppColors.whiteColor,
+                              ),
                             ),
                           ),
                           Container(
@@ -107,25 +113,9 @@ class ManagementViewState extends State<ManagementView> {
                               style: AppTextStyles.textProfileBold,
                             ),
                           ),
-                          Container(
-                            decoration: BoxDecoration(
-                              color: AppColors.secondaryColor,
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: IconButton(
-                              onPressed: () {
-                                _shareDownloadLink(context);
-                              },
-                              icon: Icon(
-                                Icons.share,
-                                color: AppColors.whiteColor,
-                                size: 18,
-                              ),
-                            ),
-                          )
                         ],
                       ),
-                      const SizedBox(height: 20),
+                      SizedBox(height: 20),
                       Card(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -160,23 +150,25 @@ class ManagementViewState extends State<ManagementView> {
                                   child: expanded
                                       ? Column(
                                           children: members.isNotEmpty
-                                              ? members.map((member) {
-                                                  return MemberTile(
-                                                    userId:
-                                                        member.id.toString(),
-                                                    name: member.profile
-                                                            ?.fullname ??
-                                                        "Nama tidak tersedia",
-                                                    role: member
-                                                            .translateRoleApp
-                                                            .isNotEmpty
-                                                        ? member
-                                                            .translateRoleApp
-                                                        : "Role tidak tersedia",
-                                                    avatarUrl: member
-                                                        .profile?.avatarLink,
-                                                  );
-                                                }).toList()
+                                              ? members.map(
+                                                  (member) {
+                                                    return MemberListSection(
+                                                      userId:
+                                                          member.id.toString(),
+                                                      name: member.profile
+                                                              ?.fullname ??
+                                                          "Nama tidak tersedia",
+                                                      role: member
+                                                              .translateRoleApp
+                                                              .isNotEmpty
+                                                          ? member
+                                                              .translateRoleApp
+                                                          : "Role tidak tersedia",
+                                                      avatarUrl: member
+                                                          .profile?.avatarLink,
+                                                    );
+                                                  },
+                                                ).toList()
                                               : [
                                                   const Padding(
                                                     padding: EdgeInsets.all(16),
@@ -199,41 +191,6 @@ class ManagementViewState extends State<ManagementView> {
             ),
           );
         },
-      ),
-    );
-  }
-}
-
-void _shareDownloadLink(BuildContext context) async {
-  const apkDownloadLink =
-      "https://drive.google.com/file/d/1R_KRK6AWNbMLGNqYRcq5F7p2GFZTBdI9/view";
-
-  final message = Uri.encodeComponent(
-      "Halo! Saya ingin mengajak Anda untuk bergabung di lingkungan ini.\n\n"
-      "Download aplikasinya di: $apkDownloadLink\n\n"
-      "Yuk, gabung sekarang!");
-
-  final Uri waUrl1 = Uri.parse("https://wa.me/?text=$message");
-  final Uri waUrl2 = Uri.parse("whatsapp://send?text=$message");
-
-  try {
-    // Coba dengan metode pertama
-    if (!await canLaunchUrl(waUrl1)) {
-      await launchUrl(waUrl1, mode: LaunchMode.externalApplication);
-    }
-    // Coba dengan metode kedua (fallback untuk Android 12 ke bawah)
-    else if (!await canLaunchUrl(waUrl2)) {
-      await launchUrl(waUrl2, mode: LaunchMode.externalApplication);
-    }
-    // Jika masih gagal, pakai launch() sebagai alternatif
-    else {
-      await launch(waUrl2.toString());
-    }
-  } catch (e) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text("Tidak dapat membuka WhatsApp"),
-        backgroundColor: AppColors.redColor,
       ),
     );
   }

@@ -329,18 +329,36 @@ class _CustomSelectMapLocationWidgetState
   }
 }
 
-Future<String> geocodeParsing(LatLng lng) async {
+Future<String?> geocodeParsing(LatLng lng) async {
   try {
     final place = await placemarkFromCoordinates(lng.latitude, lng.longitude);
 
-    final street = place.first.street;
-    final administrative = place.first.administrativeArea;
-    final country = place.first.country;
+    String? street = place.first.street;
+    String? thoroughfare = place.first.thoroughfare;
+    String? subLocality = place.first.subLocality;
+    String? locality = place.first.locality;
+    String? administrative = place.first.administrativeArea;
+    String? country = place.first.country;
 
-    var address = '$street, $administrative, $country';
+    // 🔹 Cek apakah street mengandung tanda "+"
+    if (street != null && street.contains("+")) {
+      // Ganti dengan thoroughfare/subLocality jika ada, jika tidak kosongkan atau "-"
+      street = thoroughfare ?? subLocality ?? "-";
+    }
 
-    return address;
+    // 🔹 Susun alamat tanpa Plus Code
+    List<String?> addressParts = [
+      street,
+      subLocality,
+      locality,
+      administrative,
+      country
+    ];
+    String address =
+        addressParts.where((e) => e != null && e.isNotEmpty).join(', ');
+
+    return address.isNotEmpty ? address : null;
   } catch (e) {
-    return '-';
+    return null;
   }
 }

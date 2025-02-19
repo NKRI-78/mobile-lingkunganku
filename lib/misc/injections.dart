@@ -2,6 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:mobile_lingkunganku/modules/forum/cubit/forum_cubit.dart';
 import 'package:mobile_lingkunganku/modules/management/cubit/management_cubit.dart';
 import 'package:mobile_lingkunganku/modules/management_detail/cubit/management_detail_cubit.dart';
+import 'package:mobile_lingkunganku/modules/transfer_management/cubit/transfer_management_cubit.dart';
 import 'package:mobile_lingkunganku/repositories/management_repository/management_repository.dart';
 import '../modules/home/bloc/home_bloc.dart';
 import '../modules/profile/cubit/profile_cubit.dart';
@@ -40,6 +41,8 @@ class MyInjection {
     getIt.registerLazySingleton<ManagementDetailCubit>(
       () => ManagementDetailCubit(getIt<ManagementRepository>()),
     );
+    getIt.registerLazySingleton<TransferManagementCubit>(
+        () => TransferManagementCubit(getIt<ManagementRepository>()));
 
     getIt.registerLazySingleton<AuthRepository>(() => AuthRepository());
     getIt.registerLazySingleton<ProfileRepository>(() => ProfileRepository());

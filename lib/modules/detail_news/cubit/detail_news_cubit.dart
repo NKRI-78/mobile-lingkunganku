@@ -16,11 +16,14 @@ class DetailNewsCubit extends Cubit<DetailNewsState> {
   }
 
   Future<void> fetchDetailNews(int newsId) async {
+    emit(state.copyWith(loading: true));
     try {
       final news = await repo.getDetailNews(newsId);
       emit(state.copyWith(news: news, idNews: newsId));
     } catch (e) {
       rethrow;
+    } finally {
+      emit(state.copyWith(loading: false));
     }
   }
 }

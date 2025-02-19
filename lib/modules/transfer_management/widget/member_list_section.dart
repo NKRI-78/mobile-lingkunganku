@@ -1,16 +1,21 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile_lingkunganku/misc/text_style.dart';
-import 'package:mobile_lingkunganku/misc/theme.dart';
-import 'package:mobile_lingkunganku/router/builder.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile_lingkunganku/modules/transfer_management/cubit/transfer_management_cubit.dart';
 
-class MemberTile extends StatelessWidget {
+import '../../../misc/colors.dart';
+import '../../../misc/text_style.dart';
+import '../../../misc/theme.dart';
+
+part '_show_transfer_dialog.dart';
+
+class MemberListSection extends StatelessWidget {
   final String userId;
   final String name;
   final String role;
   final String? avatarUrl;
 
-  const MemberTile({
+  const MemberListSection({
     super.key,
     required this.userId,
     required this.name,
@@ -30,10 +35,9 @@ class MemberTile extends StatelessWidget {
       ),
       title: Text(name, style: AppTextStyles.textDialog),
       subtitle: Text(role, style: TextStyle(color: Colors.grey.shade600)),
-      trailing: const Icon(Icons.arrow_forward_ios, size: 16),
       onTap: () {
-        // Kirim userId ke halaman detail
-        ManagementDetailRoute(userId: userId).go(context);
+        //
+        _showTransferDialog(context, userId, name);
       },
     );
   }

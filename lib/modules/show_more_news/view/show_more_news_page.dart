@@ -17,7 +17,9 @@ class ShowMoreNewsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ShowMoreNewsCubit()..fetchNews(),
+      create: (context) => ShowMoreNewsCubit()
+        ..fetchNews()
+        ..fetchProfile(),
       child: ShowMoreNewsView(),
     );
   }
@@ -30,6 +32,9 @@ class ShowMoreNewsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ShowMoreNewsCubit, ShowMoreNewsState>(
       builder: (_, state) {
+        final String role = (state.profile?.roleApp ?? 'MEMBER').toUpperCase();
+        print("Role Pengguna: ${state.profile?.roleApp}");
+
         return Scaffold(
           backgroundColor: Colors.grey[100],
           appBar: AppBar(
@@ -54,16 +59,18 @@ class ShowMoreNewsView extends StatelessWidget {
               },
             ),
             actions: [
-              IconButton(
-                icon: const Icon(
-                  Icons.add,
-                  color: AppColors.buttonColor2,
-                  size: 34,
+              if (role != "MEMBER" && role != "TREASURER")
+                IconButton(
+                  icon: const Icon(
+                    Icons.add,
+                    color: AppColors.buttonColor2,
+                    size: 34,
+                  ),
+                  onPressed: () {
+                    // create news
+                    print('ini di klik');
+                  },
                 ),
-                onPressed: () {
-                  // create news
-                },
-              ),
             ],
           ),
           body: SmartRefresher(

@@ -41,7 +41,7 @@ class MemberData {
         return 'Ketua';
       case 'SECRETARY':
         return 'Sekretaris';
-      case 'TRASURER':
+      case 'TREASURER':
         return 'Bendahara';
       case 'MEMBER':
         return 'Warga';
@@ -218,7 +218,9 @@ class Families {
     treasurer = json['treasurer'] != null
         ? Treasurer.fromJson(json['treasurer'])
         : null;
-    secretary = json['secretary'];
+    secretary = json['secretary'] != null
+        ? Secretary.fromJson(json['secretary'])
+        : null;
     profile = json['profile'] != null
         ? ProfileFamily.fromJson(json['profile'])
         : null;
