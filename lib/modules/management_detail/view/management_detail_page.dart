@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mobile_lingkunganku/misc/injections.dart';
-import 'package:mobile_lingkunganku/misc/text_style.dart';
-import 'package:mobile_lingkunganku/modules/management_detail/cubit/management_detail_cubit.dart';
-import 'package:mobile_lingkunganku/modules/management_detail/widget/join_date_section.dart';
-import 'package:mobile_lingkunganku/modules/management_detail/widget/management_acces_section.dart';
-import 'package:mobile_lingkunganku/modules/management_detail/widget/payment_section.dart';
-import 'package:mobile_lingkunganku/modules/management_detail/widget/profile_section.dart';
-import 'package:mobile_lingkunganku/modules/management_detail/widget/remove_user_section.dart';
-import 'package:mobile_lingkunganku/modules/management_detail/widget/user_info_section.dart';
+import '../../../misc/injections.dart';
+import '../../../misc/text_style.dart';
+import '../cubit/management_detail_cubit.dart';
+import '../widget/join_date_section.dart';
+import '../widget/management_acces_section.dart';
+import '../widget/payment_section.dart';
+import '../widget/profile_section.dart';
+import '../widget/remove_user_section.dart';
+import '../widget/user_info_section.dart';
 
 import '../../../misc/colors.dart';
 import '../../../repositories/management_repository/management_repository.dart';

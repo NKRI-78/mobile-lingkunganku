@@ -21,9 +21,10 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<HomeBloc>(
-      create: (_) => HomeBloc(getIt<HomeRepository>(), getIt<ProfileCubit>())
-        ..add(HomeInit(context: context)),
+    return BlocProvider(
+      create: (context) =>
+          HomeBloc(getIt<HomeRepository>(), getIt<ProfileCubit>())
+            ..add(HomeInit(context: context)),
       child: const HomeView(),
     );
   }
@@ -55,8 +56,6 @@ class _HomeViewState extends State<HomeView> {
                 color: AppColors.secondaryColor,
                 onRefresh: () async {
                   context.read<HomeBloc>().add(HomeInit(context: context));
-                  context.read<ProfileCubit>();
-                  context.read<HomeRepository>();
                 },
                 child: Stack(
                   children: [
@@ -137,7 +136,7 @@ class _HomeViewState extends State<HomeView> {
                                     return GestureDetector(
                                       onTap: () {
                                         if (newsItem.id != null) {
-                                          DetailNewsRoute(newsId: newsItem.id!)
+                                          NewsDetailRoute(newsId: newsItem.id!)
                                               .go(context);
                                         }
                                       },

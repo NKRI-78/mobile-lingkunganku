@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile_lingkunganku/misc/text_style.dart';
-import 'package:mobile_lingkunganku/misc/theme.dart';
+import '../../../misc/text_style.dart';
+import '../../../misc/theme.dart';
 import '../../../misc/colors.dart';
 
 class ForumPostItem extends StatelessWidget {

@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_lingkunganku/modules/profile/models/families_model.dart';
+import '../models/families_model.dart';
 import '../../../misc/injections.dart';
 import '../../home/bloc/home_bloc.dart';
 import '../../../repositories/profile_repository/models/profile_model.dart';

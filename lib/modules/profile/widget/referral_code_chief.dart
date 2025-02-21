@@ -1,7 +1,9 @@
 import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
 import '../../profile/cubit/profile_cubit.dart';
@@ -85,7 +87,7 @@ class ReferralCodeChief extends StatelessWidget {
                     ),
                     IconButton(
                       icon: const Icon(
-                        Icons.ios_share_rounded,
+                        Icons.share_outlined,
                         color: AppColors.whiteColor,
                       ),
                       onPressed: () {

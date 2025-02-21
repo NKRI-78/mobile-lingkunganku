@@ -100,6 +100,8 @@ class RegisterOtpView extends StatelessWidget {
                         ),
                         SizedBox(height: 20),
                         Pinput(
+                          androidSmsAutofillMethod:
+                              AndroidSmsAutofillMethod.none,
                           length: 4,
                           defaultPinTheme: PinTheme(
                             width: 60,

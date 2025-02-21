@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:mobile_lingkunganku/misc/api_url.dart';
-import 'package:mobile_lingkunganku/misc/http_client.dart';
-import 'package:mobile_lingkunganku/misc/injections.dart';
-import 'package:mobile_lingkunganku/repositories/management_repository/models/management_detail_member_model.dart';
-import 'package:mobile_lingkunganku/repositories/management_repository/models/management_member_model.dart';
+import '../../misc/api_url.dart';
+import '../../misc/http_client.dart';
+import '../../misc/injections.dart';
+import 'models/management_detail_member_model.dart';
+import 'models/management_member_model.dart';
 
 class ManagementRepository {
   String get managementMember => '${MyApi.baseUrl}/api/v1/member';

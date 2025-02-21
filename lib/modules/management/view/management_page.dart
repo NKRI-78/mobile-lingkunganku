@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mobile_lingkunganku/misc/injections.dart';
-import 'package:mobile_lingkunganku/modules/management/cubit/management_cubit.dart';
-import 'package:mobile_lingkunganku/repositories/management_repository/management_repository.dart';
+import '../../../misc/injections.dart';
+import '../cubit/management_cubit.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../misc/colors.dart';
@@ -15,9 +14,8 @@ class ManagementPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => ManagementCubit(getIt<ManagementRepository>())
-        ..fetchManagementMembers(),
+    return BlocProvider.value(
+      value: getIt<ManagementCubit>()..fetchManagementMembers(),
       child: const ManagementView(),
     );
   }
@@ -38,7 +36,6 @@ class ManagementViewState extends State<ManagementView> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      // Pastikan data di-fetch ulang setiap kali halaman ini ditampilkan kembali
       context.read<ManagementCubit>().fetchManagementMembers();
     });
   }
@@ -52,6 +49,7 @@ class ManagementViewState extends State<ManagementView> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<ManagementCubit, ManagementState>(
+      listenWhen: (previous, current) => previous != current,
       listener: (context, state) {
         if (!hasInitialized && state.memberData?.data?.members != null) {
           isExpanded.value = state.memberData!.data!.members.isNotEmpty;

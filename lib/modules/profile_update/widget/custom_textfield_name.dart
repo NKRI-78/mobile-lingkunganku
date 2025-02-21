@@ -2,9 +2,10 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
 import '../cubit/profile_update_cubit.dart';
-import '../../../misc/colors.dart';
 
 class CustomTextfieldName extends StatelessWidget {
   const CustomTextfieldName({super.key, required this.ctrName});

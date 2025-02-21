@@ -1,17 +1,19 @@
 import 'package:get_it/get_it.dart';
-import 'package:mobile_lingkunganku/modules/forum/cubit/forum_cubit.dart';
-import 'package:mobile_lingkunganku/modules/management/cubit/management_cubit.dart';
-import 'package:mobile_lingkunganku/modules/management_detail/cubit/management_detail_cubit.dart';
-import 'package:mobile_lingkunganku/modules/transfer_management/cubit/transfer_management_cubit.dart';
-import 'package:mobile_lingkunganku/repositories/management_repository/management_repository.dart';
+import 'package:mobile_lingkunganku/modules/news_create/cubit/news_create_cubit.dart';
+import 'package:mobile_lingkunganku/modules/show_more_news/cubit/show_more_news_cubit.dart';
+import '../modules/forum/cubit/forum_cubit.dart';
+import '../modules/management/cubit/management_cubit.dart';
+import '../modules/management_detail/cubit/management_detail_cubit.dart';
+import '../modules/transfer_management/cubit/transfer_management_cubit.dart';
+import '../repositories/management_repository/management_repository.dart';
 import '../modules/home/bloc/home_bloc.dart';
+import '../modules/news_detail/cubit/news_detail_cubit.dart';
 import '../modules/profile/cubit/profile_cubit.dart';
 import '../modules/profile_update/cubit/profile_update_cubit.dart';
 import '../repositories/forum_repository/forum_repository.dart';
 import '../repositories/profile_repository/profile_repository.dart';
 
 import '../modules/app/bloc/app_bloc.dart';
-import '../modules/detail_news/cubit/detail_news_cubit.dart';
 import '../modules/onboarding/cubit/onboarding_cubit.dart';
 import '../repositories/auth_repository/auth_repository.dart';
 import '../repositories/home_repository/home_repository.dart';
@@ -34,15 +36,18 @@ class MyInjection {
     getIt.registerLazySingleton<OnboardingCubit>(() => OnboardingCubit());
     getIt.registerLazySingleton<ProfileCubit>(() => ProfileCubit());
     getIt.registerLazySingleton<ProfileUpdateCubit>(() => ProfileUpdateCubit());
-    getIt.registerLazySingleton<DetailNewsCubit>(() => DetailNewsCubit());
-    getIt.registerLazySingleton<ManagementCubit>(
-        () => ManagementCubit(getIt<ManagementRepository>()));
+    getIt.registerLazySingleton<NewsDetailCubit>(() => NewsDetailCubit());
+    getIt.registerLazySingleton<ManagementCubit>(() => ManagementCubit());
     getIt.registerLazySingleton<ForumCubit>(() => ForumCubit());
     getIt.registerLazySingleton<ManagementDetailCubit>(
       () => ManagementDetailCubit(getIt<ManagementRepository>()),
     );
     getIt.registerLazySingleton<TransferManagementCubit>(
         () => TransferManagementCubit(getIt<ManagementRepository>()));
+    getIt.registerLazySingleton<ShowMoreNewsCubit>(() => ShowMoreNewsCubit());
+    getIt.registerCachedFactory<NewsCreateCubit>(
+      () => NewsCreateCubit(),
+    );
 
     getIt.registerLazySingleton<AuthRepository>(() => AuthRepository());
     getIt.registerLazySingleton<ProfileRepository>(() => ProfileRepository());

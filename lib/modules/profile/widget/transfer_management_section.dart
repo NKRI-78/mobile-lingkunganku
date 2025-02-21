@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:mobile_lingkunganku/router/builder.dart';
+import '../../../router/builder.dart';
 import '../../../misc/colors.dart';
 
 class TransferManagementSection extends StatelessWidget {

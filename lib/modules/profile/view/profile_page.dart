@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';
 import '../../../misc/text_style.dart';
-import '../cubit/profile_cubit.dart';
-import '../widget/family_member_section.dart';
-import '../widget/referral_code_chief.dart';
-import '../widget/referral_code_family.dart';
 import '../../../widgets/background/custom_background.dart';
 import '../../../widgets/header/custom_header_container.dart';
+import '../cubit/profile_cubit.dart';
+import '../widget/family_member_section.dart';
 import '../widget/profile_info_section.dart';
+import '../widget/referral_code_chief.dart';
+import '../widget/referral_code_family.dart';
 import '../widget/transfer_management_section.dart';
 
 class ProfilePage extends StatelessWidget {

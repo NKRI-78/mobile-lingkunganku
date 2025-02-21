@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_lingkunganku/repositories/forum_repository/forum_repository.dart';
+import '../../../repositories/forum_repository/forum_repository.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../misc/injections.dart';

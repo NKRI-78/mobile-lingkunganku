@@ -85,7 +85,7 @@ class ReferralCodeFamily extends StatelessWidget {
                     ),
                     IconButton(
                       icon: const Icon(
-                        Icons.ios_share_rounded,
+                        Icons.share_outlined,
                         color: AppColors.whiteColor,
                       ),
                       onPressed: () {

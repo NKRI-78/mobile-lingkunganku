@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mobile_lingkunganku/misc/colors.dart';
-import 'package:mobile_lingkunganku/misc/injections.dart';
-import 'package:mobile_lingkunganku/misc/text_style.dart';
-import 'package:mobile_lingkunganku/modules/forum/cubit/forum_cubit.dart';
-import 'package:mobile_lingkunganku/modules/forum/widget/forum_input_section.dart';
-import 'package:mobile_lingkunganku/modules/forum/widget/forum_post_item_section.dart';
+import '../../../misc/colors.dart';
+import '../../../misc/injections.dart';
+import '../../../misc/text_style.dart';
+import '../cubit/forum_cubit.dart';
+import '../widget/forum_input_section.dart';
+import '../widget/forum_post_item_section.dart';
 import '../../../widgets/extension/date_util.dart';
 
 class ForumPage extends StatelessWidget {

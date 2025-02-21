@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:mobile_lingkunganku/misc/api_url.dart';
-import 'package:mobile_lingkunganku/repositories/forum_repository/models/forums_model.dart';
+import '../../misc/api_url.dart';
+import 'models/forums_model.dart';
 
 import '../../misc/http_client.dart';
 import '../../misc/injections.dart';

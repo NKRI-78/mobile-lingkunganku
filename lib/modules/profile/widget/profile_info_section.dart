@@ -2,10 +2,11 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../cubit/profile_cubit.dart';
-import '../../../router/builder.dart';
+
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
+import '../../../router/builder.dart';
+import '../cubit/profile_cubit.dart';
 
 class ProfileInfoSection extends StatelessWidget {
   const ProfileInfoSection({super.key});

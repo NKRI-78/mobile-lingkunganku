@@ -3,21 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:mobile_lingkunganku/router/builder.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
-import '../cubit/detail_news_cubit.dart';
+import '../cubit/news_detail_cubit.dart';
 
-class DetailNewsPage extends StatelessWidget {
-  const DetailNewsPage({super.key, required this.newsId});
+class NewsDetailPage extends StatelessWidget {
+  const NewsDetailPage({super.key, required this.newsId});
 
   final int newsId;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => DetailNewsCubit()..fetchDetailNews(newsId),
+      create: (context) => NewsDetailCubit()..fetchDetailNews(newsId),
       child: DetailNewsView(newsId: newsId),
     );
   }
@@ -30,8 +31,9 @@ class DetailNewsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<DetailNewsCubit, DetailNewsState>(
+    return BlocBuilder<NewsDetailCubit, NewsDetailState>(
       builder: (context, state) {
+        final String role = state.profile?.roleApp?.toUpperCase() ?? 'MEMBER';
         final newsData = state.news?.data;
         final imageUrl = newsData?.linkImage?.isNotEmpty == true
             ? newsData?.linkImage
@@ -39,6 +41,7 @@ class DetailNewsView extends StatelessWidget {
 
         return Scaffold(
           appBar: AppBar(
+            elevation: 0,
             title: Text(
               "Detail News",
               style: AppTextStyles.textStyle1,
@@ -55,7 +58,19 @@ class DetailNewsView extends StatelessWidget {
                 GoRouter.of(context).pop();
               },
             ),
-            elevation: 0,
+            actions: [
+              if (role != "MEMBER" && role != "TREASURER")
+                IconButton(
+                  icon: const Icon(
+                    Icons.edit_outlined,
+                    color: AppColors.buttonColor2,
+                    size: 32,
+                  ),
+                  onPressed: () {
+                    NewsUpdateRoute(newsId: newsId).push(context);
+                  },
+                ),
+            ],
           ),
           body: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -63,10 +78,11 @@ class DetailNewsView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _buildImageCard(imageUrl),
-                const SizedBox(height: 16),
+                const SizedBox(height: 20),
                 state.loading
                     ? _buildLoadingContent()
                     : _buildContent(newsData),
+                const SizedBox(height: 20),
               ],
             ),
           ),
@@ -93,13 +109,15 @@ class DetailNewsView extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          newsData?.title ?? "-",
+          newsData?.title ?? "",
+          maxLines: 3,
+          overflow: TextOverflow.ellipsis,
           style: const TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.bold,
           ),
         ),
-        const SizedBox(height: 4),
+        const SizedBox(height: 5),
         Text(
           _formatDateTime(newsData?.createdAt),
           style: TextStyle(
@@ -107,9 +125,10 @@ class DetailNewsView extends StatelessWidget {
             color: Colors.grey[600],
           ),
         ),
-        const SizedBox(height: 8),
+        const SizedBox(height: 10),
         Text(
-          newsData?.content ?? "-",
+          newsData?.content ?? "",
+          textAlign: TextAlign.justify,
           style: const TextStyle(fontSize: 16),
         ),
       ],

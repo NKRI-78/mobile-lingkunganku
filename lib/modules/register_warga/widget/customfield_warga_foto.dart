@@ -3,9 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mobile_lingkunganku/misc/colors.dart';
-import 'package:mobile_lingkunganku/misc/text_style.dart';
-import 'package:mobile_lingkunganku/modules/register_warga/cubit/register_warga_cubit.dart';
+import '../../../misc/colors.dart';
+import '../../../misc/text_style.dart';
+import '../cubit/register_warga_cubit.dart';
 
 class CustomfieldWargaFoto extends StatelessWidget {
   const CustomfieldWargaFoto({super.key});

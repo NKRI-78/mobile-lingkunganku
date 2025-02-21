@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
-import 'package:mobile_lingkunganku/repositories/management_repository/management_repository.dart';
-import 'package:mobile_lingkunganku/repositories/management_repository/models/management_member_model.dart';
+import '../../../repositories/management_repository/management_repository.dart';
+import '../../../repositories/management_repository/models/management_member_model.dart';
 
 part 'transfer_management_state.dart';
 

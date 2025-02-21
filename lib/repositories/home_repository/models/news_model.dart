@@ -22,7 +22,7 @@ class NewsModel {
   factory NewsModel.fromJson(Map<String, dynamic> json) => NewsModel(
         id: json["id"]!,
         userId: json["user_id"],
-        linkImage: json["link_image"],
+        linkImage: json["link_image"] ?? "",
         title: json["title"],
         content: json["content"],
         createdAt: DateTime.parse(json["created_at"]),

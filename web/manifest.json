@@ -3,7 +3,7 @@
     "short_name": "mobile_lingkunganku",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#FFFFFF",
+    "background_color": "#236C06",
     "theme_color": "#000000",
     "description": "A new Flutter project.",
     "orientation": "portrait-primary",

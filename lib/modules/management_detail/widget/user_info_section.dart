@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_lingkunganku/misc/colors.dart';
-import 'package:mobile_lingkunganku/repositories/management_repository/models/management_detail_member_model.dart';
+import '../../../misc/colors.dart';
+import '../../../repositories/management_repository/models/management_detail_member_model.dart';
 
 import '../../../misc/text_style.dart';
 
