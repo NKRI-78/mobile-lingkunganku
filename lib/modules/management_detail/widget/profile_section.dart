@@ -1,9 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile_lingkunganku/misc/colors.dart';
-import 'package:mobile_lingkunganku/misc/text_style.dart';
-import 'package:mobile_lingkunganku/misc/theme.dart';
-import 'package:mobile_lingkunganku/repositories/management_repository/models/management_detail_member_model.dart';
+import '../../../misc/colors.dart';
+import '../../../misc/text_style.dart';
+import '../../../misc/theme.dart';
+import '../../../repositories/management_repository/models/management_detail_member_model.dart';
 
 class ProfileSection extends StatelessWidget {
   final MemberData? member;
@@ -12,8 +12,8 @@ class ProfileSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("🔍 Debugging Member: ${member?.profile?.fullname}");
-    print("🔍 Debugging Detail Address: ${member?.profile?.detailAddress}");
+    // print("🔍 Debugging Member: ${member?.profile?.fullname}");
+    // print("🔍 Debugging Detail Address: ${member?.profile?.detailAddress}");
 
     return Container(
       padding: const EdgeInsets.all(30),

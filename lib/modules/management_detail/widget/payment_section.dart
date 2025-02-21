@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_lingkunganku/misc/colors.dart';
+import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
 
 class PaymentSection extends StatelessWidget {

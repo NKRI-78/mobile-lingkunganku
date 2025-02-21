@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mobile_lingkunganku/misc/colors.dart';
-import 'package:mobile_lingkunganku/misc/injections.dart';
-import 'package:mobile_lingkunganku/modules/transfer_management/cubit/transfer_management_cubit.dart';
-import 'package:mobile_lingkunganku/modules/transfer_management/widget/member_list_section.dart';
-import 'package:mobile_lingkunganku/repositories/management_repository/management_repository.dart';
+import '../../../misc/colors.dart';
+import '../../../misc/injections.dart';
+import '../cubit/transfer_management_cubit.dart';
+import '../widget/member_list_section.dart';
+import '../../../repositories/management_repository/management_repository.dart';
 
 import '../../../misc/text_style.dart';
 

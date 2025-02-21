@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_lingkunganku/misc/colors.dart';
-import 'package:mobile_lingkunganku/misc/text_style.dart';
+import '../../../misc/colors.dart';
+import '../../../misc/text_style.dart';
 
 import '../../../repositories/home_repository/models/news_model.dart';
 import '../../../router/builder.dart';
@@ -15,9 +15,9 @@ class ListNews extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        DetailNewsRoute(
+        NewsDetailRoute(
           newsId: news.id ?? 0,
-        ).go(context);
+        ).push(context);
       },
       child: Container(
         width: double.infinity,
@@ -58,7 +58,7 @@ class ListNews extends StatelessWidget {
                       news.title,
                       maxLines: 2,
                       style: AppTextStyles.textDialog,
-                      overflow: TextOverflow.visible,
+                      overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(
                       height: 10,

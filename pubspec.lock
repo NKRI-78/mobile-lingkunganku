@@ -961,10 +961,10 @@ packages:
     dependency: "direct main"
     description:
       name: pinput
-      sha256: "8a73be426a91fefec90a7f130763ca39772d547e92f19a827cf4aa02e323d35a"
+      sha256: "543da5bfdefd9e06914a12100f8c9156f84cef3efc14bca507c49e966c5b813b"
       url: "https://pub.dev"
     source: hosted
-    version: "5.0.1"
+    version: "2.3.0"
   platform:
     dependency: transitive
     description:
@@ -1074,6 +1074,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  smart_auth:
+    dependency: transitive
+    description:
+      name: smart_auth
+      sha256: a25229b38c02f733d0a4e98d941b42bed91a976cb589e934895e60ccfa674cf6
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.1"
   source_gen:
     dependency: transitive
     description:

@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_lingkunganku/modules/transfer_management/cubit/transfer_management_cubit.dart';
+import '../cubit/transfer_management_cubit.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';

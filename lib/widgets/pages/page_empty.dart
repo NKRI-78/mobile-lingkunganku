@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:mobile_lingkunganku/misc/colors.dart';
-import 'package:mobile_lingkunganku/misc/text_style.dart';
+import '../../misc/colors.dart';
+import '../../misc/text_style.dart';
 
 class EmptyPage extends StatelessWidget {
   const EmptyPage({super.key, required this.msg});

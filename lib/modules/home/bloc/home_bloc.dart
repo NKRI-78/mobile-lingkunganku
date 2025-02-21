@@ -3,17 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
-import '../../../repositories/profile_repository/models/profile_model.dart';
-import '../../../repositories/profile_repository/profile_repository.dart';
+
 import '../../../misc/injections.dart';
 import '../../../misc/location.dart';
 import '../../../repositories/home_repository/home_repository.dart';
 import '../../../repositories/home_repository/models/data_pagination.dart';
 import '../../../repositories/home_repository/models/news_model.dart';
+import '../../../repositories/profile_repository/models/profile_model.dart';
+import '../../../repositories/profile_repository/profile_repository.dart';
 import '../../profile/cubit/profile_cubit.dart';
 
-part 'home_state.dart';
 part 'home_event.dart';
+part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeRepository repo = HomeRepository();

@@ -42,12 +42,24 @@ RouteBase get $homeRoute => GoRouteData.$route(
           factory: $SettingsRouteExtension._fromState,
         ),
         GoRouteData.$route(
-          path: 'detail-news',
-          factory: $DetailNewsRouteExtension._fromState,
+          path: 'news-detail',
+          factory: $NewsDetailRouteExtension._fromState,
+          routes: [
+            GoRouteData.$route(
+              path: 'news-update',
+              factory: $NewsUpdateRouteExtension._fromState,
+            ),
+          ],
         ),
         GoRouteData.$route(
           path: 'show-more-news',
           factory: $ShowMoreNewsRouteExtension._fromState,
+          routes: [
+            GoRouteData.$route(
+              path: 'news-create',
+              factory: $NewsCreateRouteExtension._fromState,
+            ),
+          ],
         ),
         GoRouteData.$route(
           path: 'profile',
@@ -160,13 +172,35 @@ extension $SettingsRouteExtension on SettingsRoute {
   void replace(BuildContext context) => context.replace(location);
 }
 
-extension $DetailNewsRouteExtension on DetailNewsRoute {
-  static DetailNewsRoute _fromState(GoRouterState state) => DetailNewsRoute(
+extension $NewsDetailRouteExtension on NewsDetailRoute {
+  static NewsDetailRoute _fromState(GoRouterState state) => NewsDetailRoute(
         newsId: int.parse(state.uri.queryParameters['news-id']!),
       );
 
   String get location => GoRouteData.$location(
-        '/home/detail-news',
+        '/home/news-detail',
+        queryParams: {
+          'news-id': newsId.toString(),
+        },
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $NewsUpdateRouteExtension on NewsUpdateRoute {
+  static NewsUpdateRoute _fromState(GoRouterState state) => NewsUpdateRoute(
+        newsId: int.parse(state.uri.queryParameters['news-id']!),
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/news-detail/news-update',
         queryParams: {
           'news-id': newsId.toString(),
         },
@@ -188,6 +222,23 @@ extension $ShowMoreNewsRouteExtension on ShowMoreNewsRoute {
 
   String get location => GoRouteData.$location(
         '/home/show-more-news',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $NewsCreateRouteExtension on NewsCreateRoute {
+  static NewsCreateRoute _fromState(GoRouterState state) => NewsCreateRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/show-more-news/news-create',
       );
 
   void go(BuildContext context) => context.go(location);

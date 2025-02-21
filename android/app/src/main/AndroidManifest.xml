@@ -3,17 +3,15 @@
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET"/>
-    <!-- <intent-filter>
-        <action android:name="android.intent.action.VIEW"/>
-        <category android:name="android.intent.category.DEFAULT"/>
-        <category android:name="android.intent.category.BROWSABLE"/>
-        <data android:scheme="https" android:host="wa.me"/>
-    </intent-filter> -->
+   
 
 
     <application
+        android:enableOnBackInvokedCallback="true"
         android:label="lingkunganku"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">

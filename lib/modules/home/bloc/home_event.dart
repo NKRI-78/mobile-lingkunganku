@@ -25,6 +25,13 @@ final class HomeCopyState extends HomeEvent {
   HomeCopyState({required this.newState});
 }
 
-class HomeFetchMoreNews extends HomeEvent {}
+class HomeFetchMoreNews extends HomeEvent {
+  final bool isRefresh;
+
+  HomeFetchMoreNews(this.isRefresh);
+
+  @override
+  List<Object> get props => [isRefresh];
+}
 
 class LoadProfile extends HomeEvent {}

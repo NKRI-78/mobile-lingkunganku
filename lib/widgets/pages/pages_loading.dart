@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_lingkunganku/misc/colors.dart';
+import '../../misc/colors.dart';
 
 class LoadingPage extends StatelessWidget {
   const LoadingPage({super.key});

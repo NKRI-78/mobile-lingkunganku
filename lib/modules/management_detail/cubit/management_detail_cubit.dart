@@ -1,8 +1,10 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_lingkunganku/repositories/management_repository/management_repository.dart';
-import 'package:mobile_lingkunganku/repositories/management_repository/models/management_detail_member_model.dart';
-import 'package:mobile_lingkunganku/repositories/management_repository/models/management_member_model.dart';
+import '../../../misc/injections.dart';
+import '../../management/cubit/management_cubit.dart';
+import '../../../repositories/management_repository/management_repository.dart';
+import '../../../repositories/management_repository/models/management_detail_member_model.dart';
+import '../../../repositories/management_repository/models/management_member_model.dart';
 
 part 'management_detail_state.dart';
 
@@ -83,5 +85,11 @@ class ManagementDetailCubit extends Cubit<ManagementDetailState> {
         errorMessage: "Terjadi kesalahan saat menghapus anggota: $e",
       ));
     }
+  }
+
+  @override
+  Future<void> close() {
+    getIt<ManagementCubit>().fetchManagementMembers();
+    return super.close();
   }
 }

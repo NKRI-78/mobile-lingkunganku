@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mobile_lingkunganku/modules/forum/view/forum_page.dart';
-import 'package:mobile_lingkunganku/modules/management_detail/view/management_detail_page.dart';
-import 'package:mobile_lingkunganku/modules/show_more_news/view/show_more_news_page.dart';
-import 'package:mobile_lingkunganku/modules/transfer_management/view/transfer_management_page.dart';
+import 'package:mobile_lingkunganku/modules/news_update/view/news_update_page.dart';
+import '../modules/news_create/view/news_create_page.dart';
+import '../modules/forum/view/forum_page.dart';
+import '../modules/management_detail/view/management_detail_page.dart';
+import '../modules/show_more_news/view/show_more_news_page.dart';
+import '../modules/transfer_management/view/transfer_management_page.dart';
 import '../modules/management/view/management_page.dart';
 import '../modules/profile_update/view/profile_update_page.dart';
-import '../modules/detail_news/view/detail_news_page.dart';
+import '../modules/news_detail/view/news_detail_page.dart';
 import '../modules/profile/view/profile_page.dart';
 import '../modules/register_otp/view/register_otp_page.dart';
 
@@ -34,8 +36,12 @@ class OnboardingRoute extends GoRouteData {
 
 @TypedGoRoute<HomeRoute>(path: '/home', routes: [
   TypedGoRoute<SettingsRoute>(path: 'settings'),
-  TypedGoRoute<DetailNewsRoute>(path: 'detail-news'),
-  TypedGoRoute<ShowMoreNewsRoute>(path: 'show-more-news'),
+  TypedGoRoute<NewsDetailRoute>(path: 'news-detail', routes: [
+    TypedGoRoute<NewsUpdateRoute>(path: 'news-update'),
+  ]),
+  TypedGoRoute<ShowMoreNewsRoute>(path: 'show-more-news', routes: [
+    TypedGoRoute<NewsCreateRoute>(path: 'news-create'),
+  ]),
   TypedGoRoute<ProfileRoute>(path: 'profile', routes: [
     TypedGoRoute<ProfileUpdateRoute>(path: 'profile-update'),
     TypedGoRoute<TransferManagementRoute>(path: 'transfer-management'),
@@ -46,7 +52,7 @@ class OnboardingRoute extends GoRouteData {
   TypedGoRoute<LoginRoute>(path: 'login', routes: [
     TypedGoRoute<LupaPasswordRoute>(path: 'lupa-password', routes: [
       TypedGoRoute<LupaPasswordOtpRoute>(path: 'lupa-password-otp', routes: [
-        TypedGoRoute<LupaPasswordChangeRoute>(path: 'lupa-password-change')
+        TypedGoRoute<LupaPasswordChangeRoute>(path: 'lupa-password-change'),
       ])
     ]),
   ]),
@@ -73,16 +79,29 @@ class SettingsRoute extends GoRouteData {
   }
 }
 
-class DetailNewsRoute extends GoRouteData {
+class NewsDetailRoute extends GoRouteData {
   final int newsId;
 
-  DetailNewsRoute({
+  NewsDetailRoute({
     required this.newsId,
   });
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return DetailNewsPage(
+    return NewsDetailPage(
+      newsId: newsId,
+    );
+  }
+}
+
+class NewsUpdateRoute extends GoRouteData {
+  final int newsId;
+
+  NewsUpdateRoute({required this.newsId});
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return NewsUpdatePage(
       newsId: newsId,
     );
   }
@@ -99,6 +118,13 @@ class ShowMoreNewsRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return ShowMoreNewsPage();
+  }
+}
+
+class NewsCreateRoute extends GoRouteData {
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return NewsCreatePage();
   }
 }
 

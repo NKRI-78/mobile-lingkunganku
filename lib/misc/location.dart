@@ -1,7 +1,7 @@
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile_lingkunganku/misc/colors.dart';
-import 'package:mobile_lingkunganku/misc/text_style.dart';
+import 'colors.dart';
+import 'text_style.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 Future<Position> determinePosition(BuildContext context) async {

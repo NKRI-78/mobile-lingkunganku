@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile_lingkunganku/misc/colors.dart';
+import '../../misc/colors.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ImageCard extends StatelessWidget {
@@ -21,7 +21,7 @@ class ImageCard extends StatelessWidget {
       width: width,
       imageUrl: image,
       height: height,
-      fit: BoxFit.fill,
+      fit: BoxFit.cover,
       placeholder: (BuildContext context, String val) {
         return SizedBox(
           width: width,
