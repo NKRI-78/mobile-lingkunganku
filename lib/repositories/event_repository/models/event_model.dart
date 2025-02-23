@@ -39,39 +39,35 @@ class EventModel {
 
   factory EventModel.fromJson(Map<String, dynamic> json) {
     return EventModel(
-      id: json['id'] is int
-          ? json['id']
-          : int.tryParse(json['id'].toString()) ?? 0,
-      userId: json['user_id'] is int
-          ? json['user_id']
-          : int.tryParse(json['user_id'].toString()) ?? 0,
-      neighborhoodId: json['neighborhood_id'] is int
-          ? json['neighborhood_id']
-          : int.tryParse(json['neighborhood_id'].toString()) ?? 0,
-      title: json['title'] ?? '',
-      imageUrl: json['image_url'] ?? '',
-      description: json['description'] ?? '',
-      start: json['start'] ?? '',
-      end: json['end'] ?? '',
-      address: json['address'] ?? '',
+      id: int.tryParse(json['id']?.toString() ?? '') ?? 0,
+      userId: int.tryParse(json['user_id']?.toString() ?? '') ?? 0,
+      neighborhoodId:
+          int.tryParse(json['neighborhood_id']?.toString() ?? '') ?? 0,
+      title: json['title']?.toString() ?? '',
+      imageUrl: json['image_url']?.toString() ?? '',
+      description: json['description']?.toString() ?? '',
+      start: json['start']?.toString() ?? '',
+      end: json['end']?.toString() ?? '',
+      address: json['address']?.toString() ?? '',
       startDate: json['start_date'] != null
-          ? DateTime.parse(json['start_date'])
+          ? DateTime.tryParse(json['start_date'].toString()) ?? DateTime.now()
           : DateTime.now(),
       endDate: json['end_date'] != null
-          ? DateTime.parse(json['end_date'])
+          ? DateTime.tryParse(json['end_date'].toString()) ?? DateTime.now()
           : DateTime.now(),
       createdAt: json['created_at'] != null
-          ? DateTime.parse(json['created_at'])
+          ? DateTime.tryParse(json['created_at'].toString()) ?? DateTime.now()
           : DateTime.now(),
       updatedAt: json['updated_at'] != null
-          ? DateTime.parse(json['updated_at'])
+          ? DateTime.tryParse(json['updated_at'].toString()) ?? DateTime.now()
           : DateTime.now(),
       user: UserModel.fromJson(json['user'] ?? {}),
-      userJoins: (json['user_joins'] as List<dynamic>? ?? [])
-          .map((e) => UserJoinModel.fromJson(e ?? {}))
-          .toList(),
-      isJoin: json['isJoin'] ?? false,
-      isExpired: json['isExpired'] ?? false,
+      userJoins: (json['user_joins'] as List<dynamic>?)
+              ?.map((e) => UserJoinModel.fromJson(e))
+              .toList() ??
+          [],
+      isJoin: json['isJoin'] as bool? ?? false,
+      isExpired: json['isExpired'] as bool? ?? false,
     );
   }
 }
@@ -80,23 +76,21 @@ class UserModel {
   final int id;
   final String email;
   final String phone;
-  // final ProfileModel profile;
+  // final ProfileModel? profile;
 
   UserModel({
     required this.id,
     required this.email,
     required this.phone,
-    // required this.profile,
+    // this.profile,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
-      id: json['id'] is int
-          ? json['id']
-          : int.tryParse(json['id'].toString()) ?? 0,
-      email: json['email'] ?? '',
-      phone: json['phone'] ?? '',
-      // profile: ProfileModel.fromJson(json['profile'] ?? {}),
+      id: int.tryParse(json['id']?.toString() ?? '') ?? 0,
+      email: json['email']?.toString() ?? '',
+      phone: json['phone']?.toString() ?? '',
+      // profile: json['profile'] != null ? ProfileModel.fromJson(json['profile']) : null,
     );
   }
 }
@@ -116,12 +110,10 @@ class UserModel {
 
 //   factory ProfileModel.fromJson(Map<String, dynamic> json) {
 //     return ProfileModel(
-//       id: json['id'] is int
-//           ? json['id']
-//           : int.tryParse(json['id'].toString()) ?? 0,
-//       fullname: json['fullname'] ?? '',
-//       avatarLink: json['avatar_link'] ?? '',
-//       detailAddress: json['detail_address'],
+//       id: int.tryParse(json['id']?.toString() ?? '') ?? 0,
+//       fullname: json['fullname']?.toString() ?? '',
+//       avatarLink: json['avatar_link']?.toString() ?? '',
+//       detailAddress: json['detail_address']?.toString(),
 //     );
 //   }
 // }
@@ -145,20 +137,14 @@ class UserJoinModel {
 
   factory UserJoinModel.fromJson(Map<String, dynamic> json) {
     return UserJoinModel(
-      id: json['id'] is int
-          ? json['id']
-          : int.tryParse(json['id'].toString()) ?? 0,
-      userId: json['user_id'] is int
-          ? json['user_id']
-          : int.tryParse(json['user_id'].toString()) ?? 0,
-      eventId: json['event_id'] is int
-          ? json['event_id']
-          : int.tryParse(json['event_id'].toString()) ?? 0,
+      id: int.tryParse(json['id']?.toString() ?? '') ?? 0,
+      userId: int.tryParse(json['user_id']?.toString() ?? '') ?? 0,
+      eventId: int.tryParse(json['event_id']?.toString() ?? '') ?? 0,
       createdAt: json['created_at'] != null
-          ? DateTime.parse(json['created_at'])
+          ? DateTime.tryParse(json['created_at'].toString()) ?? DateTime.now()
           : DateTime.now(),
       updatedAt: json['updated_at'] != null
-          ? DateTime.parse(json['updated_at'])
+          ? DateTime.tryParse(json['updated_at'].toString()) ?? DateTime.now()
           : DateTime.now(),
       user: UserModel.fromJson(json['user'] ?? {}),
     );

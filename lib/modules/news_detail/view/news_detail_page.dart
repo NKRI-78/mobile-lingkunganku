@@ -112,6 +112,7 @@ class DetailNewsView extends StatelessWidget {
           newsData?.title ?? "",
           maxLines: 3,
           overflow: TextOverflow.ellipsis,
+          textAlign: TextAlign.justify,
           style: const TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.bold,

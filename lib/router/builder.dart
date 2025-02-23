@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mobile_lingkunganku/modules/news_update/view/news_update_page.dart';
 import '../modules/event/view/event_page.dart';
 import '../modules/event_create/view/event_create_page.dart';
+import '../modules/event_detail/view/event_detail_page.dart';
 import '../modules/news_create/view/news_create_page.dart';
 import '../modules/forum/view/forum_page.dart';
 import '../modules/management_detail/view/management_detail_page.dart';
@@ -39,9 +40,8 @@ class OnboardingRoute extends GoRouteData {
 @TypedGoRoute<HomeRoute>(path: '/home', routes: [
   TypedGoRoute<SettingsRoute>(path: 'settings'),
   TypedGoRoute<EventRoute>(path: 'event', routes: [
-    TypedGoRoute<EventCreateRoute>(
-      path: 'event-create',
-    )
+    TypedGoRoute<EventCreateRoute>(path: 'event-create'),
+    TypedGoRoute<EventDetailRoute>(path: 'event-detail'),
   ]),
   TypedGoRoute<NewsDetailRoute>(path: 'news-detail', routes: [
     TypedGoRoute<NewsUpdateRoute>(path: 'news-update'),
@@ -97,6 +97,18 @@ class EventCreateRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return EventCreatePage();
+  }
+}
+
+class EventDetailRoute extends GoRouteData {
+  final int idEvent;
+
+  EventDetailRoute({required this.idEvent});
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return EventDetailPage(
+      idEvent: idEvent,
+    );
   }
 }
 

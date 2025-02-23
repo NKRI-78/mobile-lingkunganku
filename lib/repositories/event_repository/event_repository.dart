@@ -1,10 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/widgets.dart';
 import 'package:mobile_lingkunganku/misc/api_url.dart';
 import 'package:mobile_lingkunganku/misc/http_client.dart';
 import 'package:mobile_lingkunganku/misc/injections.dart';
 import 'package:mobile_lingkunganku/repositories/event_repository/models/event_model.dart';
+
+import 'models/event_detail_model.dart';
 
 class EventRepository {
   String get event => '${MyApi.baseUrl}/api/v1/event';
@@ -69,6 +72,23 @@ class EventRepository {
       throw "Terjadi kesalahan jaringan. Periksa koneksi internet Anda.";
     } catch (e) {
       throw "Error: $e";
+    }
+  }
+
+  Future<EventDetailModel> getEventDetail(int idEvent) async {
+    try {
+      final res = await http.get(Uri.parse('$event/$idEvent/detail'));
+
+      debugPrint(res.body);
+      final json = jsonDecode(res.body);
+
+      if (res.statusCode == 200) {
+        return EventDetailModel.fromJson(json);
+      } else {
+        throw "error api";
+      }
+    } catch (e) {
+      rethrow;
     }
   }
 }

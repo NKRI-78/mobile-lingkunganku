@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart'; // Import intl.dart untuk format tanggal
+import 'package:intl/intl.dart';
 import 'package:mobile_lingkunganku/misc/colors.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../misc/text_style.dart';
@@ -10,6 +10,7 @@ class CustomCardEventSection extends StatelessWidget {
   final String title;
   final DateTime startDate;
   final DateTime endDate;
+  final VoidCallback? onTap;
 
   const CustomCardEventSection({
     super.key,
@@ -17,6 +18,7 @@ class CustomCardEventSection extends StatelessWidget {
     required this.title,
     required this.startDate,
     required this.endDate,
+    this.onTap,
   });
 
   String formatDateRange(DateTime? startDate, DateTime? endDate) {
@@ -26,11 +28,9 @@ class CustomCardEventSection extends StatelessWidget {
       return "Tanggal tidak tersedia";
     }
 
-    // Konversi ke waktu lokal
     startDate = startDate.toLocal();
     endDate = endDate.toLocal();
 
-    // Fungsi untuk mendapatkan zona waktu (WIB, WITA, WIT)
     String getTimeZone(DateTime date) {
       int offset = date.timeZoneOffset.inHours;
       if (offset == 7) return "WIB";
@@ -45,58 +45,64 @@ class CustomCardEventSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.only(bottom: 20),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(24),
-      ),
-      elevation: 3,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildImageCard(imageUrl),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        title.isNotEmpty ? title : "Judul Tidak Tersedia",
-                        style: AppTextStyles.textDialog.copyWith(
-                          fontWeight: FontWeight.bold,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        maxLines: 1,
+    return Container(
+      margin: const EdgeInsets.only(bottom: 10),
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(24),
+        ),
+        elevation: 4,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(24),
+          splashColor: Colors.grey.withOpacity(0.5),
+          highlightColor: Colors.grey.withOpacity(0.5),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _buildImageCard(imageUrl),
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            title.isNotEmpty ? title : "Judul Tidak Tersedia",
+                            style: AppTextStyles.textDialog.copyWith(
+                              fontWeight: FontWeight.bold,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            maxLines: 1,
+                          ),
+                          const SizedBox(height: 5),
+                          Text(
+                            formatDateRange(startDate, endDate),
+                            style: AppTextStyles.textWelcome,
+                          ),
+                        ],
                       ),
-                      const SizedBox(height: 5),
-                      Text(
-                        formatDateRange(startDate, endDate),
-                        style: AppTextStyles.textWelcome,
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(18),
+                        color: AppColors.greyColor.withOpacity(0.3),
                       ),
-                    ],
-                  ),
+                      child: IconButton(
+                        onPressed: onTap,
+                        icon: const Icon(Icons.arrow_forward_rounded),
+                        color: AppColors.whiteColor,
+                      ),
+                    ),
+                  ],
                 ),
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(18),
-                    color: AppColors.greyColor.withOpacity(0.3),
-                  ),
-                  child: IconButton(
-                    onPressed: () {
-                      //
-                    },
-                    icon: const Icon(Icons.arrow_forward_rounded),
-                    color: AppColors.whiteColor,
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
