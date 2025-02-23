@@ -192,8 +192,8 @@ class DetailNewsView extends StatelessWidget {
     }
 
     try {
-      final DateTime date = DateTime.parse(dateString);
-      return DateFormat("dd MMMM yyyy | HH.mm 'WIB'").format(date);
+      final DateTime date = DateTime.parse(dateString).toLocal();
+      return DateFormat("dd MMMM yyyy | HH.mm 'WIB'", "id").format(date);
     } catch (e) {
       return "-";
     }

@@ -98,11 +98,13 @@ class CustomHeaderContainer extends StatelessWidget {
               child: Text(
                 'Hi, $displayText',
                 style: AppTextStyles.textRegister2,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.center,
               ),
             ),
+          // SizedBox(height: 3),
 
-          const SizedBox(height: 10),
           ...children,
         ],
       ),

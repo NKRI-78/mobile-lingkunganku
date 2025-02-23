@@ -24,6 +24,20 @@ class ProfileModel {
   Family? family;
   String? roleApp;
   final List<FamiliesModel> families;
+  String get translateRoleApp {
+    switch (roleApp) {
+      case 'CHIEF':
+        return 'Ketua';
+      case 'SECRETARY':
+        return 'Sekretaris';
+      case 'TREASURER':
+        return 'Bendahara';
+      case 'MEMBER':
+        return 'Warga';
+      default:
+        return 'Role tidak tersedia';
+    }
+  }
 
   ProfileModel({
     this.avatarLink,

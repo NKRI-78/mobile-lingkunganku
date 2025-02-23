@@ -27,6 +27,7 @@ class CustomTextfieldPhone extends StatelessWidget {
                   border: Border.all(color: AppColors.whiteColor),
                 ),
                 child: TextFormField(
+                  maxLength: 13,
                   controller: ctrPhone,
                   maxLines: 1,
                   keyboardType: TextInputType.phone,
@@ -38,7 +39,10 @@ class CustomTextfieldPhone extends StatelessWidget {
                     contentPadding:
                         EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                   ),
-                  style: TextStyle(color: AppColors.textColor2),
+                  style: TextStyle(
+                    color: AppColors.whiteColor,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),

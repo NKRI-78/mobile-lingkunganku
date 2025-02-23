@@ -42,6 +42,16 @@ RouteBase get $homeRoute => GoRouteData.$route(
           factory: $SettingsRouteExtension._fromState,
         ),
         GoRouteData.$route(
+          path: 'event',
+          factory: $EventRouteExtension._fromState,
+          routes: [
+            GoRouteData.$route(
+              path: 'event-create',
+              factory: $EventCreateRouteExtension._fromState,
+            ),
+          ],
+        ),
+        GoRouteData.$route(
           path: 'news-detail',
           factory: $NewsDetailRouteExtension._fromState,
           routes: [
@@ -160,6 +170,40 @@ extension $SettingsRouteExtension on SettingsRoute {
 
   String get location => GoRouteData.$location(
         '/home/settings',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $EventRouteExtension on EventRoute {
+  static EventRoute _fromState(GoRouterState state) => EventRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/event',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $EventCreateRouteExtension on EventCreateRoute {
+  static EventCreateRoute _fromState(GoRouterState state) => EventCreateRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/event/event-create',
       );
 
   void go(BuildContext context) => context.go(location);

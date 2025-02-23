@@ -40,7 +40,10 @@ class CustomTextfieldName extends StatelessWidget {
                     contentPadding:
                         EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                   ),
-                  style: TextStyle(color: AppColors.textColor2),
+                  style: TextStyle(
+                    color: AppColors.whiteColor,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),

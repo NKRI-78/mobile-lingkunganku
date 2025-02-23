@@ -31,6 +31,8 @@ class CustomHeaderAvatar extends StatelessWidget {
           Text(
             'Hi, $displayText',
             textAlign: TextAlign.center,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
             style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,

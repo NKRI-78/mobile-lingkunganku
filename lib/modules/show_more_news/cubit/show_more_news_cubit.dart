@@ -32,7 +32,7 @@ class ShowMoreNewsCubit extends Cubit<ShowMoreNewsState> {
   }
 
   Future<void> fetchProfile() async {
-    if (state.profile != null) return;
+    // if (state.profile != null) return;
     try {
       final profile = await repoProfile.getProfile();
       emit(state.copyWith(profile: profile));

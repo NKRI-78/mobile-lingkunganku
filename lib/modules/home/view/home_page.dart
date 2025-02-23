@@ -66,30 +66,32 @@ class _HomeViewState extends State<HomeView> {
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              const SizedBox(height: 290),
+                              SizedBox(height: 310),
                               // Carousel Slider
                               CarouselSlider(
                                 options: CarouselOptions(
                                   autoPlay: true,
                                   enlargeCenterPage: true,
-                                  aspectRatio: 16 / 9,
-                                  viewportFraction: 0.95,
+                                  aspectRatio: 20 / 10,
+                                  viewportFraction: 0.90,
                                 ),
-                                items: imgList.map((item) {
-                                  return ClipRRect(
-                                    borderRadius: BorderRadius.circular(16.0),
-                                    child: Image.asset(
-                                      item,
-                                      fit: BoxFit.contain,
-                                      errorBuilder:
-                                          (context, error, stackTrace) =>
-                                              Image.asset(
-                                        'assets/images/placeholder.png',
+                                items: imgList.map(
+                                  (item) {
+                                    return ClipRRect(
+                                      borderRadius: BorderRadius.circular(16.0),
+                                      child: Image.asset(
+                                        item,
                                         fit: BoxFit.contain,
+                                        errorBuilder:
+                                            (context, error, stackTrace) =>
+                                                Image.asset(
+                                          'assets/images/placeholder.png',
+                                          fit: BoxFit.contain,
+                                        ),
                                       ),
-                                    ),
-                                  );
-                                }).toList(),
+                                    );
+                                  },
+                                ).toList(),
                               ),
                               // Title Section
                               Padding(
@@ -237,8 +239,16 @@ class _HomeViewState extends State<HomeView> {
                             showText: true,
                             onMenuPressed: () =>
                                 Scaffold.of(context).openDrawer(),
-                            onNotificationPressed: () {},
+                            onNotificationPressed: () {
+                              //
+                            },
                             children: [
+                              if (isLoggedIn)
+                                Text(
+                                  ("Anda masuk sebagai ${state.profile?.translateRoleApp ?? ''},"),
+                                  style: AppTextStyles.textDialog,
+                                ),
+                              SizedBox(height: 3),
                               if (isLoggedIn)
                                 Text(
                                   'Selamat datang di Lingkunganku, aplikasi untuk terhubung dengan warga dan menjaga lingkungan.',
@@ -263,8 +273,9 @@ class _HomeViewState extends State<HomeView> {
                       child: BottomNavBarSection(
                         currentIndex: state.selectedIndex,
                         onTap: (index) {
-                          if (index == 4)
+                          if (index == 4) {
                             SosRoute(isLoggedIn: isLoggedIn).go(context);
+                          }
                           context.read<HomeBloc>().add(HomeNavigate(index));
                         },
                       ),
