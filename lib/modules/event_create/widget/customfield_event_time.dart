@@ -1,6 +1,7 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
+import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
 import 'package:mobile_lingkunganku/misc/colors.dart';
 import 'package:mobile_lingkunganku/modules/event_create/cubit/event_create_cubit.dart';
 
@@ -9,11 +10,11 @@ class CustomFieldEventTime extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Row(
       children: [
-        _FieldStartTime(),
-        SizedBox(height: 10),
-        _FieldEndTime(),
+        Expanded(child: _FieldStartTime()),
+        SizedBox(width: 10),
+        Expanded(child: _FieldEndTime()),
       ],
     );
   }
@@ -27,11 +28,9 @@ class _FieldStartTime extends StatelessWidget {
       builder: (context, state) {
         return _buildTimePickerField(
           label: 'Waktu Mulai',
-          selectedTime: state.startTime != null
-              ? TimeOfDay.fromDateTime(state.startTime!)
-              : null,
+          selectedTime: state.startTime,
           onChanged: (time) {
-            // context.read<EventCreateCubit>().updateStartTime(time);
+            context.read<EventCreateCubit>().updateStartTime(time);
           },
           context: context,
         );
@@ -48,11 +47,9 @@ class _FieldEndTime extends StatelessWidget {
       builder: (context, state) {
         return _buildTimePickerField(
           label: 'Waktu Selesai',
-          selectedTime: state.endTime != null
-              ? TimeOfDay.fromDateTime(state.endTime!)
-              : null,
+          selectedTime: state.endTime,
           onChanged: (time) {
-            // context.read<EventCreateCubit>().updateEndTime(time);
+            context.read<EventCreateCubit>().updateEndTime(time);
           },
           context: context,
         );
@@ -63,55 +60,66 @@ class _FieldEndTime extends StatelessWidget {
 
 Widget _buildTimePickerField({
   required String label,
-  TimeOfDay? selectedTime,
-  required ValueChanged<TimeOfDay> onChanged,
+  DateTime? selectedTime,
+  required ValueChanged<DateTime> onChanged,
   required BuildContext context,
 }) {
   TextEditingController controller = TextEditingController();
-  controller.text = selectedTime != null
-      ? selectedTime.format(context) // Format waktu yang mudah dibaca
-      : '';
+  controller.text =
+      selectedTime != null ? DateFormat('HH:mm').format(selectedTime) : '';
 
   Future<void> selectTime() async {
-    TimeOfDay initialTime = selectedTime ?? TimeOfDay.now();
-    TimeOfDay? picked = await showTimePicker(
-      context: context,
-      initialTime: initialTime,
+    DatePicker.showTimePicker(
+      context,
+      showSecondsColumn: false,
+      showTitleActions: true,
+      onConfirm: (pickedTime) {
+        final DateTime selected = DateTime(
+          2000,
+          1,
+          1,
+          pickedTime.hour,
+          pickedTime.minute,
+        ).toLocal();
+        onChanged(selected);
+      },
+      currentTime: DateTime.now(),
+      locale: LocaleType.id,
     );
-
-    if (picked != null) {
-      onChanged(picked);
-    }
   }
 
   return Padding(
-    padding: const EdgeInsets.only(bottom: 12),
+    padding: const EdgeInsets.only(bottom: 10),
     child: ClipRRect(
       borderRadius: BorderRadius.circular(12),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppColors.secondaryColor),
-          ),
-          child: TextFormField(
-            controller: controller,
-            readOnly: true,
-            onTap: selectTime,
-            decoration: InputDecoration(
-              labelText: label,
-              labelStyle: TextStyle(color: AppColors.buttonColor1),
-              suffixIcon: IconButton(
-                icon: Icon(Icons.access_time, color: AppColors.secondaryColor),
-                onPressed: selectTime,
-              ),
-              border: InputBorder.none,
-              contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: AppColors.secondaryColor),
+        ),
+        child: TextFormField(
+          controller: controller,
+          readOnly: true,
+          onTap: selectTime,
+          decoration: InputDecoration(
+            labelText: label,
+            labelStyle: TextStyle(
+              color: AppColors.buttonColor1,
+              fontSize: 12,
             ),
-            style: TextStyle(color: AppColors.textColor2),
+            suffixIcon: IconButton(
+              icon: Icon(
+                Icons.access_time,
+                color: AppColors.secondaryColor,
+                size: 28,
+              ),
+              onPressed: selectTime,
+            ),
+            border: InputBorder.none,
+            contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
           ),
+          style: TextStyle(color: AppColors.textColor2),
         ),
       ),
     ),

@@ -17,7 +17,7 @@ class CustomfieldEventFoto extends StatelessWidget {
           onTap: () => _showImagePicker(context),
           child: Container(
             width: double.infinity,
-            height: 200,
+            height: 180,
             decoration: BoxDecoration(
               color: AppColors.whiteColor.withOpacity(0.1),
               borderRadius: BorderRadius.circular(12),

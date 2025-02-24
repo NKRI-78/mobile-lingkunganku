@@ -16,7 +16,8 @@ class EventRepository {
 
   Future<List<EventModel>> getEvents() async {
     try {
-      final res = await http.get(Uri.parse(event));
+      final res =
+          await http.get(Uri.parse(event)).timeout(Duration(seconds: 10));
 
       final json = jsonDecode(res.body);
       if (res.statusCode == 200) {
@@ -33,8 +34,8 @@ class EventRepository {
   Future<EventModel> createEvent({
     required String title,
     required String description,
-    String? startTime,
-    String? endTime,
+    required String startTime,
+    required String endTime,
     String? address,
     required String startDate,
     required String endDate,
@@ -62,7 +63,8 @@ class EventRepository {
           'Authorization': 'Bearer ${http.token}',
         },
       );
-
+      print('ini startTime : ${startTime}');
+      print('ini startDate : ${startDate}');
       debugPrint(response.body);
       final json = jsonDecode(response.body);
 

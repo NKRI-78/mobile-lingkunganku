@@ -19,6 +19,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^9.0.0
+  flutter_datetime_picker_plus: ^2.2.0
   flutter_launcher_icons: ^0.14.3
   flutter_otp_text_field: ^1.4.0+2
   geocoding: ^3.0.0

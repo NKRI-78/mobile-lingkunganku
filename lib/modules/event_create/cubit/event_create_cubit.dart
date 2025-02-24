@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:mobile_lingkunganku/router/builder.dart';
 import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';
@@ -16,7 +17,9 @@ part 'event_create_state.dart';
 class EventCreateCubit extends Cubit<EventCreateState> {
   EventCreateCubit()
       : super(EventCreateState(
-            startDate: DateTime.now(), endDate: DateTime.now()));
+          startDate: DateTime.now(),
+          endDate: DateTime.now(),
+        ));
 
   EventRepository repo = getIt<EventRepository>();
   AuthRepository repoUpload = getIt<AuthRepository>();
@@ -25,39 +28,66 @@ class EventCreateCubit extends Cubit<EventCreateState> {
     emit(newState);
   }
 
+  /// Fungsi untuk menggabungkan tanggal (`date`) dan waktu (`time`)
+  DateTime combineDateAndTime(DateTime date, DateTime time) {
+    return DateTime(
+      date.year,
+      date.month,
+      date.day,
+      time.hour,
+      time.minute,
+      time.second,
+    );
+  }
+
   void updateStartDate(DateTime date) {
-    emit(state.copyWith(startDate: () => date));
+    final DateTime combinedDateTime =
+        combineDateAndTime(date, state.startTime ?? DateTime.now());
+    emit(state.copyWith(
+        startDate: () => date, startTime: () => combinedDateTime));
   }
 
   void updateEndDate(DateTime date) {
-    emit(state.copyWith(endDate: () => date));
+    final DateTime combinedDateTime =
+        combineDateAndTime(date, state.endTime ?? DateTime.now());
+    emit(state.copyWith(endDate: () => date, endTime: () => combinedDateTime));
+  }
+
+  void updateStartTime(DateTime time) {
+    final DateTime currentDate = state.startDate ?? DateTime.now();
+    final DateTime combinedDateTime = combineDateAndTime(currentDate, time);
+    emit(state.copyWith(startTime: () => combinedDateTime));
+  }
+
+  void updateEndTime(DateTime time) {
+    final DateTime currentDate = state.endDate ?? DateTime.now();
+    final DateTime combinedDateTime = combineDateAndTime(currentDate, time);
+    emit(state.copyWith(endTime: () => combinedDateTime));
   }
 
   void selectStartDate(BuildContext context) async {
     DateTime? pickedDate = await showDatePicker(
       context: context,
-      initialDate:
-          context.read<EventCreateCubit>().state.startDate ?? DateTime.now(),
+      initialDate: state.startDate ?? DateTime.now(),
       firstDate: DateTime(2000),
       lastDate: DateTime(2101),
     );
 
     if (pickedDate != null) {
-      context.read<EventCreateCubit>().updateStartDate(pickedDate);
+      updateStartDate(pickedDate);
     }
   }
 
   void selectEndDate(BuildContext context) async {
     DateTime? pickedDate = await showDatePicker(
       context: context,
-      initialDate:
-          context.read<EventCreateCubit>().state.endDate ?? DateTime.now(),
+      initialDate: state.endDate ?? DateTime.now(),
       firstDate: DateTime(2000),
       lastDate: DateTime(2101),
     );
 
     if (pickedDate != null) {
-      context.read<EventCreateCubit>().updateEndDate(pickedDate);
+      updateEndDate(pickedDate);
     }
   }
 
@@ -146,11 +176,11 @@ class EventCreateCubit extends Cubit<EventCreateState> {
       final event = await repo.createEvent(
         title: state.title,
         description: state.description,
-        startTime: state.startTime?.toIso8601String() ?? '',
-        endTime: state.endTime?.toIso8601String() ?? '',
+        startTime: DateFormat("HH:mm").format(state.startTime!),
+        endTime: DateFormat("HH:mm").format(state.endTime!),
         address: state.address ?? '',
-        startDate: state.startDate.toString(),
-        endDate: state.endDate.toString(),
+        startDate: DateFormat("yyyy-MM-dd").format(startDate),
+        endDate: DateFormat("yyyy-MM-dd").format(endDate),
         neighborhoodId: neighborhoodId,
         userId: userId,
         imageUrl: imageUrl,

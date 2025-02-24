@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile_lingkunganku/misc/colors.dart';
@@ -13,7 +11,7 @@ class CustomfieldEvent extends StatelessWidget {
     return Column(
       children: [
         _FieldTitle(),
-        SizedBox(height: 10),
+        SizedBox(height: 5),
         _FieldDescription(),
       ],
     );
@@ -73,35 +71,29 @@ Widget _buildTextFormField({
   int? maxLength,
 }) {
   return Padding(
-    padding: const EdgeInsets.only(bottom: 12),
+    padding: const EdgeInsets.only(bottom: 10),
     child: ClipRRect(
       borderRadius: BorderRadius.circular(12),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppColors.secondaryColor),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: AppColors.secondaryColor),
+        ),
+        child: TextFormField(
+          maxLength: maxLength,
+          maxLines: maxLines,
+          keyboardType: keyboardType,
+          obscureText: obscureText,
+          textCapitalization: TextCapitalization.words,
+          onChanged: onChanged,
+          decoration: InputDecoration(
+            labelText: label,
+            labelStyle: TextStyle(color: AppColors.buttonColor1),
+            border: InputBorder.none,
+            contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
           ),
-          child: TextFormField(
-            maxLength: maxLength,
-            maxLines: maxLines,
-            keyboardType: keyboardType,
-            obscureText: obscureText,
-            // textCapitalization:
-            //     (label == 'Nama Lengkap' || label == 'Detail Alamat')
-            //         ? TextCapitalization.words
-            //         : TextCapitalization.none,
-            onChanged: onChanged,
-            decoration: InputDecoration(
-              labelText: label,
-              labelStyle: TextStyle(color: AppColors.buttonColor1),
-              border: InputBorder.none,
-              contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-            ),
-            style: TextStyle(color: AppColors.textColor2),
-          ),
+          style: TextStyle(color: AppColors.textColor2),
         ),
       ),
     ),

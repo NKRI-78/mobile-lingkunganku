@@ -22,25 +22,21 @@ class CustomCardEventSection extends StatelessWidget {
   });
 
   String formatDateRange(DateTime? startDate, DateTime? endDate) {
-    final dateFormat = DateFormat('dd MMM yyyy, HH:mm');
+    final dateFormat = DateFormat('dd MMM yyyy');
 
     if (startDate == null || endDate == null) {
       return "Tanggal tidak tersedia";
     }
 
-    startDate = startDate.toLocal();
-    endDate = endDate.toLocal();
+    final localStart = startDate.toLocal();
+    final localEnd = endDate.toLocal();
 
-    String getTimeZone(DateTime date) {
-      int offset = date.timeZoneOffset.inHours;
-      if (offset == 7) return "WIB";
-      if (offset == 8) return "WITA";
-      if (offset == 9) return "WIT";
-      return "UTC";
+    // Jika tanggal mulai dan selesai sama, tampilkan satu tanggal saja
+    if (dateFormat.format(localStart) == dateFormat.format(localEnd)) {
+      return dateFormat.format(localStart);
     }
 
-    return "${dateFormat.format(startDate)} ${getTimeZone(startDate)} - "
-        "${dateFormat.format(endDate)} ${getTimeZone(endDate)}";
+    return "${dateFormat.format(localStart)} - ${dateFormat.format(localEnd)}";
   }
 
   @override

@@ -5,6 +5,7 @@ import 'package:mobile_lingkunganku/modules/event_create/cubit/event_create_cubi
 import 'package:mobile_lingkunganku/modules/event_create/widget/customfield_event.dart';
 import 'package:mobile_lingkunganku/modules/event_create/widget/customfield_event_date.dart';
 import 'package:mobile_lingkunganku/modules/event_create/widget/customfield_event_foto.dart';
+import 'package:mobile_lingkunganku/modules/event_create/widget/customfield_event_time.dart';
 import 'package:mobile_lingkunganku/widgets/button/custom_button.dart';
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
@@ -55,11 +56,13 @@ class EventCreateView extends StatelessWidget {
               child: Column(
                 children: [
                   const CustomfieldEventFoto(),
-                  SizedBox(height: 20),
+                  SizedBox(height: 15),
                   CustomFieldEventDate(),
-                  SizedBox(height: 10),
+                  SizedBox(height: 5),
+                  CustomFieldEventTime(),
+                  SizedBox(height: 5),
                   const CustomfieldEvent(),
-                  SizedBox(height: 10),
+                  SizedBox(height: 15),
                   SizedBox(
                     width: double.infinity,
                     child: CustomButton(
