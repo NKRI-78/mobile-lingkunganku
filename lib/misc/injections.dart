@@ -2,6 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:mobile_lingkunganku/modules/event/cubit/event_cubit.dart';
 import 'package:mobile_lingkunganku/modules/news_create/cubit/news_create_cubit.dart';
 import 'package:mobile_lingkunganku/modules/show_more_news/cubit/show_more_news_cubit.dart';
+import '../modules/event_detail/cubit/event_detail_cubit.dart';
 import '../modules/forum/cubit/forum_cubit.dart';
 import '../modules/management/cubit/management_cubit.dart';
 import '../modules/management_detail/cubit/management_detail_cubit.dart';
@@ -51,6 +52,7 @@ class MyInjection {
       () => NewsCreateCubit(),
     );
     getIt.registerCachedFactory<EventCubit>(() => EventCubit());
+    getIt.registerCachedFactory<EventDetailCubit>(() => EventDetailCubit());
 
     getIt.registerLazySingleton<AuthRepository>(() => AuthRepository());
     getIt.registerLazySingleton<ProfileRepository>(() => ProfileRepository());

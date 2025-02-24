@@ -29,11 +29,79 @@ class EventDetailView extends StatelessWidget {
   const EventDetailView({super.key, required this.idEvent});
 
   final int idEvent;
+  void _deleteEvent(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
+          title: Text(
+            "Hapus Event",
+            style: AppTextStyles.textDialog.copyWith(
+              fontWeight: FontWeight.w500,
+              fontSize: 24,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          content: const Text(
+            "Apakah Anda yakin ingin menghapus event ini?",
+            textAlign: TextAlign.justify,
+          ),
+          actions: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.secondaryColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.pop(dialogContext);
+                    },
+                    child: Text(
+                      "Batal",
+                      style: AppTextStyles.textProfileBold,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.redColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.pop(dialogContext);
+                      context.read<EventDetailCubit>().removeEvent(idEvent);
+                      GoRouter.of(context).pop();
+                    },
+                    child: Text(
+                      "Hapus",
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppTextStyles.textProfileBold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<EventDetailCubit, EventDetailState>(
       builder: (context, state) {
+        final String role = state.profile?.roleApp?.toUpperCase() ?? 'MEMBER';
         final eventData = state.event?.data;
         final imageUrl = eventData?.imageUrl?.isNotEmpty == true
             ? eventData?.imageUrl
@@ -58,6 +126,19 @@ class EventDetailView extends StatelessWidget {
                 GoRouter.of(context).pop();
               },
             ),
+            actions: [
+              if (role != "MEMBER" && role != "SECRETARY")
+                IconButton(
+                  icon: const Icon(
+                    Icons.delete,
+                    color: AppColors.redColor,
+                    size: 32,
+                  ),
+                  onPressed: () {
+                    _deleteEvent(context);
+                  },
+                ),
+            ],
           ),
           body: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 20),

@@ -11,7 +11,9 @@ import '../../../repositories/profile_repository/models/profile_model.dart';
 part 'event_state.dart';
 
 class EventCubit extends Cubit<EventState> {
-  EventCubit() : super(const EventState());
+  EventCubit() : super(const EventState()) {
+    fetchEvent();
+  }
 
   EventRepository repo = getIt<EventRepository>();
   ProfileRepository repoProfile = getIt<ProfileRepository>();

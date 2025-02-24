@@ -36,8 +36,8 @@ class EventRepository {
     String? startTime,
     String? endTime,
     String? address,
-    required DateTime startDate,
-    required DateTime endDate,
+    required String startDate,
+    required String endDate,
     int? neighborhoodId,
     int? userId,
     String? imageUrl,
@@ -45,33 +45,36 @@ class EventRepository {
     try {
       final response = await http.post(
         Uri.parse(event),
-        headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
           'title': title,
           'description': description,
           'start': startTime,
           'end': endTime,
           'address': address,
-          'start_date': startDate.toIso8601String(),
-          'end_date': endDate.toIso8601String(),
+          'startDate': startDate,
+          'endDate': endDate,
           'neighborhood_id': neighborhoodId,
           'user_id': userId,
           'image_url': imageUrl,
         }),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ${http.token}',
+        },
       );
 
+      debugPrint(response.body);
       final json = jsonDecode(response.body);
 
-      if (response.statusCode >= 200 && response.statusCode < 300) {
+      if (response.statusCode == 200) {
         return EventModel.fromJson(json['data']);
       } else {
-        throw json['message']?.toString() ??
-            "Terjadi kesalahan saat membuat event";
+        throw Exception(json['message'] ?? 'Terjadi kesalahan');
       }
     } on SocketException {
       throw "Terjadi kesalahan jaringan. Periksa koneksi internet Anda.";
     } catch (e) {
-      throw "Error: $e";
+      rethrow;
     }
   }
 
@@ -89,6 +92,23 @@ class EventRepository {
       }
     } catch (e) {
       rethrow;
+    }
+  }
+
+  Future<bool> removeEvent(int idEvent) async {
+    try {
+      final response = await http.delete(Uri.parse('$event/$idEvent/delete'));
+
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        print(
+            "Gagal menghapus event: ${response.statusCode} - ${response.body}");
+        return false;
+      }
+    } catch (e) {
+      print("Error saat menghapus event: $e");
+      return false;
     }
   }
 }

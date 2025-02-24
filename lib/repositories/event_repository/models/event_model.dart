@@ -95,29 +95,6 @@ class UserModel {
   }
 }
 
-// class ProfileModel {
-//   final int id;
-//   final String fullname;
-//   final String avatarLink;
-//   final String? detailAddress;
-
-//   ProfileModel({
-//     required this.id,
-//     required this.fullname,
-//     required this.avatarLink,
-//     this.detailAddress,
-//   });
-
-//   factory ProfileModel.fromJson(Map<String, dynamic> json) {
-//     return ProfileModel(
-//       id: int.tryParse(json['id']?.toString() ?? '') ?? 0,
-//       fullname: json['fullname']?.toString() ?? '',
-//       avatarLink: json['avatar_link']?.toString() ?? '',
-//       detailAddress: json['detail_address']?.toString(),
-//     );
-//   }
-// }
-
 class UserJoinModel {
   final int id;
   final int userId;

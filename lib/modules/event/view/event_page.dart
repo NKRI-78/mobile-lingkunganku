@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobile_lingkunganku/misc/colors.dart';
+import 'package:mobile_lingkunganku/misc/injections.dart';
 import 'package:mobile_lingkunganku/misc/text_style.dart';
 import 'package:mobile_lingkunganku/modules/event/cubit/event_cubit.dart';
 import 'package:mobile_lingkunganku/modules/event/widget/custom_card_event_section.dart';
@@ -15,8 +16,8 @@ class EventPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => EventCubit()..fetchEvent(),
+    return BlocProvider.value(
+      value: getIt<EventCubit>(),
       child: const EventView(),
     );
   }
@@ -39,12 +40,10 @@ class _EventViewState extends State<EventView> {
     _selectedDay = DateTime.now();
   }
 
-  /// Normalisasi tanggal agar hanya mempertimbangkan `year`, `month`, `day`
   DateTime _normalizeDate(DateTime date) {
     return DateTime(date.year, date.month, date.day);
   }
 
-  /// Ambil event yang berada dalam **rentang tanggal yang dipilih**
   List<EventModel> _getEventsForSelectedDay(
       DateTime? selectedDay, List<EventModel> events) {
     if (selectedDay == null) return [];
@@ -61,7 +60,6 @@ class _EventViewState extends State<EventView> {
     }).toList();
   }
 
-  /// Group event berdasarkan **setiap hari dalam rentang `startDate - endDate`**
   Map<DateTime, List<EventModel>> _groupEventsByDate(List<EventModel> events) {
     Map<DateTime, List<EventModel>> groupedEvents = {};
 
@@ -85,216 +83,224 @@ class _EventViewState extends State<EventView> {
     return BlocBuilder<EventCubit, EventState>(
       builder: (context, state) {
         final String role = (state.profile?.roleApp ?? 'MEMBER').toUpperCase();
-        print("Role Pengguna: ${state.profile?.roleApp}");
+        // print("Role Pengguna: ${state.profile?.roleApp}");
 
-        return Scaffold(
-          backgroundColor: Colors.grey[100],
-          appBar: AppBar(
-            backgroundColor: AppColors.whiteColor,
-            surfaceTintColor: Colors.transparent,
-            elevation: 2,
-            shadowColor: Colors.black.withOpacity(0.3),
-            title: Text(
-              'Event',
-              style: AppTextStyles.textStyle1,
-            ),
-            centerTitle: true,
-            toolbarHeight: 100,
-            leading: IconButton(
-              icon: const Icon(
-                Icons.arrow_back_ios_new,
-                color: AppColors.buttonColor2,
-                size: 30,
+        return RefreshIndicator(
+          color: AppColors.secondaryColor,
+          onRefresh: () async {
+            await context.read<EventCubit>().fetchEvent();
+            return;
+          },
+          child: Scaffold(
+            backgroundColor: Colors.grey[100],
+            appBar: AppBar(
+              backgroundColor: AppColors.whiteColor,
+              surfaceTintColor: Colors.transparent,
+              elevation: 2,
+              shadowColor: Colors.black.withOpacity(0.3),
+              title: Text(
+                'Event',
+                style: AppTextStyles.textStyle1,
               ),
-              onPressed: () {
-                GoRouter.of(context).pop();
-              },
-            ),
-            actions: [
-              if (role != "MEMBER" && role != "SECRETARY")
-                IconButton(
-                  icon: const Icon(
-                    Icons.add,
-                    color: AppColors.buttonColor2,
-                    size: 34,
-                  ),
-                  onPressed: () {
-                    EventCreateRoute().push(context);
-                  },
+              centerTitle: true,
+              toolbarHeight: 100,
+              leading: IconButton(
+                icon: const Icon(
+                  Icons.arrow_back_ios_new,
+                  color: AppColors.buttonColor2,
+                  size: 30,
                 ),
-            ],
-          ),
-          body: BlocBuilder<EventCubit, EventState>(
-            builder: (context, state) {
-              if (state.isLoading) {
-                return const Center(
-                  child: Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: CircularProgressIndicator(
-                      color: AppColors.secondaryColor,
+                onPressed: () {
+                  GoRouter.of(context).pop();
+                },
+              ),
+              actions: [
+                if (role != "MEMBER" && role != "SECRETARY")
+                  IconButton(
+                    icon: const Icon(
+                      Icons.add,
+                      color: AppColors.buttonColor2,
+                      size: 34,
                     ),
+                    onPressed: () {
+                      EventCreateRoute().push(context);
+                    },
                   ),
-                );
-              }
+              ],
+            ),
+            body: BlocBuilder<EventCubit, EventState>(
+              builder: (context, state) {
+                if (state.isLoading) {
+                  return const Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(16.0),
+                      child: CircularProgressIndicator(
+                        color: AppColors.secondaryColor,
+                      ),
+                    ),
+                  );
+                }
 
-              if (state.errorMessage.isNotEmpty) {
-                return Center(
-                  child: Text(
-                    "Error: ${state.errorMessage}",
-                    style: AppTextStyles.textStyle2.copyWith(color: Colors.red),
-                  ),
-                );
-              }
+                if (state.errorMessage.isNotEmpty) {
+                  return Center(
+                    child: Text(
+                      "Error: ${state.errorMessage}",
+                      style:
+                          AppTextStyles.textStyle2.copyWith(color: Colors.red),
+                    ),
+                  );
+                }
 
-              final groupedEvents = _groupEventsByDate(state.events ?? []);
-              final filteredEvents =
-                  _getEventsForSelectedDay(_selectedDay, state.events ?? []);
+                final groupedEvents = _groupEventsByDate(state.events ?? []);
+                final filteredEvents =
+                    _getEventsForSelectedDay(_selectedDay, state.events ?? []);
 
-              return SingleChildScrollView(
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  child: Column(
-                    children: [
-                      Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(24),
-                        ),
-                        elevation: 4,
-                        color: Colors.white,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: TableCalendar(
-                            locale: 'id_ID',
-                            firstDay: DateTime.utc(2020, 1, 1),
-                            lastDay: DateTime.utc(2030, 12, 31),
-                            focusedDay: _focusedDay,
-                            selectedDayPredicate: (day) {
-                              return isSameDay(_selectedDay, day);
-                            },
-                            onDaySelected: (selectedDay, focusedDay) {
-                              setState(() {
-                                _selectedDay = selectedDay;
-                                _focusedDay = focusedDay;
-                              });
-                            },
-                            eventLoader: (day) {
-                              final normalizedDay = _normalizeDate(day);
-                              return groupedEvents[normalizedDay] ?? [];
-                            },
-                            headerStyle: HeaderStyle(
-                              formatButtonVisible: false,
-                              titleTextStyle: AppTextStyles.textStyle2
-                                  .copyWith(fontWeight: FontWeight.bold),
-                              titleCentered: true,
-                              leftChevronIcon: Card(
-                                elevation: 3,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: IconButton(
-                                  icon: const Icon(
-                                    Icons.arrow_back_ios_new,
-                                    size: 24,
-                                  ),
-                                  color: AppColors.secondaryColor,
-                                  splashColor: Colors.transparent,
-                                  highlightColor: Colors.transparent,
-                                  onPressed: () {
-                                    setState(() {
-                                      _focusedDay = _focusedDay
-                                          .subtract(const Duration(days: 30));
-                                    });
-                                  },
-                                ),
-                              ),
-                              rightChevronIcon: Card(
-                                elevation: 3,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: IconButton(
-                                  icon: const Icon(Icons.arrow_forward_ios,
-                                      size: 24),
-                                  color: AppColors.secondaryColor,
-                                  splashColor: Colors.transparent,
-                                  highlightColor: Colors.transparent,
-                                  onPressed: () {
-                                    setState(() {
-                                      _focusedDay = _focusedDay
-                                          .add(const Duration(days: 30));
-                                    });
-                                  },
-                                ),
-                              ),
-                            ),
-                            calendarStyle: CalendarStyle(
-                              todayDecoration: BoxDecoration(
-                                color: AppColors.textColor1.withOpacity(0.3),
-                                shape: BoxShape.circle,
-                              ),
-                              selectedDecoration: const BoxDecoration(
-                                color: AppColors.textColor1,
-                                shape: BoxShape.circle,
-                              ),
-                              markerDecoration: BoxDecoration(
-                                color: AppColors.textColor1,
-                                shape: BoxShape.circle,
-                              ),
-                            ),
-                            calendarBuilders: CalendarBuilders(
-                              markerBuilder: (context, date, events) {
-                                if (events.isNotEmpty) {
-                                  return Positioned(
-                                    bottom: 5,
-                                    child: Container(
-                                      width: 6,
-                                      height: 6,
-                                      decoration: BoxDecoration(
-                                        color: AppColors.textColor2,
-                                        shape: BoxShape.circle,
-                                      ),
-                                    ),
-                                  );
-                                }
-                                return null;
+                return SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 10),
+                    child: Column(
+                      children: [
+                        Card(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(24),
+                          ),
+                          elevation: 4,
+                          color: Colors.white,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: TableCalendar(
+                              locale: 'id_ID',
+                              firstDay: DateTime.utc(2020, 1, 1),
+                              lastDay: DateTime.utc(2030, 12, 31),
+                              focusedDay: _focusedDay,
+                              selectedDayPredicate: (day) {
+                                return isSameDay(_selectedDay, day);
                               },
+                              onDaySelected: (selectedDay, focusedDay) {
+                                setState(() {
+                                  _selectedDay = selectedDay;
+                                  _focusedDay = focusedDay;
+                                });
+                              },
+                              eventLoader: (day) {
+                                final normalizedDay = _normalizeDate(day);
+                                return groupedEvents[normalizedDay] ?? [];
+                              },
+                              headerStyle: HeaderStyle(
+                                formatButtonVisible: false,
+                                titleTextStyle: AppTextStyles.textStyle2
+                                    .copyWith(fontWeight: FontWeight.bold),
+                                titleCentered: true,
+                                leftChevronIcon: Card(
+                                  elevation: 3,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: IconButton(
+                                    icon: const Icon(
+                                      Icons.arrow_back_ios_new,
+                                      size: 24,
+                                    ),
+                                    color: AppColors.secondaryColor,
+                                    splashColor: Colors.transparent,
+                                    highlightColor: Colors.transparent,
+                                    onPressed: () {
+                                      setState(() {
+                                        _focusedDay = _focusedDay
+                                            .subtract(const Duration(days: 30));
+                                      });
+                                    },
+                                  ),
+                                ),
+                                rightChevronIcon: Card(
+                                  elevation: 3,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: IconButton(
+                                    icon: const Icon(Icons.arrow_forward_ios,
+                                        size: 24),
+                                    color: AppColors.secondaryColor,
+                                    splashColor: Colors.transparent,
+                                    highlightColor: Colors.transparent,
+                                    onPressed: () {
+                                      setState(() {
+                                        _focusedDay = _focusedDay
+                                            .add(const Duration(days: 30));
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ),
+                              calendarStyle: CalendarStyle(
+                                todayDecoration: BoxDecoration(
+                                  color: AppColors.textColor1.withOpacity(0.3),
+                                  shape: BoxShape.circle,
+                                ),
+                                selectedDecoration: const BoxDecoration(
+                                  color: AppColors.textColor1,
+                                  shape: BoxShape.circle,
+                                ),
+                                markerDecoration: BoxDecoration(
+                                  color: AppColors.textColor1,
+                                  shape: BoxShape.circle,
+                                ),
+                              ),
+                              calendarBuilders: CalendarBuilders(
+                                markerBuilder: (context, date, events) {
+                                  if (events.isNotEmpty) {
+                                    return Positioned(
+                                      bottom: 5,
+                                      child: Container(
+                                        width: 6,
+                                        height: 6,
+                                        decoration: BoxDecoration(
+                                          color: AppColors.textColor2,
+                                          shape: BoxShape.circle,
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                  return null;
+                                },
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      const SizedBox(height: 20),
-                      filteredEvents.isEmpty
-                          ? Center(
-                              heightFactor: 10,
-                              child: Text(
-                                "Tidak ada event pada tanggal ini.",
-                                style: AppTextStyles.textStyle2,
+                        const SizedBox(height: 20),
+                        filteredEvents.isEmpty
+                            ? Center(
+                                heightFactor: 10,
+                                child: Text(
+                                  "Tidak ada event pada tanggal ini.",
+                                  style: AppTextStyles.textStyle2,
+                                ),
+                              )
+                            : ListView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: filteredEvents.length,
+                                itemBuilder: (context, index) {
+                                  final event = filteredEvents[index];
+                                  return CustomCardEventSection(
+                                    imageUrl: event.imageUrl,
+                                    title: event.title,
+                                    startDate: event.startDate,
+                                    endDate: event.endDate,
+                                    onTap: () {
+                                      EventDetailRoute(idEvent: event.id)
+                                          .go(context);
+                                    },
+                                  );
+                                },
                               ),
-                            )
-                          : ListView.builder(
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: filteredEvents.length,
-                              itemBuilder: (context, index) {
-                                final event = filteredEvents[index];
-                                return CustomCardEventSection(
-                                  imageUrl: event.imageUrl,
-                                  title: event.title,
-                                  startDate: event.startDate,
-                                  endDate: event.endDate,
-                                  onTap: () {
-                                    EventDetailRoute(idEvent: event.id)
-                                        .go(context);
-                                  },
-                                );
-                              },
-                            ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
         );
       },

@@ -41,8 +41,8 @@ final class EventCreateState extends Equatable {
     DateTime? startTime,
     DateTime? endTime,
     String? address,
-    DateTime? startDate,
-    DateTime? endDate,
+    ValueGetter<DateTime>? startDate,
+    ValueGetter<DateTime>? endDate,
     String? neighborhoodId,
     String? userId,
   }) {
@@ -56,8 +56,8 @@ final class EventCreateState extends Equatable {
       startTime: startTime ?? this.startTime,
       endTime: endTime ?? this.endTime,
       address: address ?? this.address,
-      startDate: startDate ?? this.startDate,
-      endDate: endDate ?? this.endDate,
+      startDate: startDate != null ? startDate() : this.startDate,
+      endDate: endDate != null ? endDate() : this.endDate,
       neighborhoodId: neighborhoodId ?? this.neighborhoodId,
       userId: userId ?? this.userId,
     );

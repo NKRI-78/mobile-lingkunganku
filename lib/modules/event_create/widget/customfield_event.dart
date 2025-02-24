@@ -11,9 +11,9 @@ class CustomfieldEvent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      spacing: 10,
       children: [
         _FieldTitle(),
+        SizedBox(height: 10),
         _FieldDescription(),
       ],
     );
