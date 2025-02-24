@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobile_lingkunganku/modules/event_create/cubit/event_create_cubit.dart';
 import '../../../misc/colors.dart';
-import '../../../misc/text_style.dart';
 
 class CustomfieldEventFoto extends StatelessWidget {
   const CustomfieldEventFoto({super.key});
@@ -14,40 +13,30 @@ class CustomfieldEventFoto extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<EventCreateCubit, EventCreateState>(
       builder: (context, state) {
-        return Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            GestureDetector(
-              onTap: () => _showImagePicker(context),
-              child: Container(
-                width: 200,
-                height: 100,
-                decoration: BoxDecoration(
-                  color: AppColors.whiteColor.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: AppColors.secondaryColor, width: 1),
-                ),
-                child: state.fileImage != null
-                    ? ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
-                        child: Image.file(state.fileImage!,
-                            fit: BoxFit.cover, width: 100, height: 100),
-                      )
-                    : Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(Icons.camera_alt,
-                              color: AppColors.secondaryColor, size: 30),
-                        ],
-                      ),
-              ),
+        return GestureDetector(
+          onTap: () => _showImagePicker(context),
+          child: Container(
+            width: double.infinity,
+            height: 200,
+            decoration: BoxDecoration(
+              color: AppColors.whiteColor.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: AppColors.secondaryColor, width: 1),
             ),
-            SizedBox(width: 12),
-            Text("Foto Event",
-                style: AppTextStyles.textStyle2.copyWith(
-                  color: AppColors.secondaryColor,
-                )),
-          ],
+            child: state.fileImage != null
+                ? ClipRRect(
+                    borderRadius: BorderRadius.circular(12),
+                    child: Image.file(state.fileImage!,
+                        fit: BoxFit.cover, width: 100, height: 100),
+                  )
+                : Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.camera_alt,
+                          color: AppColors.secondaryColor, size: 30),
+                    ],
+                  ),
+          ),
         );
       },
     );

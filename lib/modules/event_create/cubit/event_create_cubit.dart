@@ -65,7 +65,7 @@ class EventCreateCubit extends Cubit<EventCreateState> {
       // Validasi file gambar
       if (state.fileImage == null) {
         ShowSnackbar.snackbar(
-            context, "Harap masukkan foto", '', AppColors.redColor);
+            context, "Harap masukkan Foto Event", '', AppColors.redColor);
         emit(state.copyWith(isLoading: false));
         return;
       }

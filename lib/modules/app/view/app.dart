@@ -38,6 +38,7 @@ class AppViewState extends State<AppView> {
   Widget build(BuildContext context) {
     return BlocBuilder<AppBloc, AppState>(builder: (_, localState) {
       return MaterialApp.router(
+        debugShowCheckedModeBanner: false,
         theme: baseTheme.copyWith(),
         routerConfig: router,
       );

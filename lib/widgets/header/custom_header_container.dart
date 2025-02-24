@@ -11,6 +11,7 @@ class CustomHeaderContainer extends StatelessWidget {
   final bool showText;
   final bool showAvatar;
   final bool isLoggedIn;
+  final bool isLoading;
   final String displayText;
   final String? avatarLink;
   final List<Widget> children;
@@ -19,6 +20,7 @@ class CustomHeaderContainer extends StatelessWidget {
     super.key,
     required this.displayText,
     required this.isLoggedIn,
+    required this.isLoading,
     this.onBackPressed,
     this.onMenuPressed,
     this.onNotificationPressed,
@@ -87,6 +89,7 @@ class CustomHeaderContainer extends StatelessWidget {
           // **Menampilkan Avatar hanya jika `showAvatar` == true**
           if (showAvatar)
             CustomHeaderAvatar(
+              isLoading: isLoading, // ✅ Tambahkan nilai isLoading di sini
               avatarLink: avatarLink,
               displayText: displayText,
               isLoggedIn: isLoggedIn,
@@ -103,7 +106,6 @@ class CustomHeaderContainer extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
             ),
-          // SizedBox(height: 3),
 
           ...children,
         ],

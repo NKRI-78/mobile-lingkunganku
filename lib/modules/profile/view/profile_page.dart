@@ -43,6 +43,7 @@ class ProfileView extends StatelessWidget {
               Column(
                 children: [
                   CustomHeaderContainer(
+                    isLoading: state.isLoading,
                     avatarLink: state.profile?.profile?.avatarLink ?? '',
                     isLoggedIn: true,
                     displayText: '',
@@ -50,7 +51,9 @@ class ProfileView extends StatelessWidget {
                     title: 'Profile',
                     onBackPressed: () => Navigator.pop(context),
                     children: [
+                      SizedBox(height: 10),
                       Container(
+                        height: 55,
                         padding: const EdgeInsets.all(2),
                         decoration: BoxDecoration(
                           color: Colors.black.withOpacity(0.1),

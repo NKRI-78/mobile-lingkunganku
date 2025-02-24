@@ -68,7 +68,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       emit(event.newState);
     });
     on<LoadProfile>((event, emit) async {
-      print("🚀 Memuat ulang profil...");
       await _getProfile(emit);
     });
 
@@ -86,7 +85,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       final profile = await profileRepo.getProfile();
       emit(state.copyWith(profile: profile));
     } catch (e) {
-      print("❌ Error saat memuat profil: $e");
       rethrow;
     } finally {
       emit(state.copyWith(isLoading: false));
@@ -115,15 +113,15 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   Future<void> getProfile(Emitter<HomeState> emit) async {
     try {
-      print('Fetching profile...'); // Debugging
+      print('Fetching profile...');
       emit(state.copyWith(isLoading: true));
 
       final profile = await profileRepo.getProfile();
 
-      print('Profile fetched: ${profile.profile?.fullname}'); // Debugging
+      print('Profile fetched: ${profile.profile?.fullname}');
       emit(state.copyWith(profile: profile)); // Memastikan emit state baru
     } catch (e) {
-      print('Error fetching profile: $e'); // Debugging
+      print('Error fetching profile: $e');
       rethrow;
     } finally {
       emit(state.copyWith(isLoading: false));

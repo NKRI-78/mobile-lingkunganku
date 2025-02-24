@@ -56,6 +56,7 @@ class _HomeViewState extends State<HomeView> {
                 color: AppColors.secondaryColor,
                 onRefresh: () async {
                   context.read<HomeBloc>().add(HomeInit(context: context));
+                  await Future.delayed(const Duration(seconds: 1));
                 },
                 child: Stack(
                   children: [
@@ -73,7 +74,7 @@ class _HomeViewState extends State<HomeView> {
                                   autoPlay: true,
                                   enlargeCenterPage: true,
                                   aspectRatio: 20 / 10,
-                                  viewportFraction: 0.90,
+                                  viewportFraction: 0.95,
                                 ),
                                 items: imgList.map(
                                   (item) {
@@ -231,6 +232,7 @@ class _HomeViewState extends State<HomeView> {
                           final user = state.profile;
 
                           return CustomHeaderContainer(
+                            isLoading: state.isLoading,
                             avatarLink: user?.profile?.avatarLink ?? '',
                             displayText: isLoggedIn
                                 ? user?.profile?.fullname ?? ''

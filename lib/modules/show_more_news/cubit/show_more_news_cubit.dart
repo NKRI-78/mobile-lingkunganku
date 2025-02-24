@@ -89,9 +89,9 @@ class ShowMoreNewsCubit extends Cubit<ShowMoreNewsState> {
     }
   }
 
-  @override
-  Future<void> close() {
-    getIt<HomeBloc>().add(HomeFetchMoreNews(true));
-    return super.close();
-  }
+  // @override
+  // Future<void> close() async {
+  //   getIt<HomeBloc>().add(HomeFetchMoreNews(true));
+  //   return super.close();
+  // }
 }

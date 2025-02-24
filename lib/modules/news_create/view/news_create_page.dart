@@ -104,8 +104,9 @@ class _CreateNewsViewState extends State<CreateNewsView> {
                               height: 200,
                               color: Colors.grey[300],
                               child: const Center(
-                                  child: Icon(Icons.image,
-                                      size: 50, color: Colors.grey)),
+                                child: Icon(Icons.image,
+                                    size: 50, color: Colors.grey),
+                              ),
                             ),
                     ),
                   ),
