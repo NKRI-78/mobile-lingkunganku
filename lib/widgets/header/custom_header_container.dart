@@ -44,8 +44,8 @@ class CustomHeaderContainer extends StatelessWidget {
       padding: const EdgeInsets.only(
         left: 20,
         right: 20,
-        top: 50,
-        bottom: 30,
+        top: 40,
+        bottom: 15,
       ),
       child: Column(
         children: [
@@ -85,7 +85,6 @@ class CustomHeaderContainer extends StatelessWidget {
                 const SizedBox(width: 48),
             ],
           ),
-
           // **Menampilkan Avatar hanya jika `showAvatar` == true**
           if (showAvatar)
             CustomHeaderAvatar(
@@ -117,8 +116,8 @@ class CustomHeaderContainer extends StatelessWidget {
   Widget _buildIconButton(
       {required IconData icon, required VoidCallback onPressed}) {
     return Container(
-      width: 40,
-      height: 40,
+      width: 45,
+      height: 45,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),

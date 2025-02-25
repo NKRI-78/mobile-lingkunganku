@@ -111,9 +111,8 @@ class CustomHeaderAvatar extends StatelessWidget {
 
   /// **Menampilkan Nama Pengguna atau "Hi, User"**
   Widget _buildUserText() {
-    final String textToShow = isLoggedIn && displayText.isNotEmpty
-        ? 'Hi, $displayText' // Jika login, tampilkan nama pengguna
-        : 'Hi, User'; // Jika belum login, tampilkan "Hi, User"
+    final String textToShow =
+        isLoggedIn && displayText.isNotEmpty ? 'Hi, $displayText' : 'Hi, User';
 
     return Text(
       textToShow,
