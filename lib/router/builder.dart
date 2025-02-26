@@ -4,6 +4,7 @@ import 'package:mobile_lingkunganku/modules/news_update/view/news_update_page.da
 import '../modules/event/view/event_page.dart';
 import '../modules/event_create/view/event_create_page.dart';
 import '../modules/event_detail/view/event_detail_page.dart';
+import '../modules/forum_create/view/forum_create_page.dart';
 import '../modules/news_create/view/news_create_page.dart';
 import '../modules/forum/view/forum_page.dart';
 import '../modules/management_detail/view/management_detail_page.dart';
@@ -70,7 +71,9 @@ class OnboardingRoute extends GoRouteData {
     TypedGoRoute<RegisterWargaRoute>(path: 'register-warga'),
   ]),
   TypedGoRoute<SosRoute>(path: 'sos'),
-  TypedGoRoute<ForumRoute>(path: 'forum'),
+  TypedGoRoute<ForumRoute>(
+      path: 'forum',
+      routes: [TypedGoRoute<ForumCreateRoute>(path: 'forum-create')]),
 ])
 class HomeRoute extends GoRouteData {
   @override
@@ -285,5 +288,12 @@ class ForumRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return ForumPage();
+  }
+}
+
+class ForumCreateRoute extends GoRouteData {
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return ForumCreatePage();
   }
 }

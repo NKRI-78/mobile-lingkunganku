@@ -1,7 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:pinput/pinput.dart';
 
 import '../../../misc/colors.dart';
@@ -47,16 +46,8 @@ class RegisterOtpView extends StatelessWidget {
                 'Kode OTP',
                 style: AppTextStyles.textStyle1,
               ),
-              leading: IconButton(
-                icon: Icon(
-                  Icons.arrow_back_ios_new,
-                  color: AppColors.buttonColor2,
-                  size: 32,
-                ),
-                onPressed: () {
-                  GoRouter.of(context).pop();
-                },
-              ),
+              centerTitle: true,
+              automaticallyImplyLeading: false,
               backgroundColor: Colors.transparent,
               elevation: 0,
               flexibleSpace: Container(

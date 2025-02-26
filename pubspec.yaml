@@ -9,18 +9,24 @@ environment:
   sdk: ^3.6.0
 
 dependencies:
+  awesome_dialog: ^3.2.1
   bloc: ^9.0.0
   build_runner: ^2.4.14
   cached_network_image: ^3.4.1
   carousel_slider: ^5.0.0
   cupertino_icons: ^1.0.8
+  detectable_text_field: ^3.0.2
   equatable: ^2.0.7
   file_picker: ^8.1.7
+  filesize: ^2.0.1
   flutter:
     sdk: flutter
+  # flutter_animated_dialog: ^2.0.1
   flutter_bloc: ^9.0.0
   flutter_datetime_picker_plus: ^2.2.0
+  flutter_image_compress: ^2.4.0
   flutter_launcher_icons: ^0.14.3
+  # flutter_native_image: ^0.0.6+1
   flutter_otp_text_field: ^1.4.0+2
   geocoding: ^3.0.0
   geolocator: ^13.0.2
@@ -35,12 +41,15 @@ dependencies:
   intl: ^0.20.2
   json_annotation: ^4.9.0
   json_serializable: ^6.9.3
+  # lecle_flutter_absolute_path: ^0.0.2+1
+  multi_image_picker_plus: ^0.0.6
   path_provider: ^2.1.5
   permission_handler: ^11.3.1
   pinput: ^2.2.3
   pull_to_refresh: ^2.0.0
   shimmer: ^3.0.0
   table_calendar: ^3.2.0
+  timeago: ^3.2.2
   url_launcher: ^6.3.1
 
 dev_dependencies:
@@ -52,19 +61,19 @@ flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
   image_path: "assets/icons/icons.png"
-  min_sdk_android: 21 
+  min_sdk_android: 21
   web:
     generate: true
-    image_path: "assets/icons/icons.png" 
-    background_color: "#236C06" 
+    image_path: "assets/icons/icons.png"
+    background_color: "#236C06"
     theme_color: "#000000"
   windows:
     generate: true
-    image_path: "assets/icons/icons.png" 
-    icon_size: 48 
+    image_path: "assets/icons/icons.png"
+    icon_size: 48
   macos:
     generate: true
-    image_path: "assets/icons/icons.png" 
+    image_path: "assets/icons/icons.png"
 
 flutter:
 

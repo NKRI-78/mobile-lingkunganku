@@ -36,6 +36,7 @@ class RegisterKetuaCubit extends Cubit<RegisterKetuaState> {
     BuildContext context, {
     required String name,
     required String phone,
+    required String phoneSecurity,
     required String email,
     required String password,
     required String passwordConfirm,
@@ -52,6 +53,10 @@ class RegisterKetuaCubit extends Cubit<RegisterKetuaState> {
           context, "Harap masukkan email yang tepat", '', AppColors.redColor);
       return false;
     } else if (phone.length < 10) {
+      ShowSnackbar.snackbar(
+          context, "No Hp Minimal 10 Angka", '', AppColors.redColor);
+      return false;
+    } else if (phoneSecurity.length < 10) {
       ShowSnackbar.snackbar(
           context, "No Hp Minimal 10 Angka", '', AppColors.redColor);
       return false;
@@ -96,6 +101,7 @@ class RegisterKetuaCubit extends Cubit<RegisterKetuaState> {
         neighborhoodName: state.neighborhoodName,
         name: state.name,
         phone: state.phone,
+        phoneSecurity: state.phoneSecurity,
         email: state.email,
         password: state.password,
         passwordConfirm: state.passwordConfirm,
@@ -116,6 +122,7 @@ class RegisterKetuaCubit extends Cubit<RegisterKetuaState> {
         name: state.name,
         email: state.email,
         phone: state.phone,
+        phoneSecurity: state.phoneSecurity,
         neighborhoodName: state.neighborhoodName,
         detailAddress: state.currentAddress,
         password: state.password,

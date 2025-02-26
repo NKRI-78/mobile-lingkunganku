@@ -7,7 +7,7 @@ import 'models/management_detail_member_model.dart';
 import 'models/management_member_model.dart';
 
 class ManagementRepository {
-  String get managementMember => '${MyApi.baseUrl}/api/v1/member';
+  String get managementMember => '${MyApi.baseUrl}/api/v1/member/get/v2';
 
   final http = getIt<BaseNetworkClient>();
 

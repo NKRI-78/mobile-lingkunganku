@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -17,6 +15,7 @@ class CustomTextfieldKetua extends StatelessWidget {
         _FieldName(),
         _FieldEmail(),
         _FieldPhone(),
+        _FieldPhoneSecurity(),
         _FieldNeighborhood(),
         _FieldDetailAddress(),
         const InputLocationLabel(),
@@ -75,11 +74,33 @@ class _FieldPhone extends StatelessWidget {
       builder: (context, state) {
         return _buildTextFormField(
           maxLength: 13,
-          label: 'No Handphone',
+          label: 'Nomor Telepon',
           keyboardType: TextInputType.phone,
           onChanged: (value) {
             var cubit = context.read<RegisterKetuaCubit>();
             cubit.copyState(newState: cubit.state.copyWith(phone: value));
+          },
+        );
+      },
+    );
+  }
+}
+
+class _FieldPhoneSecurity extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<RegisterKetuaCubit, RegisterKetuaState>(
+      buildWhen: (previous, current) =>
+          previous.phoneSecurity != current.phoneSecurity,
+      builder: (context, state) {
+        return _buildTextFormField(
+          maxLength: 13,
+          label: 'Nomor Telepon Keamanan',
+          keyboardType: TextInputType.phone,
+          onChanged: (value) {
+            var cubit = context.read<RegisterKetuaCubit>();
+            cubit.copyState(
+                newState: cubit.state.copyWith(phoneSecurity: value));
           },
         );
       },
@@ -179,33 +200,30 @@ Widget _buildTextFormField({
     padding: const EdgeInsets.only(bottom: 12),
     child: ClipRRect(
       borderRadius: BorderRadius.circular(12),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppColors.whiteColor),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.2),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: AppColors.whiteColor),
+        ),
+        child: TextFormField(
+          maxLength: maxLength,
+          maxLines: maxLines,
+          keyboardType: keyboardType,
+          obscureText: obscureText,
+          textCapitalization: (label == 'Nama Lengkap' ||
+                  label == 'Nama Lingkungan / Komplek' ||
+                  label == 'Detail Alamat')
+              ? TextCapitalization.words
+              : TextCapitalization.none,
+          onChanged: onChanged,
+          decoration: InputDecoration(
+            labelText: label,
+            labelStyle: TextStyle(color: AppColors.buttonColor1),
+            border: InputBorder.none,
+            contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
           ),
-          child: TextFormField(
-            maxLength: maxLength,
-            maxLines: maxLines,
-            keyboardType: keyboardType,
-            obscureText: obscureText,
-            textCapitalization: (label == 'Nama Lengkap' ||
-                    label == 'Nama Lingkungan / Komplek' ||
-                    label == 'Detail Alamat')
-                ? TextCapitalization.words
-                : TextCapitalization.none,
-            onChanged: onChanged,
-            decoration: InputDecoration(
-              labelText: label,
-              labelStyle: TextStyle(color: AppColors.buttonColor1),
-              border: InputBorder.none,
-              contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-            ),
-            style: TextStyle(color: AppColors.textColor2),
-          ),
+          style: TextStyle(color: AppColors.textColor2),
         ),
       ),
     ),
@@ -221,48 +239,45 @@ Widget _buildPasswordField({
     padding: const EdgeInsets.only(bottom: 12),
     child: ClipRRect(
       borderRadius: BorderRadius.circular(12),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppColors.whiteColor),
-          ),
-          child: BlocBuilder<RegisterKetuaCubit, RegisterKetuaState>(
-            builder: (context, state) {
-              return TextFormField(
-                obscureText: isObscured,
-                onChanged: onChanged,
-                decoration: InputDecoration(
-                  labelText: label,
-                  labelStyle: TextStyle(color: AppColors.buttonColor1),
-                  border: InputBorder.none,
-                  contentPadding:
-                      EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      isObscured ? Icons.visibility_off : Icons.visibility,
-                      color: AppColors.buttonColor1,
-                    ),
-                    onPressed: () {
-                      // Ensure context is available and update visibility through Cubit
-                      if (label == 'Password') {
-                        context
-                            .read<RegisterKetuaCubit>()
-                            .togglePasswordVisibility();
-                      } else {
-                        context
-                            .read<RegisterKetuaCubit>()
-                            .toggleConfirmPasswordVisibility();
-                      }
-                    },
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.2),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: AppColors.whiteColor),
+        ),
+        child: BlocBuilder<RegisterKetuaCubit, RegisterKetuaState>(
+          builder: (context, state) {
+            return TextFormField(
+              obscureText: isObscured,
+              onChanged: onChanged,
+              decoration: InputDecoration(
+                labelText: label,
+                labelStyle: TextStyle(color: AppColors.buttonColor1),
+                border: InputBorder.none,
+                contentPadding:
+                    EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    isObscured ? Icons.visibility_off : Icons.visibility,
+                    color: AppColors.buttonColor1,
                   ),
+                  onPressed: () {
+                    // Ensure context is available and update visibility through Cubit
+                    if (label == 'Password') {
+                      context
+                          .read<RegisterKetuaCubit>()
+                          .togglePasswordVisibility();
+                    } else {
+                      context
+                          .read<RegisterKetuaCubit>()
+                          .toggleConfirmPasswordVisibility();
+                    }
+                  },
                 ),
-                style: TextStyle(color: AppColors.textColor2),
-              );
-            },
-          ),
+              ),
+              style: TextStyle(color: AppColors.textColor2),
+            );
+          },
         ),
       ),
     ),

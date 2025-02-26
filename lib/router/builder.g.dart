@@ -148,6 +148,12 @@ RouteBase get $homeRoute => GoRouteData.$route(
         GoRouteData.$route(
           path: 'forum',
           factory: $ForumRouteExtension._fromState,
+          routes: [
+            GoRouteData.$route(
+              path: 'forum-create',
+              factory: $ForumCreateRouteExtension._fromState,
+            ),
+          ],
         ),
       ],
     );
@@ -601,6 +607,23 @@ extension $ForumRouteExtension on ForumRoute {
 
   String get location => GoRouteData.$location(
         '/home/forum',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $ForumCreateRouteExtension on ForumCreateRoute {
+  static ForumCreateRoute _fromState(GoRouterState state) => ForumCreateRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/forum/forum-create',
       );
 
   void go(BuildContext context) => context.go(location);

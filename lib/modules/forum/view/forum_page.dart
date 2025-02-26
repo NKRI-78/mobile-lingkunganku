@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mobile_lingkunganku/modules/forum/widget/forum_header_section.dart';
+import 'package:mobile_lingkunganku/modules/forum/widget/list_forum.dart';
+import 'package:mobile_lingkunganku/widgets/pages/page_empty.dart';
+import 'package:mobile_lingkunganku/widgets/pages/pages_loading.dart';
 import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';
 import '../../../misc/text_style.dart';
 import '../cubit/forum_cubit.dart';
-import '../widget/forum_input_section.dart';
-import '../widget/forum_post_item_section.dart';
-import '../../../widgets/extension/date_util.dart';
 
 class ForumPage extends StatelessWidget {
   const ForumPage({super.key});
@@ -15,7 +16,7 @@ class ForumPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider.value(
-      value: getIt<ForumCubit>()..fetchForum(),
+      value: getIt<ForumCubit>()..init(),
       child: const ForumView(),
     );
   }
@@ -26,70 +27,58 @@ class ForumView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Forum",
-          style: AppTextStyles.textStyle1,
-        ),
-        centerTitle: true,
-        toolbarHeight: 100,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios_new,
-            color: AppColors.buttonColor2,
-            size: 32,
-          ),
-          onPressed: () {
-            GoRouter.of(context).pop();
-          },
-        ),
-        elevation: 0,
-      ),
-      body: Column(
-        spacing: 10,
-        children: [
-          const ForumInput(),
-          Expanded(
-            child: BlocBuilder<ForumCubit, ForumState>(
-              builder: (context, state) {
-                if (state.loading && state.forums.isEmpty) {
-                  return const Center(child: CircularProgressIndicator());
-                }
-
-                if (state.forums.isEmpty) {
-                  return const Center(
-                      child: Text("Tidak ada postingan forum."));
-                }
-
-                return RefreshIndicator(
-                  onRefresh: () async =>
-                      context.read<ForumCubit>().fetchForum(),
-                  child: ListView.separated(
-                    padding: const EdgeInsets.all(16.0),
-                    itemCount: state.forums.length,
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(height: 16),
-                    itemBuilder: (context, index) {
-                      final forum = state.forums[index];
-
-                      return ForumPostItem(
-                        avatarUrl: forum.user.profile.avatarLink,
-                        username: forum.user.profile.fullname,
-                        timeAgo: DateUntil.formatDate(forum.createdAt),
-                        content: forum.description,
-                        images: forum.media.map((media) => media.link).toList(),
-                        likes: forum.id,
-                        answers: forum.comment.length,
-                      );
-                    },
-                  ),
-                );
+    return BlocBuilder<ForumCubit, ForumState>(
+      builder: (context, state) {
+        return Scaffold(
+          backgroundColor: Colors.white,
+          appBar: AppBar(
+            title: Text("Forum", style: AppTextStyles.textStyle1),
+            centerTitle: true,
+            toolbarHeight: 80,
+            elevation: 0,
+            surfaceTintColor: Colors.white,
+            backgroundColor: AppColors.whiteColor,
+            leading: IconButton(
+              icon: Icon(
+                Icons.arrow_back_ios_new,
+                color: AppColors.buttonColor2,
+                size: 32,
+              ),
+              onPressed: () {
+                GoRouter.of(context).pop();
               },
             ),
           ),
-        ],
-      ),
+          body: CustomScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            slivers: [
+              SliverToBoxAdapter(child: ForumHeaderSection()),
+              BlocBuilder<ForumCubit, ForumState>(
+                buildWhen: (previous, current) =>
+                    previous.forums != current.forums ||
+                    previous.loading != current.loading,
+                builder: (context, state) {
+                  if (state.loading) {
+                    return const SliverToBoxAdapter(child: LoadingPage());
+                  }
+                  if (state.forums.isEmpty) {
+                    return const SliverToBoxAdapter(
+                        child: EmptyPage(msg: "Tidak ada Forum.."));
+                  }
+                  return SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        return ForumListSection(forums: state.forums[index]);
+                      },
+                      childCount: state.forums.length,
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

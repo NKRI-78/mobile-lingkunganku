@@ -15,7 +15,7 @@ class ForumsModel {
   DateTime createdAt;
   DateTime updatedAt;
   dynamic deletedAt;
-  User user;
+  User? user;
   List<Media> media;
   List<Comment> comment;
 
@@ -66,7 +66,7 @@ class ForumsModel {
         "created_at": createdAt.toIso8601String(),
         "updated_at": updatedAt.toIso8601String(),
         "deleted_at": deletedAt,
-        "user": user.toJson(),
+        "user": user?.toJson(),
         "medias": List<dynamic>.from(media.map((x) => x.toJson())),
         "comments": List<dynamic>.from(comment.map((x) => x.toJson())),
       };
@@ -157,12 +157,12 @@ class Profile {
 }
 
 class Media {
-  int id;
-  int forumId;
-  String link;
-  String type;
-  DateTime createdAt;
-  DateTime updatedAt;
+  final int id;
+  final int forumId;
+  final String? link;
+  final String type;
+  final DateTime createdAt;
+  final DateTime updatedAt;
 
   Media({
     required this.id,
@@ -192,6 +192,10 @@ class Media {
         "created_at": createdAt.toIso8601String(),
         "updated_at": updatedAt.toIso8601String(),
       };
+
+  static List<Media> fromJsonList(List<dynamic> jsonList) {
+    return jsonList.map((json) => Media.fromJson(json)).toList();
+  }
 }
 
 class Comment {
@@ -203,30 +207,32 @@ class Comment {
   DateTime createdAt;
   DateTime updatedAt;
   dynamic deletedAt;
+  User? user;
 
-  Comment({
-    required this.id,
-    required this.comment,
-    required this.userId,
-    required this.forumId,
-    required this.commentId,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.deletedAt,
-  });
+  Comment(
+    this.id,
+    this.comment,
+    this.userId,
+    this.forumId,
+    this.commentId,
+    this.createdAt,
+    this.updatedAt,
+    this.deletedAt,
+    this.user,
+  );
 
-  factory Comment.fromJson(Map<String, dynamic> json) => Comment(
-        id: json["id"] ?? 0,
-        comment: json["comment"] ?? "",
-        userId: json["user_id"] ?? 0,
-        forumId: json["forum_id"] ?? 0,
-        commentId: json["comment_id"],
-        createdAt:
-            DateTime.tryParse(json["created_at"] ?? "") ?? DateTime.now(),
-        updatedAt:
-            DateTime.tryParse(json["updated_at"] ?? "") ?? DateTime.now(),
-        deletedAt: json["deleted_at"],
-      );
+  Comment.fromJson(Map<String, dynamic> json)
+      : id = json['id'] ?? 0,
+        comment = json['comment'] ?? '',
+        userId = json['user_id'] ?? 0,
+        forumId = json['forum_id'] ?? 0,
+        commentId = json['comment_id'],
+        createdAt =
+            DateTime.tryParse(json['created_at'] ?? '') ?? DateTime.now(),
+        updatedAt =
+            DateTime.tryParse(json['updated_at'] ?? '') ?? DateTime.now(),
+        deletedAt = json['deleted_at'],
+        user = json['user'] != null ? User.fromJson(json['user']) : null;
 
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -237,5 +243,6 @@ class Comment {
         "created_at": createdAt.toIso8601String(),
         "updated_at": updatedAt.toIso8601String(),
         "deleted_at": deletedAt,
+        "user": user,
       };
 }
