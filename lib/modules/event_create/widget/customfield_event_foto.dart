@@ -19,7 +19,7 @@ class CustomfieldEventFoto extends StatelessWidget {
             width: double.infinity,
             height: 180,
             decoration: BoxDecoration(
-              color: AppColors.whiteColor.withOpacity(0.1),
+              color: AppColors.greyColor.withOpacity(0.1),
               borderRadius: BorderRadius.circular(12),
               border: Border.all(color: AppColors.secondaryColor, width: 1),
             ),

@@ -7,13 +7,13 @@ import 'models/management_detail_member_model.dart';
 import 'models/management_member_model.dart';
 
 class ManagementRepository {
-  String get managementMember => '${MyApi.baseUrl}/api/v1/member/get/v2';
+  String get managementMember => '${MyApi.baseUrl}/api/v1/member';
 
   final http = getIt<BaseNetworkClient>();
 
   Future<ManagementMemberModel> getMember() async {
     try {
-      final res = await http.get(Uri.parse(managementMember));
+      final res = await http.get(Uri.parse("$managementMember/get/v2"));
 
       debugPrint(" Response status: ${res.statusCode}");
       debugPrint(" Response body: ${res.body}");

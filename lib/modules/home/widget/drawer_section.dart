@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -89,11 +87,8 @@ class DrawerSection extends StatelessWidget {
                               children: [
                                 // Efek Blur di dalam Container
                                 Positioned.fill(
-                                  child: BackdropFilter(
-                                    filter:
-                                        ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-                                    child: Container(color: Colors.transparent),
-                                  ),
+                                  child: Container(
+                                      color: Colors.black.withOpacity(0.1)),
                                 ),
                                 // Isi Container
                                 Container(

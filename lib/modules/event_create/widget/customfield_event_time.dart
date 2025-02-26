@@ -94,7 +94,7 @@ Widget _buildTimePickerField({
       borderRadius: BorderRadius.circular(12),
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.1),
+          color: Colors.grey.withOpacity(0.1),
           borderRadius: BorderRadius.circular(12),
           border: Border.all(color: AppColors.secondaryColor),
         ),
