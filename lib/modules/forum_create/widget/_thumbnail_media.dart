@@ -1,7 +1,9 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../cubit/forum_create_cubit.dart';
+import 'package:mobile_lingkunganku/misc/colors.dart';
+import 'package:mobile_lingkunganku/modules/forum_create/cubit/forum_create_cubit.dart';
 
 class ThumbnailMedia extends StatelessWidget {
   const ThumbnailMedia({super.key});
@@ -15,35 +17,55 @@ class ThumbnailMedia extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              if (st.pickedFile.isNotEmpty && st.feedType == "image")
+              if (st.pickedFile.isNotEmpty)
                 st.loadingUpload
-                    ? const Center(child: CircularProgressIndicator.adaptive())
+                    ? const CircularProgressIndicator.adaptive()
                     : GridView.builder(
                         shrinkWrap: true,
+                        padding: const EdgeInsets.symmetric(vertical: 10),
                         physics: const NeverScrollableScrollPhysics(),
                         gridDelegate:
                             const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 10,
-                          mainAxisSpacing: 10,
-                          childAspectRatio: 1.5,
+                          crossAxisCount: 3,
+                          crossAxisSpacing: 5,
+                          mainAxisSpacing: 5,
                         ),
                         itemCount: st.pickedFile.length,
                         itemBuilder: (context, index) {
+                          bool isVideo =
+                              st.pickedFile[index].path.endsWith(".mp4");
+
                           return Stack(
                             children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: Image.file(
-                                  File(st.pickedFile[index].path),
-                                  width: double.infinity,
-                                  height: double.infinity,
-                                  fit: BoxFit.cover,
+                              Container(
+                                width: 100,
+                                height: 100,
+                                margin: const EdgeInsets.only(right: 5),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  image: DecorationImage(
+                                    image: isVideo
+                                        ? MemoryImage(st.videoFileThumbnail!)
+                                        : FileImage(
+                                                File(st.pickedFile[index].path))
+                                            as ImageProvider,
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
+                              if (isVideo)
+                                const Positioned(
+                                  top: 30,
+                                  left: 30,
+                                  child: Icon(
+                                    Icons.play_circle_fill,
+                                    color: Colors.white,
+                                    size: 40,
+                                  ),
+                                ),
                               Positioned(
-                                top: 8,
-                                right: 8,
+                                right: 5,
+                                top: 5,
                                 child: GestureDetector(
                                   onTap: () {
                                     context
@@ -55,12 +77,12 @@ class ThumbnailMedia extends StatelessWidget {
                                     height: 30,
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
-                                      color: Colors.black.withOpacity(0.6),
+                                      color: Colors.black.withOpacity(0.5),
                                     ),
                                     child: const Icon(
                                       Icons.close,
                                       color: Colors.white,
-                                      size: 20,
+                                      size: 20.0,
                                     ),
                                   ),
                                 ),
@@ -69,6 +91,25 @@ class ThumbnailMedia extends StatelessWidget {
                           );
                         },
                       ),
+              if (st.pickedFile.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(top: 10.0),
+                  child: Row(
+                    children: [
+                      const Text("Total File Size:",
+                          style: TextStyle(
+                            color: AppColors.blackColor,
+                          )),
+                      const SizedBox(width: 8.0),
+                      Text(
+                        "${st.fileSize} ",
+                        style: const TextStyle(
+                          color: AppColors.blackColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
             ],
           ),
         );

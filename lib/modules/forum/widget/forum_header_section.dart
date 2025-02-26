@@ -10,32 +10,58 @@ class ForumHeaderSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        ForumCreateRoute().go(context);
-      },
-      child: BlocBuilder<ForumCubit, ForumState>(
-        builder: (context, state) {
-          final imageUser = state.profile?.profile?.avatarLink;
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 5),
+      child: Material(
+        color: Colors.transparent,
+        borderRadius: BorderRadius.circular(20),
+        child: InkWell(
+          onTap: () {
+            ForumCreateRoute().go(context);
+          },
+          borderRadius: BorderRadius.circular(20),
+          child: Ink(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+            ),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 // Avatar pengguna
-                SizedBox(
-                  width: 50,
-                  height: 50,
-                  child: ImageAvatar(
-                    image: (imageUser != null && imageUser.isNotEmpty)
-                        ? imageUser
-                        : "assets/images/default_avatar.png",
-                    radius: 50,
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(50),
+                  child: SizedBox(
+                    width: 50,
+                    height: 50,
+                    child: ImageAvatar(
+                      image: (context
+                                      .read<ForumCubit>()
+                                      .state
+                                      .profile
+                                      ?.profile
+                                      ?.avatarLink !=
+                                  null &&
+                              context
+                                  .read<ForumCubit>()
+                                  .state
+                                  .profile!
+                                  .profile!
+                                  .avatarLink!
+                                  .isNotEmpty)
+                          ? context
+                              .read<ForumCubit>()
+                              .state
+                              .profile!
+                              .profile!
+                              .avatarLink!
+                          : "assets/images/default_avatar.png",
+                      radius: 50,
+                    ),
                   ),
                 ),
 
-                const SizedBox(width: 10),
+                const SizedBox(width: 12),
 
                 // Input Placeholder
                 Expanded(
@@ -58,8 +84,8 @@ class ForumHeaderSection extends StatelessWidget {
                 ),
               ],
             ),
-          );
-        },
+          ),
+        ),
       ),
     );
   }

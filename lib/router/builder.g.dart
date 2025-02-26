@@ -153,6 +153,10 @@ RouteBase get $homeRoute => GoRouteData.$route(
               path: 'forum-create',
               factory: $ForumCreateRouteExtension._fromState,
             ),
+            GoRouteData.$route(
+              path: 'detail-video',
+              factory: $DetailVideoPlayerRouteExtension._fromState,
+            ),
           ],
         ),
       ],
@@ -624,6 +628,29 @@ extension $ForumCreateRouteExtension on ForumCreateRoute {
 
   String get location => GoRouteData.$location(
         '/home/forum/forum-create',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $DetailVideoPlayerRouteExtension on DetailVideoPlayerRoute {
+  static DetailVideoPlayerRoute _fromState(GoRouterState state) =>
+      DetailVideoPlayerRoute(
+        urlVideo: state.uri.queryParameters['url-video']!,
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/forum/detail-video',
+        queryParams: {
+          'url-video': urlVideo,
+        },
       );
 
   void go(BuildContext context) => context.go(location);

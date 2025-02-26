@@ -11,8 +11,6 @@ import 'package:mobile_lingkunganku/modules/forum_create/widget/_button_media.da
 import 'package:mobile_lingkunganku/modules/forum_create/widget/_thumbnail_media.dart';
 import 'package:mobile_lingkunganku/widgets/button/custom_button.dart';
 
-import '../../../misc/snackbar.dart';
-
 part '../widget/_input_description.dart';
 
 class ForumCreatePage extends StatelessWidget {
@@ -33,32 +31,55 @@ class ForumCreateView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: Container(
-        color: Colors.transparent,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Expanded(
-              flex: 1,
-              child: Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: CustomButton(
-                  text: 'Posting',
-                  onPressed: () async {
-                    await context.read<ForumCreateCubit>().createForum(context);
-                    if (context.mounted) {
-                      Navigator.pop(context);
-                      getIt<ForumCubit>().fetchForum();
-                      ShowSnackbar.snackbar(context, "Berhasil membuat Forum",
-                          "", AppColors.secondaryColor);
-                    }
-                  },
+      bottomNavigationBar: BlocBuilder<ForumCreateCubit, ForumCreateState>(
+        builder: (context, state) {
+          return Container(
+            color: Colors.transparent,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: CustomButton(
+                      text: state.loading ? '' : 'Posting',
+                      onPressed: state.loading
+                          ? null
+                          : () async {
+                              await context
+                                  .read<ForumCreateCubit>()
+                                  .createForum(context);
+
+                              if (context.mounted &&
+                                  context
+                                      .read<ForumCreateCubit>()
+                                      .state
+                                      .description
+                                      .trim()
+                                      .isNotEmpty) {
+                                getIt<ForumCubit>().fetchForum();
+                                Navigator.pop(context);
+                              }
+                            },
+                      child: state.loading
+                          ? const SizedBox(
+                              width: 24,
+                              height: 24,
+                              child: CircularProgressIndicator(
+                                color: Colors.white, // Warna indikator loading
+                                strokeWidth: 2,
+                              ),
+                            )
+                          : null,
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ),
-          ],
-        ),
+          );
+        },
       ),
       backgroundColor: AppColors.whiteColor,
       body: CustomScrollView(

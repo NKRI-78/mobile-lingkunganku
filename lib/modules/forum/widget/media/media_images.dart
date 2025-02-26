@@ -2,13 +2,12 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:mobile_lingkunganku/repositories/forum_repository/models/forums_model.dart';
-
 import '../../../../widgets/image/image_card_forum.dart';
 
 class MediaImages extends StatelessWidget {
   const MediaImages({super.key, this.medias = const []});
 
-  final List<Media> medias;
+  final List<ForumMedia> medias;
 
   @override
   Widget build(BuildContext context) {
@@ -23,162 +22,115 @@ class MediaImages extends StatelessWidget {
   List<Widget> _contentRender() {
     switch (medias.length) {
       case 1:
-        return _singleImageView();
+        return _singleMediaView();
       case 2:
-        return _twoImageView();
+        return _twoMediaView();
       case 3:
-        return _threeImageView();
+        return _threeMediaView();
       case 4:
-        return _foureImageView();
+        return _fourMediaView();
       case 5:
-        return _fiveImageView();
+        return _fiveMediaView();
       default:
-        return _multipleImageView();
+        return _multipleMediaView();
     }
   }
 
-  List<Widget> _singleImageView() {
+  Widget _buildMedia(ForumMedia media, double height) {
+    bool isVideo = media.type == 'video';
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        ImageCardForum(
+          image: media.link ?? "",
+          radius: 0,
+          width: double.infinity,
+          height: height,
+        ),
+        if (isVideo)
+          const Icon(
+            Icons.play_circle_fill,
+            color: Colors.white,
+            size: 40,
+          ),
+      ],
+    );
+  }
+
+  List<Widget> _singleMediaView() {
     return [
       Expanded(
         flex: 1,
-        child: ImageCardForum(
-          image: medias.first.link ?? "",
-          radius: 0,
-          width: double.infinity,
-        ),
+        child: _buildMedia(medias.first, 300),
       ),
     ];
   }
 
-  List<Widget> _twoImageView() {
+  List<Widget> _twoMediaView() {
     return [
       Expanded(
         flex: 1,
-        child: ImageCardForum(
-          image: medias.first.link ?? "",
-          radius: 0,
-          width: double.infinity,
-          height: 300,
-        ),
+        child: _buildMedia(medias[0], 300),
       ),
       const SizedBox(width: 5),
       Expanded(
         flex: 1,
-        child: ImageCardForum(
-          image: medias.last.link ?? "",
-          radius: 0,
-          width: double.infinity,
-          height: 300,
-        ),
-      )
+        child: _buildMedia(medias[1], 300),
+      ),
     ];
   }
 
-  List<Widget> _threeImageView() {
+  List<Widget> _threeMediaView() {
     return [
       Expanded(
         flex: 1,
-        child: ImageCardForum(
-          image: medias[0].link ?? "",
-          radius: 0,
-          width: double.infinity,
-          height: 305,
-        ),
+        child: _buildMedia(medias[0], 305),
       ),
       const SizedBox(width: 5),
       Expanded(
         flex: 1,
         child: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            ImageCardForum(
-              image: medias[1].link ?? "",
-              radius: 0,
-              width: double.infinity,
-              height: 150,
-            ),
+            _buildMedia(medias[1], 150),
             const SizedBox(height: 5),
-            ImageCardForum(
-              image: medias[2].link ?? "",
-              radius: 0,
-              width: double.infinity,
-              height: 150,
-            ),
+            _buildMedia(medias[2], 150),
           ],
         ),
       ),
     ];
   }
 
-  List<Widget> _foureImageView() {
+  List<Widget> _fourMediaView() {
     return [
       Expanded(
         flex: 2,
-        child: ImageCardForum(
-          image: medias[0].link ?? "",
-          radius: 0,
-          width: double.infinity,
-          height: 310,
-        ),
+        child: _buildMedia(medias[0], 310),
       ),
       const SizedBox(width: 5),
       Expanded(
         flex: 1,
         child: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ImageCardForum(
-              image: medias[1].link ?? "",
-              radius: 0,
-              width: double.infinity,
-              height: 100,
-            ),
+            _buildMedia(medias[1], 100),
             const SizedBox(height: 5),
-            ImageCardForum(
-              image: medias[2].link ?? "",
-              radius: 0,
-              width: double.infinity,
-              height: 100,
-            ),
+            _buildMedia(medias[2], 100),
             const SizedBox(height: 5),
-            ImageCardForum(
-              image: medias[3].link ?? "",
-              radius: 100,
-              width: double.infinity,
-              height: 100,
-            ),
+            _buildMedia(medias[3], 100),
           ],
         ),
       ),
     ];
   }
 
-  List<Widget> _fiveImageView() {
+  List<Widget> _fiveMediaView() {
     return [
       Expanded(
         flex: 2,
         child: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            ImageCardForum(
-              image: medias[0].link ?? "",
-              radius: 0,
-              width: double.infinity,
-              height: 153,
-            ),
+            _buildMedia(medias[0], 153),
             const SizedBox(height: 5),
-            ImageCardForum(
-              image: medias[1].link ?? "",
-              radius: 0,
-              width: double.infinity,
-              height: 153,
-            ),
+            _buildMedia(medias[1], 153),
           ],
         ),
       ),
@@ -186,58 +138,27 @@ class MediaImages extends StatelessWidget {
       Expanded(
         flex: 1,
         child: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ImageCardForum(
-              image: medias[2].link ?? "",
-              radius: 0,
-              width: double.infinity,
-              height: 100,
-            ),
+            _buildMedia(medias[2], 100),
             const SizedBox(height: 5),
-            ImageCardForum(
-              image: medias[3].link ?? "",
-              radius: 0,
-              width: double.infinity,
-              height: 100,
-            ),
+            _buildMedia(medias[3], 100),
             const SizedBox(height: 5),
-            ImageCardForum(
-              image: medias[4].link ?? "",
-              radius: 100,
-              width: double.infinity,
-              height: 100,
-            ),
+            _buildMedia(medias[4], 100),
           ],
         ),
       ),
     ];
   }
 
-  List<Widget> _multipleImageView() {
+  List<Widget> _multipleMediaView() {
     return [
       Expanded(
         flex: 2,
         child: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            ImageCardForum(
-              image: medias[0].link ?? "",
-              radius: 0,
-              width: double.infinity,
-              height: 153,
-            ),
+            _buildMedia(medias[0], 153),
             const SizedBox(height: 5),
-            ImageCardForum(
-              image: medias[1].link ?? "",
-              radius: 0,
-              width: double.infinity,
-              height: 153,
-            ),
+            _buildMedia(medias[1], 153),
           ],
         ),
       ),
@@ -245,60 +166,35 @@ class MediaImages extends StatelessWidget {
       Expanded(
         flex: 1,
         child: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ImageCardForum(
-              image: medias[2].link ?? "",
-              radius: 0,
-              width: double.infinity,
-              height: 100,
-            ),
+            _buildMedia(medias[2], 100),
             const SizedBox(height: 5),
-            ImageCardForum(
-              image: medias[3].link ?? "",
-              radius: 0,
-              width: double.infinity,
-              height: 100,
-            ),
+            _buildMedia(medias[3], 100),
             const SizedBox(height: 5),
-            SizedBox(
-              height: 100,
-              width: double.infinity,
-              child: Stack(
-                alignment: Alignment.center,
-                fit: StackFit.expand,
-                children: [
-                  ImageCardForum(
-                    image: medias[4].link ?? "",
-                    radius: 0,
-                    width: double.infinity,
-                  ),
-                  Positioned.fill(
-                    child: ClipRect(
-                      child: BackdropFilter(
-                        filter: ImageFilter.blur(sigmaX: 2.0, sigmaY: 2.0),
-                        child: Container(
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            color: Colors.black.withOpacity(0.1),
-                          ),
-                          child: Text(
-                            '+${medias.length - 5}',
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 22,
-                              fontFamily: "Nulito",
-                              fontWeight: FontWeight.w700,
-                            ),
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                _buildMedia(medias[4], 100),
+                Positioned.fill(
+                  child: ClipRect(
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 2.0, sigmaY: 2.0),
+                      child: Container(
+                        alignment: Alignment.center,
+                        color: Colors.black.withOpacity(0.1),
+                        child: Text(
+                          '+${medias.length - 5}',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 22,
+                            fontWeight: FontWeight.w700,
                           ),
                         ),
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ],
         ),

@@ -27,6 +27,7 @@ import '../modules/register_ketua/view/register_ketua_page.dart';
 import '../modules/register_warga/view/register_warga_page.dart';
 import '../modules/settings/view/settings_page.dart';
 import '../modules/sos/view/sos_page.dart';
+import '../widgets/pages/video/detail_video_player.dart';
 
 part 'builder.g.dart';
 
@@ -71,9 +72,10 @@ class OnboardingRoute extends GoRouteData {
     TypedGoRoute<RegisterWargaRoute>(path: 'register-warga'),
   ]),
   TypedGoRoute<SosRoute>(path: 'sos'),
-  TypedGoRoute<ForumRoute>(
-      path: 'forum',
-      routes: [TypedGoRoute<ForumCreateRoute>(path: 'forum-create')]),
+  TypedGoRoute<ForumRoute>(path: 'forum', routes: [
+    TypedGoRoute<ForumCreateRoute>(path: 'forum-create'),
+    TypedGoRoute<DetailVideoPlayerRoute>(path: 'detail-video'),
+  ]),
 ])
 class HomeRoute extends GoRouteData {
   @override
@@ -295,5 +297,16 @@ class ForumCreateRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return ForumCreatePage();
+  }
+}
+
+class DetailVideoPlayerRoute extends GoRouteData {
+  final String urlVideo;
+
+  DetailVideoPlayerRoute({required this.urlVideo});
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return DetailVideoPlayer(urlVideo: urlVideo);
   }
 }

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:mobile_lingkunganku/repositories/forum_repository/models/forum_detail_model.dart';
 import '../../misc/api_url.dart';
 import 'models/forums_model.dart';
 import 'package:http/http.dart' as ht;
@@ -30,6 +31,25 @@ class ForumRepository {
       return [];
     } catch (e) {
       debugPrint('Error getForum: $e');
+      rethrow;
+    }
+  }
+
+  Future<ForumDetailModel> getDetailForum(String idForum) async {
+    try {
+      final res = await http.get(Uri.parse('$forums/$idForum/detail'));
+
+      debugPrint(res.body);
+      debugPrint('$forums/$idForum/detail');
+      final json = jsonDecode(res.body);
+      if (res.statusCode == 200) {
+        return ForumDetailModel.fromJson(json['data']);
+      } else {
+        throw json['message'] ?? "Terjadi kesalahan";
+      }
+    } on SocketException {
+      throw "Terjadi kesalahan jaringan";
+    } catch (e) {
       rethrow;
     }
   }
@@ -71,17 +91,16 @@ class ForumRepository {
       ht.StreamedResponse response = await request.send();
       String responseBody = await response.stream.bytesToString();
 
-      if (response.statusCode == 200) {
-        debugPrint('Success: $responseBody');
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        debugPrint('Forum berhasil dibuat!');
       } else {
         Map<String, dynamic> jsonData = jsonDecode(responseBody);
-        String message = jsonData['message'] ?? 'Unknown error';
-        debugPrint('Error: $message');
-        throw message;
+        String message = jsonData['message'] ?? 'Terjadi kesalahan.';
+        throw Exception("Error API: $message");
       }
     } catch (e) {
       debugPrint('Error createForum: $e');
-      rethrow;
+      throw Exception("Gagal membuat forum: $e");
     }
   }
 

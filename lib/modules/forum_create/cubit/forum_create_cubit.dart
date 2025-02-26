@@ -13,6 +13,7 @@ import 'package:mobile_lingkunganku/repositories/forum_repository/forum_reposito
 import 'package:multi_image_picker_plus/multi_image_picker_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:filesize/filesize.dart';
+import 'package:video_compress_v2/video_compress_v2.dart';
 
 import '../../../misc/injections.dart';
 
@@ -22,12 +23,15 @@ class ForumCreateCubit extends Cubit<ForumCreateState> {
   ForumCreateCubit() : super(ForumCreateState());
 
   bool? isImage;
+
   List<File> pickedFile = [];
   List<Asset> resultList = [];
   List<Asset> images = [];
+
   File? docFile;
   Uint8List? videoFileThumbnail;
   String? videoSize;
+
   ForumRepository repo = getIt<ForumRepository>();
 
   void copyState({required ForumCreateState newState}) {
@@ -44,36 +48,67 @@ class ForumCreateCubit extends Cubit<ForumCreateState> {
   }
 
   Future<void> createForum(BuildContext context) async {
+    emit(state.copyWith(loading: true));
+
     try {
       if (state.description.trim().isEmpty) {
-        return ShowSnackbar.snackbar(
+        ShowSnackbar.snackbar(
           context,
           "Keterangan tidak boleh kosong",
           '',
-          AppColors.secondaryColor,
+          AppColors.redColor,
           const Duration(seconds: 6),
         );
-      } else {
-        emit(state.copyWith(loading: true));
-        final linkImage =
-            await repo.postMedia(folder: "images", media: state.pickedFile);
-        final remaplink = linkImage
+        emit(state.copyWith(loading: false));
+        return;
+      }
+
+      List<Map<String, dynamic>> remaplink = [];
+
+      // Cek apakah ada file yang dipilih sebelum mengunggah media
+      if (state.pickedFile.isNotEmpty) {
+        final linkImage = await repo.postMedia(
+          folder: "images",
+          media: state.pickedFile,
+        );
+
+        remaplink = linkImage
             .map((e) => {'link': e['url'], 'type': state.feedType})
             .toList();
-        debugPrint('Testting :  $remaplink');
-        await repo.createForum(
-            description: state.description, medias: remaplink);
-        emit(state.copyWith(loading: false));
+      }
+
+      debugPrint('Media yang diunggah: $remaplink');
+
+      await repo.createForum(
+        description: state.description,
+        medias: remaplink,
+      );
+
+      // Jika berhasil, munculkan snackbar sukses
+      if (context.mounted) {
+        ShowSnackbar.snackbar(
+          context,
+          "Berhasil membuat Forum",
+          "",
+          AppColors.secondaryColor,
+        );
       }
     } catch (e) {
-      if (!context.mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          backgroundColor: AppColors.secondaryColor,
-          content:
-              Text(e.toString(), style: const TextStyle(color: Colors.white)),
-        ),
-      );
+      debugPrint("Error: $e");
+
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: AppColors.secondaryColor,
+            content: Text(
+              e.toString(),
+              style: const TextStyle(color: Colors.white),
+            ),
+          ),
+        );
+      }
+    } finally {
+      emit(state.copyWith(loading: false));
     }
   }
 
@@ -110,20 +145,20 @@ class ForumCreateCubit extends Cubit<ForumCreateState> {
       ),
     );
 
-    List<File> newImages = [];
+    List<File> newCamera = [];
 
     if (imageSource == ImageSource.camera) {
       XFile? xf = await ImagePicker()
           .pickImage(source: ImageSource.camera, imageQuality: 80);
       if (xf != null) {
-        File compressedFile = await compressImage(xf.path);
-        newImages.add(compressedFile);
+        newCamera.add(File(xf.path));
+        copyState(newState: state.copyWith(pickedFile: pickedFile));
         isImage = true;
       }
-      emit(state.copyWith(
-          pickedFile: [...state.pickedFile, ...newImages], feedType: "image"));
+      emit(state.copyWith(pickedFile: newCamera, feedType: "image"));
     }
 
+    List<File> newImages = [];
     if (imageSource == ImageSource.gallery) {
       resultList = await MultiImagePicker.pickImages(
         androidOptions: const AndroidOptions(maxImages: 8),
@@ -144,8 +179,7 @@ class ForumCreateCubit extends Cubit<ForumCreateState> {
         newImages.add(compressedFile);
         isImage = true;
       }
-      emit(state.copyWith(
-          pickedFile: [...state.pickedFile, ...newImages], feedType: "image"));
+      emit(state.copyWith(pickedFile: newImages, feedType: "image"));
     }
   }
 
@@ -157,14 +191,12 @@ class ForumCreateCubit extends Cubit<ForumCreateState> {
         withData: false,
         withReadStream: true,
         onFileLoading: (FilePickerStatus filePickerStatus) {});
-
     List<File> newVideo = [];
     if (result != null) {
       File vf = File(result.files.single.path!);
       int sizeInBytes = vf.lengthSync();
       double sizeInMb = sizeInBytes / (1024 * 1024);
       debugPrint('Ukuran ${sizeInMb.toString()}');
-
       if (sizeInMb > 200) {
         Future.delayed(Duration.zero, () {
           ShowSnackbar.snackbar(
@@ -172,12 +204,14 @@ class ForumCreateCubit extends Cubit<ForumCreateState> {
         });
         return;
       }
-
       newVideo.add(File(vf.path));
+      // emit(state.copyWith(pickedFile: pickedFile));
+      videoFileThumbnail = await VideoCompressV2.getByteThumbnail(vf.path);
       videoSize = filesize(sizeInBytes, 0);
       emit(state.copyWith(
-          pickedFile: [...state.pickedFile, ...newVideo],
+          pickedFile: newVideo,
           feedType: "video",
+          videoFileThumbnail: videoFileThumbnail,
           fileSize: videoSize));
     }
   }

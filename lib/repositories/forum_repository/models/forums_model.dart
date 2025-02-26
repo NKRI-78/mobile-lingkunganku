@@ -6,70 +6,181 @@ ForumsModel forumsModelFromJson(String str) =>
 String forumsModelToJson(ForumsModel data) => json.encode(data.toJson());
 
 class ForumsModel {
-  int id;
-  String description;
-  int userId;
-  int neighborhoodId;
-  double latitude;
-  double longitude;
-  DateTime createdAt;
-  DateTime updatedAt;
+  int? id;
+  String? description;
+  int? userId;
+  int? neighborhoodId;
+  double? latitude;
+  double? longitude;
+  String? createdAt;
+  String? updatedAt;
   dynamic deletedAt;
   User? user;
-  List<Media> media;
-  List<Comment> comment;
+  List<ForumMedia>? forumMedia;
+  List<ForumComment>? forumComment;
 
   ForumsModel({
-    required this.id,
-    required this.description,
-    required this.userId,
-    required this.neighborhoodId,
-    required this.latitude,
-    required this.longitude,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.deletedAt,
-    required this.user,
-    required this.media,
-    required this.comment,
+    this.id,
+    this.description,
+    this.userId,
+    this.neighborhoodId,
+    this.latitude,
+    this.longitude,
+    this.createdAt,
+    this.updatedAt,
+    this.deletedAt,
+    this.user,
+    this.forumMedia,
+    this.forumComment,
   });
 
-  factory ForumsModel.fromJson(Map<String, dynamic> json) => ForumsModel(
-        id: json["id"] ?? 0,
-        description: json["description"] ?? "",
-        userId: json["user_id"] ?? 0,
-        neighborhoodId: json["neighborhood_id"] ?? 0,
-        latitude: (json["latitude"] ?? 0).toDouble(),
-        longitude: (json["longitude"] ?? 0).toDouble(),
-        createdAt:
-            DateTime.tryParse(json["created_at"] ?? "") ?? DateTime.now(),
-        updatedAt:
-            DateTime.tryParse(json["updated_at"] ?? "") ?? DateTime.now(),
-        deletedAt: json["deleted_at"],
-        user: json["user"] != null ? User.fromJson(json["user"]) : User.empty(),
-        media: json["medias"] != null
-            ? List<Media>.from(json["medias"].map((x) => Media.fromJson(x)))
-            : [],
-        comment: json["comments"] != null
-            ? List<Comment>.from(
-                json["comments"].map((x) => Comment.fromJson(x)))
-            : [],
-      );
+  ForumsModel.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    description = json['description'];
+    userId = json['user_id'];
+    neighborhoodId = json['neighborhood_id'];
+    latitude = (json['latitude'] ?? 0).toDouble();
+    longitude = (json['longitude'] ?? 0).toDouble();
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
+    user = json['user'] != null ? User.fromJson(json['user']) : null;
+    if (json['forum_media'] != null) {
+      forumMedia = <ForumMedia>[];
+      json['forum_media'].forEach((v) {
+        forumMedia!.add(ForumMedia.fromJson(v));
+      });
+    }
+    if (json['forum_comment'] != null) {
+      forumComment = <ForumComment>[];
+      json['forum_comment'].forEach((v) {
+        forumComment!.add(ForumComment.fromJson(v));
+      });
+    }
+  }
 
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "description": description,
-        "user_id": userId,
-        "neighborhood_id": neighborhoodId,
-        "latitude": latitude,
-        "longitude": longitude,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
-        "deleted_at": deletedAt,
-        "user": user?.toJson(),
-        "medias": List<dynamic>.from(media.map((x) => x.toJson())),
-        "comments": List<dynamic>.from(comment.map((x) => x.toJson())),
-      };
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['description'] = description;
+    data['user_id'] = userId;
+    data['neighborhood_id'] = neighborhoodId;
+    data['latitude'] = latitude;
+    data['longitude'] = longitude;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    if (user != null) {
+      data['user'] = user!.toJson();
+    }
+    if (forumMedia != null) {
+      data['forum_media'] = forumMedia!.map((v) => v.toJson()).toList();
+    }
+    if (forumComment != null) {
+      data['forum_comment'] = forumComment!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class ForumMedia {
+  int? id;
+  String? link;
+  String? type;
+  int? forumId;
+  String? createdAt;
+  String? updatedAt;
+
+  ForumMedia(
+      {this.id,
+      this.link,
+      this.type,
+      this.forumId,
+      this.createdAt,
+      this.updatedAt});
+
+  ForumMedia.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    link = json['link'];
+    type = json['type'];
+    forumId = json['forum_id'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['link'] = link;
+    data['type'] = type;
+    data['forum_id'] = forumId;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    return data;
+  }
+}
+
+class ForumComment {
+  int? id;
+  String? comment;
+  int? userId;
+  int? forumId;
+  int? commentId;
+  String? createdAt;
+  String? updatedAt;
+  String? deletedAt;
+  User? user;
+  // List<Replies>? replies;
+
+  ForumComment({
+    this.id,
+    this.comment,
+    this.userId,
+    this.forumId,
+    this.commentId,
+    this.createdAt,
+    this.updatedAt,
+    this.deletedAt,
+    this.user,
+    // this.replies,
+  });
+
+  ForumComment.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    comment = json['comment'];
+    userId = json['user_id'];
+    forumId = json['forum_id'];
+    commentId = json['comment_id'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
+    user = json['user'] != null ? User.fromJson(json['user']) : null;
+    // if (json['replies'] != null) {
+    //   replies = <Replies>[];
+    //   json['replies'].forEach((v) {
+    //     replies!.add(Replies.fromJson(v));
+    //   });
+    // }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['comment'] = comment;
+    data['user_id'] = userId;
+    data['forum_id'] = forumId;
+    data['comment_id'] = commentId;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    if (user != null) {
+      data['user'] = user!.toJson();
+    }
+    // if (replies != null) {
+    //   data['replies'] = replies!.map((v) => v.toJson()).toList();
+    // }
+    return data;
+  }
 }
 
 class User {

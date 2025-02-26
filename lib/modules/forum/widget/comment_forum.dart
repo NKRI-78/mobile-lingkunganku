@@ -9,7 +9,7 @@ import '../../../widgets/image/image_avatar.dart';
 class CommentForum extends StatelessWidget {
   const CommentForum({super.key, required this.comment});
 
-  final Comment comment;
+  final ForumComment comment;
   @override
   Widget build(BuildContext context) {
     final user = comment.user;
@@ -66,7 +66,7 @@ class CommentForum extends StatelessWidget {
                               ],
                             ),
                             DetectText(
-                              text: comment.comment,
+                              text: comment.comment ?? "",
                             ),
                           ],
                         ),

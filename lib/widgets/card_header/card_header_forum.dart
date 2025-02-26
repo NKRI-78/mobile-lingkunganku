@@ -51,7 +51,13 @@ class CardHeaderForum extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        timeago.format(forums.createdAt, locale: 'id'),
+                        timeago.format(
+                          forums.createdAt != null
+                              ? DateTime.tryParse(forums.createdAt!) ??
+                                  DateTime.now()
+                              : DateTime.now(),
+                          locale: 'id',
+                        ),
                         style: const TextStyle(
                           color: AppColors.greyColor,
                           fontSize: 10,
