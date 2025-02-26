@@ -42,6 +42,20 @@ RouteBase get $homeRoute => GoRouteData.$route(
           factory: $SettingsRouteExtension._fromState,
         ),
         GoRouteData.$route(
+          path: 'event',
+          factory: $EventRouteExtension._fromState,
+          routes: [
+            GoRouteData.$route(
+              path: 'event-create',
+              factory: $EventCreateRouteExtension._fromState,
+            ),
+            GoRouteData.$route(
+              path: 'event-detail',
+              factory: $EventDetailRouteExtension._fromState,
+            ),
+          ],
+        ),
+        GoRouteData.$route(
           path: 'news-detail',
           factory: $NewsDetailRouteExtension._fromState,
           routes: [
@@ -134,6 +148,16 @@ RouteBase get $homeRoute => GoRouteData.$route(
         GoRouteData.$route(
           path: 'forum',
           factory: $ForumRouteExtension._fromState,
+          routes: [
+            GoRouteData.$route(
+              path: 'forum-create',
+              factory: $ForumCreateRouteExtension._fromState,
+            ),
+            GoRouteData.$route(
+              path: 'detail-video',
+              factory: $DetailVideoPlayerRouteExtension._fromState,
+            ),
+          ],
         ),
       ],
     );
@@ -160,6 +184,62 @@ extension $SettingsRouteExtension on SettingsRoute {
 
   String get location => GoRouteData.$location(
         '/home/settings',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $EventRouteExtension on EventRoute {
+  static EventRoute _fromState(GoRouterState state) => EventRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/event',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $EventCreateRouteExtension on EventCreateRoute {
+  static EventCreateRoute _fromState(GoRouterState state) => EventCreateRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/event/event-create',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $EventDetailRouteExtension on EventDetailRoute {
+  static EventDetailRoute _fromState(GoRouterState state) => EventDetailRoute(
+        idEvent: int.parse(state.uri.queryParameters['id-event']!),
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/event/event-detail',
+        queryParams: {
+          'id-event': idEvent.toString(),
+        },
       );
 
   void go(BuildContext context) => context.go(location);
@@ -531,6 +611,46 @@ extension $ForumRouteExtension on ForumRoute {
 
   String get location => GoRouteData.$location(
         '/home/forum',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $ForumCreateRouteExtension on ForumCreateRoute {
+  static ForumCreateRoute _fromState(GoRouterState state) => ForumCreateRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/forum/forum-create',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $DetailVideoPlayerRouteExtension on DetailVideoPlayerRoute {
+  static DetailVideoPlayerRoute _fromState(GoRouterState state) =>
+      DetailVideoPlayerRoute(
+        urlVideo: state.uri.queryParameters['url-video']!,
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/forum/detail-video',
+        queryParams: {
+          'url-video': urlVideo,
+        },
       );
 
   void go(BuildContext context) => context.go(location);

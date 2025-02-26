@@ -11,6 +11,7 @@ class CustomHeaderContainer extends StatelessWidget {
   final bool showText;
   final bool showAvatar;
   final bool isLoggedIn;
+  final bool isLoading;
   final String displayText;
   final String? avatarLink;
   final List<Widget> children;
@@ -19,6 +20,7 @@ class CustomHeaderContainer extends StatelessWidget {
     super.key,
     required this.displayText,
     required this.isLoggedIn,
+    required this.isLoading,
     this.onBackPressed,
     this.onMenuPressed,
     this.onNotificationPressed,
@@ -42,8 +44,8 @@ class CustomHeaderContainer extends StatelessWidget {
       padding: const EdgeInsets.only(
         left: 20,
         right: 20,
-        top: 50,
-        bottom: 30,
+        top: 40,
+        bottom: 15,
       ),
       child: Column(
         children: [
@@ -83,10 +85,10 @@ class CustomHeaderContainer extends StatelessWidget {
                 const SizedBox(width: 48),
             ],
           ),
-
           // **Menampilkan Avatar hanya jika `showAvatar` == true**
           if (showAvatar)
             CustomHeaderAvatar(
+              isLoading: isLoading, // ✅ Tambahkan nilai isLoading di sini
               avatarLink: avatarLink,
               displayText: displayText,
               isLoggedIn: isLoggedIn,
@@ -98,11 +100,12 @@ class CustomHeaderContainer extends StatelessWidget {
               child: Text(
                 'Hi, $displayText',
                 style: AppTextStyles.textRegister2,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.center,
               ),
             ),
 
-          const SizedBox(height: 10),
           ...children,
         ],
       ),
@@ -113,8 +116,8 @@ class CustomHeaderContainer extends StatelessWidget {
   Widget _buildIconButton(
       {required IconData icon, required VoidCallback onPressed}) {
     return Container(
-      width: 40,
-      height: 40,
+      width: 45,
+      height: 45,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),

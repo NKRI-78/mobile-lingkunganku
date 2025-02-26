@@ -1,6 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile_lingkunganku/misc/theme.dart';
+import 'package:shimmer/shimmer.dart';
 import '../../../misc/colors.dart';
 import '../../profile/cubit/profile_cubit.dart';
 import '../../../repositories/home_repository/home_repository.dart';
@@ -56,6 +58,7 @@ class _HomeViewState extends State<HomeView> {
                 color: AppColors.secondaryColor,
                 onRefresh: () async {
                   context.read<HomeBloc>().add(HomeInit(context: context));
+                  await Future.delayed(const Duration(seconds: 1));
                 },
                 child: Stack(
                   children: [
@@ -66,31 +69,38 @@ class _HomeViewState extends State<HomeView> {
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              const SizedBox(height: 290),
-                              // Carousel Slider
-                              CarouselSlider(
-                                options: CarouselOptions(
-                                  autoPlay: true,
-                                  enlargeCenterPage: true,
-                                  aspectRatio: 16 / 9,
-                                  viewportFraction: 0.95,
+                              SizedBox(height: 295),
+                              Container(
+                                margin: EdgeInsets.symmetric(horizontal: 16),
+                                child: CarouselSlider(
+                                  options: CarouselOptions(
+                                    height: 150,
+                                    autoPlay: true,
+                                    enlargeCenterPage: true,
+                                    viewportFraction: 1,
+                                  ),
+                                  items: imgList.map(
+                                    (item) {
+                                      return ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(16.0),
+                                        child: Image.asset(
+                                          item,
+                                          fit: BoxFit.cover,
+                                          errorBuilder:
+                                              (context, error, stackTrace) =>
+                                                  Image.asset(
+                                            imageDefault,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  ).toList(),
                                 ),
-                                items: imgList.map((item) {
-                                  return ClipRRect(
-                                    borderRadius: BorderRadius.circular(16.0),
-                                    child: Image.asset(
-                                      item,
-                                      fit: BoxFit.contain,
-                                      errorBuilder:
-                                          (context, error, stackTrace) =>
-                                              Image.asset(
-                                        'assets/images/placeholder.png',
-                                        fit: BoxFit.contain,
-                                      ),
-                                    ),
-                                  );
-                                }).toList(),
                               ),
+                              SizedBox(height: 15),
+
                               // Title Section
                               Padding(
                                 padding:
@@ -99,14 +109,18 @@ class _HomeViewState extends State<HomeView> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text("News",
-                                        style: AppTextStyles.textStyle1),
+                                    Text(
+                                      "News",
+                                      style: AppTextStyles.textStyle1,
+                                    ),
                                     GestureDetector(
                                       onTap: () {
                                         ShowMoreNewsRoute().go(context);
                                       },
-                                      child: Text("See all",
-                                          style: AppTextStyles.textStyle2),
+                                      child: Text(
+                                        "See all",
+                                        style: AppTextStyles.textStyle2,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -229,6 +243,7 @@ class _HomeViewState extends State<HomeView> {
                           final user = state.profile;
 
                           return CustomHeaderContainer(
+                            isLoading: state.isLoading,
                             avatarLink: user?.profile?.avatarLink ?? '',
                             displayText: isLoggedIn
                                 ? user?.profile?.fullname ?? ''
@@ -237,14 +252,21 @@ class _HomeViewState extends State<HomeView> {
                             showText: true,
                             onMenuPressed: () =>
                                 Scaffold.of(context).openDrawer(),
-                            onNotificationPressed: () {},
+                            onNotificationPressed: () {
+                              //
+                            },
                             children: [
                               if (isLoggedIn)
-                                Text(
-                                  'Selamat datang di Lingkunganku, aplikasi untuk terhubung dengan warga dan menjaga lingkungan.',
-                                  style: AppTextStyles.textWelcome,
-                                  textAlign: TextAlign.center,
-                                )
+                                state.isLoading
+                                    ? _buildShimmerText()
+                                    : Text(
+                                        "Anda masuk sebagai ${state.profile?.translateRoleApp ?? ''},\ndi Komplek ${state.profile?.neighborhood?.name ?? ''}",
+                                        style:
+                                            AppTextStyles.textDialog.copyWith(
+                                          fontSize: 14,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      )
                               else
                                 CustomButton(
                                   text: 'Yuk Registrasi Baru !',
@@ -263,8 +285,9 @@ class _HomeViewState extends State<HomeView> {
                       child: BottomNavBarSection(
                         currentIndex: state.selectedIndex,
                         onTap: (index) {
-                          if (index == 4)
+                          if (index == 4) {
                             SosRoute(isLoggedIn: isLoggedIn).go(context);
+                          }
                           context.read<HomeBloc>().add(HomeNavigate(index));
                         },
                       ),
@@ -279,4 +302,27 @@ class _HomeViewState extends State<HomeView> {
       },
     );
   }
+}
+
+// Fungsi untuk membuat efek shimmer
+Widget _buildShimmerText() {
+  return Shimmer.fromColors(
+    baseColor: Colors.grey[300]!,
+    highlightColor: Colors.grey[100]!,
+    child: Column(
+      children: [
+        Container(
+          width: 200,
+          height: 16,
+          color: Colors.white,
+        ),
+        const SizedBox(height: 4),
+        Container(
+          width: 180,
+          height: 16,
+          color: Colors.white,
+        ),
+      ],
+    ),
+  );
 }

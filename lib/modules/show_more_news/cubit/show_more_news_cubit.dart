@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
-import 'package:mobile_lingkunganku/modules/home/bloc/home_bloc.dart';
 import '../../../repositories/profile_repository/profile_repository.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -32,7 +31,7 @@ class ShowMoreNewsCubit extends Cubit<ShowMoreNewsState> {
   }
 
   Future<void> fetchProfile() async {
-    if (state.profile != null) return;
+    // if (state.profile != null) return;
     try {
       final profile = await repoProfile.getProfile();
       emit(state.copyWith(profile: profile));
@@ -89,9 +88,9 @@ class ShowMoreNewsCubit extends Cubit<ShowMoreNewsState> {
     }
   }
 
-  @override
-  Future<void> close() {
-    getIt<HomeBloc>().add(HomeFetchMoreNews(true));
-    return super.close();
-  }
+  // @override
+  // Future<void> close() async {
+  //   getIt<HomeBloc>().add(HomeFetchMoreNews(true));
+  //   return super.close();
+  // }
 }

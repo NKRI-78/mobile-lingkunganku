@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -68,27 +66,24 @@ Widget _buildTextFormField({
     padding: const EdgeInsets.only(bottom: 12),
     child: ClipRRect(
       borderRadius: BorderRadius.circular(12),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppColors.whiteColor),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: AppColors.whiteColor),
+        ),
+        child: TextFormField(
+          maxLines: maxLines,
+          keyboardType: keyboardType,
+          obscureText: obscureText,
+          onChanged: onChanged,
+          decoration: InputDecoration(
+            labelText: label,
+            labelStyle: TextStyle(color: AppColors.buttonColor1),
+            border: InputBorder.none,
+            contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
           ),
-          child: TextFormField(
-            maxLines: maxLines,
-            keyboardType: keyboardType,
-            obscureText: obscureText,
-            onChanged: onChanged,
-            decoration: InputDecoration(
-              labelText: label,
-              labelStyle: TextStyle(color: AppColors.buttonColor1),
-              border: InputBorder.none,
-              contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-            ),
-            style: TextStyle(color: AppColors.textColor2),
-          ),
+          style: TextStyle(color: AppColors.textColor2),
         ),
       ),
     ),
@@ -104,47 +99,40 @@ Widget _buildPasswordField({
     padding: const EdgeInsets.only(bottom: 12),
     child: ClipRRect(
       borderRadius: BorderRadius.circular(12),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppColors.whiteColor),
-          ),
-          child: BlocBuilder<LoginCubit, LoginState>(
-            builder: (context, state) {
-              return TextFormField(
-                obscureText: isObscured,
-                onChanged: onChanged,
-                decoration: InputDecoration(
-                  labelText: label,
-                  labelStyle: TextStyle(color: AppColors.buttonColor1),
-                  border: InputBorder.none,
-                  contentPadding:
-                      EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                  // Add suffixIcon only for the password field
-                  suffixIcon: label == 'Password'
-                      ? IconButton(
-                          icon: Icon(
-                            isObscured
-                                ? Icons.visibility_off
-                                : Icons.visibility,
-                            color: AppColors.buttonColor1,
-                          ),
-                          onPressed: () {
-                            // Toggle password visibility through Cubit
-                            context
-                                .read<LoginCubit>()
-                                .togglePasswordVisibility();
-                          },
-                        )
-                      : null, // No suffixIcon for other fields
-                ),
-                style: TextStyle(color: AppColors.textColor2),
-              );
-            },
-          ),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: AppColors.whiteColor),
+        ),
+        child: BlocBuilder<LoginCubit, LoginState>(
+          builder: (context, state) {
+            return TextFormField(
+              obscureText: isObscured,
+              onChanged: onChanged,
+              decoration: InputDecoration(
+                labelText: label,
+                labelStyle: TextStyle(color: AppColors.buttonColor1),
+                border: InputBorder.none,
+                contentPadding:
+                    EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                // Add suffixIcon only for the password field
+                suffixIcon: label == 'Password'
+                    ? IconButton(
+                        icon: Icon(
+                          isObscured ? Icons.visibility_off : Icons.visibility,
+                          color: AppColors.buttonColor1,
+                        ),
+                        onPressed: () {
+                          // Toggle password visibility through Cubit
+                          context.read<LoginCubit>().togglePasswordVisibility();
+                        },
+                      )
+                    : null, // No suffixIcon for other fields
+              ),
+              style: TextStyle(color: AppColors.textColor2),
+            );
+          },
         ),
       ),
     ),

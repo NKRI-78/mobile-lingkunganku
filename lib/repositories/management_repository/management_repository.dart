@@ -13,7 +13,7 @@ class ManagementRepository {
 
   Future<ManagementMemberModel> getMember() async {
     try {
-      final res = await http.get(Uri.parse(managementMember));
+      final res = await http.get(Uri.parse("$managementMember/get/v2"));
 
       debugPrint(" Response status: ${res.statusCode}");
       debugPrint(" Response body: ${res.body}");

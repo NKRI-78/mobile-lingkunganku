@@ -10,6 +10,7 @@ class RegisterKetuaState extends Equatable {
   final String name;
   final String email;
   final String phone;
+  final String phoneSecurity;
   final String detailAddress;
   final String neighborhoodName;
   final String password;
@@ -26,6 +27,7 @@ class RegisterKetuaState extends Equatable {
     this.name = '',
     this.email = '',
     this.phone = '',
+    this.phoneSecurity = '',
     this.detailAddress = '',
     this.neighborhoodName = '',
     this.password = '',
@@ -43,6 +45,7 @@ class RegisterKetuaState extends Equatable {
     String? name,
     String? email,
     String? phone,
+    String? phoneSecurity,
     String? detailAddress,
     String? neighborhoodName,
     String? password,
@@ -60,6 +63,7 @@ class RegisterKetuaState extends Equatable {
       name: name ?? this.name,
       email: email ?? this.email,
       phone: phone ?? this.phone,
+      phoneSecurity: phoneSecurity ?? this.phoneSecurity,
       detailAddress: detailAddress ?? this.detailAddress,
       neighborhoodName: neighborhoodName ?? this.neighborhoodName,
       password: password ?? this.password,
@@ -79,6 +83,7 @@ class RegisterKetuaState extends Equatable {
         name,
         email,
         phone,
+        phoneSecurity,
         detailAddress,
         neighborhoodName,
         password,

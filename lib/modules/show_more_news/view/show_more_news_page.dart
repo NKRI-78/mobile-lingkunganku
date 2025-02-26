@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import '../../../misc/injections.dart';
 import '../../../router/builder.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -62,7 +61,7 @@ class ShowMoreNewsView extends StatelessWidget {
                   size: 30,
                 ),
                 onPressed: () {
-                  GoRouter.of(context).pop();
+                  Navigator.pop(context, true);
                 },
               ),
               actions: [

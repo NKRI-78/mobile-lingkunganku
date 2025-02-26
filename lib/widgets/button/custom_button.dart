@@ -22,7 +22,8 @@ class CustomButton extends StatelessWidget {
     this.verticalPadding = 15,
     this.icon,
     this.iconSize = 24.0,
-    this.isLoading = false, // Default tidak loading
+    this.isLoading = false,
+    SizedBox? child,
   });
 
   @override

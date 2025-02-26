@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobile_lingkunganku/modules/news_update/view/news_update_page.dart';
+import '../modules/event/view/event_page.dart';
+import '../modules/event_create/view/event_create_page.dart';
+import '../modules/event_detail/view/event_detail_page.dart';
+import '../modules/forum_create/view/forum_create_page.dart';
 import '../modules/news_create/view/news_create_page.dart';
 import '../modules/forum/view/forum_page.dart';
 import '../modules/management_detail/view/management_detail_page.dart';
@@ -23,6 +27,7 @@ import '../modules/register_ketua/view/register_ketua_page.dart';
 import '../modules/register_warga/view/register_warga_page.dart';
 import '../modules/settings/view/settings_page.dart';
 import '../modules/sos/view/sos_page.dart';
+import '../widgets/pages/video/detail_video_player.dart';
 
 part 'builder.g.dart';
 
@@ -36,6 +41,10 @@ class OnboardingRoute extends GoRouteData {
 
 @TypedGoRoute<HomeRoute>(path: '/home', routes: [
   TypedGoRoute<SettingsRoute>(path: 'settings'),
+  TypedGoRoute<EventRoute>(path: 'event', routes: [
+    TypedGoRoute<EventCreateRoute>(path: 'event-create'),
+    TypedGoRoute<EventDetailRoute>(path: 'event-detail'),
+  ]),
   TypedGoRoute<NewsDetailRoute>(path: 'news-detail', routes: [
     TypedGoRoute<NewsUpdateRoute>(path: 'news-update'),
   ]),
@@ -63,7 +72,10 @@ class OnboardingRoute extends GoRouteData {
     TypedGoRoute<RegisterWargaRoute>(path: 'register-warga'),
   ]),
   TypedGoRoute<SosRoute>(path: 'sos'),
-  TypedGoRoute<ForumRoute>(path: 'forum'),
+  TypedGoRoute<ForumRoute>(path: 'forum', routes: [
+    TypedGoRoute<ForumCreateRoute>(path: 'forum-create'),
+    TypedGoRoute<DetailVideoPlayerRoute>(path: 'detail-video'),
+  ]),
 ])
 class HomeRoute extends GoRouteData {
   @override
@@ -76,6 +88,32 @@ class SettingsRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return SettingsPage();
+  }
+}
+
+class EventRoute extends GoRouteData {
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return EventPage();
+  }
+}
+
+class EventCreateRoute extends GoRouteData {
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return EventCreatePage();
+  }
+}
+
+class EventDetailRoute extends GoRouteData {
+  final int idEvent;
+
+  EventDetailRoute({required this.idEvent});
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return EventDetailPage(
+      idEvent: idEvent,
+    );
   }
 }
 
@@ -252,5 +290,23 @@ class ForumRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return ForumPage();
+  }
+}
+
+class ForumCreateRoute extends GoRouteData {
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return ForumCreatePage();
+  }
+}
+
+class DetailVideoPlayerRoute extends GoRouteData {
+  final String urlVideo;
+
+  DetailVideoPlayerRoute({required this.urlVideo});
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return DetailVideoPlayer(urlVideo: urlVideo);
   }
 }

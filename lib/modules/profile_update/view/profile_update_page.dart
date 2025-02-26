@@ -63,6 +63,7 @@ class ProfielUpdateView extends StatelessWidget {
               Column(
                 children: [
                   CustomHeaderContainer(
+                    isLoading: state.isLoading,
                     showAvatar: false,
                     displayText: '',
                     isLoggedIn: true,

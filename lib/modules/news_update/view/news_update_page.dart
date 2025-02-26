@@ -65,8 +65,18 @@ class _NewsUpdateViewState extends State<NewsUpdateView> {
       context: context,
       builder: (BuildContext dialogContext) {
         return AlertDialog(
-          title: const Text("Hapus Berita"),
-          content: const Text("Apakah Anda yakin ingin menghapus berita ini?"),
+          title: Text(
+            "Hapus Berita",
+            style: AppTextStyles.textDialog.copyWith(
+              fontWeight: FontWeight.w500,
+              fontSize: 24,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          content: const Text(
+            "Apakah Anda yakin ingin menghapus berita ini?",
+            textAlign: TextAlign.justify,
+          ),
           actions: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
