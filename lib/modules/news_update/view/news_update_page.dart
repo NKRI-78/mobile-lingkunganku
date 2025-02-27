@@ -74,8 +74,8 @@ class _NewsUpdateViewState extends State<NewsUpdateView> {
             textAlign: TextAlign.center,
           ),
           content: const Text(
-            "Apakah Anda yakin ingin menghapus berita ini?",
-            textAlign: TextAlign.justify,
+            "Apakah Anda yakin\ningin menghapus berita ini?",
+            textAlign: TextAlign.center,
           ),
           actions: [
             Row(

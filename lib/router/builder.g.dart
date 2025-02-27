@@ -150,8 +150,16 @@ RouteBase get $homeRoute => GoRouteData.$route(
           factory: $ForumRouteExtension._fromState,
           routes: [
             GoRouteData.$route(
+              path: 'forum-detail',
+              factory: $ForumDetailRouteExtension._fromState,
+            ),
+            GoRouteData.$route(
               path: 'forum-create',
               factory: $ForumCreateRouteExtension._fromState,
+            ),
+            GoRouteData.$route(
+              path: 'clipped-photo',
+              factory: $ClippedPhotoRouteExtension._fromState,
             ),
             GoRouteData.$route(
               path: 'detail-video',
@@ -623,11 +631,58 @@ extension $ForumRouteExtension on ForumRoute {
   void replace(BuildContext context) => context.replace(location);
 }
 
+extension $ForumDetailRouteExtension on ForumDetailRoute {
+  static ForumDetailRoute _fromState(GoRouterState state) => ForumDetailRoute(
+        idForum: state.uri.queryParameters['id-forum']!,
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/forum/forum-detail',
+        queryParams: {
+          'id-forum': idForum,
+        },
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
 extension $ForumCreateRouteExtension on ForumCreateRoute {
   static ForumCreateRoute _fromState(GoRouterState state) => ForumCreateRoute();
 
   String get location => GoRouteData.$location(
         '/home/forum/forum-create',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $ClippedPhotoRouteExtension on ClippedPhotoRoute {
+  static ClippedPhotoRoute _fromState(GoRouterState state) => ClippedPhotoRoute(
+        idForum: int.parse(state.uri.queryParameters['id-forum']!),
+        indexPhoto: _$convertMapValue(
+            'index-photo', state.uri.queryParameters, int.parse),
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/forum/clipped-photo',
+        queryParams: {
+          'id-forum': idForum.toString(),
+          if (indexPhoto != null) 'index-photo': indexPhoto!.toString(),
+        },
       );
 
   void go(BuildContext context) => context.go(location);
@@ -672,4 +727,13 @@ bool _$boolConverter(String value) {
     default:
       throw UnsupportedError('Cannot convert "$value" into a bool.');
   }
+}
+
+T? _$convertMapValue<T>(
+  String key,
+  Map<String, String> map,
+  T Function(String) converter,
+) {
+  final value = map[key];
+  return value == null ? null : converter(value);
 }

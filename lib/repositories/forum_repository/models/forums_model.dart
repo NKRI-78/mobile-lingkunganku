@@ -130,7 +130,7 @@ class ForumComment {
   String? updatedAt;
   String? deletedAt;
   User? user;
-  // List<Replies>? replies;
+  List<Replies>? replies;
 
   ForumComment({
     this.id,
@@ -142,7 +142,7 @@ class ForumComment {
     this.updatedAt,
     this.deletedAt,
     this.user,
-    // this.replies,
+    this.replies,
   });
 
   ForumComment.fromJson(Map<String, dynamic> json) {
@@ -155,12 +155,12 @@ class ForumComment {
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
     user = json['user'] != null ? User.fromJson(json['user']) : null;
-    // if (json['replies'] != null) {
-    //   replies = <Replies>[];
-    //   json['replies'].forEach((v) {
-    //     replies!.add(Replies.fromJson(v));
-    //   });
-    // }
+    if (json['replies'] != null) {
+      replies = <Replies>[];
+      json['replies'].forEach((v) {
+        replies!.add(Replies.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -176,9 +176,99 @@ class ForumComment {
     if (user != null) {
       data['user'] = user!.toJson();
     }
-    // if (replies != null) {
-    //   data['replies'] = replies!.map((v) => v.toJson()).toList();
-    // }
+    if (replies != null) {
+      data['replies'] = replies!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class ForumCommentLikes {
+  int? forumCommentId;
+  int? userId;
+
+  ForumCommentLikes({this.forumCommentId, this.userId});
+
+  ForumCommentLikes.fromJson(Map<String, dynamic> json) {
+    forumCommentId = json['forum_comment_id'];
+    userId = json['user_id'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['forum_comment_id'] = forumCommentId;
+    data['user_id'] = userId;
+    return data;
+  }
+}
+
+class Replies {
+  int? id;
+  String? comment;
+  int? userId;
+  int? forumId;
+  int? commentId;
+  String? createdAt;
+  String? updatedAt;
+  String? deletedAt;
+  User? user;
+  List<ForumCommentLikes>? forumCommentLikes;
+  int? likeCount;
+  bool? isLike;
+
+  Replies(
+      {this.id,
+      this.comment,
+      this.userId,
+      this.forumId,
+      this.commentId,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt,
+      this.user,
+      this.forumCommentLikes,
+      this.likeCount,
+      this.isLike});
+
+  Replies.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    comment = json['comment'];
+    userId = json['user_id'];
+    forumId = json['forum_id'];
+    commentId = json['comment_id'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
+    user = json['user'] != null ? User.fromJson(json['user']) : null;
+    if (json['forum_comment_likes'] != null) {
+      forumCommentLikes = <ForumCommentLikes>[];
+      json['forum_comment_likes'].forEach((v) {
+        forumCommentLikes!.add(ForumCommentLikes.fromJson(v));
+      });
+    }
+    likeCount = json['likeCount'];
+    isLike = json['isLike'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['comment'] = comment;
+    data['user_id'] = userId;
+    data['forum_id'] = forumId;
+    data['comment_id'] = commentId;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    if (user != null) {
+      data['user'] = user!.toJson();
+    }
+    if (forumCommentLikes != null) {
+      data['forum_comment_likes'] =
+          forumCommentLikes!.map((v) => v.toJson()).toList();
+    }
+    data['likeCount'] = likeCount;
+    data['isLike'] = isLike;
     return data;
   }
 }

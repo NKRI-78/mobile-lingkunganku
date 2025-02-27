@@ -57,7 +57,7 @@ class NewsRepository {
       if (response.statusCode == 201) {
         return DetailNewsModel.fromJson(json['data']);
       } else {
-        throw Exception("Failed to create news");
+        throw Exception("Gagal membuat berita, silahkan cek koneksi anda");
       }
     } catch (e) {
       rethrow;

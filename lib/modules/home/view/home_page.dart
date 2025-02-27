@@ -260,7 +260,7 @@ class _HomeViewState extends State<HomeView> {
                                 state.isLoading
                                     ? _buildShimmerText()
                                     : Text(
-                                        "Anda masuk sebagai ${state.profile?.translateRoleApp ?? ''},\ndi Komplek ${state.profile?.neighborhood?.name ?? ''}",
+                                        "Anda masuk sebagai ${state.profile?.translateRoleApp ?? ''},\nLingkungan ${state.profile?.neighborhood?.name ?? ''}",
                                         style:
                                             AppTextStyles.textDialog.copyWith(
                                           fontSize: 14,

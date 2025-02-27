@@ -5,6 +5,7 @@ import '../modules/event/view/event_page.dart';
 import '../modules/event_create/view/event_create_page.dart';
 import '../modules/event_detail/view/event_detail_page.dart';
 import '../modules/forum_create/view/forum_create_page.dart';
+import '../modules/forum_detail/view/forum_detail_page.dart';
 import '../modules/news_create/view/news_create_page.dart';
 import '../modules/forum/view/forum_page.dart';
 import '../modules/management_detail/view/management_detail_page.dart';
@@ -28,6 +29,7 @@ import '../modules/register_warga/view/register_warga_page.dart';
 import '../modules/settings/view/settings_page.dart';
 import '../modules/sos/view/sos_page.dart';
 import '../widgets/pages/video/detail_video_player.dart';
+import '../widgets/photo_view/clipped_photo_view.dart';
 
 part 'builder.g.dart';
 
@@ -73,7 +75,9 @@ class OnboardingRoute extends GoRouteData {
   ]),
   TypedGoRoute<SosRoute>(path: 'sos'),
   TypedGoRoute<ForumRoute>(path: 'forum', routes: [
+    TypedGoRoute<ForumDetailRoute>(path: 'forum-detail'),
     TypedGoRoute<ForumCreateRoute>(path: 'forum-create'),
+    TypedGoRoute<ClippedPhotoRoute>(path: 'clipped-photo'),
     TypedGoRoute<DetailVideoPlayerRoute>(path: 'detail-video'),
   ]),
 ])
@@ -293,10 +297,36 @@ class ForumRoute extends GoRouteData {
   }
 }
 
+class ForumDetailRoute extends GoRouteData {
+  final String idForum;
+
+  ForumDetailRoute({required this.idForum});
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return ForumDetailPage(idForum: idForum);
+  }
+}
+
 class ForumCreateRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return ForumCreatePage();
+  }
+}
+
+class ClippedPhotoRoute extends GoRouteData {
+  final int idForum;
+  final int? indexPhoto;
+
+  ClippedPhotoRoute({required this.idForum, this.indexPhoto});
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return ClippedPhotoPage(
+      idForum: idForum,
+      indexPhoto: indexPhoto ?? 0,
+    );
   }
 }
 

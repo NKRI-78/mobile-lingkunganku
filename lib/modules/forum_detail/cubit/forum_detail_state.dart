@@ -1,7 +1,7 @@
 part of 'forum_detail_cubit.dart';
 
 class ForumDetailState extends Equatable {
-  final ForumDetailModel? detailPreloved;
+  final ForumDetailModel? detailForum;
   final String idForum;
   final String inputComment;
   final bool loading;
@@ -12,7 +12,7 @@ class ForumDetailState extends Equatable {
   final int? lastIdComment;
 
   const ForumDetailState({
-    this.detailPreloved,
+    this.detailForum,
     this.idForum = "",
     this.inputComment = "",
     this.loading = false,
@@ -25,7 +25,7 @@ class ForumDetailState extends Equatable {
 
   @override
   List<dynamic> get props => [
-        detailPreloved,
+        detailForum,
         idForum,
         inputComment,
         loading,
@@ -37,7 +37,7 @@ class ForumDetailState extends Equatable {
       ];
 
   ForumDetailState copyWith({
-    ForumDetailModel? detailPreloved,
+    ForumDetailModel? detailForum,
     String? idForum,
     String? inputComment,
     bool? loading,
@@ -48,7 +48,7 @@ class ForumDetailState extends Equatable {
     int? lastIdComment,
   }) {
     return ForumDetailState(
-      detailPreloved: detailPreloved ?? this.detailPreloved,
+      detailForum: detailForum ?? this.detailForum,
       idForum: idForum ?? this.idForum,
       inputComment: inputComment ?? this.inputComment,
       loading: loading ?? this.loading,

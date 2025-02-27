@@ -25,6 +25,7 @@ dependencies:
   flutter_datetime_picker_plus: ^2.2.0
   flutter_image_compress: ^2.4.0
   flutter_launcher_icons: ^0.14.3
+  flutter_mentions: ^2.0.1
   flutter_otp_text_field: ^1.4.0+2
   geocoding: ^3.0.0
   geolocator: ^13.0.2

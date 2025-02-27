@@ -24,3 +24,5 @@ var baseTheme = ThemeData(
 
 const String imageDefault = "assets/images/no_image.png";
 const String avatarDefault = "assets/images/default.jpg";
+
+const String noData = "assets/images/no-data.png";

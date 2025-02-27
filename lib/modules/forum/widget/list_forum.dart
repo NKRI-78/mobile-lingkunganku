@@ -4,6 +4,7 @@ import 'package:mobile_lingkunganku/modules/forum/cubit/forum_cubit.dart';
 import 'package:mobile_lingkunganku/modules/forum/widget/comment_forum.dart';
 import 'package:mobile_lingkunganku/modules/forum/widget/media/media_images.dart';
 import 'package:mobile_lingkunganku/repositories/forum_repository/models/forums_model.dart';
+import 'package:mobile_lingkunganku/router/builder.dart';
 import 'package:mobile_lingkunganku/widgets/pages/video/video_player.dart';
 
 import '../../../misc/colors.dart';
@@ -28,6 +29,7 @@ class ForumListSection extends StatelessWidget {
       child: InkWell(
         onTap: () {
           // Navigasi ke detail forum (jika ada fitur ini)
+          ForumDetailRoute(idForum: forums.id.toString()).go(context);
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -78,7 +80,8 @@ class ForumListSection extends StatelessWidget {
                     forums.forumMedia?.first.type == "image")
                   InkWell(
                     onTap: () {
-                      //
+                      ClippedPhotoRoute(idForum: forums.id ?? 0, indexPhoto: 0)
+                          .push(context);
                     },
                     child: MediaImages(
                       medias: forums.forumMedia ?? [],

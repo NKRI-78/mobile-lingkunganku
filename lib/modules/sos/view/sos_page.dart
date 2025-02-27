@@ -174,8 +174,10 @@ class SosView extends StatelessWidget {
                                 } else {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                        content: Text(
-                                            "Nomor keamanan tidak tersedia")),
+                                      backgroundColor: AppColors.redColor,
+                                      content:
+                                          Text("Nomor keamanan tidak tersedia"),
+                                    ),
                                   );
                                 }
                               }
