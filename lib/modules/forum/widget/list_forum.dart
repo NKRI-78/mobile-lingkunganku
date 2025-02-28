@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_lingkunganku/modules/forum/cubit/forum_cubit.dart';
-import 'package:mobile_lingkunganku/modules/forum/widget/comment_forum.dart';
-import 'package:mobile_lingkunganku/modules/forum/widget/media/media_images.dart';
-import 'package:mobile_lingkunganku/repositories/forum_repository/models/forums_model.dart';
-import 'package:mobile_lingkunganku/router/builder.dart';
-import 'package:mobile_lingkunganku/widgets/pages/video/video_player.dart';
+import '../cubit/forum_cubit.dart';
+import 'comment_forum.dart';
+import 'media/media_images.dart';
+import '../../../repositories/forum_repository/models/forums_model.dart';
+import '../../../router/builder.dart';
+import '../../../widgets/pages/video/video_player.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/modal.dart';

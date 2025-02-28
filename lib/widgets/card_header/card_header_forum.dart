@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_lingkunganku/misc/injections.dart';
-import 'package:mobile_lingkunganku/modules/app/bloc/app_bloc.dart';
-import 'package:mobile_lingkunganku/repositories/forum_repository/models/forums_model.dart';
+import '../../misc/injections.dart';
+import '../../modules/app/bloc/app_bloc.dart';
+import '../../repositories/forum_repository/models/forums_model.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import '../../misc/colors.dart';

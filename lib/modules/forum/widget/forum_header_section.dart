@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_lingkunganku/misc/colors.dart';
-import 'package:mobile_lingkunganku/modules/forum/cubit/forum_cubit.dart';
-import 'package:mobile_lingkunganku/router/builder.dart';
+import '../../../misc/colors.dart';
+import '../cubit/forum_cubit.dart';
+import '../../../router/builder.dart';
 import '../../../widgets/image/image_avatar.dart';
 
 class ForumHeaderSection extends StatelessWidget {

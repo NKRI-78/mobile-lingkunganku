@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_lingkunganku/repositories/forum_repository/models/forum_detail_model.dart';
+import '../../../../repositories/forum_repository/models/forum_detail_model.dart';
 
 import '../../../../misc/colors.dart';
 import '../../../../misc/injections.dart';

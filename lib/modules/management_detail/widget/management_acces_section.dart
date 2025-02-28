@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../repositories/management_repository/models/management_detail_member_model.dart';
+
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
+import '../../../repositories/management_repository/models/management_detail_member_model.dart';
 import '../../management/cubit/management_cubit.dart';
 import '../cubit/management_detail_cubit.dart';
 

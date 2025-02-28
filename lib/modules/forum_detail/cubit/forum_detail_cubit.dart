@@ -3,12 +3,12 @@ import 'dart:io';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_lingkunganku/misc/colors.dart';
-import 'package:mobile_lingkunganku/misc/snackbar.dart';
-import 'package:mobile_lingkunganku/modules/forum/cubit/forum_cubit.dart';
-import 'package:mobile_lingkunganku/repositories/forum_repository/forum_repository.dart';
-import 'package:mobile_lingkunganku/repositories/forum_repository/models/forum_detail_model.dart';
-import 'package:mobile_lingkunganku/router/builder.dart';
+import '../../../misc/colors.dart';
+import '../../../misc/snackbar.dart';
+import '../../forum/cubit/forum_cubit.dart';
+import '../../../repositories/forum_repository/forum_repository.dart';
+import '../../../repositories/forum_repository/models/forum_detail_model.dart';
+import '../../../router/builder.dart';
 
 import '../../../misc/injections.dart';
 

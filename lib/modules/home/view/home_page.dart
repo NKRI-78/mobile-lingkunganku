@@ -1,11 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_lingkunganku/misc/theme.dart';
+import '../../../misc/theme.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../misc/colors.dart';
-import '../../profile/cubit/profile_cubit.dart';
-import '../../../repositories/home_repository/home_repository.dart';
 import '../../../misc/injections.dart';
 import '../../../misc/text_style.dart';
 import '../../../router/builder.dart';
@@ -23,10 +21,8 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) =>
-          HomeBloc(getIt<HomeRepository>(), getIt<ProfileCubit>())
-            ..add(HomeInit(context: context)),
+    return BlocProvider.value(
+      value: getIt<HomeBloc>()..add(HomeInit(context: context)),
       child: const HomeView(),
     );
   }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../router/builder.dart';
 
 import '../../../misc/colors.dart';
+import '../../../router/builder.dart';
 import '../../app/bloc/app_bloc.dart';
 
 class BottomNavBarSection extends StatelessWidget {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_lingkunganku/widgets/button/custom_button.dart';
+import '../../../widgets/button/custom_button.dart';
 
 import '../cubit/forum_create_cubit.dart';
 

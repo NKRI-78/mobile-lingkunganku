@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import '../widget/customfield_ketua_foto.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
@@ -15,6 +14,7 @@ import '../../../widgets/button/custom_button.dart';
 import '../../../widgets/map/custom_select_map_location.dart';
 import '../cubit/register_ketua_cubit.dart';
 import '../widget/custom_textfield_ketua.dart';
+import '../widget/customfield_ketua_foto.dart';
 
 part '../widget/input_location.dart';
 part '../widget/input_location_lebel.dart';

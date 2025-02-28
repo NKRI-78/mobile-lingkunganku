@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mobile_lingkunganku/modules/forum/widget/forum_header_section.dart';
-import 'package:mobile_lingkunganku/modules/forum/widget/list_forum.dart';
-import 'package:mobile_lingkunganku/widgets/pages/page_empty.dart';
-import 'package:mobile_lingkunganku/widgets/pages/pages_loading.dart';
+import '../widget/forum_header_section.dart';
+import '../widget/list_forum.dart';
+import '../../../widgets/pages/page_empty.dart';
+import '../../../widgets/pages/pages_loading.dart';
 import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';
 import '../../../misc/text_style.dart';

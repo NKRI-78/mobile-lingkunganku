@@ -1,4 +1,4 @@
-import 'package:mobile_lingkunganku/router/builder.dart';
+import '../../../router/builder.dart';
 import 'package:pod_player/pod_player.dart';
 import 'package:flutter/material.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -21,6 +21,7 @@ class _VideoPlayerState extends State<VideoPlayer> {
         playVideoFrom: PlayVideoFrom.network(
           widget.urlVideo,
           videoPlayerOptions: VideoPlayerOptions(
+            mixWithOthers: true,
             allowBackgroundPlayback: true,
           ),
         ),

@@ -52,8 +52,6 @@ class RegisterPage extends StatelessWidget {
                       const SizedBox(height: 100),
                       GestureDetector(
                         onTap: () {
-                          // Navigasi ke halaman registrasi Ketua/Pengurus
-                          print('Masuk ke Ketua : ${context}');
                           RegisterKetuaRoute().go(context);
                         },
                         child: Stack(

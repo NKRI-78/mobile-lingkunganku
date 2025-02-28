@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_lingkunganku/misc/colors.dart';
-import 'package:mobile_lingkunganku/modules/forum_create/cubit/forum_create_cubit.dart';
+import '../../../misc/colors.dart';
+import '../cubit/forum_create_cubit.dart';
 
 class ThumbnailMedia extends StatelessWidget {
   const ThumbnailMedia({super.key});

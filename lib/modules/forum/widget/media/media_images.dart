@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:mobile_lingkunganku/repositories/forum_repository/models/forums_model.dart';
+import '../../../../repositories/forum_repository/models/forums_model.dart';
 import '../../../../widgets/image/image_card_forum.dart';
 
 class MediaImages extends StatelessWidget {

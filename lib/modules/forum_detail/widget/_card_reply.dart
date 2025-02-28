@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_lingkunganku/misc/colors.dart';
-import 'package:mobile_lingkunganku/modules/app/bloc/app_bloc.dart';
-import 'package:mobile_lingkunganku/modules/forum_detail/cubit/forum_detail_cubit.dart';
-import 'package:mobile_lingkunganku/modules/forum_detail/view/forum_detail_page.dart';
+import '../../../misc/colors.dart';
+import '../../app/bloc/app_bloc.dart';
+import '../cubit/forum_detail_cubit.dart';
+import '../view/forum_detail_page.dart';
 
 import '../../../misc/date_helper.dart';
 import '../../../misc/injections.dart';

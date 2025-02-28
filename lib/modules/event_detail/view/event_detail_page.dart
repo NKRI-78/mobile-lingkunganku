@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:mobile_lingkunganku/modules/event_detail/cubit/event_detail_cubit.dart';
+import '../cubit/event_detail_cubit.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../misc/colors.dart';
@@ -43,8 +43,8 @@ class EventDetailView extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           content: const Text(
-            "Apakah Anda yakin ingin menghapus event ini?",
-            textAlign: TextAlign.justify,
+            "Apakah Anda yakin ingin\nmenghapus event ini?",
+            textAlign: TextAlign.center,
           ),
           actions: [
             Row(

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_lingkunganku/misc/theme.dart';
-import 'package:mobile_lingkunganku/modules/forum_detail/cubit/forum_detail_cubit.dart';
+import '../../misc/theme.dart';
+import '../../modules/forum_detail/cubit/forum_detail_cubit.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 

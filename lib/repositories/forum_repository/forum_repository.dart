@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:mobile_lingkunganku/repositories/forum_repository/models/forum_detail_model.dart';
+import 'models/forum_detail_model.dart';
 import '../../misc/api_url.dart';
 import 'models/forums_model.dart';
 import 'package:http/http.dart' as ht;

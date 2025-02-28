@@ -5,7 +5,7 @@ import '../../misc/theme.dart';
 
 class EmptyPage extends StatelessWidget {
   const EmptyPage(
-      {super.key, required this.msg, this.height = .75, this.noImage});
+      {super.key, required this.msg, this.height = .75, this.noImage = true});
 
   final String msg;
   final double? height;

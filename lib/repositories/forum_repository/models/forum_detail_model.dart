@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:mobile_lingkunganku/repositories/forum_repository/models/forums_model.dart';
+import 'forums_model.dart';
 
 ForumDetailModel forumsModelFromJson(String str) =>
     ForumDetailModel.fromJson(json.decode(str));

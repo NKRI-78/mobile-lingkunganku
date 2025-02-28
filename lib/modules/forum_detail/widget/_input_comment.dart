@@ -37,7 +37,7 @@ class InputComment extends StatelessWidget {
                     children: [
                       ImageAvatar(image: imageUser ?? "", radius: 20),
                       const SizedBox(width: 15.0),
-                      Flexible(
+                      Expanded(
                           child: FlutterMentions(
                         key: commentKey,
                         suggestionPosition: SuggestionPosition.Top,

@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../misc/injections.dart';
-import '../../../router/builder.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import '../../../misc/text_style.dart';
-import '../../app/bloc/app_bloc.dart';
-import '../cubit/show_more_news_cubit.dart';
-
-import '../../../widgets/pages/page_empty.dart';
-import '../../../widgets/pages/pages_loading.dart';
 
 import '../../../misc/colors.dart';
+import '../../../misc/injections.dart';
+import '../../../misc/text_style.dart';
+import '../../../router/builder.dart';
+import '../../../widgets/pages/page_empty.dart';
+import '../../../widgets/pages/pages_loading.dart';
+import '../../app/bloc/app_bloc.dart';
+import '../cubit/show_more_news_cubit.dart';
 import '../widget/list_news.dart';
 
 class ShowMoreNewsPage extends StatelessWidget {

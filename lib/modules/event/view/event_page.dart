@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mobile_lingkunganku/misc/colors.dart';
-import 'package:mobile_lingkunganku/misc/injections.dart';
-import 'package:mobile_lingkunganku/misc/text_style.dart';
-import 'package:mobile_lingkunganku/modules/event/cubit/event_cubit.dart';
-import 'package:mobile_lingkunganku/modules/event/widget/custom_card_event_section.dart';
-import 'package:mobile_lingkunganku/router/builder.dart';
+import '../../../misc/colors.dart';
+import '../../../misc/injections.dart';
+import '../../../misc/text_style.dart';
+import '../cubit/event_cubit.dart';
+import '../widget/custom_card_event_section.dart';
+import '../../../router/builder.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../../../repositories/event_repository/models/event_model.dart';

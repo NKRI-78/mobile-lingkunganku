@@ -2,10 +2,10 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/widgets.dart';
-import 'package:mobile_lingkunganku/misc/api_url.dart';
-import 'package:mobile_lingkunganku/misc/http_client.dart';
-import 'package:mobile_lingkunganku/misc/injections.dart';
-import 'package:mobile_lingkunganku/repositories/event_repository/models/event_model.dart';
+import '../../misc/api_url.dart';
+import '../../misc/http_client.dart';
+import '../../misc/injections.dart';
+import 'models/event_model.dart';
 
 import 'models/event_detail_model.dart';
 
@@ -63,8 +63,6 @@ class EventRepository {
           'Authorization': 'Bearer ${http.token}',
         },
       );
-      print('ini startTime : ${startTime}');
-      print('ini startDate : ${startDate}');
       debugPrint(response.body);
       final json = jsonDecode(response.body);
 

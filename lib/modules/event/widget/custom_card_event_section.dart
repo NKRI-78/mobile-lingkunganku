@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:mobile_lingkunganku/misc/colors.dart';
+import '../../../misc/colors.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../misc/text_style.dart';
 

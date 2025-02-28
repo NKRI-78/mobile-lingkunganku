@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../../misc/colors.dart';
-import '../../../repositories/management_repository/models/management_detail_member_model.dart';
 
+import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
+import '../../../repositories/management_repository/models/management_detail_member_model.dart';
 
 class UserInfoSection extends StatelessWidget {
   final MemberData? member;
