@@ -64,8 +64,8 @@ class ThumbnailMedia extends StatelessWidget {
                                   ),
                                 ),
                               Positioned(
-                                right: 5,
-                                top: 5,
+                                right: 10,
+                                top: 0,
                                 child: GestureDetector(
                                   onTap: () {
                                     context
@@ -77,7 +77,8 @@ class ThumbnailMedia extends StatelessWidget {
                                     height: 30,
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
-                                      color: Colors.black.withOpacity(0.5),
+                                      color:
+                                          Colors.black.withValues(alpha: 0.5),
                                     ),
                                     child: const Icon(
                                       Icons.close,

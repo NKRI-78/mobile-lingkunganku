@@ -3,8 +3,10 @@ import 'dart:io';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile_lingkunganku/repositories/profile_repository/models/profile_model.dart';
 import '../../../misc/colors.dart';
 import '../../../misc/snackbar.dart';
+import '../../../repositories/profile_repository/profile_repository.dart';
 import '../../forum/cubit/forum_cubit.dart';
 import '../../../repositories/forum_repository/forum_repository.dart';
 import '../../../repositories/forum_repository/models/forum_detail_model.dart';
@@ -18,6 +20,16 @@ class ForumDetailCubit extends Cubit<ForumDetailState> {
   ForumDetailCubit() : super(const ForumDetailState());
 
   ForumRepository repo = ForumRepository();
+  ProfileRepository repoProfile = getIt<ProfileRepository>();
+
+  void init(String idForum) async {
+    emit(state.copyWith(loading: true));
+    await Future.wait([
+      fetchForumDetail(idForum),
+      fetchProfile(),
+    ]);
+    emit(state.copyWith(loading: false));
+  }
 
   void copyState({required ForumDetailState newState}) {
     emit(newState);
@@ -31,6 +43,19 @@ class ForumDetailCubit extends Cubit<ForumDetailState> {
       emit(state.copyWith(detailForum: detailForum, loading: false));
     } on SocketException {
       throw "Terjadi kesalahan jaringan";
+    } catch (e) {
+      rethrow;
+    } finally {
+      emit(state.copyWith(loading: false));
+    }
+  }
+
+  Future<void> fetchProfile() async {
+    try {
+      emit(state.copyWith(loading: true));
+      var profile = await repoProfile.getProfile();
+
+      emit(state.copyWith(loading: false, profile: profile));
     } catch (e) {
       rethrow;
     } finally {

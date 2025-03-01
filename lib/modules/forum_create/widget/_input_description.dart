@@ -12,42 +12,29 @@ class InputDescription extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Text(
-              //   "Deskripsi",
-              //   style: AppTextStyles.textRegister2,
-              // ),
               const SizedBox(
                 height: 10.0,
               ),
               Container(
                 decoration: BoxDecoration(
-                  color: AppColors.secondaryColor,
                   borderRadius: BorderRadius.circular(10.0),
                   border: Border.all(
                     width: 1,
-                    color: AppColors.secondaryColor.withOpacity(0.3),
+                    color: AppColors.secondaryColor,
                   ),
                 ),
                 child: Container(
                   width: double.infinity,
                   decoration: BoxDecoration(
                     color: AppColors.whiteColor,
-                    borderRadius: BorderRadius.circular(6.0),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.3),
-                        spreadRadius: 1.0,
-                        blurRadius: 3.0,
-                        offset: const Offset(0.0, 1.0),
-                      )
-                    ],
+                    borderRadius: BorderRadius.circular(10.0),
                   ),
                   child: TextField(
                     inputFormatters: [
                       LengthLimitingTextInputFormatter(1000),
                     ],
                     textCapitalization: TextCapitalization.sentences,
-                    minLines: 4,
+                    minLines: 5,
                     maxLines: null,
                     style: AppTextStyles.textDialog,
                     onChanged: (value) {
@@ -62,7 +49,7 @@ class InputDescription extends StatelessWidget {
                           vertical: 12.0, horizontal: 15.0),
                       isDense: true,
                       hintStyle: TextStyle(
-                        color: AppColors.greyColor.withOpacity(0.8),
+                        color: AppColors.greyColor.withValues(alpha: 0.8),
                       ),
                       focusedBorder: const OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.grey, width: 0.5),

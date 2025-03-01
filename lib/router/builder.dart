@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mobile_lingkunganku/modules/iuran/view/iuran_page.dart';
 import '../modules/news_update/view/news_update_page.dart';
 import '../modules/event/view/event_page.dart';
 import '../modules/event_create/view/event_create_page.dart';
@@ -43,6 +44,7 @@ class OnboardingRoute extends GoRouteData {
 
 @TypedGoRoute<HomeRoute>(path: '/home', routes: [
   TypedGoRoute<SettingsRoute>(path: 'settings'),
+  TypedGoRoute<IuranRoute>(path: 'iuran'),
   TypedGoRoute<EventRoute>(path: 'event', routes: [
     TypedGoRoute<EventCreateRoute>(path: 'event-create'),
     TypedGoRoute<EventDetailRoute>(path: 'event-detail'),
@@ -92,6 +94,13 @@ class SettingsRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return SettingsPage();
+  }
+}
+
+class IuranRoute extends GoRouteData {
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return IuranPage();
   }
 }
 

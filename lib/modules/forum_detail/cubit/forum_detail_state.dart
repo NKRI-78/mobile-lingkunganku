@@ -2,6 +2,7 @@ part of 'forum_detail_cubit.dart';
 
 class ForumDetailState extends Equatable {
   final ForumDetailModel? detailForum;
+  final ProfileModel? profile;
   final String idForum;
   final String inputComment;
   final bool loading;
@@ -12,6 +13,7 @@ class ForumDetailState extends Equatable {
   final int? lastIdComment;
 
   const ForumDetailState({
+    this.profile,
     this.detailForum,
     this.idForum = "",
     this.inputComment = "",
@@ -25,6 +27,7 @@ class ForumDetailState extends Equatable {
 
   @override
   List<dynamic> get props => [
+        profile,
         detailForum,
         idForum,
         inputComment,
@@ -37,6 +40,7 @@ class ForumDetailState extends Equatable {
       ];
 
   ForumDetailState copyWith({
+    ProfileModel? profile,
     ForumDetailModel? detailForum,
     String? idForum,
     String? inputComment,
@@ -48,6 +52,7 @@ class ForumDetailState extends Equatable {
     int? lastIdComment,
   }) {
     return ForumDetailState(
+      profile: profile ?? this.profile,
       detailForum: detailForum ?? this.detailForum,
       idForum: idForum ?? this.idForum,
       inputComment: inputComment ?? this.inputComment,

@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 import '../modules/event/cubit/event_cubit.dart';
+import '../modules/forum_detail/cubit/forum_detail_cubit.dart';
 import '../modules/news_create/cubit/news_create_cubit.dart';
 import '../modules/show_more_news/cubit/show_more_news_cubit.dart';
 import '../modules/event_detail/cubit/event_detail_cubit.dart';
@@ -42,6 +43,7 @@ class MyInjection {
     getIt.registerLazySingleton<NewsDetailCubit>(() => NewsDetailCubit());
     getIt.registerLazySingleton<ManagementCubit>(() => ManagementCubit());
     getIt.registerLazySingleton<ForumCubit>(() => ForumCubit());
+    getIt.registerLazySingleton<ForumDetailCubit>(() => ForumDetailCubit());
     getIt.registerLazySingleton<ManagementDetailCubit>(
       () => ManagementDetailCubit(getIt<ManagementRepository>()),
     );

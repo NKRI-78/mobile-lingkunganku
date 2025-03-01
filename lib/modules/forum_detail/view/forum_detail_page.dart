@@ -3,8 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import '../../../misc/injections.dart';
-import '../../app/bloc/app_bloc.dart';
 import '../cubit/forum_detail_cubit.dart';
 import '../widget/detail_card_header/detail_card_header_forum.dart';
 import '../widget/media/media_images.dart';
@@ -39,7 +37,7 @@ class ForumDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ForumDetailCubit()..fetchForumDetail(idForum),
+      create: (context) => ForumDetailCubit()..init(idForum),
       child: ForumDetailView(),
     );
   }

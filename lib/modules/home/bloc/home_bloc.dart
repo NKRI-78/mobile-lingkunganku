@@ -93,7 +93,7 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
             ? List.of(newsData.list)
             : [...state.news, ...newsData.list],
         nextPageNews: newsData.paginate.next ?? state.nextPageNews,
-        isLoading: false, // Pastikan isLoading diubah ke false
+        isLoading: false,
       ));
     } catch (e) {
       debugPrint('❌ Error fetching news: $e');

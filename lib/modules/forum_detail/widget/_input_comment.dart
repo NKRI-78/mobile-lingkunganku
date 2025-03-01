@@ -3,11 +3,12 @@ part of '../view/forum_detail_page.dart';
 GlobalKey<FlutterMentionsState> commentKey = GlobalKey<FlutterMentionsState>();
 
 class InputComment extends StatelessWidget {
-  const InputComment(
-      {super.key,
-      required this.idForum,
-      required this.gk,
-      required this.inputNode});
+  const InputComment({
+    super.key,
+    required this.idForum,
+    required this.gk,
+    required this.inputNode,
+  });
 
   final int idForum;
   final GlobalKey gk;
@@ -15,14 +16,12 @@ class InputComment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final imageUser = getIt<AppBloc>().state.user?.profile?.linkAvatar;
-    print("INI FOTO : ${imageUser}");
     return BlocBuilder<ForumDetailCubit, ForumDetailState>(
       builder: (context, state) {
         return Container(
             padding: const EdgeInsets.all(12.0),
             decoration: BoxDecoration(
-              color: AppColors.greyColor.withOpacity(0.3),
+              color: AppColors.greyColor.withValues(alpha: 0.3),
             ),
             child: Padding(
               padding: EdgeInsets.only(
@@ -35,7 +34,9 @@ class InputComment extends StatelessWidget {
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      ImageAvatar(image: imageUser ?? "", radius: 20),
+                      ImageAvatar(
+                          image: state.profile?.profile?.avatarLink ?? '',
+                          radius: 20),
                       const SizedBox(width: 15.0),
                       Expanded(
                           child: FlutterMentions(
@@ -106,7 +107,10 @@ class InputComment extends StatelessWidget {
                                             .copyWith(inputComment: ""));
                                     return;
                                   } else {
-                                    //  await context.read<DetailPrelovedCubit>().createComment(context,idForum.toString(),gk);
+                                    await context
+                                        .read<ForumDetailCubit>()
+                                        .createComment(
+                                            context, idForum.toString(), gk);
                                     commentKey.currentState!.controller!.text =
                                         "";
                                     // ignore: use_build_context_synchronously

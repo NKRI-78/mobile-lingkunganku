@@ -42,6 +42,10 @@ RouteBase get $homeRoute => GoRouteData.$route(
           factory: $SettingsRouteExtension._fromState,
         ),
         GoRouteData.$route(
+          path: 'iuran',
+          factory: $IuranRouteExtension._fromState,
+        ),
+        GoRouteData.$route(
           path: 'event',
           factory: $EventRouteExtension._fromState,
           routes: [
@@ -192,6 +196,23 @@ extension $SettingsRouteExtension on SettingsRoute {
 
   String get location => GoRouteData.$location(
         '/home/settings',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $IuranRouteExtension on IuranRoute {
+  static IuranRoute _fromState(GoRouterState state) => IuranRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/iuran',
       );
 
   void go(BuildContext context) => context.go(location);

@@ -8,10 +8,10 @@ import '_card_reply.dart';
 import '../../../repositories/forum_repository/models/forums_model.dart';
 
 import '../../../misc/colors.dart';
-import '../../../misc/date_helper.dart';
 import '../../../misc/injections.dart';
 import '../../../widgets/detect_text/detect_text.dart';
 import '../../../widgets/image/image_avatar.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class CommentForum extends StatefulWidget {
   const CommentForum(
@@ -108,9 +108,13 @@ class _CommentForumState extends State<CommentForum> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Text(
-                                DateHelper.getFormatedDateWithHours(
-                                    widget.comment.createdAt ??
-                                        DateTime.now().toString()),
+                                timeago.format(
+                                  widget.comment.createdAt != null
+                                      ? DateTime.parse(
+                                          widget.comment.createdAt!)
+                                      : DateTime.now(),
+                                  locale: 'id',
+                                ),
                                 style: const TextStyle(
                                     color: AppColors.greyColor,
                                     fontSize: 12,
@@ -147,7 +151,7 @@ class _CommentForumState extends State<CommentForum> {
                                         newState: cubit.state.copyWith(
                                       commentId: commentId,
                                     ));
-                                    print("Id Comment ${state.commentId}");
+                                    debugPrint("Id Comment ${state.commentId}");
                                   });
                                 },
                                 child: const Text(

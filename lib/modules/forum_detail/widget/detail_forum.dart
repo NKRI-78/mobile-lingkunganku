@@ -8,7 +8,7 @@ class DetailForum extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("test : ${jsonEncode(forum?.forumComment)}");
+    debugPrint("test : ${jsonEncode(forum?.forumComment)}");
 
     return Container(
       padding: EdgeInsets.symmetric(vertical: 20),
@@ -111,7 +111,7 @@ class DetailForum extends StatelessWidget {
                             .toList() ??
                         []),
             Divider(
-              color: AppColors.greyColor.withOpacity(0.1),
+              color: AppColors.greyColor.withValues(alpha: 0.1),
               thickness: 10,
             ),
           ],
