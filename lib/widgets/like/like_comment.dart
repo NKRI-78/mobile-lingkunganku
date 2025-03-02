@@ -61,7 +61,7 @@ class LikeComment extends StatelessWidget {
                   color: AppColors.greyColor,
                 ),
                 const Text(
-                  "Comment",
+                  "Komentar",
                   style: TextStyle(color: AppColors.greyColor, fontSize: 14),
                 )
               ],

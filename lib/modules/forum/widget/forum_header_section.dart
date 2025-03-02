@@ -19,7 +19,7 @@ class ForumHeaderSection extends StatelessWidget {
         },
         borderRadius: BorderRadius.circular(20),
         child: Ink(
-          padding: const EdgeInsets.all(12),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
           ),
@@ -68,7 +68,7 @@ class ForumHeaderSection extends StatelessWidget {
                   height: 50,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
-                    color: AppColors.greyColor.withOpacity(0.1),
+                    color: AppColors.greyColor.withValues(alpha: 0.2),
                   ),
                   child: const Text(
                     "Menulis Sesuatu...",

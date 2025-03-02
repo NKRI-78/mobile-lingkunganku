@@ -173,4 +173,20 @@ class ForumRepository {
       rethrow;
     }
   }
+
+  Future<void> setLikeUnlikeForum(String idForum) async {
+    try {
+      final res = await http.post(Uri.parse('$forums/$idForum/like'));
+
+      debugPrint('Status Like  : ${res.body}');
+
+      if (res.statusCode == 200) {
+        return;
+      } else {
+        throw "error api";
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

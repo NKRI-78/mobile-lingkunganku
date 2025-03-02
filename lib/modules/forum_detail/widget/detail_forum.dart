@@ -89,7 +89,9 @@ class DetailForum extends StatelessWidget {
                 countLike: 0,
                 isLike: 0,
                 onPressedLike: () async {
-                  // await context.read<DetailPrelovedCubit>().setLikeUnlikeForum(idPreloved: preLove?.id.toString() ?? "");
+                  await context
+                      .read<ForumDetailCubit>()
+                      .setLikeUnlikeForum(idForum: forum?.id.toString() ?? "");
                 },
                 onPressedComment: () {},
               ),

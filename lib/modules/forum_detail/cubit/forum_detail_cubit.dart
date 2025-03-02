@@ -129,4 +129,15 @@ class ForumDetailCubit extends Cubit<ForumDetailState> {
       emit(state.copyWith(loadingComment: false));
     }
   }
+
+  Future<void> setLikeUnlikeForum({required String idForum}) async {
+    try {
+      // emit(state.copyWith(loading: true));
+      await repo.setLikeUnlikeForum(idForum);
+      final comment = await repo.getDetailForum(idForum);
+      emit(state.copyWith(idForum: idForum, detailForum: comment));
+    } catch (e) {
+      rethrow;
+    }
+  }
 }
