@@ -23,6 +23,13 @@ class ForumsModel {
   int? likeCount;
   int? commentCount;
 
+  List<Media> get files =>
+      forumMedia
+          ?.where((e) => e.type == 'file')
+          .map((e) => Media.fromJson(e.toJson()))
+          .toList() ??
+      [];
+
   ForumsModel(
       {this.id,
       this.description,
@@ -411,7 +418,7 @@ class Profile {
 class Media {
   final int id;
   final int forumId;
-  final String? link;
+  final String link;
   final String type;
   final DateTime createdAt;
   final DateTime updatedAt;

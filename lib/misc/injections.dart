@@ -7,6 +7,7 @@ import '../modules/event_detail/cubit/event_detail_cubit.dart';
 import '../modules/forum/cubit/forum_cubit.dart';
 import '../modules/management/cubit/management_cubit.dart';
 import '../modules/management_detail/cubit/management_detail_cubit.dart';
+import '../modules/sos/cubit/sos_cubit.dart';
 import '../modules/transfer_management/cubit/transfer_management_cubit.dart';
 import '../repositories/event_repository/event_repository.dart';
 import '../repositories/management_repository/management_repository.dart';
@@ -22,6 +23,7 @@ import '../modules/onboarding/cubit/onboarding_cubit.dart';
 import '../repositories/auth_repository/auth_repository.dart';
 import '../repositories/home_repository/home_repository.dart';
 import '../repositories/news_repository/news_repository.dart';
+import '../repositories/sos_repository/sos_repository.dart';
 import 'http_client.dart';
 
 final getIt = GetIt.instance;
@@ -55,6 +57,7 @@ class MyInjection {
     );
     getIt.registerCachedFactory<EventCubit>(() => EventCubit());
     getIt.registerCachedFactory<EventDetailCubit>(() => EventDetailCubit());
+    getIt.registerCachedFactory<SosCubit>(() => SosCubit());
 
     getIt.registerLazySingleton<AuthRepository>(() => AuthRepository());
     getIt.registerLazySingleton<ProfileRepository>(() => ProfileRepository());
@@ -64,5 +67,6 @@ class MyInjection {
         () => ManagementRepository());
     getIt.registerLazySingleton<ForumRepository>(() => ForumRepository());
     getIt.registerLazySingleton<EventRepository>(() => EventRepository());
+    getIt.registerLazySingleton<SosRepository>(() => SosRepository());
   }
 }

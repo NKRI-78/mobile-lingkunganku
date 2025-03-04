@@ -94,7 +94,7 @@ class ForumListSection extends StatelessWidget {
                 // Menampilkan file dokumen
                 if ((forums.forumMedia?.isNotEmpty ?? false) &&
                     forums.forumMedia?.first.type == "file")
-                  FilePage(forums: forums)
+                  FilePage(forumMedia: forums.forumMedia ?? []),
               ],
             ),
 

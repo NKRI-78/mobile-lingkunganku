@@ -86,60 +86,95 @@ class SosView extends StatelessWidget {
                           icon: 'assets/images/kecelakaan.png',
                           label: 'Kecelakaan',
                           onTap: isLoggedIn
-                              ? () {} // Provide an empty callback if already logged in
+                              ? () {
+                                  SosDetailRoute(
+                                    isLoggedIn: isLoggedIn,
+                                    sosType: 'Kecelakaan',
+                                    message:
+                                        '${state.profile?.profile?.fullname} butuh bantuan terjadi Kecelakaan',
+                                  ).go(context);
+                                }
                               : () {
                                   RegisterRoute().go(context);
-                                  print('Kecelakaan dipilih');
                                 },
                         ),
                         customCardSection(
                           icon: 'assets/images/pencurian.png',
                           label: 'Pencurian',
                           onTap: isLoggedIn
-                              ? () {}
+                              ? () {
+                                  SosDetailRoute(
+                                          isLoggedIn: isLoggedIn,
+                                          sosType: 'Pencurian',
+                                          message:
+                                              '${state.profile?.profile?.fullname} butuh bantuan terjadi Pencurian')
+                                      .go(context);
+                                }
                               : () {
                                   RegisterRoute().go(context);
-                                  print('Pencurian dipilih');
                                 },
                         ),
                         customCardSection(
                           icon: 'assets/images/kebakaran.png',
                           label: 'Kebakaran',
                           onTap: isLoggedIn
-                              ? () {}
+                              ? () {
+                                  SosDetailRoute(
+                                          isLoggedIn: isLoggedIn,
+                                          sosType: 'Kebakaran',
+                                          message:
+                                              '${state.profile?.profile?.fullname} butuh bantuan terjadi Kebakaran')
+                                      .go(context);
+                                }
                               : () {
                                   RegisterRoute().go(context);
-                                  print('Kebakaran dipilih');
                                 },
                         ),
                         customCardSection(
                           icon: 'assets/images/bencana_alam.png',
                           label: 'Bencana Alam',
                           onTap: isLoggedIn
-                              ? () {}
+                              ? () {
+                                  SosDetailRoute(
+                                          isLoggedIn: isLoggedIn,
+                                          sosType: 'Bencana Alam',
+                                          message:
+                                              '${state.profile?.profile?.fullname} butuh bantuan terjadi Bencana Alam')
+                                      .go(context);
+                                }
                               : () {
                                   RegisterRoute().go(context);
-                                  print('Bencana Alam dipilih');
                                 },
                         ),
                         customCardSection(
                           icon: 'assets/images/donor_darah.png',
                           label: 'Donor Darah',
                           onTap: isLoggedIn
-                              ? () {}
+                              ? () {
+                                  SosDetailRoute(
+                                          isLoggedIn: isLoggedIn,
+                                          sosType: 'Donor Darah',
+                                          message:
+                                              '${state.profile?.profile?.fullname} butuh bantuan Donor Darah')
+                                      .go(context);
+                                }
                               : () {
                                   RegisterRoute().go(context);
-                                  print('Donor Darah dipilih');
                                 },
                         ),
                         customCardSection(
                           icon: 'assets/images/kerusuhan.png',
                           label: 'Kerusuhan',
                           onTap: isLoggedIn
-                              ? () {}
+                              ? () {
+                                  SosDetailRoute(
+                                      isLoggedIn: isLoggedIn,
+                                      sosType: 'Kerusuhan',
+                                      message:
+                                          '${state.profile?.profile?.fullname} butuh bantuan terjadi Kerusuhan');
+                                }
                               : () {
                                   RegisterRoute().go(context);
-                                  print('Kerusuhan dipilih');
                                 },
                         ),
                       ],

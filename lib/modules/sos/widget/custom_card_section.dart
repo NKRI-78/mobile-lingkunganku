@@ -12,6 +12,7 @@ Widget customCardSection({
     child: Stack(
       children: [
         Container(
+          height: 120,
           width: double.infinity,
           decoration: BoxDecoration(
             color: Colors.white.withOpacity(0.5),
@@ -29,12 +30,12 @@ Widget customCardSection({
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: AppColors.textColor2,
-                  fontSize: 14,
+                  fontSize: 12,
                   fontWeight: FontWeight.bold,
                   fontFamily: 'Intel',
                 ),
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 3),
             ],
           ),
         ),
@@ -43,7 +44,7 @@ Widget customCardSection({
           left: 10,
           right: 10,
           child: Container(
-            height: 70,
+            height: 50,
             decoration: BoxDecoration(
               color: AppColors.buttonColor2,
               borderRadius: BorderRadius.circular(24),
@@ -52,8 +53,8 @@ Widget customCardSection({
         ),
         Center(
           child: Container(
-            width: 70,
-            height: 70,
+            width: 60,
+            height: 60,
             decoration: BoxDecoration(
               color: AppColors.whiteColor,
               shape: BoxShape.circle,
@@ -62,12 +63,12 @@ Widget customCardSection({
         ),
         Center(
           child: CircleAvatar(
-            radius: 30,
+            radius: 27,
             backgroundColor: AppColors.textColor1,
             child: Image.asset(
               icon,
-              height: 40,
-              width: 40,
+              height: 32,
+              width: 32,
               fit: BoxFit.cover,
               filterQuality: FilterQuality.high,
             ),

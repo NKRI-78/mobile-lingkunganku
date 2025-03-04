@@ -1,57 +1,52 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_lingkunganku/misc/text_style.dart';
-import 'package:url_launcher/url_launcher.dart';
-
-import '../../../misc/colors.dart';
+import 'package:mobile_lingkunganku/misc/colors.dart';
+import '../../../misc/download_manager.dart';
 import '../../../repositories/forum_repository/models/forums_model.dart';
 
 class FilePage extends StatelessWidget {
-  final ForumsModel forums;
+  const FilePage({super.key, required this.forumMedia});
 
-  const FilePage({super.key, required this.forums});
+  final List<ForumMedia> forumMedia;
 
   @override
   Widget build(BuildContext context) {
-    // Pastikan ada file untuk ditampilkan
-    if (forums.forumMedia == null || forums.forumMedia!.isEmpty) {
-      return const SizedBox.shrink();
-    }
-
-    return Column(
-      children: forums.forumMedia!.map((media) {
-        return Container(
-          margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 10),
-          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 15),
-          decoration: BoxDecoration(
-            color: AppColors.greyColor.withValues(alpha: 0.8),
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 10.0),
+      decoration:
+          BoxDecoration(color: AppColors.greyColor.withValues(alpha: 0.8)),
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             children: [
-              // Nama file
-              Expanded(
-                child: Text(media.link!.split('/').last,
-                    maxLines: 2,
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.7,
+                child: Text(forumMedia[0].link!.split('/').last,
+                    maxLines: 3,
                     overflow: TextOverflow.ellipsis,
-                    style: AppTextStyles.textProfileNormal),
+                    style: const TextStyle(
+                      color: AppColors.whiteColor,
+                      fontSize: 12,
+                    )),
               ),
-              const SizedBox(width: 10),
-
-              // Ikon download
-              InkWell(
-                onTap: () async {
-                  final url = media.link ?? "";
-                  if (await canLaunchUrl(Uri.parse(url))) {
-                    await launchUrl(Uri.parse(url));
-                  }
-                },
-                child: const Icon(Icons.download, color: Colors.white),
-              ),
+              const SizedBox(height: 6.0),
             ],
           ),
-        );
-      }).toList(),
+          IconButton(
+            icon: const Icon(Icons.download),
+            onPressed: () async {
+              await DownloadHelper.downloadDoc(
+                  context: context, url: forumMedia.first.link ?? '');
+            },
+            color: AppColors.whiteColor,
+          )
+        ],
+      ),
     );
   }
 }

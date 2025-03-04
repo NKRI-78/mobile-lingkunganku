@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import '../../../router/builder.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:flutter_html/flutter_html.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
@@ -128,11 +129,18 @@ class DetailNewsView extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 10),
-        Text(
-          newsData?.content ?? "",
-          textAlign: TextAlign.justify,
-          style: const TextStyle(fontSize: 16),
-        ),
+        Html(
+          data: newsData?.content ?? "-",
+          style: {
+            "a": Style(
+              color: Colors.blue,
+            ),
+          },
+          onLinkTap:
+              (String? url, Map<String, String> attributes, element) async {
+            // WebViewRoute(url: url!, title: "MHS-MOBILE").go(context);
+          },
+        )
       ],
     );
   }

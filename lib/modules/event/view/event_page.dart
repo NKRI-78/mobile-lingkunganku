@@ -251,8 +251,8 @@ class _EventViewState extends State<EventView> {
                                 markerBuilder: (context, date, events) {
                                   if (events.isNotEmpty) {
                                     return Positioned(
-                                      right: 3,
-                                      bottom: 3,
+                                      right: 2,
+                                      bottom: 1,
                                       child: Container(
                                         padding: const EdgeInsets.all(6),
                                         decoration: BoxDecoration(
@@ -264,7 +264,7 @@ class _EventViewState extends State<EventView> {
                                           style:
                                               AppTextStyles.textStyle2.copyWith(
                                             color: Colors.white,
-                                            fontSize: 12,
+                                            fontSize: 10,
                                           ),
                                         ),
                                       ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobile_lingkunganku/modules/iuran/view/iuran_page.dart';
+import 'package:mobile_lingkunganku/modules/sos/view/sos_detail_page.dart';
 import '../modules/news_update/view/news_update_page.dart';
 import '../modules/event/view/event_page.dart';
 import '../modules/event_create/view/event_create_page.dart';
@@ -75,7 +76,8 @@ class OnboardingRoute extends GoRouteData {
     ]),
     TypedGoRoute<RegisterWargaRoute>(path: 'register-warga'),
   ]),
-  TypedGoRoute<SosRoute>(path: 'sos'),
+  TypedGoRoute<SosRoute>(
+      path: 'sos', routes: [TypedGoRoute<SosDetailRoute>(path: 'sos-detail')]),
   TypedGoRoute<ForumRoute>(path: 'forum', routes: [
     TypedGoRoute<ForumDetailRoute>(path: 'forum-detail'),
     TypedGoRoute<ForumCreateRoute>(path: 'forum-create'),
@@ -294,6 +296,26 @@ class SosRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return SosPage(
+      isLoggedIn: isLoggedIn,
+    );
+  }
+}
+
+class SosDetailRoute extends GoRouteData {
+  final bool isLoggedIn;
+  final String sosType;
+  final String message;
+
+  SosDetailRoute({
+    required this.isLoggedIn,
+    required this.sosType,
+    required this.message,
+  });
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return SosDetailPage(
+      message: message,
+      sosType: sosType,
       isLoggedIn: isLoggedIn,
     );
   }

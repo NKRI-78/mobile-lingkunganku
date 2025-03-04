@@ -148,6 +148,12 @@ RouteBase get $homeRoute => GoRouteData.$route(
         GoRouteData.$route(
           path: 'sos',
           factory: $SosRouteExtension._fromState,
+          routes: [
+            GoRouteData.$route(
+              path: 'sos-detail',
+              factory: $SosDetailRouteExtension._fromState,
+            ),
+          ],
         ),
         GoRouteData.$route(
           path: 'forum',
@@ -622,6 +628,32 @@ extension $SosRouteExtension on SosRoute {
         '/home/sos',
         queryParams: {
           'is-logged-in': isLoggedIn.toString(),
+        },
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $SosDetailRouteExtension on SosDetailRoute {
+  static SosDetailRoute _fromState(GoRouterState state) => SosDetailRoute(
+        isLoggedIn: _$boolConverter(state.uri.queryParameters['is-logged-in']!),
+        sosType: state.uri.queryParameters['sos-type']!,
+        message: state.uri.queryParameters['message']!,
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/sos/sos-detail',
+        queryParams: {
+          'is-logged-in': isLoggedIn.toString(),
+          'sos-type': sosType,
+          'message': message,
         },
       );
 
