@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_lingkunganku/modules/home/bloc/home_bloc.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';
@@ -49,6 +50,7 @@ void showLogoutDialog(BuildContext context) {
                     Navigator.pop(context); // Tutup drawer
                     getIt<AppBloc>().add(SetUserLogout()); // Logout
                     getIt<ProfileCubit>().getProfile();
+                    getIt<HomeBloc>().add(HomeInit(context: context));
 
                     HomeRoute().go(context);
                   },

@@ -1,8 +1,8 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mobile_lingkunganku/modules/forum_detail/widget/media/media_file.dart';
+
 import '../cubit/forum_detail_cubit.dart';
 import '../widget/detail_card_header/detail_card_header_forum.dart';
 import '../widget/media/media_images.dart';
@@ -76,7 +76,7 @@ class _ForumDetailViewState extends State<ForumDetailView> {
                 icon: Icon(
                   Icons.arrow_back_ios_new,
                   color: AppColors.buttonColor2,
-                  size: 32,
+                  size: 24,
                 ),
                 onPressed: () {
                   GoRouter.of(context).pop();

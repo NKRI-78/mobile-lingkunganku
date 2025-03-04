@@ -40,12 +40,12 @@ class RegisterKetuaView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<RegisterKetuaCubit, RegisterKetuaState>(
       builder: (context, state) {
-        print("Address ${state.currentAddress}");
         return Scaffold(
           extendBodyBehindAppBar: true,
           appBar: PreferredSize(
             preferredSize: Size.fromHeight(80),
             child: AppBar(
+              surfaceTintColor: Colors.transparent,
               toolbarHeight: 80,
               title: Text(
                 'Registrasi',
@@ -56,7 +56,7 @@ class RegisterKetuaView extends StatelessWidget {
                 icon: Icon(
                   Icons.arrow_back_ios_new,
                   color: AppColors.buttonColor2,
-                  size: 32,
+                  size: 24,
                 ),
                 onPressed: () {
                   GoRouter.of(context).pop();

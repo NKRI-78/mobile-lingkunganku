@@ -131,7 +131,7 @@ class DrawerSection extends StatelessWidget {
                                             leading: Icon(
                                                 Icons.description_outlined,
                                                 color: AppColors.whiteColor),
-                                            title: Text("Management",
+                                            title: Text("Data Warga",
                                                 style:
                                                     AppTextStyles.buttonText1),
                                             onTap: () {

@@ -122,7 +122,7 @@ Widget _buildDatePickerField({
               icon: Icon(
                 Icons.calendar_today,
                 color: AppColors.secondaryColor,
-                size: 28,
+                size: 26,
               ),
               onPressed: selectDate,
             ),

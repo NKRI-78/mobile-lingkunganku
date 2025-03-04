@@ -91,7 +91,7 @@ class CommentForum extends StatelessWidget {
                               color: AppColors.greyColor, fontSize: 12),
                         ),
                         const SizedBox(
-                          width: 15,
+                          width: 10,
                         ),
                         const Text(
                           "Balas",

@@ -50,6 +50,11 @@ class CardHeaderForum extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
+                      // Text('Sebagai ${forums.user?.profile. ?? ""}',
+                      //     style: const TextStyle(
+                      //       color: AppColors.greyColor,
+                      //       fontSize: 10,
+                      //     )),
                       Text(
                         timeago.format(
                           forums.createdAt != null

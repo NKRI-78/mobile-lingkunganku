@@ -21,22 +21,29 @@ class ForumDetailModel {
   List<ForumComment>? forumComment;
   User? user;
   List<ForumMedia>? forumMedia;
+  List<ForumLikes>? forumLikes;
+  int? likeCount;
+  bool? isLike;
+  int? commentCount;
 
-  ForumDetailModel({
-    this.message,
-    this.id,
-    this.description,
-    this.userId,
-    this.neighborhoodId,
-    this.latitude,
-    this.longitude,
-    this.createdAt,
-    this.updatedAt,
-    this.deletedAt,
-    this.forumComment,
-    this.user,
-    this.forumMedia,
-  });
+  ForumDetailModel(
+      {this.message,
+      this.id,
+      this.description,
+      this.userId,
+      this.neighborhoodId,
+      this.latitude,
+      this.longitude,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt,
+      this.forumComment,
+      this.user,
+      this.forumMedia,
+      this.forumLikes,
+      this.likeCount,
+      this.isLike,
+      this.commentCount});
 
   ForumDetailModel.fromJson(Map<String, dynamic> json) {
     message = json['message'];
@@ -63,6 +70,15 @@ class ForumDetailModel {
           .map((v) => ForumMedia.fromJson(v))
           .toList();
     }
+    if (json['forum_likes'] != null) {
+      forumLikes = <ForumLikes>[];
+      json['forum_likes'].forEach((v) {
+        forumLikes!.add(ForumLikes.fromJson(v));
+      });
+    }
+    likeCount = json['likeCount'];
+    isLike = json['isLike'];
+    commentCount = json['commentCount'];
   }
 
   Map<String, dynamic> toJson() {
@@ -89,6 +105,12 @@ class ForumDetailModel {
     if (forumMedia != null) {
       data['forum_media'] = forumMedia!.map((v) => v.toJson()).toList();
     }
+    if (forumLikes != null) {
+      data['forum_likes'] = forumLikes!.map((v) => v.toJson()).toList();
+    }
+    data['likeCount'] = likeCount;
+    data['isLike'] = isLike;
+    data['commentCount'] = commentCount;
 
     return data;
   }

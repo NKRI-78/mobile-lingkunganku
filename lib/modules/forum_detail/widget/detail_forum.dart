@@ -8,8 +8,6 @@ class DetailForum extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("test : ${jsonEncode(forum?.forumComment)}");
-
     return Container(
       padding: EdgeInsets.symmetric(vertical: 20),
       color: AppColors.whiteColor,
@@ -49,6 +47,11 @@ class DetailForum extends StatelessWidget {
                 text: forum?.description ?? "",
               ),
             ),
+
+            /// **Menampilkan File (Jika Ada)**
+            if ((forum?.forumMedia?.isNotEmpty ?? false) &&
+                forum?.forumMedia?.first.type == "file")
+              MediaFile(forum: forum!),
             if ((forum?.forumMedia?.isNotEmpty ?? false) &&
                 forum?.forumMedia?.first.type == "image")
               InkWell(
@@ -77,17 +80,17 @@ class DetailForum extends StatelessWidget {
                 ],
               ),
             LikeCommentTop(
-              countLike: 0,
-              countComment: 0,
-              isLike: 0,
+              countLike: forum?.likeCount ?? 0,
+              countComment: forum?.commentCount ?? 0,
+              isLike: forum?.isLike ?? false,
               onPressedLike: () async {},
               onPressedComment: () {},
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: LikeComment(
-                countLike: 0,
-                isLike: 0,
+                countLike: forum?.likeCount ?? 0,
+                isLike: forum?.isLike ?? false,
                 onPressedLike: () async {
                   await context
                       .read<ForumDetailCubit>()

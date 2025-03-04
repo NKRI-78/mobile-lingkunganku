@@ -122,9 +122,6 @@ class _CardReplyState extends State<CardReply> {
                             const SizedBox(
                               width: 10,
                             ),
-                            const SizedBox(
-                              width: 10,
-                            ),
                             InkWell(
                               onTap: () {
                                 setState(() {

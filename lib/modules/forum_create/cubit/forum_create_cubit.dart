@@ -215,4 +215,39 @@ class ForumCreateCubit extends Cubit<ForumCreateState> {
           fileSize: videoSize));
     }
   }
+
+  Future<void> uploadDoc(BuildContext context) async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowMultiple: false,
+        allowedExtensions: ['pdf', 'doc', 'xlsx', 'rar', 'txt', 'zip'],
+        withData: false,
+        withReadStream: true,
+        onFileLoading: (FilePickerStatus filePickerStatus) {});
+    List<File> newfile = [];
+    String docNames = "";
+    // ignore: unused_local_variable
+    String sizeDoc = "";
+    if (result != null) {
+      File vf = File(result.files.single.path!);
+      int sizeInBytes = vf.lengthSync();
+      double sizeInMb = sizeInBytes / (1024 * 1024);
+      debugPrint('Ukuran ${sizeInMb.toString()}');
+      if (sizeInMb > 5 && context.mounted) {
+        // ignore: use_build_context_synchronously
+        ShowSnackbar.snackbar(
+            context, "File Maksimal 5 MB", "", AppColors.redColor);
+        return;
+      }
+      docFile = vf;
+      docNames = vf.path.toString().split('/').last;
+      sizeDoc = filesize(sizeInBytes, 0);
+      newfile.add(File(vf.path));
+    }
+    emit(state.copyWith(
+        pickedFile: newfile,
+        feedType: "file",
+        docName: docNames,
+        fileSize: sizeDoc));
+  }
 }

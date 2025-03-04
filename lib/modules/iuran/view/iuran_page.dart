@@ -35,7 +35,7 @@ class IuranView extends StatelessWidget {
           icon: const Icon(
             Icons.arrow_back_ios_new,
             color: AppColors.buttonColor2,
-            size: 30,
+            size: 24,
           ),
           onPressed: () {
             Navigator.pop(context, true);
@@ -46,7 +46,7 @@ class IuranView extends StatelessWidget {
             icon: const Icon(
               Icons.event_note_sharp,
               color: AppColors.buttonColor2,
-              size: 34,
+              size: 26,
             ),
             onPressed: () {
               //

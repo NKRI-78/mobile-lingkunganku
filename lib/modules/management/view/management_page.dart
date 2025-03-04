@@ -117,7 +117,7 @@ class ManagementViewState extends State<ManagementView> {
                               icon: Icon(
                                 Icons.share,
                                 color: AppColors.whiteColor,
-                                size: 18,
+                                size: 22,
                               ),
                             ),
                           )

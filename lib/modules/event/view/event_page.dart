@@ -108,7 +108,7 @@ class _EventViewState extends State<EventView> {
                 icon: const Icon(
                   Icons.arrow_back_ios_new,
                   color: AppColors.buttonColor2,
-                  size: 30,
+                  size: 24,
                 ),
                 onPressed: () {
                   GoRouter.of(context).pop();
@@ -120,7 +120,7 @@ class _EventViewState extends State<EventView> {
                     icon: const Icon(
                       Icons.add,
                       color: AppColors.buttonColor2,
-                      size: 34,
+                      size: 26,
                     ),
                     onPressed: () {
                       EventCreateRoute().push(context);
@@ -251,13 +251,21 @@ class _EventViewState extends State<EventView> {
                                 markerBuilder: (context, date, events) {
                                   if (events.isNotEmpty) {
                                     return Positioned(
-                                      bottom: 5,
+                                      right: 3,
+                                      bottom: 3,
                                       child: Container(
-                                        width: 6,
-                                        height: 6,
+                                        padding: const EdgeInsets.all(6),
                                         decoration: BoxDecoration(
                                           color: AppColors.textColor2,
                                           shape: BoxShape.circle,
+                                        ),
+                                        child: Text(
+                                          '${events.length}',
+                                          style:
+                                              AppTextStyles.textStyle2.copyWith(
+                                            color: Colors.white,
+                                            fontSize: 12,
+                                          ),
                                         ),
                                       ),
                                     );

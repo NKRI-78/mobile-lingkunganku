@@ -51,7 +51,7 @@ class _CreateNewsViewState extends State<CreateNewsView> {
           icon: const Icon(
             Icons.arrow_back_ios_new,
             color: AppColors.buttonColor2,
-            size: 32,
+            size: 24,
           ),
           onPressed: () {
             GoRouter.of(context).pop();

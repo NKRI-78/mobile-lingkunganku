@@ -20,7 +20,8 @@ class HomeRepository {
   Future<DataPagination<NewsModel>> getNews({int page = 1}) async {
     try {
       final res = await http.get(Uri.parse('$news?page=$page'));
-
+      debugPrint('Headers -----------0000');
+      debugPrint('${res.headers}');
       debugPrint(res.body);
       debugPrint('$news?page=$page');
 

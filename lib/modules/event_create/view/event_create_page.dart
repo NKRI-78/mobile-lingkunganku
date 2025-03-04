@@ -43,7 +43,7 @@ class EventCreateView extends StatelessWidget {
               icon: const Icon(
                 Icons.arrow_back_ios_new,
                 color: AppColors.buttonColor2,
-                size: 30,
+                size: 24,
               ),
               onPressed: () {
                 GoRouter.of(context).pop();

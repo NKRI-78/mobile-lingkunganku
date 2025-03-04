@@ -120,7 +120,7 @@ class EventDetailView extends StatelessWidget {
               icon: const Icon(
                 Icons.arrow_back_ios_new,
                 color: AppColors.buttonColor2,
-                size: 32,
+                size: 24,
               ),
               onPressed: () {
                 GoRouter.of(context).pop();
@@ -132,7 +132,7 @@ class EventDetailView extends StatelessWidget {
                   icon: const Icon(
                     Icons.delete,
                     color: AppColors.redColor,
-                    size: 32,
+                    size: 26,
                   ),
                   onPressed: () {
                     _deleteEvent(context);

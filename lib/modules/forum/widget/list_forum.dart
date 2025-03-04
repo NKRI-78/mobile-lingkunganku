@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile_lingkunganku/widgets/pages/file/file_page.dart';
 import '../cubit/forum_cubit.dart';
 import 'comment_forum.dart';
 import 'media/media_images.dart';
@@ -21,14 +22,11 @@ class ForumListSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("Media data: ${forums.forumMedia}");
-
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 5),
       color: AppColors.whiteColor,
       child: InkWell(
         onTap: () {
-          // Navigasi ke detail forum (jika ada fitur ini)
           ForumDetailRoute(idForum: forums.id.toString()).go(context);
         },
         child: Column(
@@ -66,16 +64,16 @@ class ForumListSection extends StatelessWidget {
 
             // Deskripsi Forum
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
               child: DetectText(
                 text: forums.description ?? '',
               ),
             ),
-
             Stack(
               fit: StackFit.loose,
               alignment: Alignment.bottomRight,
               children: [
+                // Menampilkan gambar
                 if ((forums.forumMedia?.isNotEmpty ?? false) &&
                     forums.forumMedia?.first.type == "image")
                   InkWell(
@@ -87,49 +85,62 @@ class ForumListSection extends StatelessWidget {
                       medias: forums.forumMedia ?? [],
                     ),
                   ),
+
+                // Menampilkan video
                 if ((forums.forumMedia?.isNotEmpty ?? false) &&
                     forums.forumMedia?.first.type == "video")
-                  VideoPlayer(urlVideo: forums.forumMedia?.first.link ?? "")
+                  VideoPlayer(urlVideo: forums.forumMedia?.first.link ?? ""),
+
+                // Menampilkan file dokumen
+                if ((forums.forumMedia?.isNotEmpty ?? false) &&
+                    forums.forumMedia?.first.type == "file")
+                  FilePage(forums: forums)
               ],
             ),
 
             // Like & Comment Top (Total)
             LikeCommentTop(
-              countLike: 0,
-              countComment: 0,
-              isLike: 0,
-              onPressedLike: () {},
+              countLike: forums.likeCount ?? 0,
+              countComment: forums.commentCount ?? 0,
+              isLike: forums.isLike ?? false,
+              onPressedLike: () async {},
               onPressedComment: () {},
             ),
 
-// Like & Comment Bottom (Detail)
+            // Like & Comment Bottom (Detail)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: LikeComment(
-                countLike: 0,
-                isLike: 0,
-                onPressedLike: () {},
+                countLike: forums.likeCount ?? 0,
+                isLike: forums.isLike ?? false,
+                onPressedLike: () async {
+                  await context
+                      .read<ForumCubit>()
+                      .setLikeUnlikeForum(idForum: forums.id.toString());
+                },
                 onPressedComment: () {},
               ),
             ),
 
             // Komentar Forum
-            if (forums.forumComment != null && forums.forumComment!.isNotEmpty)
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: forums.forumComment!
-                    .map(
-                      (e) => InkWell(
-                        onTap: () {},
-                        child: CommentForum(comment: e),
-                      ),
-                    )
-                    .toList(),
-              ),
+            forums.forumComment!.isEmpty
+                ? Container()
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: forums.forumComment!
+                        .map(
+                          (e) => InkWell(
+                              onTap: () {},
+                              child: CommentForum(
+                                comment: e,
+                              )),
+                        )
+                        .toList(),
+                  ),
 
             // Divider
             Divider(
-              color: AppColors.greyColor.withOpacity(0.1),
+              color: AppColors.greyColor.withValues(alpha: 0.1),
               thickness: 10,
             ),
           ],

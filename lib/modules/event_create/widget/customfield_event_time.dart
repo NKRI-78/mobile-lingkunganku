@@ -112,7 +112,7 @@ Widget _buildTimePickerField({
               icon: Icon(
                 Icons.access_time,
                 color: AppColors.secondaryColor,
-                size: 28,
+                size: 26,
               ),
               onPressed: selectTime,
             ),

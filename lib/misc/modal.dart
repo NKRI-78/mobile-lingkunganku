@@ -29,10 +29,10 @@ class GeneralModal {
             msg,
             textAlign: TextAlign.center,
             style: AppTextStyles.textDialog.copyWith(
-              fontSize: 20,
+              fontSize: 14,
             ),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 20),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

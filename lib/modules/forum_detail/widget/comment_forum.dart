@@ -123,9 +123,6 @@ class _CommentForumState extends State<CommentForum> {
                               const SizedBox(
                                 width: 10,
                               ),
-                              const SizedBox(
-                                width: 10,
-                              ),
                               InkWell(
                                 onTap: () {
                                   setState(() {

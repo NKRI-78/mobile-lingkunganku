@@ -53,7 +53,7 @@ class _HomeViewState extends State<HomeView> {
               body: RefreshIndicator(
                 color: AppColors.secondaryColor,
                 onRefresh: () async {
-                  context.read<HomeBloc>().add(HomeInit(context: context));
+                  getIt<HomeBloc>().add(HomeInit(context: context));
                   await Future.delayed(const Duration(seconds: 1));
                 },
                 child: Stack(

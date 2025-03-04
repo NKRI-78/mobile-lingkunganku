@@ -62,4 +62,15 @@ class ForumCubit extends Cubit<ForumState> {
       rethrow;
     }
   }
+
+  Future<void> setLikeUnlikeForum({required String idForum}) async {
+    try {
+      // emit(state.copyWith(loading: true));
+      await repo.setLikeUnlikeForum(idForum.toString());
+      var value = await repo.getForum();
+      emit(state.copyWith(forums: value));
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

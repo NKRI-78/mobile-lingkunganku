@@ -14,6 +14,7 @@ dependencies:
   build_runner: ^2.4.14
   cached_network_image: ^3.4.1
   carousel_slider: ^5.0.0
+  chewie: ^1.10.0
   cupertino_icons: ^1.0.8
   detectable_text_field: ^3.0.2
   equatable: ^2.0.7
@@ -22,6 +23,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^9.0.0
+  flutter_contacts: ^1.1.9+2
   flutter_datetime_picker_plus: ^2.2.0
   flutter_image_compress: ^2.4.0
   flutter_launcher_icons: ^0.14.3

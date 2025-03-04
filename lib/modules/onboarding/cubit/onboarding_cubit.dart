@@ -19,7 +19,8 @@ class OnboardingCubit extends Cubit<OnboardingState> {
         duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
   }
 
-  void finishOnboarding(BuildContext context) {
+  void finishOnboarding(BuildContext context) async {
     context.read<AppBloc>().add(FinishOnboarding());
+    // await determinePosition(context);
   }
 }

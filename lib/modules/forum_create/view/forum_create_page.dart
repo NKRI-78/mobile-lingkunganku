@@ -95,7 +95,7 @@ class ForumCreateView extends StatelessWidget {
               icon: Icon(
                 Icons.arrow_back_ios_new,
                 color: AppColors.buttonColor2,
-                size: 32,
+                size: 24,
               ),
               onPressed: () {
                 GoRouter.of(context).pop();

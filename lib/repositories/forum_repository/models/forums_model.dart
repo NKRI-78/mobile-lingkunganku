@@ -18,21 +18,27 @@ class ForumsModel {
   User? user;
   List<ForumMedia>? forumMedia;
   List<ForumComment>? forumComment;
+  List<ForumLikes>? forumLikes;
+  bool? isLike;
+  int? likeCount;
+  int? commentCount;
 
-  ForumsModel({
-    this.id,
-    this.description,
-    this.userId,
-    this.neighborhoodId,
-    this.latitude,
-    this.longitude,
-    this.createdAt,
-    this.updatedAt,
-    this.deletedAt,
-    this.user,
-    this.forumMedia,
-    this.forumComment,
-  });
+  ForumsModel(
+      {this.id,
+      this.description,
+      this.userId,
+      this.neighborhoodId,
+      this.latitude,
+      this.longitude,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt,
+      this.user,
+      this.forumMedia,
+      this.forumComment,
+      this.isLike,
+      this.likeCount,
+      this.commentCount});
 
   ForumsModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -57,6 +63,9 @@ class ForumsModel {
         forumComment!.add(ForumComment.fromJson(v));
       });
     }
+    isLike = json['isLike'];
+    likeCount = json['likeCount'];
+    commentCount = json['commentCount'];
   }
 
   Map<String, dynamic> toJson() {
@@ -79,6 +88,9 @@ class ForumsModel {
     if (forumComment != null) {
       data['forum_comment'] = forumComment!.map((v) => v.toJson()).toList();
     }
+    data['isLike'] = isLike;
+    data['likeCount'] = likeCount;
+    data['commentCount'] = commentCount;
     return data;
   }
 }
@@ -178,6 +190,45 @@ class ForumComment {
     }
     if (replies != null) {
       data['replies'] = replies!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class ForumLikes {
+  int? id;
+  int? userId;
+  int? forumId;
+  String? createdAt;
+  String? updatedAt;
+  User? user;
+
+  ForumLikes(
+      {this.id,
+      this.userId,
+      this.forumId,
+      this.createdAt,
+      this.updatedAt,
+      this.user});
+
+  ForumLikes.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    userId = json['user_id'];
+    forumId = json['forum_id'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    user = json['user'] != null ? User.fromJson(json['user']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['user_id'] = userId;
+    data['forum_id'] = forumId;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    if (user != null) {
+      data['user'] = user!.toJson();
     }
     return data;
   }

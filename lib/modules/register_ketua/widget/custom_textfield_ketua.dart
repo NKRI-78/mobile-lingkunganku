@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../misc/colors.dart';
+import '../../../widgets/contact/contact_list_page.dart';
 import '../cubit/register_ketua_cubit.dart';
 import '../view/register_ketua_page.dart';
 
@@ -86,22 +87,70 @@ class _FieldPhone extends StatelessWidget {
   }
 }
 
-class _FieldPhoneSecurity extends StatelessWidget {
+class _FieldPhoneSecurity extends StatefulWidget {
+  @override
+  _FieldPhoneSecurityState createState() => _FieldPhoneSecurityState();
+}
+
+class _FieldPhoneSecurityState extends State<_FieldPhoneSecurity> {
+  final TextEditingController _phoneController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    final cubit = context.read<RegisterKetuaCubit>();
+    _phoneController.text = cubit.state.phoneSecurity;
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<RegisterKetuaCubit, RegisterKetuaState>(
       buildWhen: (previous, current) =>
           previous.phoneSecurity != current.phoneSecurity,
       builder: (context, state) {
-        return _buildTextFormField(
-          maxLength: 13,
-          label: 'Nomor Telepon Keamanan',
-          keyboardType: TextInputType.phone,
-          onChanged: (value) {
-            var cubit = context.read<RegisterKetuaCubit>();
-            cubit.copyState(
-                newState: cubit.state.copyWith(phoneSecurity: value));
-          },
+        _phoneController.text = state.phoneSecurity;
+
+        return Row(
+          children: [
+            Expanded(
+                child: _buildTextFormField(
+              maxLength: 13,
+              keyboardType: TextInputType.phone,
+              controller: _phoneController,
+              label: 'Nomor Telepon Keamanan',
+              onChanged: (value) {
+                var cubit = context.read<RegisterKetuaCubit>();
+                cubit.copyState(
+                    newState: cubit.state.copyWith(phoneSecurity: value));
+              },
+            )),
+            IconButton(
+              icon: Icon(Icons.contacts, color: AppColors.secondaryColor),
+              onPressed: () async {
+                final contact = await Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ContactListPage()),
+                );
+
+                if (contact != null && contact.phones.isNotEmpty) {
+                  String phoneNumber = contact.phones.first.number;
+
+                  if (phoneNumber.startsWith('+62')) {
+                    phoneNumber = phoneNumber.replaceFirst('+62', '0');
+                  }
+
+                  setState(() {
+                    _phoneController.text = phoneNumber;
+                  });
+
+                  var cubit = context.read<RegisterKetuaCubit>();
+                  cubit.copyState(
+                      newState:
+                          cubit.state.copyWith(phoneSecurity: phoneNumber));
+                }
+              },
+            ),
+          ],
         );
       },
     );
@@ -195,6 +244,7 @@ Widget _buildTextFormField({
   int maxLines = 1,
   required ValueChanged<String> onChanged,
   int? maxLength,
+  TextEditingController? controller,
 }) {
   return Padding(
     padding: const EdgeInsets.only(bottom: 12),
@@ -207,6 +257,7 @@ Widget _buildTextFormField({
           border: Border.all(color: AppColors.whiteColor),
         ),
         child: TextFormField(
+          controller: controller,
           maxLength: maxLength,
           maxLines: maxLines,
           keyboardType: keyboardType,

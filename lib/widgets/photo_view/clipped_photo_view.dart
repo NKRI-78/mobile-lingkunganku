@@ -152,6 +152,8 @@ class _ClippedPhotoViewState extends State<ClippedPhotoView> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Container(
+                            height: 40,
+                            width: 40,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               color: AppColors.greyColor.withOpacity(0.8),
@@ -166,6 +168,8 @@ class _ClippedPhotoViewState extends State<ClippedPhotoView> {
                                   ),
                           ),
                           Container(
+                            height: 40,
+                            width: 40,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               color: AppColors.greyColor.withOpacity(0.8),
@@ -173,7 +177,7 @@ class _ClippedPhotoViewState extends State<ClippedPhotoView> {
                             child: PopupMenuButton(
                               color: AppColors.whiteColor,
                               iconColor: Colors.white,
-                              iconSize: 20,
+                              iconSize: 24,
                               itemBuilder: (BuildContext buildContext) {
                                 return [
                                   const PopupMenuItem(

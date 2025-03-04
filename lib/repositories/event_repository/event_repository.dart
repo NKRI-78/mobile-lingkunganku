@@ -16,17 +16,23 @@ class EventRepository {
 
   Future<List<EventModel>> getEvents() async {
     try {
+      debugPrint("Fetching events...");
+
       final res =
-          await http.get(Uri.parse(event)).timeout(Duration(seconds: 10));
+          await http.get(Uri.parse(event)).timeout(const Duration(seconds: 10));
+
+      debugPrint("Response Status: ${res.statusCode}");
+      debugPrint("Response Body: ${res.body}");
 
       final json = jsonDecode(res.body);
       if (res.statusCode == 200) {
         final list = json['data']['data'] as List;
         return list.map((e) => EventModel.fromJson(e)).toList();
       } else {
-        throw "error api";
+        throw "Error API: ${res.statusCode} - ${res.body}";
       }
     } catch (e) {
+      debugPrint("Error fetching events: $e");
       rethrow;
     }
   }
