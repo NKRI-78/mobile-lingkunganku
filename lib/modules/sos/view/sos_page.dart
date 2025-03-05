@@ -37,6 +37,7 @@ class SosView extends StatelessWidget {
         return Scaffold(
           extendBodyBehindAppBar: true,
           appBar: AppBar(
+            surfaceTintColor: Colors.transparent,
             title: Text(
               'SOS',
               style: AppTextStyles.textStyle1,
@@ -63,9 +64,9 @@ class SosView extends StatelessWidget {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(
-                        left: 30, right: 30, top: 100, bottom: 30),
+                        left: 30, right: 30, top: 100, bottom: 10),
                     child: Text(
-                      'Pilih Darurat apa yang kamu alami, maka\nuser dalam satu Lingkungan mu akan\nmendapatkan notifikasi',
+                      'Pilih Darurat apa yang kamu alami, maka user dalam satu Lingkungan mu akan mendapatkan notifikasi',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: AppColors.textColor2,
@@ -78,8 +79,8 @@ class SosView extends StatelessWidget {
                   Expanded(
                     child: GridView.count(
                       crossAxisCount: 2,
-                      crossAxisSpacing: 40,
-                      mainAxisSpacing: 20,
+                      crossAxisSpacing: 20,
+                      mainAxisSpacing: 10,
                       padding: const EdgeInsets.symmetric(horizontal: 30),
                       children: [
                         customCardSection(
@@ -182,7 +183,7 @@ class SosView extends StatelessWidget {
                   ),
                   Padding(
                     padding:
-                        const EdgeInsets.only(bottom: 30, left: 30, right: 30),
+                        const EdgeInsets.only(bottom: 20, left: 30, right: 30),
                     child: SizedBox(
                       width: double.infinity,
                       child: CustomButton(

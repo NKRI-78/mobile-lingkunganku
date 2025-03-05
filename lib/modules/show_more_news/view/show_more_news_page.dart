@@ -128,8 +128,9 @@ class ShowMoreNewsView extends StatelessWidget {
                                             CrossAxisAlignment.start,
                                         children: state.news
                                             .map((e) => Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(vertical: 10),
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          bottom: 20),
                                                   child: ListNews(news: e),
                                                 ))
                                             .toList(),

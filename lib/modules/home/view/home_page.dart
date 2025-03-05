@@ -1,7 +1,6 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../misc/theme.dart';
+import 'package:mobile_lingkunganku/modules/home/widget/custom_banner_section.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';
@@ -38,12 +37,6 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
-    final List<String> imgList = [
-      'assets/images/contoh.png',
-      'assets/images/contoh.png',
-      'assets/images/contoh.png',
-    ];
-
     return BlocBuilder<AppBloc, AppState>(
       builder: (context, appState) {
         final bool isLoggedIn = appState.isAlreadyLogin;
@@ -66,35 +59,7 @@ class _HomeViewState extends State<HomeView> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               SizedBox(height: 295),
-                              Container(
-                                margin: EdgeInsets.symmetric(horizontal: 16),
-                                child: CarouselSlider(
-                                  options: CarouselOptions(
-                                    height: 150,
-                                    autoPlay: true,
-                                    enlargeCenterPage: true,
-                                    viewportFraction: 1,
-                                  ),
-                                  items: imgList.map(
-                                    (item) {
-                                      return ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(16.0),
-                                        child: Image.asset(
-                                          item,
-                                          fit: BoxFit.cover,
-                                          errorBuilder:
-                                              (context, error, stackTrace) =>
-                                                  Image.asset(
-                                            imageDefault,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  ).toList(),
-                                ),
-                              ),
+                              CustomBannerSection(),
                               SizedBox(height: 15),
 
                               // Title Section
@@ -159,41 +124,47 @@ class _HomeViewState extends State<HomeView> {
                                               BorderRadius.circular(18),
                                         ),
                                         child: SizedBox(
-                                          height: 100,
+                                          width: double.infinity,
+                                          height: 110,
                                           child: Row(
                                             children: [
                                               ClipRRect(
-                                                borderRadius: const BorderRadius
-                                                    .horizontal(
-                                                  left: Radius.circular(18),
-                                                ),
+                                                borderRadius:
+                                                    const BorderRadius.only(
+                                                        topLeft:
+                                                            Radius.circular(18),
+                                                        bottomLeft:
+                                                            Radius.circular(
+                                                                18)),
                                                 child: Image.network(
                                                   newsItem.linkImage,
                                                   fit: BoxFit.cover,
-                                                  width: 150,
-                                                  height: 150,
+                                                  width: 170,
+                                                  height: 170,
                                                   errorBuilder: (context, error,
                                                           stackTrace) =>
                                                       Image.asset(
                                                     'assets/images/no_image.png',
                                                     fit: BoxFit.cover,
-                                                    width: 150,
-                                                    height: 150,
+                                                    width: 170,
+                                                    height: 170,
                                                   ),
                                                 ),
                                               ),
-                                              const SizedBox(width: 3),
+                                              const SizedBox(width: 5),
                                               Expanded(
+                                                flex: 2,
                                                 child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      vertical: 5.0,
+                                                      horizontal: 5),
                                                   child: Column(
                                                     crossAxisAlignment:
                                                         CrossAxisAlignment
                                                             .start,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
                                                     children: [
                                                       Text(
                                                         newsItem.title,
@@ -203,12 +174,15 @@ class _HomeViewState extends State<HomeView> {
                                                         overflow: TextOverflow
                                                             .ellipsis,
                                                       ),
-                                                      const SizedBox(height: 4),
+                                                      SizedBox(height: 5),
                                                       Text(
-                                                        newsItem.content,
+                                                        newsItem.content.replaceAll(
+                                                            RegExp(
+                                                                r'<[^>]*>|&[^;]+;'),
+                                                            ""),
+                                                        maxLines: 2,
                                                         style: AppTextStyles
                                                             .textWelcome,
-                                                        maxLines: 2,
                                                         overflow: TextOverflow
                                                             .ellipsis,
                                                       ),

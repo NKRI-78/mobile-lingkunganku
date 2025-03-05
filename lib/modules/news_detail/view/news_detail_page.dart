@@ -66,7 +66,7 @@ class DetailNewsView extends StatelessWidget {
                   icon: const Icon(
                     Icons.edit_outlined,
                     color: AppColors.buttonColor2,
-                    size: 32,
+                    size: 26,
                   ),
                   onPressed: () {
                     NewsUpdateRoute(newsId: newsId).push(context);

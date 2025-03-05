@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:mobile_lingkunganku/repositories/home_repository/models/banner_model.dart';
 
 import '../../misc/api_url.dart';
 import '../../misc/http_client.dart';
@@ -14,6 +15,8 @@ class HomeRepository {
   String get profile => '${MyApi.baseUrl}/api/v1/profile';
 
   String get news => '${MyApi.baseUrl}/api/v1/news';
+
+  String get banner => '${MyApi.baseUrl}/api/v1/banner';
 
   final http = getIt<BaseNetworkClient>();
 
@@ -54,6 +57,22 @@ class HomeRepository {
       final json = jsonDecode(res.body);
       if (res.statusCode == 200) {
         return HomeModel.fromJson(json['data']);
+      } else {
+        throw "error api";
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<BannerModel?> getBanner() async {
+    try {
+      final res = await http.get(Uri.parse(banner));
+
+      debugPrint(res.body);
+      final json = jsonDecode(res.body);
+      if (res.statusCode == 200) {
+        return BannerModel.fromJson(json);
       } else {
         throw "error api";
       }

@@ -7,6 +7,7 @@ class HomeState extends Equatable {
   final int nextPageNews;
   final bool isLoading;
   final ProfileModel? profile;
+  final BannerModel? banner;
 
   const HomeState({
     this.selectedIndex = 0,
@@ -14,6 +15,7 @@ class HomeState extends Equatable {
     this.nextPageNews = 1,
     this.isLoading = false,
     this.profile,
+    this.banner,
   });
 
   HomeState copyWith({
@@ -22,6 +24,7 @@ class HomeState extends Equatable {
     int? nextPageNews,
     bool? isLoading,
     ProfileModel? profile,
+    BannerModel? banner,
   }) {
     return HomeState(
       selectedIndex: selectedIndex ?? this.selectedIndex,
@@ -29,6 +32,7 @@ class HomeState extends Equatable {
       nextPageNews: nextPageNews ?? this.nextPageNews,
       isLoading: isLoading ?? this.isLoading,
       profile: profile ?? this.profile,
+      banner: banner ?? this.banner,
     );
   }
 
@@ -37,6 +41,12 @@ class HomeState extends Equatable {
   Map<String, dynamic> toJson() => _$HomeStateToJson(this);
 
   @override
-  List<Object?> get props =>
-      [selectedIndex, news, nextPageNews, isLoading, profile];
+  List<Object?> get props => [
+        selectedIndex,
+        news,
+        nextPageNews,
+        isLoading,
+        profile,
+        banner,
+      ];
 }

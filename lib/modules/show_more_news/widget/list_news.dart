@@ -21,7 +21,7 @@ class ListNews extends StatelessWidget {
       },
       child: Container(
         width: double.infinity,
-        height: 100,
+        height: 110,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15),
             color: AppColors.whiteColor),

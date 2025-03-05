@@ -169,7 +169,7 @@ class _NewsUpdateViewState extends State<NewsUpdateView> {
             icon: const Icon(
               Icons.delete,
               color: AppColors.redColor,
-              size: 32,
+              size: 26,
             ),
             onPressed: () {
               _deleteNews(context);

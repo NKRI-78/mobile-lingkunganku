@@ -17,6 +17,9 @@ HomeState _$HomeStateFromJson(Map<String, dynamic> json) => HomeState(
       profile: json['profile'] == null
           ? null
           : ProfileModel.fromJson(json['profile'] as Map<String, dynamic>),
+      banner: json['banner'] == null
+          ? null
+          : BannerModel.fromJson(json['banner'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$HomeStateToJson(HomeState instance) => <String, dynamic>{
@@ -25,4 +28,5 @@ Map<String, dynamic> _$HomeStateToJson(HomeState instance) => <String, dynamic>{
       'nextPageNews': instance.nextPageNews,
       'isLoading': instance.isLoading,
       'profile': instance.profile,
+      'banner': instance.banner,
     };

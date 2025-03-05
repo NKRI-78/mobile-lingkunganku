@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 
 class CustomCardNewsSection extends StatelessWidget {
   final String linkImage;
@@ -78,18 +77,13 @@ class _CardContent extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 4),
-          Html(
-            data: content,
-            style: {
-              "a": Style(
-                color: Colors.blue,
-              ),
-            },
-            onLinkTap:
-                (String? url, Map<String, String> attributes, element) async {
-              // WebViewRoute(url: url!, title: "MHS-MOBILE").go(context);
-            },
-          )
+          Text(
+            content,
+            style: const TextStyle(
+              fontSize: 14,
+              color: Colors.grey,
+            ),
+          ),
         ],
       ),
     );
