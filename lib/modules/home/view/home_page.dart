@@ -58,35 +58,10 @@ class _HomeViewState extends State<HomeView> {
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              SizedBox(height: 295),
+                              SizedBox(height: 290),
                               CustomBannerSection(),
                               SizedBox(height: 15),
-
-                              // Title Section
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 30),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "News",
-                                      style: AppTextStyles.textStyle1,
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {
-                                        ShowMoreNewsRoute().go(context);
-                                      },
-                                      child: Text(
-                                        "See all",
-                                        style: AppTextStyles.textStyle2,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              // Loading, Empty, or Showing News
+                              buildNewsSection(state, context),
                               if (state.isLoading)
                                 const Center(
                                     child: CircularProgressIndicator(
@@ -118,7 +93,7 @@ class _HomeViewState extends State<HomeView> {
                                       child: Card(
                                         margin: const EdgeInsets.only(
                                             right: 18, left: 18, bottom: 25),
-                                        elevation: 3,
+                                        elevation: 2,
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(18),
@@ -291,6 +266,45 @@ Widget _buildShimmerText() {
           width: 180,
           height: 16,
           color: Colors.white,
+        ),
+      ],
+    ),
+  );
+}
+
+// Tambahkan di bagian sebelum ListView.builder
+Widget buildNewsSection(HomeState state, BuildContext context) {
+  final userRole = state.profile?.roleApp ?? '';
+  final bool isLeaderOrSecretary =
+      userRole == "CHIEF" || userRole == "SEKRETARIS";
+
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 25),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        if (isLeaderOrSecretary)
+          GestureDetector(
+            onTap: () {
+              NewsCreateRoute().push(context);
+            },
+            child: Text(
+              "Create",
+              style: AppTextStyles.textStyle2,
+            ),
+          ),
+        Text(
+          "News",
+          style: AppTextStyles.textStyle1,
+        ),
+        GestureDetector(
+          onTap: () {
+            ShowMoreNewsRoute().go(context);
+          },
+          child: Text(
+            "See all",
+            style: AppTextStyles.textStyle2,
+          ),
         ),
       ],
     ),

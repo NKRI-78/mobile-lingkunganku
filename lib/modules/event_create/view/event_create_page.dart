@@ -33,6 +33,7 @@ class EventCreateView extends StatelessWidget {
 
         return Scaffold(
           appBar: AppBar(
+            surfaceTintColor: Colors.transparent,
             title: Text(
               'Create Event',
               style: AppTextStyles.textStyle1,

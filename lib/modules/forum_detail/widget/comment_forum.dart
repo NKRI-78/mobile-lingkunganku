@@ -116,9 +116,9 @@ class _CommentForumState extends State<CommentForum> {
                                   locale: 'id',
                                 ),
                                 style: const TextStyle(
-                                    color: AppColors.greyColor,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w800),
+                                  color: AppColors.greyColor,
+                                  fontSize: 12,
+                                ),
                               ),
                               const SizedBox(
                                 width: 10,

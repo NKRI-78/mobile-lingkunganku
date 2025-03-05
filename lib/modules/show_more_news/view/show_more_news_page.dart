@@ -5,7 +5,6 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';
 import '../../../misc/text_style.dart';
-import '../../../router/builder.dart';
 import '../../../widgets/pages/page_empty.dart';
 import '../../../widgets/pages/pages_loading.dart';
 import '../../app/bloc/app_bloc.dart';
@@ -33,12 +32,11 @@ class ShowMoreNewsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AppBloc, AppState>(builder: (context, appState) {
-      final bool isLoggedIn = appState.isAlreadyLogin;
+      // final bool isLoggedIn = appState.isAlreadyLogin;
       return BlocBuilder<ShowMoreNewsCubit, ShowMoreNewsState>(
         builder: (_, state) {
-          final String role =
-              (state.profile?.roleApp ?? 'MEMBER').toUpperCase();
-          print("Role Pengguna: ${state.profile?.roleApp}");
+          // final String role =
+          //     (state.profile?.roleApp ?? 'MEMBER').toUpperCase();
 
           return Scaffold(
             backgroundColor: Colors.grey[100],
@@ -63,19 +61,19 @@ class ShowMoreNewsView extends StatelessWidget {
                   Navigator.pop(context, true);
                 },
               ),
-              actions: [
-                if (isLoggedIn && role != "MEMBER" && role != "TREASURER")
-                  IconButton(
-                    icon: const Icon(
-                      Icons.add,
-                      color: AppColors.buttonColor2,
-                      size: 26,
-                    ),
-                    onPressed: () {
-                      NewsCreateRoute().go(context);
-                    },
-                  ),
-              ],
+              // actions: [
+              //   if (isLoggedIn && role != "MEMBER" && role != "TREASURER")
+              //     IconButton(
+              //       icon: const Icon(
+              //         Icons.add,
+              //         color: AppColors.buttonColor2,
+              //         size: 26,
+              //       ),
+              //       onPressed: () {
+              //         NewsCreateRoute().go(context);
+              //       },
+              //     ),
+              // ],
             ),
             body: SmartRefresher(
               controller: ShowMoreNewsCubit.newsRefreshCtrl,

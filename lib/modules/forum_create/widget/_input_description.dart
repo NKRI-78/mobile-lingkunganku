@@ -34,7 +34,7 @@ class InputDescription extends StatelessWidget {
                       LengthLimitingTextInputFormatter(1000),
                     ],
                     textCapitalization: TextCapitalization.sentences,
-                    minLines: 7,
+                    minLines: 3,
                     maxLines: null,
                     style: AppTextStyles.textDialog,
                     onChanged: (value) {

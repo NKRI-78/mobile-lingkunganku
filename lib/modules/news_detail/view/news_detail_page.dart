@@ -12,7 +12,10 @@ import '../../../misc/text_style.dart';
 import '../cubit/news_detail_cubit.dart';
 
 class NewsDetailPage extends StatelessWidget {
-  const NewsDetailPage({super.key, required this.newsId});
+  const NewsDetailPage({
+    super.key,
+    required this.newsId,
+  });
 
   final int newsId;
 
@@ -61,7 +64,9 @@ class DetailNewsView extends StatelessWidget {
               },
             ),
             actions: [
-              if (role != "MEMBER" && role != "TREASURER")
+              if (role != "MEMBER" &&
+                  role != "TREASURER" &&
+                  state.news?.data?.neighborhoodId != null)
                 IconButton(
                   icon: const Icon(
                     Icons.edit_outlined,

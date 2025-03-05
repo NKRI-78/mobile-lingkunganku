@@ -116,8 +116,8 @@ class CustomHeaderContainer extends StatelessWidget {
   Widget _buildIconButton(
       {required IconData icon, required VoidCallback onPressed}) {
     return Container(
-      width: 45,
-      height: 45,
+      width: 40,
+      height: 40,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),

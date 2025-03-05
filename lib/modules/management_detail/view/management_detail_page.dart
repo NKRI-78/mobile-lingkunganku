@@ -37,6 +37,7 @@ class ManagementDetailView extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.green.shade50,
       appBar: AppBar(
+        surfaceTintColor: Colors.transparent,
         title: Text(
           'Profile Member',
           style: AppTextStyles.textStyle1.copyWith(fontSize: 20),

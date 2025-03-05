@@ -27,15 +27,18 @@ class Data {
   int? userId;
   String? createdAt;
   String? updatedAt;
+  int? neighborhoodId;
 
-  Data(
-      {this.id,
-      this.title,
-      this.content,
-      this.linkImage,
-      this.userId,
-      this.createdAt,
-      this.updatedAt});
+  Data({
+    this.id,
+    this.title,
+    this.content,
+    this.linkImage,
+    this.userId,
+    this.createdAt,
+    this.updatedAt,
+    this.neighborhoodId,
+  });
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -45,6 +48,7 @@ class Data {
     userId = json['user_id'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    neighborhoodId = json['neighborhood_id'];
   }
 
   Map<String, dynamic> toJson() {
@@ -56,6 +60,7 @@ class Data {
     data['user_id'] = userId;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
+    data['neighborhood_id'] = neighborhoodId;
     return data;
   }
 }
