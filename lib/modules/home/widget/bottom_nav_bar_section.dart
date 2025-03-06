@@ -25,28 +25,32 @@ class BottomNavBarSection extends StatelessWidget {
         ClipRRect(
           borderRadius: BorderRadius.circular(24),
           child: Container(
-            height: 75,
+            height: 65,
             decoration: BoxDecoration(
               color: AppColors.buttonColor2,
               borderRadius: BorderRadius.circular(24),
             ),
             child: BottomNavigationBar(
               items: [
-                const BottomNavigationBarItem(
-                  icon: Icon(Icons.forum_outlined),
-                  label: 'Forum',
-                ),
-                const BottomNavigationBarItem(
-                  icon: Icon(Icons.payments_outlined),
-                  label: 'Iuran',
+                BottomNavigationBarItem(
+                  icon: Image.asset('assets/icons/forum.png',
+                      width: 24, height: 35),
+                  label: '',
                 ),
                 BottomNavigationBarItem(
-                  icon: const Icon(Icons.receipt_long_outlined),
-                  label: 'Pulsa &\nTagihan',
+                  icon: Image.asset('assets/icons/iuran.png',
+                      width: 24, height: 35),
+                  label: '',
                 ),
-                const BottomNavigationBarItem(
-                  icon: Icon(Icons.event_outlined),
-                  label: 'Event',
+                BottomNavigationBarItem(
+                  icon: Image.asset('assets/icons/pulsa.png',
+                      width: 65, height: 35),
+                  label: '',
+                ),
+                BottomNavigationBarItem(
+                  icon: Image.asset('assets/icons/event.png',
+                      width: 24, height: 35),
+                  label: '',
                 ),
                 const BottomNavigationBarItem(
                   icon: SizedBox.shrink(),
@@ -56,10 +60,10 @@ class BottomNavBarSection extends StatelessWidget {
               type: BottomNavigationBarType.fixed,
               backgroundColor: Colors.transparent,
               elevation: 0,
-              selectedFontSize: 11,
-              unselectedFontSize: 11,
-              showUnselectedLabels: true,
-              showSelectedLabels: true,
+              selectedFontSize: 0,
+              unselectedFontSize: 0,
+              showUnselectedLabels: false,
+              showSelectedLabels: false,
               iconSize: 22,
               selectedItemColor: AppColors.unselectColor,
               unselectedItemColor: AppColors.unselectColor,
@@ -75,7 +79,6 @@ class BottomNavBarSection extends StatelessWidget {
                 if (index == 1) {
                   IuranRoute().go(context);
                 }
-
                 if (index == 3) {
                   EventRoute().go(context);
                 } else {
@@ -88,13 +91,13 @@ class BottomNavBarSection extends StatelessWidget {
 
         // Tombol SOS melayang
         Positioned(
-          right: -5,
-          bottom: 0,
+          right: -3,
+          bottom: -3,
           child: GestureDetector(
             onTap: () => onTap(4),
             child: Container(
-              width: 80,
-              height: 80,
+              width: 75,
+              height: 75,
               decoration: const BoxDecoration(
                 shape: BoxShape.circle,
                 color: Colors.transparent,

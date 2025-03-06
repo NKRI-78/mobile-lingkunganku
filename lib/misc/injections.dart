@@ -2,6 +2,7 @@ import 'package:get_it/get_it.dart';
 import '../modules/event/cubit/event_cubit.dart';
 import '../modules/forum_detail/cubit/forum_detail_cubit.dart';
 import '../modules/news_create/cubit/news_create_cubit.dart';
+import '../modules/notification/cubit/notification_cubit.dart';
 import '../modules/show_more_news/cubit/show_more_news_cubit.dart';
 import '../modules/event_detail/cubit/event_detail_cubit.dart';
 import '../modules/forum/cubit/forum_cubit.dart';
@@ -16,6 +17,7 @@ import '../modules/news_detail/cubit/news_detail_cubit.dart';
 import '../modules/profile/cubit/profile_cubit.dart';
 import '../modules/profile_update/cubit/profile_update_cubit.dart';
 import '../repositories/forum_repository/forum_repository.dart';
+import '../repositories/notification_repository/notification_repository.dart';
 import '../repositories/profile_repository/profile_repository.dart';
 
 import '../modules/app/bloc/app_bloc.dart';
@@ -47,17 +49,15 @@ class MyInjection {
     getIt.registerLazySingleton<ForumCubit>(() => ForumCubit());
     getIt.registerLazySingleton<ForumDetailCubit>(() => ForumDetailCubit());
     getIt.registerLazySingleton<ManagementDetailCubit>(
-      () => ManagementDetailCubit(getIt<ManagementRepository>()),
-    );
+        () => ManagementDetailCubit(getIt<ManagementRepository>()));
     getIt.registerLazySingleton<TransferManagementCubit>(
         () => TransferManagementCubit(getIt<ManagementRepository>()));
     getIt.registerLazySingleton<ShowMoreNewsCubit>(() => ShowMoreNewsCubit());
-    getIt.registerCachedFactory<NewsCreateCubit>(
-      () => NewsCreateCubit(),
-    );
+    getIt.registerCachedFactory<NewsCreateCubit>(() => NewsCreateCubit());
     getIt.registerCachedFactory<EventCubit>(() => EventCubit());
     getIt.registerCachedFactory<EventDetailCubit>(() => EventDetailCubit());
     getIt.registerCachedFactory<SosCubit>(() => SosCubit());
+    getIt.registerCachedFactory<NotificationCubit>(() => NotificationCubit());
 
     getIt.registerLazySingleton<AuthRepository>(() => AuthRepository());
     getIt.registerLazySingleton<ProfileRepository>(() => ProfileRepository());
@@ -68,5 +68,7 @@ class MyInjection {
     getIt.registerLazySingleton<ForumRepository>(() => ForumRepository());
     getIt.registerLazySingleton<EventRepository>(() => EventRepository());
     getIt.registerLazySingleton<SosRepository>(() => SosRepository());
+    getIt.registerLazySingleton<NotificationRepository>(
+        () => NotificationRepository());
   }
 }

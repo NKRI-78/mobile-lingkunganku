@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:mobile_lingkunganku/modules/news_detail/widget/custom_fullscreen_preview.dart';
 import '../../../router/builder.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -45,14 +46,14 @@ class DetailNewsView extends StatelessWidget {
 
         return Scaffold(
           appBar: AppBar(
-            surfaceTintColor: AppColors.whiteColor,
+            surfaceTintColor: Colors.transparent,
             elevation: 0,
             title: Text(
               "Detail News",
               style: AppTextStyles.textStyle1,
             ),
             centerTitle: true,
-            toolbarHeight: 100,
+            toolbarHeight: 80,
             leading: IconButton(
               icon: const Icon(
                 Icons.arrow_back_ios_new,
@@ -80,15 +81,15 @@ class DetailNewsView extends StatelessWidget {
             ],
           ),
           body: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildImageCard(imageUrl),
-                const SizedBox(height: 20),
+                _buildImageCard(context, imageUrl),
+                const SizedBox(height: 10),
                 state.loading
                     ? _buildLoadingContent()
-                    : _buildContent(newsData),
+                    : _buildContent(context, newsData),
                 const SizedBox(height: 20),
               ],
             ),
@@ -111,7 +112,7 @@ class DetailNewsView extends StatelessWidget {
     );
   }
 
-  Widget _buildContent(newsData) {
+  Widget _buildContent(BuildContext context, newsData) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -133,7 +134,6 @@ class DetailNewsView extends StatelessWidget {
             color: Colors.grey[600],
           ),
         ),
-        const SizedBox(height: 10),
         Html(
           data: newsData?.content ?? "-",
           style: {
@@ -143,31 +143,47 @@ class DetailNewsView extends StatelessWidget {
           },
           onLinkTap:
               (String? url, Map<String, String> attributes, element) async {
-            // WebViewRoute(url: url!, title: "MHS-MOBILE").go(context);
+            WebViewRoute(url: url!, title: "LINGKUNGANKU-MOBILE").push(context);
           },
         )
       ],
     );
   }
 
-  Widget _buildImageCard(String? imageUrl) {
+  Widget _buildImageCard(BuildContext context, String? imageUrl) {
     return Card(
-      elevation: 4.0,
+      elevation: 4,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16.0),
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(16.0),
         child: imageUrl != null
-            ? CachedNetworkImage(
-                imageUrl: imageUrl,
-                width: double.infinity,
-                height: 200,
-                fit: BoxFit.cover,
-                placeholder: (context, url) => _buildShimmerPlaceholder(),
-                errorWidget: (context, url, error) => _buildErrorPlaceholder(),
+            ? GestureDetector(
+                onTap: () => _showFullImage(context, imageUrl),
+                child: Hero(
+                  tag: imageUrl,
+                  child: CachedNetworkImage(
+                    imageUrl: imageUrl,
+                    width: double.infinity,
+                    height: 200,
+                    fit: BoxFit.cover,
+                    placeholder: (context, url) => _buildShimmerPlaceholder(),
+                    errorWidget: (context, url, error) =>
+                        _buildErrorPlaceholder(),
+                  ),
+                ),
               )
             : _buildErrorPlaceholder(),
+      ),
+    );
+  }
+
+  void _showFullImage(BuildContext context, String imageUrl) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CustomFullscreenPreview(imageUrl: imageUrl),
       ),
     );
   }

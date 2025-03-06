@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobile_lingkunganku/modules/iuran/view/iuran_page.dart';
+import 'package:mobile_lingkunganku/modules/notification/view/notification_page.dart';
 import 'package:mobile_lingkunganku/modules/sos/view/sos_detail_page.dart';
 import '../modules/news_update/view/news_update_page.dart';
 import '../modules/event/view/event_page.dart';
@@ -30,6 +31,7 @@ import '../modules/register_ketua/view/register_ketua_page.dart';
 import '../modules/register_warga/view/register_warga_page.dart';
 import '../modules/settings/view/settings_page.dart';
 import '../modules/sos/view/sos_page.dart';
+import '../modules/webview/view/webview.dart';
 import '../widgets/pages/video/detail_video_player.dart';
 import '../widgets/photo_view/clipped_photo_view.dart';
 
@@ -44,6 +46,8 @@ class OnboardingRoute extends GoRouteData {
 }
 
 @TypedGoRoute<HomeRoute>(path: '/home', routes: [
+  TypedGoRoute<WebViewRoute>(path: 'webview'),
+  TypedGoRoute<NotificationRoute>(path: 'notification'),
   TypedGoRoute<SettingsRoute>(path: 'settings'),
   TypedGoRoute<IuranRoute>(path: 'iuran'),
   TypedGoRoute<EventRoute>(path: 'event', routes: [
@@ -89,6 +93,28 @@ class HomeRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return HomePage();
+  }
+}
+
+class WebViewRoute extends GoRouteData {
+  WebViewRoute({required this.url, required this.title});
+
+  final String url;
+  final String title;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return WebViewScreen(
+      url: url,
+      title: title,
+    );
+  }
+}
+
+class NotificationRoute extends GoRouteData {
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return NotificationPage();
   }
 }
 

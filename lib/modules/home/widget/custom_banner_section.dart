@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile_lingkunganku/router/builder.dart';
 import 'package:mobile_lingkunganku/widgets/image/image_card.dart';
 
 import '../bloc/home_bloc.dart';
@@ -23,7 +24,7 @@ class CustomBannerSection extends StatelessWidget {
 
           return CarouselSlider.builder(
             options: CarouselOptions(
-              height: 152,
+              height: 155,
               autoPlay: true,
               enlargeCenterPage: true,
               viewportFraction: 1,
@@ -40,7 +41,11 @@ class CustomBannerSection extends StatelessWidget {
 
               return InkWell(
                 onTap: () {
-                  // WEB VIEW
+                  if (data.linkBanner != "-" && data.linkBanner!.isNotEmpty) {
+                    WebViewRoute(
+                            url: data.linkBanner ?? "", title: data.title ?? "")
+                        .push(context);
+                  }
                 },
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(16),
@@ -62,7 +67,7 @@ class CustomBannerSection extends StatelessWidget {
   // Placeholder jika data kosong atau null
   Widget _buildPlaceholder() {
     return Container(
-      height: 152,
+      height: 155,
       alignment: Alignment.center,
       decoration: BoxDecoration(
         color: Colors.grey[300],

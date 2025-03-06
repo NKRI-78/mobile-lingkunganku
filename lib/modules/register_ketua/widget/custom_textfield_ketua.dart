@@ -135,6 +135,9 @@ class _FieldPhoneSecurityState extends State<_FieldPhoneSecurity> {
                 if (contact != null && contact.phones.isNotEmpty) {
                   String phoneNumber = contact.phones.first.number;
 
+                  phoneNumber =
+                      phoneNumber.replaceAll('-', '').replaceAll(' ', '');
+
                   if (phoneNumber.startsWith('+62')) {
                     phoneNumber = phoneNumber.replaceFirst('+62', '0');
                   }

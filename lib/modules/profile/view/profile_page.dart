@@ -43,6 +43,7 @@ class ProfileView extends StatelessWidget {
               Column(
                 children: [
                   CustomHeaderContainer(
+                    isHomeOrPublic: false,
                     isLoading: state.isLoading,
                     avatarLink: state.profile?.profile?.avatarLink ?? '',
                     isLoggedIn: true,

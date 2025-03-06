@@ -150,6 +150,8 @@ class ForumComment {
   String? deletedAt;
   User? user;
   List<Replies>? replies;
+  int? countLikes;
+  int? isLike;
 
   ForumComment({
     this.id,
@@ -162,6 +164,8 @@ class ForumComment {
     this.deletedAt,
     this.user,
     this.replies,
+    this.countLikes,
+    this.isLike,
   });
 
   ForumComment.fromJson(Map<String, dynamic> json) {
@@ -173,6 +177,8 @@ class ForumComment {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
+    countLikes = json['count_likes'];
+    isLike = json['is_like'];
     user = json['user'] != null ? User.fromJson(json['user']) : null;
     if (json['replies'] != null) {
       replies = <Replies>[];
@@ -192,6 +198,8 @@ class ForumComment {
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
     data['deleted_at'] = deletedAt;
+    data["count_likes"] = countLikes;
+    data["is_like"] = isLike;
     if (user != null) {
       data['user'] = user!.toJson();
     }

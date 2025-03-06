@@ -38,6 +38,14 @@ RouteBase get $homeRoute => GoRouteData.$route(
       factory: $HomeRouteExtension._fromState,
       routes: [
         GoRouteData.$route(
+          path: 'webview',
+          factory: $WebViewRouteExtension._fromState,
+        ),
+        GoRouteData.$route(
+          path: 'notification',
+          factory: $NotificationRouteExtension._fromState,
+        ),
+        GoRouteData.$route(
           path: 'settings',
           factory: $SettingsRouteExtension._fromState,
         ),
@@ -185,6 +193,48 @@ extension $HomeRouteExtension on HomeRoute {
 
   String get location => GoRouteData.$location(
         '/home',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $WebViewRouteExtension on WebViewRoute {
+  static WebViewRoute _fromState(GoRouterState state) => WebViewRoute(
+        url: state.uri.queryParameters['url']!,
+        title: state.uri.queryParameters['title']!,
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/webview',
+        queryParams: {
+          'url': url,
+          'title': title,
+        },
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $NotificationRouteExtension on NotificationRoute {
+  static NotificationRoute _fromState(GoRouterState state) =>
+      NotificationRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/notification',
       );
 
   void go(BuildContext context) => context.go(location);

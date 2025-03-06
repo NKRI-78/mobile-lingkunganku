@@ -34,6 +34,7 @@ class RegisterWargaView extends StatelessWidget {
           appBar: PreferredSize(
             preferredSize: Size.fromHeight(80),
             child: AppBar(
+              surfaceTintColor: Colors.transparent,
               toolbarHeight: 80,
               title: Text(
                 'Registrasi',

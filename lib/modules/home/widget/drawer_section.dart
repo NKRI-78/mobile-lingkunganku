@@ -41,7 +41,7 @@ class DrawerSection extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 50),
                       children: <Widget>[
                         Container(
-                          height: 100,
+                          height: 80,
                           decoration: const BoxDecoration(
                             image: DecorationImage(
                               image:
@@ -75,25 +75,20 @@ class DrawerSection extends StatelessWidget {
                                   color: AppColors.whiteColor,
                                 ),
                         ),
-
                         const SizedBox(height: 40),
-
-                        /// **Container dengan Blur Efek Hanya di Dalamnya**
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          padding: const EdgeInsets.symmetric(horizontal: 25),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(12),
                             child: Stack(
                               children: [
-                                // Efek Blur di dalam Container
                                 Positioned.fill(
                                   child: Container(
                                       color: Colors.black.withOpacity(0.1)),
                                 ),
-                                // Isi Container
                                 Container(
                                   padding:
-                                      const EdgeInsets.symmetric(vertical: 8),
+                                      const EdgeInsets.symmetric(vertical: 5),
                                   decoration: BoxDecoration(
                                     color: Colors.black.withOpacity(0.1),
                                     borderRadius: BorderRadius.circular(12),
@@ -107,18 +102,22 @@ class DrawerSection extends StatelessWidget {
                                       if (isLoggedIn)
                                         ListTile(
                                           leading: Icon(Icons.person_outline,
+                                              size: 26,
                                               color: AppColors.whiteColor),
                                           title: Text("Profile",
-                                              style: AppTextStyles.buttonText1),
+                                              style: AppTextStyles
+                                                  .textProfileBold),
                                           onTap: () {
                                             ProfileRoute().go(context);
                                           },
                                         ),
                                       ListTile(
                                         leading: Icon(Icons.settings_outlined,
+                                            size: 26,
                                             color: AppColors.whiteColor),
                                         title: Text("Settings",
-                                            style: AppTextStyles.buttonText1),
+                                            style:
+                                                AppTextStyles.textProfileBold),
                                         onTap: () {
                                           SettingsRoute().go(context);
                                         },
@@ -130,10 +129,11 @@ class DrawerSection extends StatelessWidget {
                                           ListTile(
                                             leading: Icon(
                                                 Icons.description_outlined,
+                                                size: 26,
                                                 color: AppColors.whiteColor),
                                             title: Text("Data Warga",
-                                                style:
-                                                    AppTextStyles.buttonText1),
+                                                style: AppTextStyles
+                                                    .textProfileBold),
                                             onTap: () {
                                               ManagementRoute().go(context);
                                             },

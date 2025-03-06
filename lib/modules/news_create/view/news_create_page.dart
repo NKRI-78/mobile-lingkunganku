@@ -113,6 +113,7 @@ class _CreateNewsViewState extends State<CreateNewsView> {
                 ),
                 const SizedBox(height: 20),
                 TextField(
+                  textCapitalization: TextCapitalization.words,
                   controller: _titleController,
                   decoration: InputDecoration(
                     hintText: "Judul Berita",
@@ -140,6 +141,7 @@ class _CreateNewsViewState extends State<CreateNewsView> {
                 ),
                 const SizedBox(height: 20),
                 TextField(
+                  textCapitalization: TextCapitalization.words,
                   controller: _contentController,
                   maxLines: 10,
                   decoration: InputDecoration(

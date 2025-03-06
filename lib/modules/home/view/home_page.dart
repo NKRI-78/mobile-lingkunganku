@@ -12,6 +12,7 @@ import '../../../widgets/header/custom_header_container.dart';
 import '../../app/bloc/app_bloc.dart';
 import '../bloc/home_bloc.dart';
 import '../widget/bottom_nav_bar_section.dart';
+import '../widget/custom_news_card_section.dart';
 import '../widget/drawer_section.dart';
 import '../widget/show_dialog_register.dart';
 
@@ -60,13 +61,14 @@ class _HomeViewState extends State<HomeView> {
                             children: [
                               SizedBox(height: 290),
                               CustomBannerSection(),
-                              SizedBox(height: 15),
+                              SizedBox(height: 10),
                               buildNewsSection(state, context),
                               if (state.isLoading)
                                 const Center(
-                                    child: CircularProgressIndicator(
-                                  color: AppColors.secondaryColor,
-                                ))
+                                  child: CircularProgressIndicator(
+                                    color: AppColors.secondaryColor,
+                                  ),
+                                )
                               else if (state.news.isEmpty)
                                 const Center(
                                   heightFactor: 5,
@@ -78,97 +80,23 @@ class _HomeViewState extends State<HomeView> {
                                 )
                               else
                                 ListView.builder(
+                                  padding: EdgeInsets.zero,
                                   shrinkWrap: true,
                                   physics: const NeverScrollableScrollPhysics(),
                                   itemCount: state.news.take(5).length,
                                   itemBuilder: (context, index) {
                                     final newsItem = state.news[index];
-                                    return GestureDetector(
+
+                                    return CustomNewsCard(
+                                      imageUrl: newsItem.linkImage,
+                                      title: newsItem.title,
+                                      content: newsItem.content,
                                       onTap: () {
                                         if (newsItem.id != null) {
                                           NewsDetailRoute(newsId: newsItem.id!)
                                               .go(context);
                                         }
                                       },
-                                      child: Card(
-                                        margin: const EdgeInsets.only(
-                                            right: 18, left: 18, bottom: 25),
-                                        elevation: 2,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(18),
-                                        ),
-                                        child: SizedBox(
-                                          width: double.infinity,
-                                          height: 110,
-                                          child: Row(
-                                            children: [
-                                              ClipRRect(
-                                                borderRadius:
-                                                    const BorderRadius.only(
-                                                        topLeft:
-                                                            Radius.circular(18),
-                                                        bottomLeft:
-                                                            Radius.circular(
-                                                                18)),
-                                                child: Image.network(
-                                                  newsItem.linkImage,
-                                                  fit: BoxFit.cover,
-                                                  width: 170,
-                                                  height: 170,
-                                                  errorBuilder: (context, error,
-                                                          stackTrace) =>
-                                                      Image.asset(
-                                                    'assets/images/no_image.png',
-                                                    fit: BoxFit.cover,
-                                                    width: 170,
-                                                    height: 170,
-                                                  ),
-                                                ),
-                                              ),
-                                              const SizedBox(width: 5),
-                                              Expanded(
-                                                flex: 2,
-                                                child: Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(
-                                                      vertical: 5.0,
-                                                      horizontal: 5),
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    mainAxisSize:
-                                                        MainAxisSize.max,
-                                                    children: [
-                                                      Text(
-                                                        newsItem.title,
-                                                        style: AppTextStyles
-                                                            .textDialog,
-                                                        maxLines: 2,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                      ),
-                                                      SizedBox(height: 5),
-                                                      Text(
-                                                        newsItem.content.replaceAll(
-                                                            RegExp(
-                                                                r'<[^>]*>|&[^;]+;'),
-                                                            ""),
-                                                        maxLines: 2,
-                                                        style: AppTextStyles
-                                                            .textWelcome,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
                                     );
                                   },
                                 ),
@@ -188,6 +116,7 @@ class _HomeViewState extends State<HomeView> {
                           final user = state.profile;
 
                           return CustomHeaderContainer(
+                            isHomeOrPublic: true,
                             isLoading: state.isLoading,
                             avatarLink: user?.profile?.avatarLink ?? '',
                             displayText: isLoggedIn
@@ -198,7 +127,7 @@ class _HomeViewState extends State<HomeView> {
                             onMenuPressed: () =>
                                 Scaffold.of(context).openDrawer(),
                             onNotificationPressed: () {
-                              //
+                              NotificationRoute().go(context);
                             },
                             children: [
                               if (isLoggedIn)
@@ -276,7 +205,7 @@ Widget _buildShimmerText() {
 Widget buildNewsSection(HomeState state, BuildContext context) {
   final userRole = state.profile?.roleApp ?? '';
   final bool isLeaderOrSecretary =
-      userRole == "CHIEF" || userRole == "SEKRETARIS";
+      userRole == "CHIEF" || userRole == "SECRETARY";
 
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 25),

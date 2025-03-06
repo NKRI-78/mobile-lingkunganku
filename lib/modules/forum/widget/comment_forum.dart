@@ -7,9 +7,13 @@ import '../../../widgets/image/image_avatar.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 class CommentForum extends StatelessWidget {
-  const CommentForum({super.key, required this.comment});
+  const CommentForum({
+    super.key,
+    required this.comment,
+  });
 
   final ForumComment comment;
+
   @override
   Widget build(BuildContext context) {
     final user = comment.user;
