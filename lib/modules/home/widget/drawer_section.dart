@@ -26,6 +26,8 @@ class DrawerSection extends StatelessWidget {
           final role = state.profile?.roleApp ?? '';
           final avatarLink = state.profile?.profile?.avatarLink ?? '';
 
+          print("ROLE SAAT INI ${role}");
+
           return Drawer(
             child: Container(
               decoration: const BoxDecoration(
@@ -123,9 +125,9 @@ class DrawerSection extends StatelessWidget {
                                         },
                                       ),
                                       if (isLoggedIn)
-                                        if (role != "MEMBER" &&
-                                            role != "SECRETARY" &&
-                                            role != "TREASURER")
+                                        if (role == "CHIEF" ||
+                                            role == "SECRETARY" ||
+                                            role == "TREASURER")
                                           ListTile(
                                             leading: Icon(
                                                 Icons.description_outlined,

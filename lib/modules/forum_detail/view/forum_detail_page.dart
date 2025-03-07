@@ -13,8 +13,8 @@ import '../../../widgets/detect_text/detect_text.dart';
 import '../../../widgets/image/image_avatar.dart';
 import '../../../widgets/like/like_comment.dart';
 import '../../../widgets/like/like_comment_top.dart';
-import '../../../widgets/pages/page_empty.dart';
-import '../../../widgets/pages/pages_loading.dart';
+import '../../../widgets/pages/empty_page.dart';
+import '../../../widgets/pages/loading_page.dart';
 
 import 'package:flutter_mentions/flutter_mentions.dart';
 import '../../../widgets/pages/video/video_player.dart';

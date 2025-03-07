@@ -47,7 +47,7 @@ class CustomHeaderContainer extends StatelessWidget {
         left: 20,
         right: 20,
         top: 40,
-        bottom: 15,
+        bottom: 10,
       ),
       child: Column(
         children: [

@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile_lingkunganku/misc/injections.dart';
 import 'package:mobile_lingkunganku/modules/notification/cubit/notification_cubit.dart';
 import 'package:mobile_lingkunganku/widgets/header/header_text.dart';
-import 'package:mobile_lingkunganku/widgets/pages/page_empty.dart';
-import 'package:mobile_lingkunganku/widgets/pages/pages_loading.dart';
+import 'package:mobile_lingkunganku/widgets/pages/empty_page.dart';
+import 'package:mobile_lingkunganku/widgets/pages/loading_page.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../widget/list_notif_card.dart';

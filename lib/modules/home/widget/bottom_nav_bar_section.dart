@@ -34,12 +34,12 @@ class BottomNavBarSection extends StatelessWidget {
               items: [
                 BottomNavigationBarItem(
                   icon: Image.asset('assets/icons/forum.png',
-                      width: 24, height: 35),
+                      width: 30, height: 35),
                   label: '',
                 ),
                 BottomNavigationBarItem(
                   icon: Image.asset('assets/icons/iuran.png',
-                      width: 24, height: 35),
+                      width: 30, height: 35),
                   label: '',
                 ),
                 BottomNavigationBarItem(
@@ -49,7 +49,7 @@ class BottomNavBarSection extends StatelessWidget {
                 ),
                 BottomNavigationBarItem(
                   icon: Image.asset('assets/icons/event.png',
-                      width: 24, height: 35),
+                      width: 30, height: 35),
                   label: '',
                 ),
                 const BottomNavigationBarItem(

@@ -11,6 +11,7 @@ import '../modules/management_detail/cubit/management_detail_cubit.dart';
 import '../modules/sos/cubit/sos_cubit.dart';
 import '../modules/transfer_management/cubit/transfer_management_cubit.dart';
 import '../repositories/event_repository/event_repository.dart';
+import '../repositories/iuran_repository/iuran_repository.dart';
 import '../repositories/management_repository/management_repository.dart';
 import '../modules/home/bloc/home_bloc.dart';
 import '../modules/news_detail/cubit/news_detail_cubit.dart';
@@ -49,7 +50,7 @@ class MyInjection {
     getIt.registerLazySingleton<ForumCubit>(() => ForumCubit());
     getIt.registerLazySingleton<ForumDetailCubit>(() => ForumDetailCubit());
     getIt.registerLazySingleton<ManagementDetailCubit>(
-        () => ManagementDetailCubit(getIt<ManagementRepository>()));
+        () => ManagementDetailCubit());
     getIt.registerLazySingleton<TransferManagementCubit>(
         () => TransferManagementCubit(getIt<ManagementRepository>()));
     getIt.registerLazySingleton<ShowMoreNewsCubit>(() => ShowMoreNewsCubit());
@@ -70,5 +71,6 @@ class MyInjection {
     getIt.registerLazySingleton<SosRepository>(() => SosRepository());
     getIt.registerLazySingleton<NotificationRepository>(
         () => NotificationRepository());
+    getIt.registerLazySingleton<IuranRepository>(() => IuranRepository());
   }
 }

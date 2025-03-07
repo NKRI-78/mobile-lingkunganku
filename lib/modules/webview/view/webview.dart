@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:go_router/go_router.dart';
 import 'package:mobile_lingkunganku/misc/colors.dart';
@@ -19,46 +18,42 @@ class WebViewScreen extends StatefulWidget {
 }
 
 class _WebViewScreenState extends State<WebViewScreen> {
-  Completer<WebViewController> controller = Completer<WebViewController>();
-  WebViewController? controllerGlobal;
+  late final WebViewController controller;
   bool isLoading = true;
-
-  Future<void> launch(url) async {
-    final Uri params = Uri(
-        scheme: 'mailto',
-        path: 'myOwnEmailAddress@gmail.com',
-        queryParameters: {
-          'subject': 'Default Subject',
-          'body': 'Default body'
-        });
-    if (await canLaunchUrl(url)) {
-      Uri.parse(url);
-      await launchUrl(params);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
 
   @override
   void initState() {
     super.initState();
 
-    if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
+    controller = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setBackgroundColor(Colors.transparent)
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onNavigationRequest: (NavigationRequest request) async {
+            if (request.url
+                .contains(RegExp(r'^(tel:|whatsapp:|fb:|mailto:)'))) {
+              await launchUrl(Uri.parse(request.url));
+              return NavigationDecision.prevent;
+            }
+            return NavigationDecision.navigate;
+          },
+          onPageStarted: (String url) {
+            setState(() => isLoading = true);
+          },
+          onPageFinished: (String url) {
+            setState(() => isLoading = false);
+          },
+        ),
+      )
+      ..loadRequest(Uri.parse(widget.url));
   }
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('Web : ${widget.url}');
-    // ignore: deprecated_member_use
     return WillPopScope(
       onWillPop: exitApp,
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           backgroundColor: AppColors.secondaryColor,
           centerTitle: true,
@@ -106,10 +101,13 @@ class _WebViewScreenState extends State<WebViewScreen> {
           title: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Image.asset(
-                'assets/icons/lingkunganku_putih.png',
-                fit: BoxFit.contain,
-                height: 35,
+              Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: Image.asset(
+                  'assets/icons/lingkunganku_putih.png',
+                  fit: BoxFit.contain,
+                  height: 35,
+                ),
               ),
               Expanded(
                 child: Column(
@@ -143,72 +141,22 @@ class _WebViewScreenState extends State<WebViewScreen> {
             ],
           ),
         ),
-        backgroundColor: AppColors.blackColor,
         body: SafeArea(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
+          child: Stack(
             children: [
-              Expanded(
-                child: Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    WebView(
-                      javascriptMode: JavascriptMode.unrestricted,
-                      initialUrl: widget.url,
-                      userAgent:
-                          'Mozilla/5.0 (Linux; Android 7.0; SM-G930V Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.125 Mobile Safari/537.36',
-                      gestureNavigationEnabled: true,
-                      onWebViewCreated: (WebViewController webViewController) {
-                        controller.future
-                            .then((value) => controllerGlobal = value);
-                        controller.complete(webViewController);
-                      },
-                      navigationDelegate: (NavigationRequest request) async {
-                        if (request.url.contains('tel:')) {
-                          await launch(request.url);
-                          return NavigationDecision.prevent;
-                        } else if (request.url.contains('whatsapp:')) {
-                          await launch(request.url);
-                          return NavigationDecision.prevent;
-                        } else if (request.url.contains('fb:')) {
-                          await launch(request.url);
-                          return NavigationDecision.prevent;
-                        } else if (request.url.contains('mailto:')) {
-                          await launch(request.url);
-                          return NavigationDecision.prevent;
-                        }
-                        return NavigationDecision.navigate;
-                      },
-                      onPageStarted: (String url) async {
-                        setState(() => isLoading = true);
-                      },
-                      onPageFinished: (String url) {
-                        setState(() => isLoading = false);
-                      },
+              WebViewWidget(controller: controller),
+              if (isLoading)
+                Center(
+                  child: Shimmer.fromColors(
+                    baseColor: Colors.grey[300]!,
+                    highlightColor: Colors.grey[200]!,
+                    child: Container(
+                      width: double.infinity,
+                      height: double.infinity,
+                      color: Colors.white,
                     ),
-                    isLoading
-                        ? Center(
-                            child: Shimmer.fromColors(
-                              baseColor: Colors.grey[300]!,
-                              highlightColor: Colors.grey[200]!,
-                              child: Card(
-                                margin: EdgeInsets.zero,
-                                color: AppColors.whiteColor,
-                                elevation: 4.0,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(0)),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(0),
-                                      color: AppColors.whiteColor),
-                                ),
-                              ),
-                            ),
-                          )
-                        : const SizedBox.shrink(),
-                  ],
+                  ),
                 ),
-              ),
             ],
           ),
         ),
@@ -217,22 +165,16 @@ class _WebViewScreenState extends State<WebViewScreen> {
   }
 
   Future<bool> exitApp() async {
-    if (controllerGlobal != null) {
-      if (await controllerGlobal!.canGoBack()) {
-        controllerGlobal!.goBack();
-        return Future.value(false);
-      } else {
-        return Future.value(true);
-      }
-    } else {
-      return Future.value(true);
+    if (await controller.canGoBack()) {
+      controller.goBack();
+      return Future.value(false);
     }
+    return Future.value(true);
   }
 }
 
 Future<void> openLink(String url) async {
   final uri = Uri.parse(url);
-
   if (!await launchUrl(uri)) {
     throw Exception('Could not launch $uri');
   }

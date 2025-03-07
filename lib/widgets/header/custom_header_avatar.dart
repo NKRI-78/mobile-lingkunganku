@@ -30,7 +30,7 @@ class CustomHeaderAvatar extends StatelessWidget {
         else
           _buildDefaultAvatar(), // Jika belum login, tampilkan default avatar
 
-        const SizedBox(height: 8),
+        const SizedBox(height: 5),
 
         // Tampilkan teks "Hi, User" atau nama pengguna
         if (showText)

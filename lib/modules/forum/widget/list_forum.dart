@@ -130,7 +130,10 @@ class ForumListSection extends StatelessWidget {
                     children: forums.forumComment!
                         .map(
                           (e) => InkWell(
-                              onTap: () {},
+                              onTap: () {
+                                ForumDetailRoute(idForum: e.forumId.toString())
+                                    .go(context);
+                              },
                               child: CommentForum(
                                 comment: e,
                               )),
