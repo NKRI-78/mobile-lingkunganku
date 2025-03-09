@@ -52,6 +52,12 @@ RouteBase get $homeRoute => GoRouteData.$route(
         GoRouteData.$route(
           path: 'iuran',
           factory: $IuranRouteExtension._fromState,
+          routes: [
+            GoRouteData.$route(
+              path: 'iuran-history',
+              factory: $IuranHistoryRouteExtension._fromState,
+            ),
+          ],
         ),
         GoRouteData.$route(
           path: 'event',
@@ -269,6 +275,24 @@ extension $IuranRouteExtension on IuranRoute {
 
   String get location => GoRouteData.$location(
         '/home/iuran',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $IuranHistoryRouteExtension on IuranHistoryRoute {
+  static IuranHistoryRoute _fromState(GoRouterState state) =>
+      IuranHistoryRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/iuran/iuran-history',
       );
 
   void go(BuildContext context) => context.go(location);

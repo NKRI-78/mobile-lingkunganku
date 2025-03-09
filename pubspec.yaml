@@ -20,13 +20,17 @@ dependencies:
   equatable: ^2.0.7
   file_picker: ^8.1.7
   filesize: ^2.0.1
+  firebase_core: ^3.12.1
+  firebase_messaging: ^15.2.4
   flutter:
     sdk: flutter
   flutter_bloc: ^9.0.0
   flutter_contacts: ^1.1.9+2
   flutter_datetime_picker_plus: ^2.2.0
+  flutter_html: ^3.0.0-beta.2
   flutter_image_compress: ^2.4.0
   flutter_launcher_icons: ^0.14.3
+  flutter_local_notifications: ^18.0.1
   flutter_mentions: ^2.0.1
   flutter_otp_text_field: ^1.4.0+2
   geocoding: ^3.0.0
@@ -43,24 +47,23 @@ dependencies:
   json_annotation: ^4.9.0
   json_serializable: ^6.9.3
   multi_image_picker_plus: ^0.0.6
-  path_provider: ^2.1.5
+  open_file_plus: ^3.4.1+1
   path: ^1.9.0
+  path_provider: ^2.1.5
   permission_handler: ^11.3.1
   photo_view: ^0.15.0
   pinput: ^2.2.3
   pod_player: ^0.2.2
   pull_to_refresh: ^2.0.0
   shimmer: ^3.0.0
+  slide_to_confirm: ^1.1.0
   sn_progress_dialog: ^1.2.0
   table_calendar: ^3.2.0
   timeago: ^3.2.2
   url_launcher: ^6.3.1
   video_compress_v2: ^1.0.0+1
-  visibility_detector: ^0.4.0+2
-  open_file_plus: ^3.4.1+1
-  slide_to_confirm: ^1.1.0
-  flutter_html: ^3.0.0-beta.2
   video_player: ^2.9.3
+  visibility_detector: ^0.4.0+2
   webview_flutter: ^4.10.0
 
 dev_dependencies:

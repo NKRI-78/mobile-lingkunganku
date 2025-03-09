@@ -115,10 +115,6 @@ class DetailForum extends StatelessWidget {
                             )
                             .toList() ??
                         []),
-            Divider(
-              color: AppColors.greyColor.withValues(alpha: 0.1),
-              thickness: 10,
-            ),
           ],
         ),
       ),

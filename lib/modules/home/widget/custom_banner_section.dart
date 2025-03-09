@@ -14,7 +14,7 @@ class CustomBannerSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16),
+      margin: const EdgeInsets.symmetric(horizontal: 20),
       child: BlocBuilder<HomeBloc, HomeState>(
         buildWhen: (previous, current) => previous.banner != current.banner,
         builder: (context, state) {
@@ -24,13 +24,13 @@ class CustomBannerSection extends StatelessWidget {
 
           return CarouselSlider.builder(
             options: CarouselOptions(
-              height: 155,
+              height: 180,
               autoPlay: true,
               enlargeCenterPage: true,
               viewportFraction: 1,
               enlargeStrategy: CenterPageEnlargeStrategy.scale,
               initialPage: 0,
-              aspectRatio: 16 / 9,
+              aspectRatio: 18 / 9,
               onPageChanged: (int i, CarouselPageChangedReason reason) {
                 currentIndexMultipleImg = i;
               },
@@ -67,7 +67,7 @@ class CustomBannerSection extends StatelessWidget {
   // Placeholder jika data kosong atau null
   Widget _buildPlaceholder() {
     return Container(
-      height: 155,
+      height: 180,
       alignment: Alignment.center,
       decoration: BoxDecoration(
         color: Colors.grey[300],

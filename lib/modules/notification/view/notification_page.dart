@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile_lingkunganku/misc/colors.dart';
 import 'package:mobile_lingkunganku/misc/injections.dart';
 import 'package:mobile_lingkunganku/modules/notification/cubit/notification_cubit.dart';
 import 'package:mobile_lingkunganku/widgets/header/header_text.dart';
@@ -42,6 +43,9 @@ class NotificationView extends StatelessWidget {
             onLoading: () async {
               context.read<NotificationCubit>().loadMoreNotification();
             },
+            header: MaterialClassicHeader(
+              color: AppColors.secondaryColor,
+            ),
             child: CustomScrollView(
               slivers: [
                 HeaderText(text: 'Notification'),

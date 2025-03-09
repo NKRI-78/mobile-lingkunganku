@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "360696247955",
+    "project_id": "mobile-lingkunganku",
+    "storage_bucket": "mobile-lingkunganku.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:360696247955:android:45b256586cb6b617f43f66",
+        "android_client_info": {
+          "package_name": "com.example.mobile_lingkunganku"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDkjtgs6kRh9smu9tSZFIxLarSouQNZsVI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

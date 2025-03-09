@@ -5,6 +5,7 @@ import 'package:mobile_lingkunganku/misc/text_style.dart';
 import 'package:mobile_lingkunganku/modules/iuran/cubit/iuran_cubit.dart';
 import 'package:mobile_lingkunganku/modules/iuran/widget/custom_list_invoice_section.dart';
 import 'package:mobile_lingkunganku/repositories/iuran_repository/models/iuran_model.dart';
+import 'package:mobile_lingkunganku/router/builder.dart';
 import 'package:mobile_lingkunganku/widgets/button/custom_button.dart';
 
 class IuranPage extends StatelessWidget {
@@ -63,7 +64,7 @@ class _IuranViewState extends State<IuranView> {
                   size: 26,
                 ),
                 onPressed: () {
-                  //
+                  IuranHistoryRoute().go(context);
                 },
               ),
             ],

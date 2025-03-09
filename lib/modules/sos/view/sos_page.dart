@@ -96,7 +96,7 @@ class SosView extends StatelessWidget {
                                   ).go(context);
                                 }
                               : () {
-                                  RegisterRoute().go(context);
+                                  RegisterRoute().push(context);
                                 },
                         ),
                         customCardSection(
@@ -112,7 +112,7 @@ class SosView extends StatelessWidget {
                                       .go(context);
                                 }
                               : () {
-                                  RegisterRoute().go(context);
+                                  RegisterRoute().push(context);
                                 },
                         ),
                         customCardSection(
@@ -128,7 +128,7 @@ class SosView extends StatelessWidget {
                                       .go(context);
                                 }
                               : () {
-                                  RegisterRoute().go(context);
+                                  RegisterRoute().push(context);
                                 },
                         ),
                         customCardSection(
@@ -144,7 +144,7 @@ class SosView extends StatelessWidget {
                                       .go(context);
                                 }
                               : () {
-                                  RegisterRoute().go(context);
+                                  RegisterRoute().push(context);
                                 },
                         ),
                         customCardSection(
@@ -160,7 +160,7 @@ class SosView extends StatelessWidget {
                                       .go(context);
                                 }
                               : () {
-                                  RegisterRoute().go(context);
+                                  RegisterRoute().push(context);
                                 },
                         ),
                         customCardSection(
@@ -175,7 +175,7 @@ class SosView extends StatelessWidget {
                                           '${state.profile?.profile?.fullname} butuh bantuan terjadi Kerusuhan');
                                 }
                               : () {
-                                  RegisterRoute().go(context);
+                                  RegisterRoute().push(context);
                                 },
                         ),
                       ],
@@ -203,6 +203,7 @@ class SosView extends StatelessWidget {
                                   } else {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
+                                          backgroundColor: AppColors.redColor,
                                           content: Text(
                                               "Tidak dapat membuka WhatsApp")),
                                     );
@@ -218,7 +219,7 @@ class SosView extends StatelessWidget {
                                 }
                               }
                             : () {
-                                RegisterRoute().go(context);
+                                RegisterRoute().push(context);
                               },
                       ),
                     ),

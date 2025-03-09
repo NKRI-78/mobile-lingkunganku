@@ -124,7 +124,7 @@ class RegisterKetuaCubit extends Cubit<RegisterKetuaState> {
         phone: state.phone,
         phoneSecurity: state.phoneSecurity,
         neighborhoodName: state.neighborhoodName,
-        detailAddress: state.currentAddress,
+        detailAddress: state.detailAddress,
         password: state.password,
         latitude: state.latitude.toString(),
         longitude: state.longitude.toString(),

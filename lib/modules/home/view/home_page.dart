@@ -59,7 +59,7 @@ class _HomeViewState extends State<HomeView> {
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              SizedBox(height: 285),
+                              SizedBox(height: 287),
                               CustomBannerSection(),
                               SizedBox(height: 10),
                               buildNewsSection(state, context),

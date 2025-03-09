@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -93,11 +94,13 @@ class AuthRepository {
             json['error']['message'] == "Email tidak ditemukan") {
           throw EmailNotFoundFailure();
         }
-
         throw json['message'] ?? "Terjadi Kesalahan";
       }
-
       throw json['message'] ?? "Terjadi Kesalahan";
+    } on SocketException {
+      throw "Terjadi Kesalahan Jaringan";
+    } on TimeoutException {
+      throw "Koneksi internet lambat, periksa jaringan Anda";
     } catch (e) {
       rethrow;
     }
