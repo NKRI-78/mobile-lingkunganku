@@ -50,19 +50,23 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDkjtgs6kRh9smu9tSZFIxLarSouQNZsVI',
-    appId: '1:360696247955:android:45b256586cb6b617f43f66',
-    messagingSenderId: '360696247955',
-    projectId: 'mobile-lingkunganku',
-    storageBucket: 'mobile-lingkunganku.firebasestorage.app',
+    apiKey: 'AIzaSyDqoy-bs-uAUsQfeLEgjpATvM9lZ3OSdHg',
+    appId: '1:224199405058:android:5715cf51893c2848eb411b',
+    messagingSenderId: '224199405058',
+    projectId: 'koperasi-yamaha',
+    storageBucket: 'koperasi-yamaha.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDjhcUomUiOW_sroEbORXqh5EPaz1_s7Rw',
-    appId: '1:360696247955:ios:74e0533fe295b353f43f66',
-    messagingSenderId: '360696247955',
-    projectId: 'mobile-lingkunganku',
-    storageBucket: 'mobile-lingkunganku.firebasestorage.app',
+    apiKey: 'AIzaSyB9SKBSTW1LR9Tlfd5wFQNB6_acyQWksyI',
+    appId: '1:224199405058:ios:23c23f459fdf2920eb411b',
+    messagingSenderId: '224199405058',
+    projectId: 'koperasi-yamaha',
+    storageBucket: 'koperasi-yamaha.firebasestorage.app',
+    androidClientId:
+        '224199405058-1in8g856jc8oamc44oq420q13o31lgp7.apps.googleusercontent.com',
+    iosClientId:
+        '224199405058-6kqj4nkobb50ihdrhurqjtq76ul2euf2.apps.googleusercontent.com',
     iosBundleId: 'com.example.mobileLingkunganku',
   );
 }

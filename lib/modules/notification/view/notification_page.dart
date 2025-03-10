@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_lingkunganku/misc/colors.dart';
-import 'package:mobile_lingkunganku/misc/injections.dart';
-import 'package:mobile_lingkunganku/modules/notification/cubit/notification_cubit.dart';
-import 'package:mobile_lingkunganku/widgets/header/header_text.dart';
-import 'package:mobile_lingkunganku/widgets/pages/empty_page.dart';
-import 'package:mobile_lingkunganku/widgets/pages/loading_page.dart';
+import '../../../misc/colors.dart';
+import '../../../misc/injections.dart';
+import '../cubit/notification_cubit.dart';
+import '../../../widgets/header/header_text.dart';
+import '../../../widgets/pages/empty_page.dart';
+import '../../../widgets/pages/loading_page.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../widget/list_notif_card.dart';
@@ -33,7 +33,7 @@ class NotificationView extends StatelessWidget {
           return SmartRefresher(
             controller: NotificationCubit.refreshCtrl,
             onRefresh: () {
-              context.read<NotificationCubit>().fetchNotification();
+              context.read<NotificationCubit>().refreshNotification();
             },
             enablePullUp: (state.pagination?.currentPage ?? 0) >=
                     (state.pagination?.totalPages ?? 0)

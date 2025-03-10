@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_lingkunganku/misc/colors.dart';
+import '../../../misc/colors.dart';
 import '../../../misc/download_manager.dart';
 import '../../../repositories/forum_repository/models/forums_model.dart';
 

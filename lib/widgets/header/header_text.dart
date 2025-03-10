@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mobile_lingkunganku/misc/colors.dart';
-import 'package:mobile_lingkunganku/misc/text_style.dart';
+import '../../misc/colors.dart';
+import '../../misc/text_style.dart';
 
 class HeaderText extends StatelessWidget {
   const HeaderText({super.key, required this.text});
@@ -11,6 +11,9 @@ class HeaderText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
+      surfaceTintColor: Colors.transparent,
+      pinned: true,
+      toolbarHeight: 80,
       title: Text(text, style: AppTextStyles.textStyle1),
       centerTitle: true,
       leading: IconButton(
@@ -18,7 +21,7 @@ class HeaderText extends StatelessWidget {
             GoRouter.of(context).pop();
           },
           icon: Icon(
-            Icons.arrow_back_ios,
+            Icons.arrow_back_ios_new,
             color: AppColors.secondaryColor,
           )),
     );

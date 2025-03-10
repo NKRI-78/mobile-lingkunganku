@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_lingkunganku/misc/pagination.dart';
+import '../../../misc/pagination.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../repositories/notification_repository/models/notification_model.dart';
@@ -75,17 +75,17 @@ class NotificationCubit extends Cubit<NotificationState> {
     }
   }
 
-  // Future<void> readNotif(String idNotif) async {
-  //   try {
-  //     await repo.readNotif(idNotif);
-  //   } catch (e) {
-  //     rethrow;
-  //   }
-  // }
+  Future<void> readNotif(String idNotif) async {
+    try {
+      await repo.readNotif(idNotif);
+    } catch (e) {
+      rethrow;
+    }
+  }
 
-  // @override
-  // Future<void> close() {
-  //   getIt<AppBloc>().add(GetBadgeNotif());
-  //   return super.close();
-  // }
+  @override
+  Future<void> close() {
+    // getIt<AppBloc>().add(GetBadgeNotif());
+    return super.close();
+  }
 }

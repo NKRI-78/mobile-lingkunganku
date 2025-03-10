@@ -1,26 +1,439 @@
 {
   "project_info": {
-    "project_number": "360696247955",
-    "project_id": "mobile-lingkunganku",
-    "storage_bucket": "mobile-lingkunganku.firebasestorage.app"
+    "project_number": "224199405058",
+    "project_id": "koperasi-yamaha",
+    "storage_bucket": "koperasi-yamaha.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:360696247955:android:45b256586cb6b617f43f66",
+        "mobilesdk_app_id": "1:224199405058:android:5715cf51893c2848eb411b",
         "android_client_info": {
           "package_name": "com.example.mobile_lingkunganku"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "224199405058-ohq1b6n7jil08do25t371tst1ekfi1q2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mobile_lingkunganku",
+            "certificate_hash": "212450370ea7776e3f4158848880345b99a14c33"
+          }
+        },
+        {
+          "client_id": "224199405058-h371q33kg66ge24nrboub2qo1i7u6t2t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyDkjtgs6kRh9smu9tSZFIxLarSouQNZsVI"
+          "current_key": "AIzaSyDqoy-bs-uAUsQfeLEgjpATvM9lZ3OSdHg"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "224199405058-h371q33kg66ge24nrboub2qo1i7u6t2t.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "224199405058-2btuhncumpud4hbdek9qab57oh10b19f.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.inovatif78.koperasiyamaha"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:224199405058:android:fd28ea311f781f78eb411b",
+        "android_client_info": {
+          "package_name": "com.inovasi78.amulet.v2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "224199405058-h371q33kg66ge24nrboub2qo1i7u6t2t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqoy-bs-uAUsQfeLEgjpATvM9lZ3OSdHg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "224199405058-h371q33kg66ge24nrboub2qo1i7u6t2t.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "224199405058-2btuhncumpud4hbdek9qab57oh10b19f.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.inovatif78.koperasiyamaha"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:224199405058:android:d041657dd901b94eeb411b",
+        "android_client_info": {
+          "package_name": "com.inovatif78.atj_mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "224199405058-dgfsas1kh4phuk3gk842u16t1qu0gudd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.inovatif78.atj_mobile",
+            "certificate_hash": "e6492f0743b1c0da84703914c0c52362ff08a195"
+          }
+        },
+        {
+          "client_id": "224199405058-h371q33kg66ge24nrboub2qo1i7u6t2t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqoy-bs-uAUsQfeLEgjpATvM9lZ3OSdHg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "224199405058-h371q33kg66ge24nrboub2qo1i7u6t2t.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "224199405058-2btuhncumpud4hbdek9qab57oh10b19f.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.inovatif78.koperasiyamaha"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:224199405058:android:3834f499293b2e85eb411b",
+        "android_client_info": {
+          "package_name": "com.inovatif78.hp3ki"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "224199405058-3mmdv8c4d38buspsslm8haqbq3q2fsvs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.inovatif78.hp3ki",
+            "certificate_hash": "1a2b105ca03cbd3d4242cf12361da7442884fb5c"
+          }
+        },
+        {
+          "client_id": "224199405058-haggckleatcb2ii3djfvatmnp1s72dcp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.inovatif78.hp3ki",
+            "certificate_hash": "2afb07e07c41e6723ad6b169b5f2bee6bbb677fa"
+          }
+        },
+        {
+          "client_id": "224199405058-njo7o14or6u208hh3u6srpitfgtchjrc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.inovatif78.hp3ki",
+            "certificate_hash": "9e0c1f5bbd4dbc7694b4b523d67472e5926e8efb"
+          }
+        },
+        {
+          "client_id": "224199405058-okijvjoomq4669t82d4ghiur0t1ieqnt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.inovatif78.hp3ki",
+            "certificate_hash": "26c25f31d7068883650e9b9fbbe31ad0847ce2ad"
+          }
+        },
+        {
+          "client_id": "224199405058-h371q33kg66ge24nrboub2qo1i7u6t2t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqoy-bs-uAUsQfeLEgjpATvM9lZ3OSdHg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "224199405058-h371q33kg66ge24nrboub2qo1i7u6t2t.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "224199405058-2btuhncumpud4hbdek9qab57oh10b19f.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.inovatif78.koperasiyamaha"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:224199405058:android:11394a42fb1043c3eb411b",
+        "android_client_info": {
+          "package_name": "com.inovatif78.koperasiyamaha"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "224199405058-1in8g856jc8oamc44oq420q13o31lgp7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.inovatif78.koperasiyamaha",
+            "certificate_hash": "9e0c1f5bbd4dbc7694b4b523d67472e5926e8efb"
+          }
+        },
+        {
+          "client_id": "224199405058-h371q33kg66ge24nrboub2qo1i7u6t2t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqoy-bs-uAUsQfeLEgjpATvM9lZ3OSdHg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "224199405058-h371q33kg66ge24nrboub2qo1i7u6t2t.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "224199405058-2btuhncumpud4hbdek9qab57oh10b19f.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.inovatif78.koperasiyamaha"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:224199405058:android:e9546a26a17f879beb411b",
+        "android_client_info": {
+          "package_name": "com.inovatif78.mhs_mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "224199405058-h371q33kg66ge24nrboub2qo1i7u6t2t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqoy-bs-uAUsQfeLEgjpATvM9lZ3OSdHg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "224199405058-h371q33kg66ge24nrboub2qo1i7u6t2t.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "224199405058-2btuhncumpud4hbdek9qab57oh10b19f.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.inovatif78.koperasiyamaha"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:224199405058:android:4ef43c4ca48ca3d2eb411b",
+        "android_client_info": {
+          "package_name": "com.inovatif78.ppidunia"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "224199405058-h371q33kg66ge24nrboub2qo1i7u6t2t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqoy-bs-uAUsQfeLEgjpATvM9lZ3OSdHg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "224199405058-h371q33kg66ge24nrboub2qo1i7u6t2t.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "224199405058-2btuhncumpud4hbdek9qab57oh10b19f.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.inovatif78.koperasiyamaha"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:224199405058:android:0819b75b9966a079eb411b",
+        "android_client_info": {
+          "package_name": "com.inovatif78.sma_4_medan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "224199405058-h92ekgiaekccsgfnlq0mo3klfev4uuml.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.inovatif78.sma_4_medan",
+            "certificate_hash": "7a8d193b07aeb510709bd469ad38b267e60bcaa0"
+          }
+        },
+        {
+          "client_id": "224199405058-h371q33kg66ge24nrboub2qo1i7u6t2t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqoy-bs-uAUsQfeLEgjpATvM9lZ3OSdHg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "224199405058-h371q33kg66ge24nrboub2qo1i7u6t2t.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "224199405058-2btuhncumpud4hbdek9qab57oh10b19f.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.inovatif78.koperasiyamaha"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:224199405058:android:781977177319991ceb411b",
+        "android_client_info": {
+          "package_name": "com.inovatif78.superapps"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "224199405058-ik1a3pnrlaemmgttanp16rnd9j3l7t8s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.inovatif78.superapps",
+            "certificate_hash": "7a8d193b07aeb510709bd469ad38b267e60bcaa0"
+          }
+        },
+        {
+          "client_id": "224199405058-h371q33kg66ge24nrboub2qo1i7u6t2t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqoy-bs-uAUsQfeLEgjpATvM9lZ3OSdHg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "224199405058-h371q33kg66ge24nrboub2qo1i7u6t2t.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "224199405058-2btuhncumpud4hbdek9qab57oh10b19f.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.inovatif78.koperasiyamaha"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:224199405058:android:a357695f5d9071e9eb411b",
+        "android_client_info": {
+          "package_name": "com.langitdigital78.machandais"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "224199405058-h371q33kg66ge24nrboub2qo1i7u6t2t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqoy-bs-uAUsQfeLEgjpATvM9lZ3OSdHg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "224199405058-h371q33kg66ge24nrboub2qo1i7u6t2t.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "224199405058-2btuhncumpud4hbdek9qab57oh10b19f.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.inovatif78.koperasiyamaha"
+              }
+            }
+          ]
         }
       }
     }

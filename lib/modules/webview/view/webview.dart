@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:go_router/go_router.dart';
-import 'package:mobile_lingkunganku/misc/colors.dart';
+import '../../../misc/colors.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';

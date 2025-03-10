@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_lingkunganku/modules/home/bloc/home_bloc.dart';
+import '../bloc/home_bloc.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';

@@ -2,10 +2,10 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:mobile_lingkunganku/misc/colors.dart';
-import 'package:mobile_lingkunganku/misc/injections.dart';
-import 'package:mobile_lingkunganku/misc/snackbar.dart';
-import 'package:mobile_lingkunganku/repositories/sos_repository/sos_repository.dart';
+import '../../../misc/colors.dart';
+import '../../../misc/injections.dart';
+import '../../../misc/snackbar.dart';
+import '../../../repositories/sos_repository/sos_repository.dart';
 import '../../../repositories/profile_repository/profile_repository.dart';
 
 import '../../../repositories/profile_repository/models/profile_model.dart';
@@ -25,6 +25,7 @@ class SosCubit extends Cubit<SosState> {
   Future<void> sendSos(
       String title, String description, BuildContext context) async {
     try {
+      emit(state.copyWith(isLoading: true));
       Position position = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.low);
       debugPrint("Sos ${position.latitude}");
@@ -46,6 +47,8 @@ class SosCubit extends Cubit<SosState> {
         Navigator.of(context, rootNavigator: true).pop();
         ShowSnackbar.snackbar(context, e.toString(), "", AppColors.redColor);
       });
+    } finally {
+      emit(state.copyWith(isLoading: false));
     }
   }
 

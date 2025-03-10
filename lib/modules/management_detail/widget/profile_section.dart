@@ -27,6 +27,7 @@ class ProfileSection extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: 50,
+            backgroundColor: AppColors.textColor1,
             backgroundImage: (member?.profile != null &&
                     member!.profile!.avatarLink != null &&
                     member!.profile!.avatarLink!.isNotEmpty)

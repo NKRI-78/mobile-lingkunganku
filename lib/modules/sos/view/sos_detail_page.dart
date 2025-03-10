@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mobile_lingkunganku/widgets/background/custom_background.dart';
+import '../../../widgets/background/custom_background.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:slide_to_confirm/slide_to_confirm.dart';
 
@@ -136,121 +136,124 @@ class SosDetailView extends StatelessWidget {
     return showGeneralDialog(
       context: context,
       barrierLabel: "Barrier",
-      barrierDismissible: true,
+      barrierDismissible: false,
       barrierColor: Colors.black.withOpacity(0.5),
       transitionDuration: const Duration(milliseconds: 700),
       pageBuilder: (BuildContext context, Animation<double> double, _) {
         return BlocProvider.value(
           value: getIt<SosCubit>(),
-          child: Center(
-            child: Material(
-              color: Colors.transparent,
-              child: Container(
-                margin: const EdgeInsets.symmetric(horizontal: 20.0),
-                height: 280,
-                decoration: BoxDecoration(
-                  color: AppColors.whiteColor,
-                  borderRadius: BorderRadius.circular(20.0),
-                ),
-                child: Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    Align(
-                      alignment: Alignment.topCenter,
-                      child: Container(
-                        margin: const EdgeInsets.only(top: 10.0),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(20.0),
-                          child: Image.asset(
-                            "assets/images/ic-alert.png",
-                            width: 60.0,
-                            height: 60.0,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.topCenter,
-                      child: Container(
-                        margin: const EdgeInsets.only(top: 80.0),
-                        child: const Text(
-                          "Sebar Berita ?",
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.blackColor,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.center,
-                      child: Container(
-                        margin: const EdgeInsets.only(top: 20.0),
-                        child: const Text(
-                          "Anda akan dihubungi pihak berwenang apabila menyalahgunakan SOS tanpa tujuan dan informasi yang benar",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w300,
-                            color: AppColors.blackColor,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Container(
-                            margin: const EdgeInsets.only(bottom: 30.0),
-                            child: Builder(
-                              builder: (BuildContext context) {
-                                return Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    Expanded(child: Container()),
-                                    Expanded(
-                                      flex: 5,
-                                      child: ElevatedButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: Text(
-                                          "CANCEL",
-                                          style: AppTextStyles.textDialog,
-                                        ),
-                                      ),
-                                    ),
-                                    Expanded(child: Container()),
-                                    Expanded(
-                                      flex: 5,
-                                      child: ElevatedButton(
-                                        onPressed: () {
-                                          context.read<SosCubit>().sendSos(
-                                                title,
-                                                message,
-                                                context,
-                                              );
-                                        },
-                                        child: Text(
-                                          "OK",
-                                          style: AppTextStyles.textDialog,
-                                        ),
-                                      ),
-                                    ),
-                                    Expanded(child: Container()),
-                                  ],
-                                );
-                              },
+          child: WillPopScope(
+            onWillPop: () async => false,
+            child: Center(
+              child: Material(
+                color: Colors.transparent,
+                child: Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 20.0),
+                  height: 280,
+                  decoration: BoxDecoration(
+                    color: AppColors.whiteColor,
+                    borderRadius: BorderRadius.circular(20.0),
+                  ),
+                  child: Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      Align(
+                        alignment: Alignment.topCenter,
+                        child: Container(
+                          margin: const EdgeInsets.only(top: 10.0),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20.0),
+                            child: Image.asset(
+                              "assets/images/ic-alert.png",
+                              width: 60.0,
+                              height: 60.0,
                             ),
-                          )
-                        ],
+                          ),
+                        ),
                       ),
-                    )
-                  ],
+                      Align(
+                        alignment: Alignment.topCenter,
+                        child: Container(
+                          margin: const EdgeInsets.only(top: 80.0),
+                          child: const Text(
+                            "Sebar Berita ?",
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.blackColor,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.center,
+                        child: Container(
+                          margin: const EdgeInsets.only(top: 20.0),
+                          child: const Text(
+                            "Anda akan dihubungi pihak berwenang apabila menyalahgunakan SOS tanpa tujuan dan informasi yang benar",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w300,
+                              color: AppColors.blackColor,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Container(
+                              margin: const EdgeInsets.only(bottom: 30.0),
+                              child: Builder(
+                                builder: (BuildContext context) {
+                                  return Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      Expanded(child: Container()),
+                                      Expanded(
+                                        flex: 5,
+                                        child: ElevatedButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text(
+                                            "CANCEL",
+                                            style: AppTextStyles.textDialog,
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(child: Container()),
+                                      Expanded(
+                                        flex: 5,
+                                        child: ElevatedButton(
+                                          onPressed: () {
+                                            context.read<SosCubit>().sendSos(
+                                                  title,
+                                                  message,
+                                                  context,
+                                                );
+                                          },
+                                          child: Text(
+                                            "OK",
+                                            style: AppTextStyles.textDialog,
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(child: Container()),
+                                    ],
+                                  );
+                                },
+                              ),
+                            )
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),

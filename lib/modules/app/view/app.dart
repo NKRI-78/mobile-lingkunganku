@@ -32,6 +32,8 @@ class AppViewState extends State<AppView> {
   @override
   void initState() {
     super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {});
   }
 
   @override

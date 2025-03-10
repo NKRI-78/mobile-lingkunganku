@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mobile_lingkunganku/misc/colors.dart';
-import 'package:mobile_lingkunganku/misc/text_style.dart';
+import '../../misc/colors.dart';
+import '../../misc/text_style.dart';
 
 class ContactListPage extends StatefulWidget {
   const ContactListPage({super.key});

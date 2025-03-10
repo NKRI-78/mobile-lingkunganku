@@ -169,10 +169,11 @@ class SosView extends StatelessWidget {
                           onTap: isLoggedIn
                               ? () {
                                   SosDetailRoute(
-                                      isLoggedIn: isLoggedIn,
-                                      sosType: 'Kerusuhan',
-                                      message:
-                                          '${state.profile?.profile?.fullname} butuh bantuan terjadi Kerusuhan');
+                                          isLoggedIn: isLoggedIn,
+                                          sosType: 'Kerusuhan',
+                                          message:
+                                              '${state.profile?.profile?.fullname} butuh bantuan terjadi Kerusuhan')
+                                      .go(context);
                                 }
                               : () {
                                   RegisterRoute().push(context);

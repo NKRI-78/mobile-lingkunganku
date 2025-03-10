@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_lingkunganku/widgets/pages/file/file_page.dart';
+import '../../../widgets/pages/file/file_page.dart';
 import '../cubit/forum_cubit.dart';
 import 'comment_forum.dart';
 import 'media/media_images.dart';

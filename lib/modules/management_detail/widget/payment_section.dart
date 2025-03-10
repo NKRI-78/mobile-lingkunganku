@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_lingkunganku/modules/management_detail/cubit/management_detail_cubit.dart';
+import '../cubit/management_detail_cubit.dart';
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
 

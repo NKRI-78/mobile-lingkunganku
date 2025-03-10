@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mobile_lingkunganku/modules/iuran/view/iuran_page.dart';
-import 'package:mobile_lingkunganku/modules/iuran_history/view/iuran_history_page.dart';
-import 'package:mobile_lingkunganku/modules/notification/view/notification_page.dart';
-import 'package:mobile_lingkunganku/modules/sos/view/sos_detail_page.dart';
+import '../modules/iuran/view/iuran_page.dart';
+import '../modules/iuran_history/view/iuran_history_page.dart';
+import '../modules/notification/view/notification_page.dart';
+import '../modules/sos/view/sos_detail_page.dart';
 import '../modules/news_update/view/news_update_page.dart';
 import '../modules/event/view/event_page.dart';
 import '../modules/event_create/view/event_create_page.dart';

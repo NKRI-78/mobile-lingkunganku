@@ -1,11 +1,13 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:mobile_lingkunganku/misc/api_url.dart';
-import 'package:mobile_lingkunganku/misc/http_client.dart';
+import 'package:flutter/material.dart';
+import '../../misc/api_url.dart';
+import '../../misc/http_client.dart';
 
 import '../../misc/injections.dart';
 import '../../misc/pagination.dart';
+import 'models/notification_count_model.dart';
 import 'models/notification_model.dart';
 
 class NotificationRepository {
@@ -39,6 +41,38 @@ class NotificationRepository {
       throw "Terjadi kesalahan jaringan";
     } catch (e) {
       rethrow;
+    }
+  }
+
+  Future<NotificationCountModel> getBadgesNotif() async {
+    try {
+      final res = await http.get(Uri.parse('$notif/getUnreadCount'));
+
+      debugPrint(res.body);
+      final json = jsonDecode(res.body);
+      if (res.statusCode == 200) {
+        return NotificationCountModel.fromJson(json['data']);
+      } else {
+        throw json['message'] ?? "Terjadi kesalahan";
+      }
+    } on SocketException {
+      throw "Terjadi kesalahan jaringan";
+    }
+  }
+
+  Future<void> readNotif(String idNotif) async {
+    try {
+      final res = await http.post(Uri.parse('$notif/$idNotif/read'));
+
+      debugPrint(res.body);
+      final json = jsonDecode(res.body);
+      if (res.statusCode == 200) {
+        return;
+      } else {
+        throw json['message'] ?? "Terjadi kesalahan";
+      }
+    } on SocketException {
+      throw "Terjadi kesalahan jaringan";
     }
   }
 }

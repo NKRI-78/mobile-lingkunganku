@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_lingkunganku/misc/colors.dart';
-import 'package:mobile_lingkunganku/misc/text_style.dart';
-import 'package:mobile_lingkunganku/repositories/iuran_repository/models/iuran_model.dart';
+import '../../../misc/colors.dart';
+import '../../../misc/text_style.dart';
+import '../../../repositories/iuran_repository/models/iuran_model.dart';
 import 'package:intl/intl.dart';
-import 'package:mobile_lingkunganku/widgets/pages/empty_page.dart';
+import '../../../widgets/pages/empty_page.dart';
 
 import '../../../misc/date_helper.dart';
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_lingkunganku/modules/home/widget/custom_banner_section.dart';
+import '../widget/custom_banner_section.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';

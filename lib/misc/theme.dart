@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'colors.dart';
 
@@ -7,6 +8,12 @@ var baseTheme = ThemeData(
     surface: Colors.white,
     background: Colors.white,
   ),
+  appBarTheme: AppBarTheme(
+      systemOverlayStyle: SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent,
+    statusBarIconBrightness: Brightness.dark,
+    statusBarBrightness: Brightness.dark,
+  )),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
       foregroundColor: Colors.white,

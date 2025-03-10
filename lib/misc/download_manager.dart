@@ -1,8 +1,8 @@
 import 'dart:typed_data';
 
 import 'package:intl/intl.dart';
-import 'package:mobile_lingkunganku/misc/colors.dart';
-import 'package:mobile_lingkunganku/misc/file_storage.dart';
+import 'colors.dart';
+import 'file_storage.dart';
 
 import 'package:path/path.dart' as p;
 import 'package:http/http.dart' as http;

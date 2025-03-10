@@ -49,11 +49,11 @@ Widget customCardSection({
               ),
             ),
             Positioned(
-              top: cardHeight * 0.1,
+              top: cardHeight * 0.15,
               left: cardWidth * 0.05,
               right: cardWidth * 0.05,
               child: Container(
-                height: cardHeight * 0.4,
+                height: cardHeight * 0.45,
                 decoration: BoxDecoration(
                   color: AppColors.buttonColor2,
                   borderRadius: BorderRadius.circular(24),

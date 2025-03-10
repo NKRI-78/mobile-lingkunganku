@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_lingkunganku/repositories/iuran_repository/iuran_repository.dart';
-import 'package:mobile_lingkunganku/repositories/iuran_repository/models/iuran_model.dart';
+import '../../../repositories/iuran_repository/iuran_repository.dart';
+import '../../../repositories/iuran_repository/models/iuran_model.dart';
 import '../../../misc/injections.dart';
 import '../../../repositories/profile_repository/models/profile_model.dart';
 import '../../../repositories/profile_repository/profile_repository.dart';

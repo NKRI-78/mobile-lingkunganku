@@ -2,10 +2,10 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:mobile_lingkunganku/misc/api_url.dart';
-import 'package:mobile_lingkunganku/misc/http_client.dart';
-import 'package:mobile_lingkunganku/misc/injections.dart';
-import 'package:mobile_lingkunganku/repositories/iuran_repository/models/iuran_model.dart';
+import '../../misc/api_url.dart';
+import '../../misc/http_client.dart';
+import '../../misc/injections.dart';
+import 'models/iuran_model.dart';
 
 class IuranRepository {
   String get iuran => '${MyApi.baseUrl}/api/v1/invoice';

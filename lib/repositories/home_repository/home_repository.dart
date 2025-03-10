@@ -1,11 +1,13 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:mobile_lingkunganku/repositories/home_repository/models/banner_model.dart';
+import 'models/banner_model.dart';
 
 import '../../misc/api_url.dart';
 import '../../misc/http_client.dart';
 import '../../misc/injections.dart';
+import '../../modules/app/bloc/app_bloc.dart';
 import 'models/data_pagination.dart';
 import 'models/home_model.dart';
 import 'models/news_model.dart';
@@ -78,6 +80,27 @@ class HomeRepository {
       }
     } catch (e) {
       rethrow;
+    }
+  }
+
+  Future<void> setFcm(String token) async {
+    try {
+      debugPrint('FCM : $token');
+      final res = await http.post(Uri.parse('$profile/fcm-update'), body: {
+        'token': token
+      }, headers: {
+        HttpHeaders.authorizationHeader:
+            'Bearer ${getIt<AppBloc>().state.token}'
+      });
+      debugPrint('Data FCM  : ${res.body}');
+
+      if (res.statusCode == 200) {
+        return;
+      } else {
+        throw "Ada masalah pada server";
+      }
+    } on SocketException {
+      throw "Terjadi kesalahan jaringan";
     }
   }
 }
