@@ -8,6 +8,7 @@ import '../../../misc/text_style.dart';
 import '../../../misc/theme.dart';
 
 part '_show_transfer_dialog.dart';
+part '_show_peringatan_dialog.dart';
 
 class MemberListSection extends StatelessWidget {
   final String userId;
@@ -36,7 +37,10 @@ class MemberListSection extends StatelessWidget {
       title: Text(name, style: AppTextStyles.textDialog),
       subtitle: Text(role, style: TextStyle(color: Colors.grey.shade600)),
       onTap: () {
-        //
+        if (role.toLowerCase() == "ketua") {
+          return _showPeringatanDialog(context);
+        }
+        print("ROLE DIPILIH : $role");
         _showTransferDialog(context, userId, name);
       },
     );

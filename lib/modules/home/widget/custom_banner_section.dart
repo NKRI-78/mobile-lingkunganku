@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile_lingkunganku/misc/theme.dart';
 import '../../../router/builder.dart';
 import '../../../widgets/image/image_card.dart';
 
@@ -50,6 +51,7 @@ class CustomBannerSection extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(16),
                   child: ImageCard(
+                    imageError: imageDefault,
                     image: data.linkImage ?? '',
                     height: 180,
                     radius: 16,

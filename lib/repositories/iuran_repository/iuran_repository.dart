@@ -6,9 +6,11 @@ import '../../misc/api_url.dart';
 import '../../misc/http_client.dart';
 import '../../misc/injections.dart';
 import 'models/iuran_model.dart';
+import 'models/payment_channel_model.dart';
 
 class IuranRepository {
   String get iuran => '${MyApi.baseUrl}/api/v1/invoice';
+  String get paymentChannel => '${MyApi.baseUrl}/api/v1/payment/channel';
 
   final http = getIt<BaseNetworkClient>();
 
@@ -77,6 +79,29 @@ class IuranRepository {
     } catch (e) {
       debugPrint("Exception caught: $e");
       throw Exception("Terjadi kesalahan: $e");
+    }
+  }
+
+  Future<List<PaymentChannelModel>> getChannels() async {
+    try {
+      var res = await http.get(Uri.parse(paymentChannel));
+
+      print(res.body);
+
+      final json = jsonDecode(res.body);
+      if (res.statusCode == 200) {
+        var list = (json['data'] as List)
+            .map((e) => PaymentChannelModel.fromJson(e))
+            .toList();
+        return list;
+      }
+      if (res.statusCode == 400) {
+        throw json['message'] ?? "Terjadi kesalahan";
+      } else {
+        throw "Error";
+      }
+    } catch (e) {
+      rethrow;
     }
   }
 }

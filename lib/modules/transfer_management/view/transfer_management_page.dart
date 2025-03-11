@@ -60,6 +60,8 @@ class _TransferManagementViewState extends State<TransferManagementView> {
       },
       child: BlocBuilder<TransferManagementCubit, TransferManagementState>(
         builder: (context, state) {
+          final role = state.memberData?.data?.roleApp;
+          print("role : ${role}");
           return Scaffold(
             backgroundColor: Colors.green.shade100,
             body: RefreshIndicator(

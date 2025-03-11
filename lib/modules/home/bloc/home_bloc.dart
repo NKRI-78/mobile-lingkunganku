@@ -55,34 +55,28 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
     emit(state.copyWith(isLoading: true));
 
     try {
-      // 1️⃣ Ambil lokasi terlebih dahulu
-      await determinePosition(event.context!);
-      debugPrint("Lokasi berhasil didapatkan");
-
-      // 2️⃣ Fetch berita setelah lokasi berhasil didapatkan
       await _fetchNews(emit, isRefresh: true);
       debugPrint("Berita berhasil diambil");
 
-      // 3️⃣ Ambil profil pengguna setelah berita selesai
       await _getProfile(emit);
       debugPrint("Profil berhasil diambil");
 
-      // 4️⃣ Ambil banner setelah profil selesai
       await fetchBanner(emit);
       debugPrint("Banner berhasil diambil");
 
-      // 5️⃣ Set FCM token setelah banner selesai
       await setFcm(emit);
       debugPrint("FCM Token berhasil diset");
 
-      // 6️⃣ Inisialisasi Firebase Messaging terakhir
+      await determinePosition(event.context!);
+      debugPrint("Lokasi berhasil didapatkan");
+
       await FirebaseMessagingMisc.init();
       debugPrint("Firebase Messaging diinisialisasi");
     } catch (e) {
       debugPrint("Error in HomeInit: $e");
     }
 
-    emit(state.copyWith(isLoading: false)); // Pastikan isLoading di-reset
+    emit(state.copyWith(isLoading: false));
     debugPrint("✅ HomeInit completed");
   }
 

@@ -1,11 +1,4 @@
-import 'package:flutter/material.dart';
-import '../../../misc/colors.dart';
-import '../../../misc/text_style.dart';
-import '../../../repositories/iuran_repository/models/iuran_model.dart';
-import 'package:intl/intl.dart';
-import '../../../widgets/pages/empty_page.dart';
-
-import '../../../misc/date_helper.dart';
+part of '../view/iuran_page.dart';
 
 class CustomListInvoiceSection extends StatelessWidget {
   final List<Data>? iuran;

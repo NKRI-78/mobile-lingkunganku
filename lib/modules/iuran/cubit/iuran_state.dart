@@ -5,12 +5,18 @@ class IuranState extends Equatable {
   final String? errorMessage;
   final String? successMessage;
   final IuranModel? iuran;
+  final bool loadingChannel;
+  final List<PaymentChannelModel> channels;
+  final PaymentChannelModel? channel;
 
   const IuranState({
     this.isLoading = false,
     this.errorMessage,
     this.successMessage,
     this.iuran,
+    this.loadingChannel = false,
+    this.channels = const [],
+    this.channel,
   });
 
   IuranState copyWith({
@@ -18,12 +24,18 @@ class IuranState extends Equatable {
     String? errorMessage,
     String? successMessage,
     IuranModel? iuran,
+    bool? loadingChannel,
+    List<PaymentChannelModel>? channels,
+    PaymentChannelModel? channel,
   }) {
     return IuranState(
       isLoading: isLoading ?? this.isLoading,
       errorMessage: errorMessage ?? this.errorMessage,
       successMessage: successMessage ?? this.successMessage,
       iuran: iuran ?? this.iuran,
+      loadingChannel: loadingChannel ?? this.loadingChannel,
+      channels: channels ?? this.channels,
+      channel: channel ?? this.channel,
     );
   }
 
@@ -33,5 +45,8 @@ class IuranState extends Equatable {
         errorMessage,
         iuran,
         successMessage,
+        loadingChannel,
+        channels,
+        channel,
       ];
 }

@@ -189,13 +189,17 @@ class SosDetailView extends StatelessWidget {
                         alignment: Alignment.center,
                         child: Container(
                           margin: const EdgeInsets.only(top: 20.0),
-                          child: const Text(
-                            "Anda akan dihubungi pihak berwenang apabila menyalahgunakan SOS tanpa tujuan dan informasi yang benar",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w300,
-                              color: AppColors.blackColor,
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 10.0),
+                            child: const Text(
+                              "Anda akan dihubungi pihak berwenang\napabila menyalahgunakan SOS\ntanpa tujuan dan informasi yang benar",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w300,
+                                color: AppColors.blackColor,
+                              ),
                             ),
                           ),
                         ),
@@ -229,18 +233,35 @@ class SosDetailView extends StatelessWidget {
                                       Expanded(child: Container()),
                                       Expanded(
                                         flex: 5,
-                                        child: ElevatedButton(
-                                          onPressed: () {
-                                            context.read<SosCubit>().sendSos(
-                                                  title,
-                                                  message,
-                                                  context,
-                                                );
+                                        child: BlocBuilder<SosCubit, SosState>(
+                                          builder: (context, state) {
+                                            return ElevatedButton(
+                                              onPressed: state.isLoading
+                                                  ? null // Nonaktifkan tombol saat loading
+                                                  : () {
+                                                      context
+                                                          .read<SosCubit>()
+                                                          .sendSos(title,
+                                                              message, context);
+                                                    },
+                                              child: state.isLoading
+                                                  ? const SizedBox(
+                                                      width: 20,
+                                                      height: 20,
+                                                      child:
+                                                          CircularProgressIndicator(
+                                                        color: AppColors
+                                                            .secondaryColor,
+                                                        strokeWidth: 2,
+                                                      ),
+                                                    )
+                                                  : Text(
+                                                      "OK",
+                                                      style: AppTextStyles
+                                                          .textDialog,
+                                                    ),
+                                            );
                                           },
-                                          child: Text(
-                                            "OK",
-                                            style: AppTextStyles.textDialog,
-                                          ),
                                         ),
                                       ),
                                       Expanded(child: Container()),
