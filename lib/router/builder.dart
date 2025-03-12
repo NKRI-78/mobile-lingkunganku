@@ -32,6 +32,7 @@ import '../modules/register_ketua/view/register_ketua_page.dart';
 import '../modules/register_warga/view/register_warga_page.dart';
 import '../modules/settings/view/settings_page.dart';
 import '../modules/sos/view/sos_page.dart';
+import '../modules/waiting_payment/view/waiting_payment_page.dart';
 import '../modules/webview/view/webview.dart';
 import '../widgets/pages/video/detail_video_player.dart';
 import '../widgets/photo_view/clipped_photo_view.dart';
@@ -50,9 +51,10 @@ class OnboardingRoute extends GoRouteData {
   TypedGoRoute<WebViewRoute>(path: 'webview'),
   TypedGoRoute<NotificationRoute>(path: 'notification'),
   TypedGoRoute<SettingsRoute>(path: 'settings'),
-  TypedGoRoute<IuranRoute>(
-      path: 'iuran',
-      routes: [TypedGoRoute<IuranHistoryRoute>(path: 'iuran-history')]),
+  TypedGoRoute<WaitingPaymentRoute>(path: 'waiting-payment'),
+  TypedGoRoute<IuranRoute>(path: 'iuran', routes: [
+    TypedGoRoute<IuranHistoryRoute>(path: 'iuran-history'),
+  ]),
   TypedGoRoute<EventRoute>(path: 'event', routes: [
     TypedGoRoute<EventCreateRoute>(path: 'event-create'),
     TypedGoRoute<EventDetailRoute>(path: 'event-detail'),
@@ -139,6 +141,18 @@ class IuranHistoryRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return IuranHistoryPage();
+  }
+}
+
+class WaitingPaymentRoute extends GoRouteData {
+  final String id;
+
+  WaitingPaymentRoute({required this.id});
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return WaitingPaymentPage(
+      id: id,
+    );
   }
 }
 

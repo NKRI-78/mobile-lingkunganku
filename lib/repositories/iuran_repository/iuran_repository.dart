@@ -5,12 +5,15 @@ import 'package:flutter/material.dart';
 import '../../misc/api_url.dart';
 import '../../misc/http_client.dart';
 import '../../misc/injections.dart';
+import '../../modules/app/bloc/app_bloc.dart';
 import 'models/iuran_model.dart';
 import 'models/payment_channel_model.dart';
+import 'package:http/http.dart' as httpBase;
 
 class IuranRepository {
   String get iuran => '${MyApi.baseUrl}/api/v1/invoice';
   String get paymentChannel => '${MyApi.baseUrl}/api/v1/payment/channel';
+  String get checkoutItems => '${MyApi.baseUrl}/api/v1/invoice/createPayment';
 
   final http = getIt<BaseNetworkClient>();
 
@@ -101,6 +104,62 @@ class IuranRepository {
         throw "Error";
       }
     } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<String> checkoutItem({
+    required PaymentChannelModel payment,
+    required List<int> invoiceIds,
+  }) async {
+    try {
+      final token = getIt<AppBloc>().state.token;
+      var headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      };
+
+      var request = httpBase.Request('POST', Uri.parse(checkoutItems));
+
+      Map<String, dynamic> requestBody = {
+        "invoice_ids": invoiceIds,
+        "payment_method": {
+          "id": payment.id,
+          "paymentType": payment.paymentType,
+          "name": payment.name,
+          "nameCode": payment.nameCode,
+          "logo": payment.logo,
+          "fee": payment.fee,
+          "service_fee": payment.serviceFee,
+          "platform": payment.platform,
+          "howToUseUrl": payment.howToUseUrl,
+          "createdAt": payment.createdAt,
+          "updatedAt": payment.updatedAt,
+          "deletedAt": payment.deletedAt,
+        },
+      };
+
+      request.body = json.encode(requestBody);
+      request.headers.addAll(headers);
+
+      print("Request Body: ${request.body}");
+
+      httpBase.StreamedResponse response = await request.send();
+      var responseString = await response.stream.bytesToString();
+      final decodedMap = json.decode(responseString);
+
+      print("Response Status: ${response.statusCode}");
+      print("Response Body: $decodedMap");
+
+      if (response.statusCode == 200) {
+        var paymentNumber = decodedMap['data']['id'];
+        print("Payment Number: $paymentNumber");
+        return paymentNumber.toString();
+      } else {
+        throw decodedMap['message'] ?? "Terjadi kesalahan";
+      }
+    } catch (e) {
+      print("Error: $e");
       rethrow;
     }
   }

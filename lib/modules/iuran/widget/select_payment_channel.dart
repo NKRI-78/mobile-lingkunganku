@@ -15,68 +15,99 @@ class SelectPaymentChannel extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<IuranCubit, IuranState>(
       builder: (context, state) {
-        return Container(
-          padding: const EdgeInsets.all(20),
-          decoration: const BoxDecoration(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-            color: Colors.white,
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // Header
-              Text(
-                "Pilih Metode Pembayaran",
-                style: AppTextStyles.textProfileBold
-                    .copyWith(color: AppColors.blackColor, fontSize: 18),
-              ),
-              const SizedBox(height: 15),
-              const Divider(),
-
-              // List Metode Pembayaran
-              Flexible(
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: state.channels.length,
-                  itemBuilder: (context, index) {
-                    final e = state.channels[index];
-                    return ListTile(
-                      contentPadding: const EdgeInsets.symmetric(
-                          vertical: 10, horizontal: 10),
-                      title: Text(
-                        e.name == "Saldo"
-                            ? "Lingkunganku Wallet"
-                            : e.name ?? "",
-                        style: const TextStyle(fontWeight: FontWeight.bold),
+        return WillPopScope(
+          onWillPop: () async => false,
+          child: Container(
+            padding: const EdgeInsets.all(20),
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+              color: Colors.white,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Header dengan tombol kembali
+                Row(
+                  children: [
+                    IconButton(
+                      icon: const Icon(
+                        Icons.arrow_back_ios_new_outlined,
+                        color: AppColors.blackColor,
                       ),
-                      onTap: () {
-                        context.read<IuranCubit>().setPaymentChannel(e);
-                        Navigator.pop(context);
-                        //
-                      },
-                      leading: ImageCard(
-                        image: e.logo ?? "",
-                        height: 70,
-                        width: 70,
-                        radius: 10,
-                        imageError: imageDefault,
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                    Expanded(
+                      child: Text(
+                        "Pilih Metode Pembayaran",
+                        textAlign: TextAlign.center,
+                        style: AppTextStyles.textProfileBold.copyWith(
+                            color: AppColors.blackColor, fontSize: 18),
                       ),
-                      subtitle: Text(
-                        e.paymentType == "APP"
-                            ? 'Saldo: ${Price.currency(e.user?.balance?.toDouble() ?? 0.0)}'
-                            : e.paymentType
-                                    ?.replaceAll("_", " ")
-                                    .replaceAll("GOPAY", "QRIS") ??
-                                "",
-                        style:
-                            const TextStyle(fontSize: 14, color: Colors.grey),
-                      ),
-                      trailing: const Icon(Icons.arrow_forward_ios, size: 18),
-                    );
-                  },
+                    ),
+                    const SizedBox(width: 25),
+                  ],
                 ),
-              ),
-            ],
+                const Divider(),
+                const SizedBox(height: 10),
+
+                // List Metode Pembayaran dalam bentuk Card
+                Flexible(
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: state.channels.length,
+                    itemBuilder: (context, index) {
+                      final e = state.channels[index];
+                      return Card(
+                        color: AppColors.whiteColor,
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 5, horizontal: 5),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        elevation: 4,
+                        child: ListTile(
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 10),
+                          title: Text(
+                            e.name == "Saldo"
+                                ? "Lingkunganku Wallet"
+                                : e.name ?? "",
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16),
+                          ),
+                          onTap: () {
+                            context.read<IuranCubit>().setPaymentChannel(e);
+                            Navigator.pop(context);
+                          },
+                          leading: ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: ImageCard(
+                              image: e.logo ?? "",
+                              height: 60,
+                              width: 60,
+                              radius: 10,
+                              imageError: imageDefault,
+                            ),
+                          ),
+                          subtitle: Text(
+                            e.paymentType == "APP"
+                                ? 'Saldo: ${Price.currency(e.user?.balance?.toDouble() ?? 0.0)}'
+                                : e.paymentType
+                                        ?.replaceAll("_", " ")
+                                        .replaceAll("GOPAY", "QRIS") ??
+                                    "",
+                            style: const TextStyle(
+                                fontSize: 14, color: Colors.grey),
+                          ),
+                          trailing: const Icon(Icons.arrow_forward_ios,
+                              size: 18, color: AppColors.secondaryColor),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
         );
       },

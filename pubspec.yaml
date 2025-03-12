@@ -56,8 +56,10 @@ dependencies:
   pod_player: ^0.2.2
   pull_to_refresh: ^2.0.0
   shimmer: ^3.0.0
+  slide_countdown: ^2.0.2
   slide_to_confirm: ^1.1.0
   sn_progress_dialog: ^1.2.0
+  socket_io_client: ^3.0.2
   table_calendar: ^3.2.0
   timeago: ^3.2.2
   url_launcher: ^6.3.1

@@ -50,6 +50,10 @@ RouteBase get $homeRoute => GoRouteData.$route(
           factory: $SettingsRouteExtension._fromState,
         ),
         GoRouteData.$route(
+          path: 'waiting-payment',
+          factory: $WaitingPaymentRouteExtension._fromState,
+        ),
+        GoRouteData.$route(
           path: 'iuran',
           factory: $IuranRouteExtension._fromState,
           routes: [
@@ -258,6 +262,29 @@ extension $SettingsRouteExtension on SettingsRoute {
 
   String get location => GoRouteData.$location(
         '/home/settings',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $WaitingPaymentRouteExtension on WaitingPaymentRoute {
+  static WaitingPaymentRoute _fromState(GoRouterState state) =>
+      WaitingPaymentRoute(
+        id: state.uri.queryParameters['id']!,
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/waiting-payment',
+        queryParams: {
+          'id': id,
+        },
       );
 
   void go(BuildContext context) => context.go(location);

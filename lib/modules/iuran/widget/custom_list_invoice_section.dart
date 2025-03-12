@@ -59,14 +59,24 @@ class CustomListInvoiceSection extends StatelessWidget {
                 title: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      DateHelper.parseDate(
-                          iuranItem.invoiceDate ?? "Tanggal tidak tersedia"),
-                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    Expanded(
+                      child: Text(
+                        DateHelper.parseDate(
+                            iuranItem.invoiceDate ?? "Tanggal tidak tersedia"),
+                        style: AppTextStyles.textProfileBold.copyWith(
+                            color: AppColors.blackColor, fontSize: 14),
+                      ),
                     ),
-                    Text(
-                      "Rp ${NumberFormat("#,###", "id_ID").format(iuranItem.totalAmount ?? 0)}",
-                      style: AppTextStyles.textDialog,
+                    Flexible(
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          "Rp ${NumberFormat("#,###", "id_ID").format(iuranItem.totalAmount ?? 0)}",
+                          style: AppTextStyles.textDialog.copyWith(
+                              color: AppColors.blackColor, fontSize: 14),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -103,7 +113,8 @@ class CustomListInvoiceSection extends StatelessWidget {
                         Text(
                           'Keterangan : ${iuranItem.note}',
                           style: AppTextStyles.textDialog,
-                        )
+                          textAlign: TextAlign.center,
+                        ),
                       ],
                     ),
                   );

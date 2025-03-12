@@ -8,6 +8,8 @@ class IuranState extends Equatable {
   final bool loadingChannel;
   final List<PaymentChannelModel> channels;
   final PaymentChannelModel? channel;
+  final List<Data> selectedInvoices;
+  final double adminFee;
 
   const IuranState({
     this.isLoading = false,
@@ -17,6 +19,8 @@ class IuranState extends Equatable {
     this.loadingChannel = false,
     this.channels = const [],
     this.channel,
+    this.selectedInvoices = const [],
+    this.adminFee = 0.0,
   });
 
   IuranState copyWith({
@@ -27,6 +31,8 @@ class IuranState extends Equatable {
     bool? loadingChannel,
     List<PaymentChannelModel>? channels,
     PaymentChannelModel? channel,
+    List<Data>? selectedInvoices,
+    double? adminFee,
   }) {
     return IuranState(
       isLoading: isLoading ?? this.isLoading,
@@ -36,6 +42,8 @@ class IuranState extends Equatable {
       loadingChannel: loadingChannel ?? this.loadingChannel,
       channels: channels ?? this.channels,
       channel: channel ?? this.channel,
+      selectedInvoices: selectedInvoices ?? this.selectedInvoices,
+      adminFee: adminFee ?? this.adminFee,
     );
   }
 
@@ -48,5 +56,7 @@ class IuranState extends Equatable {
         loadingChannel,
         channels,
         channel,
+        selectedInvoices,
+        adminFee,
       ];
 }

@@ -16,6 +16,16 @@ class IuranCubit extends Cubit<IuranState> {
 
   final IuranRepository repo = getIt<IuranRepository>();
 
+  /// **Memilih metode pembayaran dan menyimpan fee (biaya admin)**
+  void selectPaymentMethod(PaymentChannelModel channel) {
+    emit(state.copyWith(
+      channel: channel,
+      adminFee:
+          (channel.fee ?? 0).toDouble(), // Ambil fee dari metode pembayaran
+    ));
+  }
+
+  /// **Mengambil daftar invoice**
   Future<void> getInvoice() async {
     emit(state.copyWith(isLoading: true, errorMessage: null));
 
@@ -33,6 +43,7 @@ class IuranCubit extends Cubit<IuranState> {
     }
   }
 
+  /// **Mengambil daftar metode pembayaran dan menampilkan modal**
   Future<void> getPaymentChannel(BuildContext context) async {
     try {
       emit(state.copyWith(loadingChannel: true));
@@ -67,7 +78,45 @@ class IuranCubit extends Cubit<IuranState> {
     }
   }
 
-  void setPaymentChannel(PaymentChannelModel e) {
-    emit(state.copyWith(channel: e));
+  /// **Menyimpan metode pembayaran yang dipilih**
+  void setPaymentChannel(PaymentChannelModel channel) {
+    emit(state.copyWith(
+      channel: channel,
+      adminFee:
+          (channel.fee ?? 0).toDouble(), // Simpan fee dari metode pembayaran
+    ));
+  }
+
+  /// **Checkout pembayaran iuran**
+  Future<String> checkoutItem() async {
+    try {
+      emit(state.copyWith(isLoading: true));
+
+      if (state.channel == null) {
+        throw Exception("Silakan pilih metode pembayaran terlebih dahulu.");
+      }
+
+      var invoiceIds =
+          state.selectedInvoices.map((e) => e.id).whereType<int>().toList();
+
+      if (invoiceIds.isEmpty) {
+        throw Exception("Tidak ada invoice yang dipilih.");
+      }
+
+      debugPrint("Checkout dengan Invoice IDs: $invoiceIds");
+      debugPrint("Metode Pembayaran: ${state.channel?.name}");
+      debugPrint("Biaya Admin: ${state.adminFee}");
+
+      var paymentNumber = await repo.checkoutItem(
+        payment: state.channel!,
+        invoiceIds: invoiceIds,
+      );
+
+      emit(state.copyWith(isLoading: false, selectedInvoices: []));
+      return paymentNumber;
+    } catch (e) {
+      emit(state.copyWith(isLoading: false));
+      throw Exception("Checkout gagal: $e");
+    }
   }
 }

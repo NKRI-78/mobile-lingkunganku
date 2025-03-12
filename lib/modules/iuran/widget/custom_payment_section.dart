@@ -2,6 +2,7 @@ part of '../view/iuran_page.dart';
 
 void _customPaymentSection(BuildContext context, List<Data> selected) {
   final iuranCubit = context.read<IuranCubit>();
+  iuranCubit.emit(iuranCubit.state.copyWith(selectedInvoices: selected));
 
   showModalBottomSheet(
     context: context,
@@ -15,6 +16,11 @@ void _customPaymentSection(BuildContext context, List<Data> selected) {
         child: Builder(builder: (dialogContext) {
           final selectedChannel =
               dialogContext.watch<IuranCubit>().state.channel;
+          final adminFee = dialogContext.watch<IuranCubit>().state.adminFee;
+          final totalAmount =
+              selected.fold(0, (sum, item) => sum + (item.totalAmount ?? 0)) +
+                  adminFee;
+
           return Padding(
             padding: const EdgeInsets.all(20),
             child: Column(
@@ -23,22 +29,42 @@ void _customPaymentSection(BuildContext context, List<Data> selected) {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      "Metode Pembayaran",
-                      style: AppTextStyles.textProfileBold
-                          .copyWith(color: AppColors.blackColor),
+                    Expanded(
+                      child: Text(
+                        "Metode Pembayaran",
+                        style: AppTextStyles.textProfileBold
+                            .copyWith(color: AppColors.blackColor),
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
-                    TextButton(
-                      onPressed: () {
-                        debugPrint(
-                            "Cubit diakses: ${dialogContext.read<IuranCubit>()}");
+                    InkWell(
+                      onTap: () {
                         dialogContext
                             .read<IuranCubit>()
                             .getPaymentChannel(dialogContext);
                       },
-                      child: Text(
-                        "Pilih Pembayaran",
-                        style: TextStyle(color: AppColors.secondaryColor),
+                      splashColor: Colors.grey.withOpacity(0.3),
+                      highlightColor: Colors.grey.withOpacity(0.1),
+                      borderRadius: BorderRadius.circular(8),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 5, vertical: 10),
+                        child: Text(
+                          dialogContext.watch<IuranCubit>().state.channel ==
+                                  null
+                              ? "Pilih Pembayaran"
+                              : "Ganti Pembayaran",
+                          style: TextStyle(
+                            color: dialogContext
+                                        .watch<IuranCubit>()
+                                        .state
+                                        .channel ==
+                                    null
+                                ? AppColors.secondaryColor
+                                : AppColors.redColor,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
                     ),
                   ],
@@ -54,8 +80,7 @@ void _customPaymentSection(BuildContext context, List<Data> selected) {
                   ),
                 ),
                 SizedBox(height: 5),
-                _buildDetailRow(
-                    "Pembayaran Untuk", selected.first.note.toString()),
+                _buildDetailRow("Keterangan", selected.first.note.toString()),
                 _buildDetailRow(
                     "Tanggal Iuran",
                     selected
@@ -79,8 +104,18 @@ void _customPaymentSection(BuildContext context, List<Data> selected) {
                   ),
                 ),
                 _buildDetailRow(
-                  "Total",
-                  "Rp ${selected.fold(0, (sum, item) => sum + (item.totalAmount ?? 0))}",
+                  "Iuran",
+                  "${Price.currency(selected.fold(0, (sum, item) => sum + (item.totalAmount ?? 0)))}",
+                  isBold: true,
+                ),
+                _buildDetailRow(
+                  "Biaya Admin Bank",
+                  "${Price.currency(adminFee)}",
+                  isBold: true,
+                ),
+                _buildDetailRow(
+                  "Total Pembayaran",
+                  "${Price.currency(totalAmount)}",
                   isBold: true,
                 ),
                 const SizedBox(height: 10),
@@ -88,15 +123,25 @@ void _customPaymentSection(BuildContext context, List<Data> selected) {
                   width: double.infinity,
                   child: CustomButton(
                     text: "Bayar",
-                    onPressed: (selectedChannel != null &&
-                            selectedChannel.logo != null &&
-                            selectedChannel.logo!.isNotEmpty)
-                        ? () {
-                            //
-                          }
-                        : null,
+                    onPressed:
+                        dialogContext.watch<IuranCubit>().state.channel == null
+                            ? null
+                            : () async {
+                                final cubit = dialogContext.read<IuranCubit>();
+                                try {
+                                  var paymentNumber =
+                                      await cubit.checkoutItem();
+                                  if (context.mounted) {
+                                    WaitingPaymentRoute(id: paymentNumber)
+                                        .go(context);
+                                  }
+                                } catch (e) {
+                                  ShowSnackbar.snackbar(context, e.toString(),
+                                      '', AppColors.redColor);
+                                }
+                              },
                   ),
-                )
+                ),
               ],
             ),
           );
@@ -111,16 +156,26 @@ Widget _buildDetailRow(String title, String value, {bool isBold = false}) {
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 5),
     child: Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(title, style: TextStyle(fontSize: 14, color: Colors.grey[700])),
-        Text(
-          value,
-          maxLines: 3,
-          overflow: TextOverflow.ellipsis,
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
+        Flexible(
+          flex: 4,
+          child: Text(
+            title,
+            style: TextStyle(fontSize: 14, color: Colors.grey[700]),
+          ),
+        ),
+        Flexible(
+          flex: 7,
+          child: Text(
+            value,
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
+            ),
+            textAlign: TextAlign.right,
+            softWrap: true,
           ),
         ),
       ],
