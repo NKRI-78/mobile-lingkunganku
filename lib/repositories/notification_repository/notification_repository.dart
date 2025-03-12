@@ -23,20 +23,17 @@ class NotificationRepository {
 
       final json = jsonDecode(res.body);
       print(json);
+
       if (res.statusCode == 200) {
         var pagination = Pagination.fromJson(json['data']);
-        var list = (json['data']['data'] as List)
+        var list = (json['data']['data'] as List) // Ambil `data['data']`
             .map((e) => NotificationModel.fromJson(e))
             .toList();
-        print("Url : ${jsonEncode(pagination)}");
         return PaginationModel<NotificationModel>(
             pagination: pagination, list: list);
       }
-      if (res.statusCode == 400) {
-        throw json['message'] ?? "Terjadi kesalahan";
-      } else {
-        throw "Error";
-      }
+
+      throw json['message'] ?? "Terjadi kesalahan";
     } on SocketException {
       throw "Terjadi kesalahan jaringan";
     } catch (e) {

@@ -34,7 +34,7 @@ class DateHelper {
               days: 1,
             )
           : const Duration(
-              minutes: 30,
+              minutes: 15,
             ),
     ));
     return date;

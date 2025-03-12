@@ -19,16 +19,18 @@ class NotificationCubit extends Cubit<NotificationState> {
 
   Future<void> fetchNotification() async {
     try {
+      emit(state.copyWith(loading: true));
       PaginationModel<NotificationModel> data = await repo.getNotification();
 
       emit(state.copyWith(
         notif: data.list,
-        nextPageNotif: data.pagination.currentPage,
+        nextPageNotif: data.pagination.currentPage + 1,
         pagination: data.pagination,
+        loading: false,
       ));
     } catch (e) {
+      print("Error fetchNotification: $e");
       emit(state.copyWith(loading: false));
-      print(e);
     }
   }
 

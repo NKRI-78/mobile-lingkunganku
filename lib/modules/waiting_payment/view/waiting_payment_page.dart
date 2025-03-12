@@ -63,19 +63,19 @@ class _WaitingPaymentViewState extends State<WaitingPaymentView> {
                   days: 1,
                 )
               : const Duration(
-                  minutes: 30,
+                  minutes: 15,
                 ),
         );
         final duration = targetDateTime.difference(DateTime.now());
 
-        double totalProduct = state.payment?.orders?.fold(0.0, (sum, order) {
-              return sum! + ((order.price ?? 0));
-            }) ??
-            0;
-        double totalShipping = state.payment?.orders?.fold(0.0, (sum, order) {
-              return sum! + ((order.otherPrice ?? 0));
-            }) ??
-            0;
+        // double totalProduct = state.payment?.orders?.fold(0.0, (sum, order) {
+        //       return sum! + ((order.price ?? 0));
+        //     }) ??
+        //     0;
+        // double totalShipping = state.payment?.orders?.fold(0.0, (sum, order) {
+        //       return sum! + ((order.otherPrice ?? 0));
+        //     }) ??
+        //     0;
         return Scaffold(
           // bottomNavigationBar: Container(
           //   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),

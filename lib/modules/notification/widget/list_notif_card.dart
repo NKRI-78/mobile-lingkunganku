@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile_lingkunganku/router/builder.dart';
 import '../cubit/notification_cubit.dart';
 
 import '../../../misc/colors.dart';
@@ -16,6 +17,9 @@ class ListNotifCard extends StatelessWidget {
     return InkWell(
       onTap: () async {
         await context.read<NotificationCubit>().readNotif(notif.id.toString());
+        if (notif.type.contains("PAYMENT")) {
+          WaitingPaymentRoute(id: notif.paymentId.toString()).push(context);
+        }
       },
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 5),
