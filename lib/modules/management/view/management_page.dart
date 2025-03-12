@@ -58,6 +58,7 @@ class ManagementViewState extends State<ManagementView> {
       },
       child: BlocBuilder<ManagementCubit, ManagementState>(
         builder: (context, state) {
+          print("State saat ini: ${state.memberData?.data?.members}");
           return Scaffold(
             backgroundColor: Colors.green.shade100,
             body: RefreshIndicator(
@@ -117,7 +118,7 @@ class ManagementViewState extends State<ManagementView> {
                               icon: Icon(
                                 Icons.share,
                                 color: AppColors.whiteColor,
-                                size: 18,
+                                size: 22,
                               ),
                             ),
                           )

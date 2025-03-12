@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:mobile_lingkunganku/misc/colors.dart';
-import 'package:mobile_lingkunganku/misc/text_style.dart';
-import 'package:mobile_lingkunganku/widgets/button/custom_button.dart';
+import 'colors.dart';
+import 'text_style.dart';
+import '../widgets/button/custom_button.dart';
 
 class GeneralModal {
   static Future<void> showConfirmModal({
@@ -29,10 +29,10 @@ class GeneralModal {
             msg,
             textAlign: TextAlign.center,
             style: AppTextStyles.textDialog.copyWith(
-              fontSize: 20,
+              fontSize: 14,
             ),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 20),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

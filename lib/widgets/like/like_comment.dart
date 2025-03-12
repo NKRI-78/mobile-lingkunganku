@@ -11,7 +11,7 @@ class LikeComment extends StatelessWidget {
       required this.isLike,
       required this.countLike});
 
-  final int isLike;
+  final bool isLike;
   final int countLike;
   final Function() onPressedLike;
   final Function() onPressedComment;
@@ -19,7 +19,7 @@ class LikeComment extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 15),
+      padding: const EdgeInsets.symmetric(vertical: 5),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -27,22 +27,25 @@ class LikeComment extends StatelessWidget {
         children: [
           Expanded(
             flex: 3,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                isLike == 1
-                    ? Image.asset(AssetSource.likeFillIcon,
-                        width: 25, height: 25, color: AppColors.greyColor)
-                    : Image.asset(AssetSource.likeIcon,
-                        width: 20, height: 20, color: AppColors.greyColor),
-                const SizedBox(
-                  width: 5,
-                ),
-                const Text(
-                  "Suka",
-                  style: TextStyle(color: AppColors.greyColor, fontSize: 14),
-                )
-              ],
+            child: InkWell(
+              onTap: onPressedLike,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  isLike == true
+                      ? Image.asset(AssetSource.likeFillIcon,
+                          width: 25, height: 25, color: AppColors.greyColor)
+                      : Image.asset(AssetSource.likeIcon,
+                          width: 20, height: 20, color: AppColors.greyColor),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  const Text(
+                    "Suka",
+                    style: TextStyle(color: AppColors.greyColor, fontSize: 14),
+                  )
+                ],
+              ),
             ),
           ),
           const SizedBox(
@@ -61,7 +64,7 @@ class LikeComment extends StatelessWidget {
                   color: AppColors.greyColor,
                 ),
                 const Text(
-                  "Comment",
+                  "Komentar",
                   style: TextStyle(color: AppColors.greyColor, fontSize: 14),
                 )
               ],

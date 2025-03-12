@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mobile_lingkunganku/misc/colors.dart';
-import 'package:mobile_lingkunganku/misc/injections.dart';
-import 'package:mobile_lingkunganku/misc/text_style.dart';
-import 'package:mobile_lingkunganku/modules/forum/cubit/forum_cubit.dart';
-import 'package:mobile_lingkunganku/modules/forum_create/cubit/forum_create_cubit.dart';
-import 'package:mobile_lingkunganku/modules/forum_create/widget/_button_media.dart';
-import 'package:mobile_lingkunganku/modules/forum_create/widget/_thumbnail_media.dart';
-import 'package:mobile_lingkunganku/widgets/button/custom_button.dart';
+import '../../../misc/colors.dart';
+import '../../../misc/injections.dart';
+import '../../../misc/text_style.dart';
+import '../../forum/cubit/forum_cubit.dart';
+import '../cubit/forum_create_cubit.dart';
+import '../widget/_button_media.dart';
+import '../widget/_thumbnail_media.dart';
+import '../../../widgets/button/custom_button.dart';
 
 part '../widget/_input_description.dart';
 
@@ -95,7 +95,7 @@ class ForumCreateView extends StatelessWidget {
               icon: Icon(
                 Icons.arrow_back_ios_new,
                 color: AppColors.buttonColor2,
-                size: 32,
+                size: 24,
               ),
               onPressed: () {
                 GoRouter.of(context).pop();

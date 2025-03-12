@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_lingkunganku/misc/colors.dart';
-import 'package:mobile_lingkunganku/modules/forum_create/cubit/forum_create_cubit.dart';
+import '../../../misc/colors.dart';
+import '../cubit/forum_create_cubit.dart';
 
 class ThumbnailMedia extends StatelessWidget {
   const ThumbnailMedia({super.key});
@@ -64,8 +64,8 @@ class ThumbnailMedia extends StatelessWidget {
                                   ),
                                 ),
                               Positioned(
-                                right: 5,
-                                top: 5,
+                                right: 10,
+                                top: 0,
                                 child: GestureDetector(
                                   onTap: () {
                                     context
@@ -77,7 +77,8 @@ class ThumbnailMedia extends StatelessWidget {
                                     height: 30,
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
-                                      color: Colors.black.withOpacity(0.5),
+                                      color:
+                                          Colors.black.withValues(alpha: 0.5),
                                     ),
                                     child: const Icon(
                                       Icons.close,

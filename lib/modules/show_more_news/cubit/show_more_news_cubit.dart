@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
-import '../../../repositories/profile_repository/profile_repository.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../misc/injections.dart';
@@ -12,6 +11,7 @@ import '../../../repositories/home_repository/models/data_pagination.dart';
 import '../../../repositories/home_repository/models/news_model.dart';
 import '../../../repositories/home_repository/models/pagination_model.dart';
 import '../../../repositories/profile_repository/models/profile_model.dart';
+import '../../../repositories/profile_repository/profile_repository.dart';
 
 part 'show_more_news_state.dart';
 
@@ -90,7 +90,7 @@ class ShowMoreNewsCubit extends Cubit<ShowMoreNewsState> {
 
   // @override
   // Future<void> close() async {
-  //   getIt<HomeBloc>().add(HomeFetchMoreNews(true));
+  //   getIt<HomeInit>();
   //   return super.close();
   // }
 }

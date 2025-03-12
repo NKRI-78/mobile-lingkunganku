@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mobile_lingkunganku/modules/sos/cubit/sos_cubit.dart';
+import '../cubit/sos_cubit.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../misc/colors.dart';
@@ -37,6 +37,7 @@ class SosView extends StatelessWidget {
         return Scaffold(
           extendBodyBehindAppBar: true,
           appBar: AppBar(
+            surfaceTintColor: Colors.transparent,
             title: Text(
               'SOS',
               style: AppTextStyles.textStyle1,
@@ -47,7 +48,7 @@ class SosView extends StatelessWidget {
               icon: Icon(
                 Icons.arrow_back_ios_new,
                 color: AppColors.buttonColor2,
-                size: 32,
+                size: 24,
               ),
               onPressed: () {
                 GoRouter.of(context).pop();
@@ -63,9 +64,9 @@ class SosView extends StatelessWidget {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(
-                        left: 30, right: 30, top: 100, bottom: 30),
+                        left: 30, right: 30, top: 100, bottom: 10),
                     child: Text(
-                      'Pilih Darurat apa yang kamu alami, maka\nuser dalam satu Lingkungan mu akan\nmendapatkan notifikasi',
+                      'Pilih Darurat apa yang kamu alami, maka user dalam satu Lingkungan mu akan mendapatkan notifikasi',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: AppColors.textColor2,
@@ -78,68 +79,104 @@ class SosView extends StatelessWidget {
                   Expanded(
                     child: GridView.count(
                       crossAxisCount: 2,
-                      crossAxisSpacing: 40,
-                      mainAxisSpacing: 20,
+                      crossAxisSpacing: 20,
+                      mainAxisSpacing: 10,
                       padding: const EdgeInsets.symmetric(horizontal: 30),
                       children: [
                         customCardSection(
                           icon: 'assets/images/kecelakaan.png',
                           label: 'Kecelakaan',
                           onTap: isLoggedIn
-                              ? () {} // Provide an empty callback if already logged in
+                              ? () {
+                                  SosDetailRoute(
+                                    isLoggedIn: isLoggedIn,
+                                    sosType: 'Kecelakaan',
+                                    message:
+                                        '${state.profile?.profile?.fullname} butuh bantuan terjadi Kecelakaan',
+                                  ).go(context);
+                                }
                               : () {
-                                  RegisterRoute().go(context);
-                                  print('Kecelakaan dipilih');
+                                  RegisterRoute().push(context);
                                 },
                         ),
                         customCardSection(
                           icon: 'assets/images/pencurian.png',
                           label: 'Pencurian',
                           onTap: isLoggedIn
-                              ? () {}
+                              ? () {
+                                  SosDetailRoute(
+                                          isLoggedIn: isLoggedIn,
+                                          sosType: 'Pencurian',
+                                          message:
+                                              '${state.profile?.profile?.fullname} butuh bantuan terjadi Pencurian')
+                                      .go(context);
+                                }
                               : () {
-                                  RegisterRoute().go(context);
-                                  print('Pencurian dipilih');
+                                  RegisterRoute().push(context);
                                 },
                         ),
                         customCardSection(
                           icon: 'assets/images/kebakaran.png',
                           label: 'Kebakaran',
                           onTap: isLoggedIn
-                              ? () {}
+                              ? () {
+                                  SosDetailRoute(
+                                          isLoggedIn: isLoggedIn,
+                                          sosType: 'Kebakaran',
+                                          message:
+                                              '${state.profile?.profile?.fullname} butuh bantuan terjadi Kebakaran')
+                                      .go(context);
+                                }
                               : () {
-                                  RegisterRoute().go(context);
-                                  print('Kebakaran dipilih');
+                                  RegisterRoute().push(context);
                                 },
                         ),
                         customCardSection(
                           icon: 'assets/images/bencana_alam.png',
                           label: 'Bencana Alam',
                           onTap: isLoggedIn
-                              ? () {}
+                              ? () {
+                                  SosDetailRoute(
+                                          isLoggedIn: isLoggedIn,
+                                          sosType: 'Bencana Alam',
+                                          message:
+                                              '${state.profile?.profile?.fullname} butuh bantuan terjadi Bencana Alam')
+                                      .go(context);
+                                }
                               : () {
-                                  RegisterRoute().go(context);
-                                  print('Bencana Alam dipilih');
+                                  RegisterRoute().push(context);
                                 },
                         ),
                         customCardSection(
                           icon: 'assets/images/donor_darah.png',
                           label: 'Donor Darah',
                           onTap: isLoggedIn
-                              ? () {}
+                              ? () {
+                                  SosDetailRoute(
+                                          isLoggedIn: isLoggedIn,
+                                          sosType: 'Donor Darah',
+                                          message:
+                                              '${state.profile?.profile?.fullname} butuh bantuan Donor Darah')
+                                      .go(context);
+                                }
                               : () {
-                                  RegisterRoute().go(context);
-                                  print('Donor Darah dipilih');
+                                  RegisterRoute().push(context);
                                 },
                         ),
                         customCardSection(
                           icon: 'assets/images/kerusuhan.png',
                           label: 'Kerusuhan',
                           onTap: isLoggedIn
-                              ? () {}
+                              ? () {
+                                  SosDetailRoute(
+                                          isLoggedIn: isLoggedIn,
+                                          sosType: 'Kerusuhan',
+                                          message:
+                                              '${state.profile?.profile?.fullname} butuh bantuan terjadi Kerusuhan')
+                                      .go(context);
+                                }
                               : () {
-                                  RegisterRoute().go(context);
-                                  print('Kerusuhan dipilih');
+                                  RegisterRoute().push(context);
                                 },
                         ),
                       ],
@@ -147,7 +184,7 @@ class SosView extends StatelessWidget {
                   ),
                   Padding(
                     padding:
-                        const EdgeInsets.only(bottom: 30, left: 30, right: 30),
+                        const EdgeInsets.only(bottom: 20, left: 30, right: 30),
                     child: SizedBox(
                       width: double.infinity,
                       child: CustomButton(
@@ -167,6 +204,7 @@ class SosView extends StatelessWidget {
                                   } else {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
+                                          backgroundColor: AppColors.redColor,
                                           content: Text(
                                               "Tidak dapat membuka WhatsApp")),
                                     );
@@ -174,13 +212,15 @@ class SosView extends StatelessWidget {
                                 } else {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                        content: Text(
-                                            "Nomor keamanan tidak tersedia")),
+                                      backgroundColor: AppColors.redColor,
+                                      content:
+                                          Text("Nomor keamanan tidak tersedia"),
+                                    ),
                                   );
                                 }
                               }
                             : () {
-                                RegisterRoute().go(context);
+                                RegisterRoute().push(context);
                               },
                       ),
                     ),

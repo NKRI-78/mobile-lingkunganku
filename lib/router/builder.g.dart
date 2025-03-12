@@ -38,8 +38,30 @@ RouteBase get $homeRoute => GoRouteData.$route(
       factory: $HomeRouteExtension._fromState,
       routes: [
         GoRouteData.$route(
+          path: 'webview',
+          factory: $WebViewRouteExtension._fromState,
+        ),
+        GoRouteData.$route(
+          path: 'notification',
+          factory: $NotificationRouteExtension._fromState,
+        ),
+        GoRouteData.$route(
           path: 'settings',
           factory: $SettingsRouteExtension._fromState,
+        ),
+        GoRouteData.$route(
+          path: 'waiting-payment',
+          factory: $WaitingPaymentRouteExtension._fromState,
+        ),
+        GoRouteData.$route(
+          path: 'iuran',
+          factory: $IuranRouteExtension._fromState,
+          routes: [
+            GoRouteData.$route(
+              path: 'iuran-history',
+              factory: $IuranHistoryRouteExtension._fromState,
+            ),
+          ],
         ),
         GoRouteData.$route(
           path: 'event',
@@ -144,14 +166,28 @@ RouteBase get $homeRoute => GoRouteData.$route(
         GoRouteData.$route(
           path: 'sos',
           factory: $SosRouteExtension._fromState,
+          routes: [
+            GoRouteData.$route(
+              path: 'sos-detail',
+              factory: $SosDetailRouteExtension._fromState,
+            ),
+          ],
         ),
         GoRouteData.$route(
           path: 'forum',
           factory: $ForumRouteExtension._fromState,
           routes: [
             GoRouteData.$route(
+              path: 'forum-detail',
+              factory: $ForumDetailRouteExtension._fromState,
+            ),
+            GoRouteData.$route(
               path: 'forum-create',
               factory: $ForumCreateRouteExtension._fromState,
+            ),
+            GoRouteData.$route(
+              path: 'clipped-photo',
+              factory: $ClippedPhotoRouteExtension._fromState,
             ),
             GoRouteData.$route(
               path: 'detail-video',
@@ -179,11 +215,111 @@ extension $HomeRouteExtension on HomeRoute {
   void replace(BuildContext context) => context.replace(location);
 }
 
+extension $WebViewRouteExtension on WebViewRoute {
+  static WebViewRoute _fromState(GoRouterState state) => WebViewRoute(
+        url: state.uri.queryParameters['url']!,
+        title: state.uri.queryParameters['title']!,
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/webview',
+        queryParams: {
+          'url': url,
+          'title': title,
+        },
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $NotificationRouteExtension on NotificationRoute {
+  static NotificationRoute _fromState(GoRouterState state) =>
+      NotificationRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/notification',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
 extension $SettingsRouteExtension on SettingsRoute {
   static SettingsRoute _fromState(GoRouterState state) => SettingsRoute();
 
   String get location => GoRouteData.$location(
         '/home/settings',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $WaitingPaymentRouteExtension on WaitingPaymentRoute {
+  static WaitingPaymentRoute _fromState(GoRouterState state) =>
+      WaitingPaymentRoute(
+        id: state.uri.queryParameters['id']!,
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/waiting-payment',
+        queryParams: {
+          'id': id,
+        },
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $IuranRouteExtension on IuranRoute {
+  static IuranRoute _fromState(GoRouterState state) => IuranRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/iuran',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $IuranHistoryRouteExtension on IuranHistoryRoute {
+  static IuranHistoryRoute _fromState(GoRouterState state) =>
+      IuranHistoryRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/iuran/iuran-history',
       );
 
   void go(BuildContext context) => context.go(location);
@@ -606,6 +742,32 @@ extension $SosRouteExtension on SosRoute {
   void replace(BuildContext context) => context.replace(location);
 }
 
+extension $SosDetailRouteExtension on SosDetailRoute {
+  static SosDetailRoute _fromState(GoRouterState state) => SosDetailRoute(
+        isLoggedIn: _$boolConverter(state.uri.queryParameters['is-logged-in']!),
+        sosType: state.uri.queryParameters['sos-type']!,
+        message: state.uri.queryParameters['message']!,
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/sos/sos-detail',
+        queryParams: {
+          'is-logged-in': isLoggedIn.toString(),
+          'sos-type': sosType,
+          'message': message,
+        },
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
 extension $ForumRouteExtension on ForumRoute {
   static ForumRoute _fromState(GoRouterState state) => ForumRoute();
 
@@ -623,11 +785,58 @@ extension $ForumRouteExtension on ForumRoute {
   void replace(BuildContext context) => context.replace(location);
 }
 
+extension $ForumDetailRouteExtension on ForumDetailRoute {
+  static ForumDetailRoute _fromState(GoRouterState state) => ForumDetailRoute(
+        idForum: state.uri.queryParameters['id-forum']!,
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/forum/forum-detail',
+        queryParams: {
+          'id-forum': idForum,
+        },
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
 extension $ForumCreateRouteExtension on ForumCreateRoute {
   static ForumCreateRoute _fromState(GoRouterState state) => ForumCreateRoute();
 
   String get location => GoRouteData.$location(
         '/home/forum/forum-create',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $ClippedPhotoRouteExtension on ClippedPhotoRoute {
+  static ClippedPhotoRoute _fromState(GoRouterState state) => ClippedPhotoRoute(
+        idForum: int.parse(state.uri.queryParameters['id-forum']!),
+        indexPhoto: _$convertMapValue(
+            'index-photo', state.uri.queryParameters, int.parse),
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/forum/clipped-photo',
+        queryParams: {
+          'id-forum': idForum.toString(),
+          if (indexPhoto != null) 'index-photo': indexPhoto!.toString(),
+        },
       );
 
   void go(BuildContext context) => context.go(location);
@@ -672,4 +881,13 @@ bool _$boolConverter(String value) {
     default:
       throw UnsupportedError('Cannot convert "$value" into a bool.');
   }
+}
+
+T? _$convertMapValue<T>(
+  String key,
+  Map<String, String> map,
+  T Function(String) converter,
+) {
+  final value = map[key];
+  return value == null ? null : converter(value);
 }

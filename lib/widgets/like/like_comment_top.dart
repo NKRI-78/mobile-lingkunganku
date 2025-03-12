@@ -13,7 +13,7 @@ class LikeCommentTop extends StatelessWidget {
     required this.countComment,
   });
 
-  final int isLike;
+  final bool isLike;
   final int countLike;
   final int countComment;
   final Function() onPressedLike;
@@ -24,7 +24,7 @@ class LikeCommentTop extends StatelessWidget {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+          padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -33,7 +33,7 @@ class LikeCommentTop extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  isLike == 1
+                  isLike == true
                       ? Image.asset(
                           AssetSource.likeFillIcon,
                           width: 25,
@@ -41,8 +41,8 @@ class LikeCommentTop extends StatelessWidget {
                         )
                       : Image.asset(
                           AssetSource.likeIcon,
-                          width: 20,
-                          height: 20,
+                          width: 25,
+                          height: 25,
                         ),
                   InkWell(
                     onTap: () {
@@ -56,7 +56,7 @@ class LikeCommentTop extends StatelessWidget {
                 ],
               ),
               Text(
-                "$countComment Jawaban",
+                "$countComment Balasan",
                 style: const TextStyle(color: AppColors.greyColor),
               )
               // IconButton(
@@ -67,7 +67,7 @@ class LikeCommentTop extends StatelessWidget {
           ),
         ),
         const Divider(
-          thickness: .3,
+          thickness: 0.2,
           color: AppColors.blackColor,
         ),
       ],

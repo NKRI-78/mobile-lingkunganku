@@ -1,10 +1,13 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'models/banner_model.dart';
 
 import '../../misc/api_url.dart';
 import '../../misc/http_client.dart';
 import '../../misc/injections.dart';
+import '../../modules/app/bloc/app_bloc.dart';
 import 'models/data_pagination.dart';
 import 'models/home_model.dart';
 import 'models/news_model.dart';
@@ -15,12 +18,15 @@ class HomeRepository {
 
   String get news => '${MyApi.baseUrl}/api/v1/news';
 
+  String get banner => '${MyApi.baseUrl}/api/v1/banner';
+
   final http = getIt<BaseNetworkClient>();
 
   Future<DataPagination<NewsModel>> getNews({int page = 1}) async {
     try {
       final res = await http.get(Uri.parse('$news?page=$page'));
-
+      debugPrint('Headers -----------0000');
+      debugPrint('${res.headers}');
       debugPrint(res.body);
       debugPrint('$news?page=$page');
 
@@ -58,6 +64,43 @@ class HomeRepository {
       }
     } catch (e) {
       rethrow;
+    }
+  }
+
+  Future<BannerModel?> getBanner() async {
+    try {
+      final res = await http.get(Uri.parse(banner));
+
+      debugPrint(res.body);
+      final json = jsonDecode(res.body);
+      if (res.statusCode == 200) {
+        return BannerModel.fromJson(json);
+      } else {
+        throw "error api";
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> setFcm(String token) async {
+    try {
+      debugPrint('FCM : $token');
+      final res = await http.post(Uri.parse('$profile/fcm-update'), body: {
+        'token': token
+      }, headers: {
+        HttpHeaders.authorizationHeader:
+            'Bearer ${getIt<AppBloc>().state.token}'
+      });
+      debugPrint('Data FCM  : ${res.body}');
+
+      if (res.statusCode == 200) {
+        return;
+      } else {
+        throw "Ada masalah pada server";
+      }
+    } on SocketException {
+      throw "Terjadi kesalahan jaringan";
     }
   }
 }

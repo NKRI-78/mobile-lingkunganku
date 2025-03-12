@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:mobile_lingkunganku/repositories/forum_repository/models/forum_detail_model.dart';
+import 'models/forum_detail_model.dart';
 import '../../misc/api_url.dart';
 import 'models/forums_model.dart';
 import 'package:http/http.dart' as ht;
@@ -35,20 +35,18 @@ class ForumRepository {
     }
   }
 
-  Future<ForumDetailModel> getDetailForum(String idForum) async {
+  Future<ForumDetailModel?> getDetailForum(String idForum) async {
     try {
       final res = await http.get(Uri.parse('$forums/$idForum/detail'));
 
       debugPrint(res.body);
       debugPrint('$forums/$idForum/detail');
-      final json = jsonDecode(res.body);
+
       if (res.statusCode == 200) {
-        return ForumDetailModel.fromJson(json['data']);
-      } else {
-        throw json['message'] ?? "Terjadi kesalahan";
+        final jsonData = jsonDecode(res.body);
+        return ForumDetailModel.fromJson(jsonData['data']);
       }
-    } on SocketException {
-      throw "Terjadi kesalahan jaringan";
+      return null;
     } catch (e) {
       rethrow;
     }
@@ -130,6 +128,64 @@ class ForumRepository {
       }
     } catch (e) {
       debugPrint('Error postMedia: $e');
+      rethrow;
+    }
+  }
+
+  Future<int?> createComment({
+    String inputComment = '',
+    String forumId = "",
+    int commentId = 0,
+  }) async {
+    try {
+      debugPrint(
+          "Input : $inputComment + ForumId : $forumId + Commentid : $commentId");
+
+      Map<String, String?> body;
+      if (commentId == 0) {
+        body = {
+          'comment': inputComment,
+          'forum_id': forumId.toString(),
+        };
+      } else {
+        body = {
+          'comment': inputComment,
+          'forum_id': forumId.toString(),
+          'comment_id': commentId.toString(),
+        };
+      }
+
+      final res =
+          await http.post(Uri.parse('$forums/createCommentPost'), body: body);
+
+      debugPrint(res.body);
+
+      final json = jsonDecode(res.body);
+      if (res.statusCode == 201) {
+        print("Fetch Id : ${json['data']['id']}");
+        return json['data']['id'];
+      }
+      if (res.statusCode == 400) {
+        throw json['message'] ?? "Terjadi kesalahan";
+      }
+      return null;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> setLikeUnlikeForum(String idForum) async {
+    try {
+      final res = await http.post(Uri.parse('$forums/$idForum/like'));
+
+      debugPrint('Status Like  : ${res.body}');
+
+      if (res.statusCode == 200) {
+        return;
+      } else {
+        throw "error api";
+      }
+    } catch (e) {
       rethrow;
     }
   }

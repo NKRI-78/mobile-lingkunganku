@@ -19,7 +19,24 @@ class DateHelper {
     DateTime dateParse = DateTime.parse(formatDate);
     final result =
         DateTime(dateParse.year, dateParse.month, dateParse.day, 9, 0, 0);
-    String date = DateFormat.yMMMd("id").format(result);
+    String date = DateFormat("d MMMM y", "id_ID").format(result);
+
+    return date;
+  }
+
+  static String parseDateExpired(String formatDate, String type) {
+    initializeDateFormatting("id");
+    DateTime dateParse =
+        DateTime.parse(formatDate).add(const Duration(hours: 7));
+    String date = DateFormat("dd MMM yyyy HH:mm", "id_ID").format(dateParse.add(
+      type == "VIRTUAL_ACCOUNT"
+          ? const Duration(
+              days: 1,
+            )
+          : const Duration(
+              minutes: 30,
+            ),
+    ));
     return date;
   }
 

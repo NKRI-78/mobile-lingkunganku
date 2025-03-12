@@ -14,7 +14,10 @@ void _showTransferDialog(BuildContext context, String userId, String name) {
               Navigator.of(dialogContext).pop();
               Navigator.of(dialogContext).pop();
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text("Berhasil mengubah Ketua Lingkungan!")),
+                SnackBar(
+                  content: Text("Berhasil mengubah Ketua Lingkungan!"),
+                  backgroundColor: AppColors.secondaryColor,
+                ),
               );
             } else if (state.errorMessage != null) {
               ScaffoldMessenger.of(context).showSnackBar(
@@ -44,14 +47,14 @@ void _showTransferDialog(BuildContext context, String userId, String name) {
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      "Apakah kamu yakin ingin alihkan Ketua Lingkungan yang baru ke $name ?",
+                      "Apakah kamu yakin ingin alihkan\nKetua Lingkungan yang baru\nke $name ?",
                       maxLines: 3,
                       textAlign: TextAlign.center,
                       style: AppTextStyles.textDialog,
                     ),
                     const SizedBox(height: 10),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         SizedBox(
                           width: 120,

@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_lingkunganku/misc/injections.dart';
-import 'package:mobile_lingkunganku/repositories/event_repository/event_repository.dart';
-import 'package:mobile_lingkunganku/repositories/profile_repository/profile_repository.dart';
+import '../../../misc/injections.dart';
+import '../../../repositories/event_repository/event_repository.dart';
+import '../../../repositories/profile_repository/profile_repository.dart';
 
 import '../../../repositories/event_repository/models/event_model.dart';
 import '../../../repositories/profile_repository/models/profile_model.dart';

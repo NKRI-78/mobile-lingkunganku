@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../repositories/management_repository/models/management_detail_member_model.dart';
+
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
+import '../../../repositories/management_repository/models/management_detail_member_model.dart';
 import '../../management/cubit/management_cubit.dart';
 import '../cubit/management_detail_cubit.dart';
 
@@ -14,8 +15,12 @@ class ManagementAccesSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Cek apakah user sudah memiliki jabatan sekretaris/bendahara atau dia adalah CHIEF
     final bool isAlreadyPromoted =
         (member?.secretary?.id != null) || (member?.treasurer?.id != null);
+    final bool isChief = member?.roleApp == "CHIEF"; // Cek apakah dia CHIEF
+
+    final bool isDisabled = isAlreadyPromoted || isChief;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -26,7 +31,7 @@ class ManagementAccesSection extends StatelessWidget {
         ),
         const SizedBox(height: 10),
         ElevatedButton(
-          onPressed: isAlreadyPromoted
+          onPressed: isDisabled
               ? null
               : () {
                   print("Dialog muncul");
@@ -45,16 +50,15 @@ class ManagementAccesSection extends StatelessWidget {
                   }
                 },
           style: ElevatedButton.styleFrom(
-            backgroundColor: isAlreadyPromoted
-                ? Colors.grey.shade400
-                : AppColors.secondaryColor,
+            backgroundColor:
+                isDisabled ? Colors.grey.shade400 : AppColors.secondaryColor,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             minimumSize: const Size(double.infinity, 50),
           ),
           child: Text(
-            isAlreadyPromoted
-                ? "Kepengurusan Telah Diberikan"
+            isDisabled
+                ? "Kepengurusan Tidak Dapat Diberikan"
                 : "Berikan Kepengurusan",
             style: AppTextStyles.textProfileBold.copyWith(
               color: AppColors.whiteColor,

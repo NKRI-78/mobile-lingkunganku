@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:mobile_lingkunganku/misc/colors.dart';
-import 'package:mobile_lingkunganku/modules/event_create/cubit/event_create_cubit.dart';
+import '../../../misc/colors.dart';
+import '../cubit/event_create_cubit.dart';
 
 class CustomFieldEventDate extends StatelessWidget {
   const CustomFieldEventDate({super.key});
@@ -122,7 +122,7 @@ Widget _buildDatePickerField({
               icon: Icon(
                 Icons.calendar_today,
                 color: AppColors.secondaryColor,
-                size: 28,
+                size: 26,
               ),
               onPressed: selectDate,
             ),

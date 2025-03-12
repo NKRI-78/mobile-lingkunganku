@@ -43,6 +43,7 @@ class ProfileView extends StatelessWidget {
               Column(
                 children: [
                   CustomHeaderContainer(
+                    isHomeOrPublic: false,
                     isLoading: state.isLoading,
                     avatarLink: state.profile?.profile?.avatarLink ?? '',
                     isLoggedIn: true,
@@ -51,8 +52,9 @@ class ProfileView extends StatelessWidget {
                     title: 'Profile',
                     onBackPressed: () => Navigator.pop(context),
                     children: [
-                      SizedBox(height: 10),
+                      SizedBox(height: 5),
                       Container(
+                        width: MediaQuery.of(context).size.width * 0.8,
                         height: 55,
                         padding: const EdgeInsets.all(2),
                         decoration: BoxDecoration(
@@ -61,7 +63,9 @@ class ProfileView extends StatelessWidget {
                         ),
                         child: Container(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 8),
+                            horizontal: 16,
+                            vertical: 8,
+                          ),
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(12),
@@ -133,6 +137,7 @@ class ProfileView extends StatelessWidget {
                           ),
                         ),
                       ),
+                      SizedBox(height: 5),
                     ],
                   ),
                   Expanded(

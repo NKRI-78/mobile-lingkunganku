@@ -26,8 +26,7 @@ class LupaPasswordCubit extends Cubit<LupaPasswordState> {
       if (!context.mounted) {
         return;
       }
-      ShowSnackbar.snackbar(
-          context, e.toString(), '', AppColors.secondaryColor);
+      ShowSnackbar.snackbar(context, e.toString(), '', AppColors.redColor);
     } finally {
       emit(state.copyWith(loading: false));
     }

@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+
 import '../../../repositories/profile_repository/models/profile_model.dart';
 
 class FamiliesModel extends Equatable {

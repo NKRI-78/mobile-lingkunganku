@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_lingkunganku/modules/forum/cubit/forum_cubit.dart';
-import 'package:mobile_lingkunganku/modules/forum/widget/comment_forum.dart';
-import 'package:mobile_lingkunganku/modules/forum/widget/media/media_images.dart';
-import 'package:mobile_lingkunganku/repositories/forum_repository/models/forums_model.dart';
-import 'package:mobile_lingkunganku/widgets/pages/video/video_player.dart';
+import '../../../widgets/pages/file/file_page.dart';
+import '../cubit/forum_cubit.dart';
+import 'comment_forum.dart';
+import 'media/media_images.dart';
+import '../../../repositories/forum_repository/models/forums_model.dart';
+import '../../../router/builder.dart';
+import '../../../widgets/pages/video/video_player.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/modal.dart';
@@ -20,14 +22,12 @@ class ForumListSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("Media data: ${forums.forumMedia}");
-
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 5),
       color: AppColors.whiteColor,
       child: InkWell(
         onTap: () {
-          // Navigasi ke detail forum (jika ada fitur ini)
+          ForumDetailRoute(idForum: forums.id.toString()).go(context);
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -64,69 +64,86 @@ class ForumListSection extends StatelessWidget {
 
             // Deskripsi Forum
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 25),
               child: DetectText(
                 text: forums.description ?? '',
               ),
             ),
-
             Stack(
               fit: StackFit.loose,
               alignment: Alignment.bottomRight,
               children: [
+                // Menampilkan gambar
                 if ((forums.forumMedia?.isNotEmpty ?? false) &&
                     forums.forumMedia?.first.type == "image")
                   InkWell(
                     onTap: () {
-                      //
+                      ClippedPhotoRoute(idForum: forums.id ?? 0, indexPhoto: 0)
+                          .push(context);
                     },
                     child: MediaImages(
                       medias: forums.forumMedia ?? [],
                     ),
                   ),
+
+                // Menampilkan video
                 if ((forums.forumMedia?.isNotEmpty ?? false) &&
                     forums.forumMedia?.first.type == "video")
-                  VideoPlayer(urlVideo: forums.forumMedia?.first.link ?? "")
+                  VideoPlayer(urlVideo: forums.forumMedia?.first.link ?? ""),
+
+                // Menampilkan file dokumen
+                if ((forums.forumMedia?.isNotEmpty ?? false) &&
+                    forums.forumMedia?.first.type == "file")
+                  FilePage(forumMedia: forums.forumMedia ?? []),
               ],
             ),
 
             // Like & Comment Top (Total)
             LikeCommentTop(
-              countLike: 0,
-              countComment: 0,
-              isLike: 0,
-              onPressedLike: () {},
+              countLike: forums.likeCount ?? 0,
+              countComment: forums.commentCount ?? 0,
+              isLike: forums.isLike ?? false,
+              onPressedLike: () async {},
               onPressedComment: () {},
             ),
 
-// Like & Comment Bottom (Detail)
+            // Like & Comment Bottom (Detail)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: LikeComment(
-                countLike: 0,
-                isLike: 0,
-                onPressedLike: () {},
+                countLike: forums.likeCount ?? 0,
+                isLike: forums.isLike ?? false,
+                onPressedLike: () async {
+                  await context
+                      .read<ForumCubit>()
+                      .setLikeUnlikeForum(idForum: forums.id.toString());
+                },
                 onPressedComment: () {},
               ),
             ),
 
             // Komentar Forum
-            if (forums.forumComment != null && forums.forumComment!.isNotEmpty)
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: forums.forumComment!
-                    .map(
-                      (e) => InkWell(
-                        onTap: () {},
-                        child: CommentForum(comment: e),
-                      ),
-                    )
-                    .toList(),
-              ),
+            forums.forumComment!.isEmpty
+                ? Container()
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: forums.forumComment!
+                        .map(
+                          (e) => InkWell(
+                              onTap: () {
+                                ForumDetailRoute(idForum: e.forumId.toString())
+                                    .go(context);
+                              },
+                              child: CommentForum(
+                                comment: e,
+                              )),
+                        )
+                        .toList(),
+                  ),
 
             // Divider
             Divider(
-              color: AppColors.greyColor.withOpacity(0.1),
+              color: AppColors.greyColor.withValues(alpha: 0.1),
               thickness: 10,
             ),
           ],

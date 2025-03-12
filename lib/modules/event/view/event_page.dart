@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mobile_lingkunganku/misc/colors.dart';
-import 'package:mobile_lingkunganku/misc/injections.dart';
-import 'package:mobile_lingkunganku/misc/text_style.dart';
-import 'package:mobile_lingkunganku/modules/event/cubit/event_cubit.dart';
-import 'package:mobile_lingkunganku/modules/event/widget/custom_card_event_section.dart';
-import 'package:mobile_lingkunganku/router/builder.dart';
+import '../../../misc/colors.dart';
+import '../../../misc/injections.dart';
+import '../../../misc/text_style.dart';
+import '../cubit/event_cubit.dart';
+import '../widget/custom_card_event_section.dart';
+import '../../../router/builder.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../../../repositories/event_repository/models/event_model.dart';
@@ -108,7 +108,7 @@ class _EventViewState extends State<EventView> {
                 icon: const Icon(
                   Icons.arrow_back_ios_new,
                   color: AppColors.buttonColor2,
-                  size: 30,
+                  size: 24,
                 ),
                 onPressed: () {
                   GoRouter.of(context).pop();
@@ -120,7 +120,7 @@ class _EventViewState extends State<EventView> {
                     icon: const Icon(
                       Icons.add,
                       color: AppColors.buttonColor2,
-                      size: 34,
+                      size: 26,
                     ),
                     onPressed: () {
                       EventCreateRoute().push(context);
@@ -251,13 +251,21 @@ class _EventViewState extends State<EventView> {
                                 markerBuilder: (context, date, events) {
                                   if (events.isNotEmpty) {
                                     return Positioned(
-                                      bottom: 5,
+                                      right: 2,
+                                      bottom: 1,
                                       child: Container(
-                                        width: 6,
-                                        height: 6,
+                                        padding: const EdgeInsets.all(6),
                                         decoration: BoxDecoration(
                                           color: AppColors.textColor2,
                                           shape: BoxShape.circle,
+                                        ),
+                                        child: Text(
+                                          '${events.length}',
+                                          style:
+                                              AppTextStyles.textStyle2.copyWith(
+                                            color: Colors.white,
+                                            fontSize: 10,
+                                          ),
                                         ),
                                       ),
                                     );

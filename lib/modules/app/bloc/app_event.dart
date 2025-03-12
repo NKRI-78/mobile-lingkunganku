@@ -17,3 +17,5 @@ final class SetUserData extends AppEvent {
 
   const SetUserData({required this.user, required this.token});
 }
+
+final class GetBadgeNotif extends AppEvent {}

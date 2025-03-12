@@ -8,28 +8,37 @@ Future<Position> determinePosition(BuildContext context) async {
   bool serviceEnabled;
   LocationPermission permission;
 
-  // Test if location services are enabled.
+  // Cek apakah layanan lokasi aktif
   serviceEnabled = await Geolocator.isLocationServiceEnabled();
   if (!serviceEnabled) {
     return Future.error('Location services are disabled.');
   }
 
   permission = await Geolocator.checkPermission();
+
   if (permission == LocationPermission.denied) {
+    // Permintaan pertama
     permission = await Geolocator.requestPermission();
+
     if (permission == LocationPermission.denied) {
-      // Permissions are denied, request permission again
-      return Future.error('Location permissions are denied');
+      // Permintaan kedua jika user menolak pertama kali
+      permission = await Geolocator.requestPermission();
+
+      if (permission == LocationPermission.denied) {
+        // Jika user menolak lagi, tampilkan dialog ke pengaturan
+        showPermissionDialog(context);
+        return Future.error('Location permissions are permanently denied');
+      }
     }
   }
 
   if (permission == LocationPermission.deniedForever) {
-    // Permissions are denied forever, handle appropriately
-    showPermissionDialog(context); // Menampilkan dialog peringatan
+    // Jika user langsung menolak selamanya, tampilkan dialog
+    showPermissionDialog(context);
     return Future.error('Location permissions are permanently denied');
   }
 
-  // When we reach here, permissions are granted and we can continue
+  // Izin diberikan, ambil lokasi pengguna
   return await Geolocator.getCurrentPosition(
     desiredAccuracy: LocationAccuracy.bestForNavigation,
   );

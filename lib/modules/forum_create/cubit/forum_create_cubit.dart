@@ -7,9 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mobile_lingkunganku/misc/colors.dart';
-import 'package:mobile_lingkunganku/misc/snackbar.dart';
-import 'package:mobile_lingkunganku/repositories/forum_repository/forum_repository.dart';
+import '../../../misc/colors.dart';
+import '../../../misc/snackbar.dart';
+import '../../../repositories/forum_repository/forum_repository.dart';
 import 'package:multi_image_picker_plus/multi_image_picker_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:filesize/filesize.dart';
@@ -214,5 +214,40 @@ class ForumCreateCubit extends Cubit<ForumCreateState> {
           videoFileThumbnail: videoFileThumbnail,
           fileSize: videoSize));
     }
+  }
+
+  Future<void> uploadDoc(BuildContext context) async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowMultiple: false,
+        allowedExtensions: ['pdf', 'doc', 'xlsx', 'rar', 'txt', 'zip'],
+        withData: false,
+        withReadStream: true,
+        onFileLoading: (FilePickerStatus filePickerStatus) {});
+    List<File> newfile = [];
+    String docNames = "";
+    // ignore: unused_local_variable
+    String sizeDoc = "";
+    if (result != null) {
+      File vf = File(result.files.single.path!);
+      int sizeInBytes = vf.lengthSync();
+      double sizeInMb = sizeInBytes / (1024 * 1024);
+      debugPrint('Ukuran ${sizeInMb.toString()}');
+      if (sizeInMb > 5 && context.mounted) {
+        // ignore: use_build_context_synchronously
+        ShowSnackbar.snackbar(
+            context, "File Maksimal 5 MB", "", AppColors.redColor);
+        return;
+      }
+      docFile = vf;
+      docNames = vf.path.toString().split('/').last;
+      sizeDoc = filesize(sizeInBytes, 0);
+      newfile.add(File(vf.path));
+    }
+    emit(state.copyWith(
+        pickedFile: newfile,
+        feedType: "file",
+        docName: docNames,
+        fileSize: sizeDoc));
   }
 }

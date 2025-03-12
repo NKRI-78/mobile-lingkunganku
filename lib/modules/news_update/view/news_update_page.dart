@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mobile_lingkunganku/misc/theme.dart';
-import 'package:mobile_lingkunganku/router/builder.dart';
+import '../../../misc/theme.dart';
+import '../../../router/builder.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
@@ -74,8 +74,8 @@ class _NewsUpdateViewState extends State<NewsUpdateView> {
             textAlign: TextAlign.center,
           ),
           content: const Text(
-            "Apakah Anda yakin ingin menghapus berita ini?",
-            textAlign: TextAlign.justify,
+            "Apakah Anda yakin\ningin menghapus berita ini?",
+            textAlign: TextAlign.center,
           ),
           actions: [
             Row(
@@ -155,8 +155,11 @@ class _NewsUpdateViewState extends State<NewsUpdateView> {
         centerTitle: true,
         toolbarHeight: 100,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new,
-              color: AppColors.buttonColor2, size: 32),
+          icon: const Icon(
+            Icons.arrow_back_ios_new,
+            color: AppColors.buttonColor2,
+            size: 24,
+          ),
           onPressed: () {
             GoRouter.of(context).pop();
           },
@@ -166,7 +169,7 @@ class _NewsUpdateViewState extends State<NewsUpdateView> {
             icon: const Icon(
               Icons.delete,
               color: AppColors.redColor,
-              size: 32,
+              size: 26,
             ),
             onPressed: () {
               _deleteNews(context);

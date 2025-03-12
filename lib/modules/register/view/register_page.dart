@@ -29,7 +29,7 @@ class RegisterPage extends StatelessWidget {
           icon: Icon(
             Icons.arrow_back_ios_new,
             color: AppColors.buttonColor2,
-            size: 32,
+            size: 24,
           ),
           onPressed: () {
             GoRouter.of(context).pop();
@@ -52,8 +52,6 @@ class RegisterPage extends StatelessWidget {
                       const SizedBox(height: 100),
                       GestureDetector(
                         onTap: () {
-                          // Navigasi ke halaman registrasi Ketua/Pengurus
-                          print('Masuk ke Ketua : ${context}');
                           RegisterKetuaRoute().go(context);
                         },
                         child: Stack(

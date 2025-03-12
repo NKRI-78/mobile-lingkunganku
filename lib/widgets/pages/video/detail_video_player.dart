@@ -1,6 +1,7 @@
+import 'package:chewie/chewie.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:pod_player/pod_player.dart';
 import 'package:flutter/material.dart';
+import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 
 import '../../../misc/colors.dart';
@@ -15,25 +16,48 @@ class DetailVideoPlayer extends StatefulWidget {
 }
 
 class _DetailVideoPlayerState extends State<DetailVideoPlayer> {
-  late final PodPlayerController controller;
+  late VideoPlayerController _videoController;
+  ChewieController? _chewieController;
 
   @override
   void initState() {
-    controller = PodPlayerController(
-        playVideoFrom: PlayVideoFrom.network(widget.urlVideo,
-            videoPlayerOptions:
-                VideoPlayerOptions(allowBackgroundPlayback: true)),
-        podPlayerConfig: const PodPlayerConfig(
-          autoPlay: true,
-          isLooping: true,
-        ))
-      ..initialise();
     super.initState();
+    _initializePlayer();
+  }
+
+  Future<void> _initializePlayer() async {
+    _videoController =
+        VideoPlayerController.networkUrl(Uri.parse(widget.urlVideo))
+          ..setLooping(false);
+    await _videoController.initialize();
+
+    _chewieController = ChewieController(
+      videoPlayerController: _videoController,
+      aspectRatio: _videoController.value.aspectRatio,
+      autoPlay: true,
+      looping: false,
+      errorBuilder: (context, errorMessage) {
+        return Center(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              "Gagal memuat video: $errorMessage",
+              style: const TextStyle(color: Colors.white),
+            ),
+          ),
+        );
+      },
+    );
+
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   @override
   void dispose() {
-    controller.dispose();
+    _videoController.dispose();
+    _chewieController?.dispose();
     super.dispose();
   }
 
@@ -42,41 +66,37 @@ class _DetailVideoPlayerState extends State<DetailVideoPlayer> {
     return Scaffold(
       backgroundColor: Colors.black,
       body: VisibilityDetector(
-        key: ObjectKey(controller),
+        key: ObjectKey(_videoController),
         onVisibilityChanged: (VisibilityInfo info) {
           var visiblePercentage = info.visibleFraction * 100;
           debugPrint('Widget ${info.key} is $visiblePercentage% visible');
           if (info.visibleFraction == 0 && mounted) {
-            controller.pause(); //pausing  functionality
+            _videoController.pause();
           }
         },
         child: Stack(
-          fit: StackFit.loose,
-          clipBehavior: Clip.none,
+          fit: StackFit.expand,
           children: [
-            PodVideoPlayer(
-                podPlayerLabels: const PodPlayerLabels(
-                  error: "Gagal memuat video",
-                ),
-                matchFrameAspectRatioToVideo: true,
-                matchVideoAspectRatioToFrame: true,
-                alwaysShowProgressBar: false,
-                backgroundColor: Colors.black,
-                controller: controller),
-            Positioned(
-                top: 50.0,
-                left: 30.0,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CupertinoNavigationBarBackButton(
-                      color: AppColors.whiteColor,
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
+            Center(
+              child: _chewieController != null &&
+                      _chewieController!
+                          .videoPlayerController.value.isInitialized
+                  ? AspectRatio(
+                      aspectRatio: _videoController.value.aspectRatio,
+                      child: Chewie(controller: _chewieController!),
+                    )
+                  : const CircularProgressIndicator(
+                      color: Colors.white,
                     ),
-                  ],
-                ))
+            ),
+            Positioned(
+              top: 50.0,
+              left: 20.0,
+              child: CupertinoNavigationBarBackButton(
+                color: AppColors.whiteColor,
+                onPressed: () => Navigator.pop(context),
+              ),
+            ),
           ],
         ),
       ),

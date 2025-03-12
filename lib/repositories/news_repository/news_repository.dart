@@ -57,7 +57,7 @@ class NewsRepository {
       if (response.statusCode == 201) {
         return DetailNewsModel.fromJson(json['data']);
       } else {
-        throw Exception("Failed to create news");
+        throw Exception("Gagal membuat berita, silahkan cek koneksi anda");
       }
     } catch (e) {
       rethrow;
@@ -108,12 +108,12 @@ class NewsRepository {
       if (response.statusCode == 200) {
         return true;
       } else {
-        print(
+        debugPrint(
             "Gagal menghapus berita: ${response.statusCode} - ${response.body}");
         return false;
       }
     } catch (e) {
-      print("Error saat menghapus berita: $e");
+      debugPrint("Error saat menghapus berita: $e");
       return false;
     }
   }

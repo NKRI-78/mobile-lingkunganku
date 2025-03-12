@@ -51,7 +51,7 @@ class _CreateNewsViewState extends State<CreateNewsView> {
           icon: const Icon(
             Icons.arrow_back_ios_new,
             color: AppColors.buttonColor2,
-            size: 32,
+            size: 24,
           ),
           onPressed: () {
             GoRouter.of(context).pop();
@@ -113,6 +113,7 @@ class _CreateNewsViewState extends State<CreateNewsView> {
                 ),
                 const SizedBox(height: 20),
                 TextField(
+                  textCapitalization: TextCapitalization.words,
                   controller: _titleController,
                   decoration: InputDecoration(
                     hintText: "Judul Berita",
@@ -140,6 +141,7 @@ class _CreateNewsViewState extends State<CreateNewsView> {
                 ),
                 const SizedBox(height: 20),
                 TextField(
+                  textCapitalization: TextCapitalization.words,
                   controller: _contentController,
                   maxLines: 10,
                   decoration: InputDecoration(

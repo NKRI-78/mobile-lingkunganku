@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mobile_lingkunganku/modules/event_create/cubit/event_create_cubit.dart';
-import 'package:mobile_lingkunganku/modules/event_create/widget/customfield_event.dart';
-import 'package:mobile_lingkunganku/modules/event_create/widget/customfield_event_date.dart';
-import 'package:mobile_lingkunganku/modules/event_create/widget/customfield_event_foto.dart';
-import 'package:mobile_lingkunganku/modules/event_create/widget/customfield_event_time.dart';
-import 'package:mobile_lingkunganku/widgets/button/custom_button.dart';
+import '../cubit/event_create_cubit.dart';
+import '../widget/customfield_event.dart';
+import '../widget/customfield_event_date.dart';
+import '../widget/customfield_event_foto.dart';
+import '../widget/customfield_event_time.dart';
+import '../../../widgets/button/custom_button.dart';
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
 
@@ -33,6 +33,7 @@ class EventCreateView extends StatelessWidget {
 
         return Scaffold(
           appBar: AppBar(
+            surfaceTintColor: Colors.transparent,
             title: Text(
               'Create Event',
               style: AppTextStyles.textStyle1,
@@ -43,7 +44,7 @@ class EventCreateView extends StatelessWidget {
               icon: const Icon(
                 Icons.arrow_back_ios_new,
                 color: AppColors.buttonColor2,
-                size: 30,
+                size: 24,
               ),
               onPressed: () {
                 GoRouter.of(context).pop();

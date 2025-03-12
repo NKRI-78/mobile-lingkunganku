@@ -29,6 +29,7 @@ class Data {
   final String createdAt;
   final List<Members> members;
   final int totalMember;
+  final String roleApp;
 
   Data({
     required this.id,
@@ -40,6 +41,7 @@ class Data {
     required this.createdAt,
     required this.members,
     required this.totalMember,
+    required this.roleApp,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) {
@@ -56,6 +58,7 @@ class Data {
               .toList() ??
           [],
       totalMember: json['total_member'] ?? 0,
+      roleApp: json['roleApp'] ?? 'MEMBER',
     );
   }
 
@@ -70,6 +73,7 @@ class Data {
       'created_at': createdAt,
       'members': members.map((v) => v.toJson()).toList(),
       'total_member': totalMember,
+      'roleApp': roleApp,
     };
   }
 }

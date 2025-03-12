@@ -1,27 +1,14 @@
-import 'package:mobile_lingkunganku/repositories/forum_repository/models/forums_model.dart';
+import 'dart:convert';
+
+import 'forums_model.dart';
+
+ForumDetailModel forumsModelFromJson(String str) =>
+    ForumDetailModel.fromJson(json.decode(str));
+
+String forumsModelToJson(ForumDetailModel data) => json.encode(data.toJson());
 
 class ForumDetailModel {
   String? message;
-  Data? data;
-
-  ForumDetailModel({this.message, this.data});
-
-  ForumDetailModel.fromJson(Map<String, dynamic> json) {
-    message = json['message'];
-    data = json['data'] != null ? Data.fromJson(json['data']) : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['message'] = message;
-    if (this.data != null) {
-      data['data'] = this.data!.toJson();
-    }
-    return data;
-  }
-}
-
-class Data {
   int? id;
   String? description;
   int? userId;
@@ -34,9 +21,14 @@ class Data {
   List<ForumComment>? forumComment;
   User? user;
   List<ForumMedia>? forumMedia;
+  List<ForumLikes>? forumLikes;
+  int? likeCount;
+  bool? isLike;
+  int? commentCount;
 
-  Data(
-      {this.id,
+  ForumDetailModel(
+      {this.message,
+      this.id,
       this.description,
       this.userId,
       this.neighborhoodId,
@@ -47,9 +39,14 @@ class Data {
       this.deletedAt,
       this.forumComment,
       this.user,
-      this.forumMedia});
+      this.forumMedia,
+      this.forumLikes,
+      this.likeCount,
+      this.isLike,
+      this.commentCount});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  ForumDetailModel.fromJson(Map<String, dynamic> json) {
+    message = json['message'];
     id = json['id'];
     description = json['description'];
     userId = json['user_id'];
@@ -59,23 +56,34 @@ class Data {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
+
     if (json['forum_comment'] != null) {
-      forumComment = <ForumComment>[];
-      json['forum_comment'].forEach((v) {
-        forumComment!.add(ForumComment.fromJson(v));
-      });
+      forumComment = (json['forum_comment'] as List)
+          .map((v) => ForumComment.fromJson(v))
+          .toList();
     }
+
     user = json['user'] != null ? User.fromJson(json['user']) : null;
+
     if (json['forum_media'] != null) {
-      forumMedia = <ForumMedia>[];
-      json['forum_media'].forEach((v) {
-        forumMedia!.add(ForumMedia.fromJson(v));
+      forumMedia = (json['forum_media'] as List)
+          .map((v) => ForumMedia.fromJson(v))
+          .toList();
+    }
+    if (json['forum_likes'] != null) {
+      forumLikes = <ForumLikes>[];
+      json['forum_likes'].forEach((v) {
+        forumLikes!.add(ForumLikes.fromJson(v));
       });
     }
+    likeCount = json['likeCount'];
+    isLike = json['isLike'];
+    commentCount = json['commentCount'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
+    data['message'] = message;
     data['id'] = id;
     data['description'] = description;
     data['user_id'] = userId;
@@ -85,15 +93,25 @@ class Data {
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
     data['deleted_at'] = deletedAt;
+
     if (forumComment != null) {
       data['forum_comment'] = forumComment!.map((v) => v.toJson()).toList();
     }
+
     if (user != null) {
       data['user'] = user!.toJson();
     }
+
     if (forumMedia != null) {
       data['forum_media'] = forumMedia!.map((v) => v.toJson()).toList();
     }
+    if (forumLikes != null) {
+      data['forum_likes'] = forumLikes!.map((v) => v.toJson()).toList();
+    }
+    data['likeCount'] = likeCount;
+    data['isLike'] = isLike;
+    data['commentCount'] = commentCount;
+
     return data;
   }
 }
@@ -132,14 +150,15 @@ class Profile {
   String? createdAt;
   String? updatedAt;
 
-  Profile(
-      {this.id,
-      this.fullname,
-      this.avatarLink,
-      this.detailAddress,
-      this.userId,
-      this.createdAt,
-      this.updatedAt});
+  Profile({
+    this.id,
+    this.fullname,
+    this.avatarLink,
+    this.detailAddress,
+    this.userId,
+    this.createdAt,
+    this.updatedAt,
+  });
 
   Profile.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -172,13 +191,14 @@ class ForumMedia {
   String? createdAt;
   String? updatedAt;
 
-  ForumMedia(
-      {this.id,
-      this.link,
-      this.type,
-      this.forumId,
-      this.createdAt,
-      this.updatedAt});
+  ForumMedia({
+    this.id,
+    this.link,
+    this.type,
+    this.forumId,
+    this.createdAt,
+    this.updatedAt,
+  });
 
   ForumMedia.fromJson(Map<String, dynamic> json) {
     id = json['id'];

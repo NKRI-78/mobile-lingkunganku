@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_lingkunganku/repositories/profile_repository/models/profile_model.dart';
+import '../../../repositories/profile_repository/models/profile_model.dart';
 import '../../../repositories/forum_repository/forum_repository.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -58,6 +58,17 @@ class ForumCubit extends Cubit<ForumState> {
         forums: value,
         loading: false,
       ));
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> setLikeUnlikeForum({required String idForum}) async {
+    try {
+      // emit(state.copyWith(loading: true));
+      await repo.setLikeUnlikeForum(idForum.toString());
+      var value = await repo.getForum();
+      emit(state.copyWith(forums: value));
     } catch (e) {
       rethrow;
     }

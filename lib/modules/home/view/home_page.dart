@@ -1,11 +1,8 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_lingkunganku/misc/theme.dart';
+import '../widget/custom_banner_section.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../misc/colors.dart';
-import '../../profile/cubit/profile_cubit.dart';
-import '../../../repositories/home_repository/home_repository.dart';
 import '../../../misc/injections.dart';
 import '../../../misc/text_style.dart';
 import '../../../router/builder.dart';
@@ -15,6 +12,7 @@ import '../../../widgets/header/custom_header_container.dart';
 import '../../app/bloc/app_bloc.dart';
 import '../bloc/home_bloc.dart';
 import '../widget/bottom_nav_bar_section.dart';
+import '../widget/custom_news_card_section.dart';
 import '../widget/drawer_section.dart';
 import '../widget/show_dialog_register.dart';
 
@@ -23,10 +21,8 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) =>
-          HomeBloc(getIt<HomeRepository>(), getIt<ProfileCubit>())
-            ..add(HomeInit(context: context)),
+    return BlocProvider.value(
+      value: getIt<HomeBloc>()..add(HomeInit(context: context)),
       child: const HomeView(),
     );
   }
@@ -42,12 +38,6 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
-    final List<String> imgList = [
-      'assets/images/contoh.png',
-      'assets/images/contoh.png',
-      'assets/images/contoh.png',
-    ];
-
     return BlocBuilder<AppBloc, AppState>(
       builder: (context, appState) {
         final bool isLoggedIn = appState.isAlreadyLogin;
@@ -57,7 +47,7 @@ class _HomeViewState extends State<HomeView> {
               body: RefreshIndicator(
                 color: AppColors.secondaryColor,
                 onRefresh: () async {
-                  context.read<HomeBloc>().add(HomeInit(context: context));
+                  getIt<HomeBloc>().add(HomeInit(context: context));
                   await Future.delayed(const Duration(seconds: 1));
                 },
                 child: Stack(
@@ -69,68 +59,16 @@ class _HomeViewState extends State<HomeView> {
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              SizedBox(height: 295),
-                              Container(
-                                margin: EdgeInsets.symmetric(horizontal: 16),
-                                child: CarouselSlider(
-                                  options: CarouselOptions(
-                                    height: 150,
-                                    autoPlay: true,
-                                    enlargeCenterPage: true,
-                                    viewportFraction: 1,
-                                  ),
-                                  items: imgList.map(
-                                    (item) {
-                                      return ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(16.0),
-                                        child: Image.asset(
-                                          item,
-                                          fit: BoxFit.cover,
-                                          errorBuilder:
-                                              (context, error, stackTrace) =>
-                                                  Image.asset(
-                                            imageDefault,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  ).toList(),
-                                ),
-                              ),
-                              SizedBox(height: 15),
-
-                              // Title Section
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 30),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "News",
-                                      style: AppTextStyles.textStyle1,
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {
-                                        ShowMoreNewsRoute().go(context);
-                                      },
-                                      child: Text(
-                                        "See all",
-                                        style: AppTextStyles.textStyle2,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              // Loading, Empty, or Showing News
+                              SizedBox(height: 287),
+                              CustomBannerSection(),
+                              SizedBox(height: 10),
+                              buildNewsSection(state, context),
                               if (state.isLoading)
                                 const Center(
-                                    child: CircularProgressIndicator(
-                                  color: AppColors.secondaryColor,
-                                ))
+                                  child: CircularProgressIndicator(
+                                    color: AppColors.secondaryColor,
+                                  ),
+                                )
                               else if (state.news.isEmpty)
                                 const Center(
                                   heightFactor: 5,
@@ -142,88 +80,23 @@ class _HomeViewState extends State<HomeView> {
                                 )
                               else
                                 ListView.builder(
+                                  padding: EdgeInsets.zero,
                                   shrinkWrap: true,
                                   physics: const NeverScrollableScrollPhysics(),
                                   itemCount: state.news.take(5).length,
                                   itemBuilder: (context, index) {
                                     final newsItem = state.news[index];
-                                    return GestureDetector(
+
+                                    return CustomNewsCard(
+                                      imageUrl: newsItem.linkImage,
+                                      title: newsItem.title,
+                                      content: newsItem.content,
                                       onTap: () {
                                         if (newsItem.id != null) {
                                           NewsDetailRoute(newsId: newsItem.id!)
                                               .go(context);
                                         }
                                       },
-                                      child: Card(
-                                        margin: const EdgeInsets.only(
-                                            right: 18, left: 18, bottom: 25),
-                                        elevation: 3,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(18),
-                                        ),
-                                        child: SizedBox(
-                                          height: 100,
-                                          child: Row(
-                                            children: [
-                                              ClipRRect(
-                                                borderRadius: const BorderRadius
-                                                    .horizontal(
-                                                  left: Radius.circular(18),
-                                                ),
-                                                child: Image.network(
-                                                  newsItem.linkImage,
-                                                  fit: BoxFit.cover,
-                                                  width: 150,
-                                                  height: 150,
-                                                  errorBuilder: (context, error,
-                                                          stackTrace) =>
-                                                      Image.asset(
-                                                    'assets/images/no_image.png',
-                                                    fit: BoxFit.cover,
-                                                    width: 150,
-                                                    height: 150,
-                                                  ),
-                                                ),
-                                              ),
-                                              const SizedBox(width: 3),
-                                              Expanded(
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(8.0),
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      Text(
-                                                        newsItem.title,
-                                                        style: AppTextStyles
-                                                            .textDialog,
-                                                        maxLines: 2,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                      ),
-                                                      const SizedBox(height: 4),
-                                                      Text(
-                                                        newsItem.content,
-                                                        style: AppTextStyles
-                                                            .textWelcome,
-                                                        maxLines: 2,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
                                     );
                                   },
                                 ),
@@ -243,6 +116,7 @@ class _HomeViewState extends State<HomeView> {
                           final user = state.profile;
 
                           return CustomHeaderContainer(
+                            isHomeOrPublic: true,
                             isLoading: state.isLoading,
                             avatarLink: user?.profile?.avatarLink ?? '',
                             displayText: isLoggedIn
@@ -253,14 +127,14 @@ class _HomeViewState extends State<HomeView> {
                             onMenuPressed: () =>
                                 Scaffold.of(context).openDrawer(),
                             onNotificationPressed: () {
-                              //
+                              NotificationRoute().go(context);
                             },
                             children: [
                               if (isLoggedIn)
                                 state.isLoading
                                     ? _buildShimmerText()
                                     : Text(
-                                        "Anda masuk sebagai ${state.profile?.translateRoleApp ?? ''},\ndi Komplek ${state.profile?.neighborhood?.name ?? ''}",
+                                        "Anda masuk sebagai ${state.profile?.translateRoleApp ?? ''},\nLingkungan ${state.profile?.neighborhood?.name ?? ''}",
                                         style:
                                             AppTextStyles.textDialog.copyWith(
                                           fontSize: 14,
@@ -321,6 +195,45 @@ Widget _buildShimmerText() {
           width: 180,
           height: 16,
           color: Colors.white,
+        ),
+      ],
+    ),
+  );
+}
+
+// Tambahkan di bagian sebelum ListView.builder
+Widget buildNewsSection(HomeState state, BuildContext context) {
+  final userRole = state.profile?.roleApp ?? '';
+  final bool isLeaderOrSecretary =
+      userRole == "CHIEF" || userRole == "SECRETARY";
+
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 25),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        if (isLeaderOrSecretary)
+          GestureDetector(
+            onTap: () {
+              NewsCreateRoute().push(context);
+            },
+            child: Text(
+              "Create",
+              style: AppTextStyles.textStyle2,
+            ),
+          ),
+        Text(
+          "News",
+          style: AppTextStyles.textStyle1,
+        ),
+        GestureDetector(
+          onTap: () {
+            ShowMoreNewsRoute().go(context);
+          },
+          child: Text(
+            "See all",
+            style: AppTextStyles.textStyle2,
+          ),
         ),
       ],
     ),

@@ -27,14 +27,14 @@ void showRegisterDialog(BuildContext context) {
                 ),
                 const SizedBox(height: 10),
                 Text(
-                  "Yuk bagi yang belum punya akun pilih Registrasi ya, Bagi yang sudah silahkan Login",
+                  "Yuk bagi yang belum punya akun\npilih Registrasi ya, Bagi yang sudah silahkan Login ",
                   maxLines: 3,
                   textAlign: TextAlign.center,
                   style: AppTextStyles.textDialog,
                 ),
                 const SizedBox(height: 10),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     SizedBox(
                       width: 120,

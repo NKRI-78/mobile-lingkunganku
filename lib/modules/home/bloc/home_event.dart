@@ -1,6 +1,8 @@
 part of 'home_bloc.dart';
 
 abstract class HomeEvent extends Equatable {
+  const HomeEvent();
+
   @override
   List<Object?> get props => [];
 }
@@ -8,30 +10,23 @@ abstract class HomeEvent extends Equatable {
 class HomeInit extends HomeEvent {
   final BuildContext? context;
 
-  HomeInit({this.context});
+  const HomeInit({this.context});
 }
 
 class HomeNavigate extends HomeEvent {
   final int index;
-  HomeNavigate(this.index);
+  const HomeNavigate(this.index);
 
   @override
   List<Object?> get props => [index];
 }
 
-final class HomeCopyState extends HomeEvent {
+class HomeCopyState extends HomeEvent {
   final HomeState newState;
-
-  HomeCopyState({required this.newState});
-}
-
-class HomeFetchMoreNews extends HomeEvent {
-  final bool isRefresh;
-
-  HomeFetchMoreNews(this.isRefresh);
+  const HomeCopyState(this.newState);
 
   @override
-  List<Object> get props => [isRefresh];
+  List<Object?> get props => [newState];
 }
 
 class LoadProfile extends HomeEvent {}

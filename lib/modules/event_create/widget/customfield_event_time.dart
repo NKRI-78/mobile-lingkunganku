@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart';
-import 'package:mobile_lingkunganku/misc/colors.dart';
-import 'package:mobile_lingkunganku/modules/event_create/cubit/event_create_cubit.dart';
+import '../../../misc/colors.dart';
+import '../cubit/event_create_cubit.dart';
 
 class CustomFieldEventTime extends StatelessWidget {
   const CustomFieldEventTime({super.key});
@@ -112,7 +112,7 @@ Widget _buildTimePickerField({
               icon: Icon(
                 Icons.access_time,
                 color: AppColors.secondaryColor,
-                size: 28,
+                size: 26,
               ),
               onPressed: selectTime,
             ),

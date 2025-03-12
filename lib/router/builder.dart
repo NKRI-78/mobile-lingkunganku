@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mobile_lingkunganku/modules/news_update/view/news_update_page.dart';
+import '../modules/iuran/view/iuran_page.dart';
+import '../modules/iuran_history/view/iuran_history_page.dart';
+import '../modules/notification/view/notification_page.dart';
+import '../modules/sos/view/sos_detail_page.dart';
+import '../modules/news_update/view/news_update_page.dart';
 import '../modules/event/view/event_page.dart';
 import '../modules/event_create/view/event_create_page.dart';
 import '../modules/event_detail/view/event_detail_page.dart';
 import '../modules/forum_create/view/forum_create_page.dart';
+import '../modules/forum_detail/view/forum_detail_page.dart';
 import '../modules/news_create/view/news_create_page.dart';
 import '../modules/forum/view/forum_page.dart';
 import '../modules/management_detail/view/management_detail_page.dart';
@@ -27,7 +32,10 @@ import '../modules/register_ketua/view/register_ketua_page.dart';
 import '../modules/register_warga/view/register_warga_page.dart';
 import '../modules/settings/view/settings_page.dart';
 import '../modules/sos/view/sos_page.dart';
+import '../modules/waiting_payment/view/waiting_payment_page.dart';
+import '../modules/webview/view/webview.dart';
 import '../widgets/pages/video/detail_video_player.dart';
+import '../widgets/photo_view/clipped_photo_view.dart';
 
 part 'builder.g.dart';
 
@@ -40,7 +48,13 @@ class OnboardingRoute extends GoRouteData {
 }
 
 @TypedGoRoute<HomeRoute>(path: '/home', routes: [
+  TypedGoRoute<WebViewRoute>(path: 'webview'),
+  TypedGoRoute<NotificationRoute>(path: 'notification'),
   TypedGoRoute<SettingsRoute>(path: 'settings'),
+  TypedGoRoute<WaitingPaymentRoute>(path: 'waiting-payment'),
+  TypedGoRoute<IuranRoute>(path: 'iuran', routes: [
+    TypedGoRoute<IuranHistoryRoute>(path: 'iuran-history'),
+  ]),
   TypedGoRoute<EventRoute>(path: 'event', routes: [
     TypedGoRoute<EventCreateRoute>(path: 'event-create'),
     TypedGoRoute<EventDetailRoute>(path: 'event-detail'),
@@ -71,9 +85,12 @@ class OnboardingRoute extends GoRouteData {
     ]),
     TypedGoRoute<RegisterWargaRoute>(path: 'register-warga'),
   ]),
-  TypedGoRoute<SosRoute>(path: 'sos'),
+  TypedGoRoute<SosRoute>(
+      path: 'sos', routes: [TypedGoRoute<SosDetailRoute>(path: 'sos-detail')]),
   TypedGoRoute<ForumRoute>(path: 'forum', routes: [
+    TypedGoRoute<ForumDetailRoute>(path: 'forum-detail'),
     TypedGoRoute<ForumCreateRoute>(path: 'forum-create'),
+    TypedGoRoute<ClippedPhotoRoute>(path: 'clipped-photo'),
     TypedGoRoute<DetailVideoPlayerRoute>(path: 'detail-video'),
   ]),
 ])
@@ -84,10 +101,58 @@ class HomeRoute extends GoRouteData {
   }
 }
 
+class WebViewRoute extends GoRouteData {
+  WebViewRoute({required this.url, required this.title});
+
+  final String url;
+  final String title;
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return WebViewScreen(
+      url: url,
+      title: title,
+    );
+  }
+}
+
+class NotificationRoute extends GoRouteData {
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return NotificationPage();
+  }
+}
+
 class SettingsRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return SettingsPage();
+  }
+}
+
+class IuranRoute extends GoRouteData {
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return IuranPage();
+  }
+}
+
+class IuranHistoryRoute extends GoRouteData {
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return IuranHistoryPage();
+  }
+}
+
+class WaitingPaymentRoute extends GoRouteData {
+  final String id;
+
+  WaitingPaymentRoute({required this.id});
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return WaitingPaymentPage(
+      id: id,
+    );
   }
 }
 
@@ -286,6 +351,26 @@ class SosRoute extends GoRouteData {
   }
 }
 
+class SosDetailRoute extends GoRouteData {
+  final bool isLoggedIn;
+  final String sosType;
+  final String message;
+
+  SosDetailRoute({
+    required this.isLoggedIn,
+    required this.sosType,
+    required this.message,
+  });
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return SosDetailPage(
+      message: message,
+      sosType: sosType,
+      isLoggedIn: isLoggedIn,
+    );
+  }
+}
+
 class ForumRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
@@ -293,10 +378,36 @@ class ForumRoute extends GoRouteData {
   }
 }
 
+class ForumDetailRoute extends GoRouteData {
+  final String idForum;
+
+  ForumDetailRoute({required this.idForum});
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return ForumDetailPage(idForum: idForum);
+  }
+}
+
 class ForumCreateRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return ForumCreatePage();
+  }
+}
+
+class ClippedPhotoRoute extends GoRouteData {
+  final int idForum;
+  final int? indexPhoto;
+
+  ClippedPhotoRoute({required this.idForum, this.indexPhoto});
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return ClippedPhotoPage(
+      idForum: idForum,
+      indexPhoto: indexPhoto ?? 0,
+    );
   }
 }
 

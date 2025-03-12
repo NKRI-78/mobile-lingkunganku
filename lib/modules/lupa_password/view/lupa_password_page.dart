@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -46,7 +44,7 @@ class LupaPasswordView extends StatelessWidget {
               icon: Icon(
                 Icons.arrow_back_ios_new,
                 color: AppColors.buttonColor2,
-                size: 32,
+                size: 24,
               ),
               onPressed: () {
                 GoRouter.of(context).pop();

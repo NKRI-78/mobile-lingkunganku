@@ -2,10 +2,10 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/widgets.dart';
-import 'package:mobile_lingkunganku/misc/api_url.dart';
-import 'package:mobile_lingkunganku/misc/http_client.dart';
-import 'package:mobile_lingkunganku/misc/injections.dart';
-import 'package:mobile_lingkunganku/repositories/event_repository/models/event_model.dart';
+import '../../misc/api_url.dart';
+import '../../misc/http_client.dart';
+import '../../misc/injections.dart';
+import 'models/event_model.dart';
 
 import 'models/event_detail_model.dart';
 
@@ -16,17 +16,23 @@ class EventRepository {
 
   Future<List<EventModel>> getEvents() async {
     try {
+      debugPrint("Fetching events...");
+
       final res =
-          await http.get(Uri.parse(event)).timeout(Duration(seconds: 10));
+          await http.get(Uri.parse(event)).timeout(const Duration(seconds: 10));
+
+      debugPrint("Response Status: ${res.statusCode}");
+      debugPrint("Response Body: ${res.body}");
 
       final json = jsonDecode(res.body);
       if (res.statusCode == 200) {
         final list = json['data']['data'] as List;
         return list.map((e) => EventModel.fromJson(e)).toList();
       } else {
-        throw "error api";
+        throw "Error API: ${res.statusCode} - ${res.body}";
       }
     } catch (e) {
+      debugPrint("Error fetching events: $e");
       rethrow;
     }
   }
@@ -63,8 +69,6 @@ class EventRepository {
           'Authorization': 'Bearer ${http.token}',
         },
       );
-      print('ini startTime : ${startTime}');
-      print('ini startDate : ${startDate}');
       debugPrint(response.body);
       final json = jsonDecode(response.body);
 

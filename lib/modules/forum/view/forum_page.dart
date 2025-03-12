@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mobile_lingkunganku/modules/forum/widget/forum_header_section.dart';
-import 'package:mobile_lingkunganku/modules/forum/widget/list_forum.dart';
-import 'package:mobile_lingkunganku/widgets/pages/page_empty.dart';
-import 'package:mobile_lingkunganku/widgets/pages/pages_loading.dart';
+import '../widget/forum_header_section.dart';
+import '../widget/list_forum.dart';
+import '../../../widgets/pages/empty_page.dart';
+import '../../../widgets/pages/loading_page.dart';
 import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';
 import '../../../misc/text_style.dart';
@@ -41,47 +41,55 @@ class ForumView extends StatelessWidget {
               icon: Icon(
                 Icons.arrow_back_ios_new,
                 color: AppColors.buttonColor2,
-                size: 32,
+                size: 24,
               ),
               onPressed: () {
                 GoRouter.of(context).pop();
               },
             ),
           ),
-          body: Column(
-            children: [
-              ForumHeaderSection(),
-              Expanded(
-                child: CustomScrollView(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  slivers: [
-                    BlocBuilder<ForumCubit, ForumState>(
-                      buildWhen: (previous, current) =>
-                          previous.forums != current.forums ||
-                          previous.loading != current.loading,
-                      builder: (context, state) {
-                        if (state.loading) {
-                          return const SliverToBoxAdapter(child: LoadingPage());
-                        }
-                        if (state.forums.isEmpty) {
-                          return const SliverToBoxAdapter(
-                              child: EmptyPage(msg: "Tidak ada Forum.."));
-                        }
-                        return SliverList(
-                          delegate: SliverChildBuilderDelegate(
-                            (context, index) {
-                              return ForumListSection(
-                                  forums: state.forums[index]);
-                            },
-                            childCount: state.forums.length,
-                          ),
-                        );
-                      },
-                    ),
-                  ],
+          body: RefreshIndicator(
+            color: AppColors.secondaryColor,
+            onRefresh: () async {
+              context.read<ForumCubit>().init();
+              await Future.delayed(const Duration(seconds: 1));
+            },
+            child: Column(
+              children: [
+                ForumHeaderSection(),
+                Expanded(
+                  child: CustomScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    slivers: [
+                      BlocBuilder<ForumCubit, ForumState>(
+                        buildWhen: (previous, current) =>
+                            previous.forums != current.forums ||
+                            previous.loading != current.loading,
+                        builder: (context, state) {
+                          if (state.loading) {
+                            return const SliverToBoxAdapter(
+                                child: LoadingPage());
+                          }
+                          if (state.forums.isEmpty) {
+                            return const SliverToBoxAdapter(
+                                child: EmptyPage(msg: "Tidak ada Forum.."));
+                          }
+                          return SliverList(
+                            delegate: SliverChildBuilderDelegate(
+                              (context, index) {
+                                return ForumListSection(
+                                    forums: state.forums[index]);
+                              },
+                              childCount: state.forums.length,
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       },

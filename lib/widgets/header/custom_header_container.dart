@@ -15,6 +15,7 @@ class CustomHeaderContainer extends StatelessWidget {
   final String displayText;
   final String? avatarLink;
   final List<Widget> children;
+  final bool isHomeOrPublic; // ✅ Tambahkan parameter ini
 
   const CustomHeaderContainer({
     super.key,
@@ -29,6 +30,7 @@ class CustomHeaderContainer extends StatelessWidget {
     required this.showText,
     this.avatarLink,
     this.showAvatar = true,
+    required this.isHomeOrPublic, // ✅ Tambahkan parameter ini
   });
 
   @override
@@ -45,7 +47,7 @@ class CustomHeaderContainer extends StatelessWidget {
         left: 20,
         right: 20,
         top: 40,
-        bottom: 15,
+        bottom: 10,
       ),
       child: Column(
         children: [
@@ -63,8 +65,15 @@ class CustomHeaderContainer extends StatelessWidget {
               else
                 const SizedBox(width: 48),
 
-              // **Title di Tengah**
-              if (title != null)
+              // **Logo Jika Home/Public, Title Jika Halaman Lain**
+              if (isHomeOrPublic)
+                Expanded(
+                  child: Image.asset(
+                    'assets/icons/lingkunganku.png',
+                    height: 35,
+                  ),
+                )
+              else if (title != null)
                 Expanded(
                   child: Text(
                     title!,
@@ -85,10 +94,11 @@ class CustomHeaderContainer extends StatelessWidget {
                 const SizedBox(width: 48),
             ],
           ),
+          SizedBox(height: 5),
           // **Menampilkan Avatar hanya jika `showAvatar` == true**
           if (showAvatar)
             CustomHeaderAvatar(
-              isLoading: isLoading, // ✅ Tambahkan nilai isLoading di sini
+              isLoading: isLoading,
               avatarLink: avatarLink,
               displayText: displayText,
               isLoggedIn: isLoggedIn,
@@ -116,8 +126,8 @@ class CustomHeaderContainer extends StatelessWidget {
   Widget _buildIconButton(
       {required IconData icon, required VoidCallback onPressed}) {
     return Container(
-      width: 45,
-      height: 45,
+      width: 40,
+      height: 40,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
