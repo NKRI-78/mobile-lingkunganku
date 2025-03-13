@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_lingkunganku/router/builder.dart';
+import '../../../router/builder.dart';
+import '../../../misc/price_currency.dart';
 import '../cubit/notification_cubit.dart';
 
 import '../../../misc/colors.dart';
@@ -20,17 +21,19 @@ class ListNotifCard extends StatelessWidget {
         if (notif.type.contains("PAYMENT")) {
           WaitingPaymentRoute(id: notif.paymentId.toString()).push(context);
         }
+        // if (notif.type.contains("SOS")) {
+        //   NotificationSosRoute(id: notif.paymentId.toString()).push(context);
+        // }
       },
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 5),
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
         decoration: BoxDecoration(
             color: notif.readAt == null
-                ? AppColors.greyColor.withValues(alpha: 0.2)
+                ? AppColors.greyColor.withOpacity(0.2)
                 : AppColors.whiteColor,
             borderRadius: BorderRadius.circular(10),
-            border:
-                Border.all(color: AppColors.blackColor.withValues(alpha: 0.2))),
+            border: Border.all(color: AppColors.blackColor.withOpacity(0.2))),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -65,8 +68,8 @@ class ListNotifCard extends StatelessWidget {
               ],
             ),
             const Divider(
-              thickness: .3,
-              color: AppColors.blackColor,
+              thickness: .5,
+              color: AppColors.greyColor,
             ),
             Text(
               notif.message,
@@ -75,6 +78,39 @@ class ListNotifCard extends StatelessWidget {
                 fontSize: 13,
               ),
             ),
+
+            // Hanya tampilkan jika tipe notifikasi PAYMENT
+            if (notif.type.contains("PAYMENT")) ...[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Expanded(
+                    child: Text(
+                      'Total Pembayaran',
+                      style: TextStyle(
+                        color: AppColors.blackColor,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          '${Price.currency(notif.totalPrice?.toDouble() ?? 0) ?? 0}',
+                          style: const TextStyle(
+                            color: AppColors.blackColor,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ]
           ],
         ),
       ),

@@ -12,14 +12,14 @@ class ExpiredStatus extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<WaitingPaymentCubit, WaitingPaymentState>(
       builder: (context, state) {
-        double totalProduct = state.payment?.orders?.fold(0.0, (sum, order) {
-              return sum! + ((order.price ?? 0));
-            }) ??
-            0;
-        double totalShipping = state.payment?.orders?.fold(0.0, (sum, order) {
-              return sum! + ((order.otherPrice ?? 0));
-            }) ??
-            0;
+        // double totalProduct = state.payment?.orders?.fold(0.0, (sum, order) {
+        //       return sum! + ((order.price ?? 0));
+        //     }) ??
+        //     0;
+        // double totalShipping = state.payment?.orders?.fold(0.0, (sum, order) {
+        //       return sum! + ((order.otherPrice ?? 0));
+        //     }) ??
+        //     0;
         return Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,7 +79,7 @@ class ExpiredStatus extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const Text(
-                            "Harga Produk",
+                            "Harga Iuran",
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
@@ -88,32 +88,8 @@ class ExpiredStatus extends StatelessWidget {
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            Price.currency(totalProduct),
-                            style: const TextStyle(
-                              color: AppColors.blackColor,
-                              fontSize: 14,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 5),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            "Biaya Ongkir",
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.blackColor,
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            Price.currency(totalShipping),
+                            Price.currency(
+                                state.payment!.price?.toDouble() ?? 0.0),
                             style: const TextStyle(
                               color: AppColors.blackColor,
                               fontSize: 14,

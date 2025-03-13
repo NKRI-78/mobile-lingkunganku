@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_lingkunganku/modules/iuran/cubit/iuran_cubit.dart';
+import '../cubit/iuran_cubit.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/price_currency.dart';
@@ -18,7 +18,7 @@ class SelectPaymentChannel extends StatelessWidget {
         return WillPopScope(
           onWillPop: () async => false,
           child: Container(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
             decoration: const BoxDecoration(
               borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
               color: Colors.white,
@@ -47,6 +47,7 @@ class SelectPaymentChannel extends StatelessWidget {
                     const SizedBox(width: 25),
                   ],
                 ),
+                const SizedBox(height: 10),
                 const Divider(),
                 const SizedBox(height: 10),
 
@@ -60,14 +61,14 @@ class SelectPaymentChannel extends StatelessWidget {
                       return Card(
                         color: AppColors.whiteColor,
                         margin: const EdgeInsets.symmetric(
-                            vertical: 5, horizontal: 5),
+                            vertical: 10, horizontal: 5),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
                         elevation: 4,
                         child: ListTile(
                           contentPadding: const EdgeInsets.symmetric(
-                              vertical: 10, horizontal: 10),
+                              vertical: 5, horizontal: 10),
                           title: Text(
                             e.name == "Saldo"
                                 ? "Lingkunganku Wallet"
@@ -106,6 +107,7 @@ class SelectPaymentChannel extends StatelessWidget {
                     },
                   ),
                 ),
+                const SizedBox(height: 10),
               ],
             ),
           ),

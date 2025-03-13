@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:mobile_lingkunganku/misc/price_currency.dart';
+import '../../../misc/price_currency.dart';
 import '../../../misc/colors.dart';
 import '../../../misc/date_helper.dart';
 import '../../../misc/snackbar.dart';
@@ -100,7 +100,7 @@ class _IuranViewState extends State<IuranView> {
                 final int totalAmount = selected.fold(
                     0, (sum, item) => sum + (item.totalAmount ?? 0));
                 return CustomButton(
-                  text: "BAYAR TAGIHAN\n\nTotal Tagihan Rp $totalAmount",
+                  text: "Bayar Tagihan\n\nTotal Tagihan Rp $totalAmount",
                   onPressed: selected.isNotEmpty
                       ? () {
                           _customPaymentSection(context, selected);

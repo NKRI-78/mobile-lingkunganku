@@ -141,7 +141,11 @@ class AuthRepository {
         throw json['message'] ?? "Terjadi kesalahan";
       }
     } on SocketException {
-      throw "Terjadi kesalahan jaringan";
+      throw "Terjadi Kesalahan Jaringan";
+    } on TimeoutException {
+      throw "Koneksi internet lambat, periksa jaringan Anda";
+    } catch (e) {
+      rethrow;
     }
   }
 
@@ -173,7 +177,11 @@ class AuthRepository {
         throw json['message'] ?? "Terjadi kesalahan";
       }
     } on SocketException {
-      throw "Terjadi kesalahan jaringan";
+      throw "Terjadi Kesalahan Jaringan";
+    } on TimeoutException {
+      throw "Koneksi internet lambat, periksa jaringan Anda";
+    } catch (e) {
+      rethrow;
     }
   }
 
@@ -195,7 +203,11 @@ class AuthRepository {
         throw json['message'] ?? "Terjadi kesalahan";
       }
     } on SocketException {
-      throw "Terjadi kesalahan jaringan";
+      throw "Terjadi Kesalahan Jaringan";
+    } on TimeoutException {
+      throw "Koneksi internet lambat, periksa jaringan Anda";
+    } catch (e) {
+      rethrow;
     }
   }
 

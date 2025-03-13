@@ -44,6 +44,12 @@ RouteBase get $homeRoute => GoRouteData.$route(
         GoRouteData.$route(
           path: 'notification',
           factory: $NotificationRouteExtension._fromState,
+          routes: [
+            GoRouteData.$route(
+              path: 'notification-sos',
+              factory: $NotificationSosRouteExtension._fromState,
+            ),
+          ],
         ),
         GoRouteData.$route(
           path: 'settings',
@@ -245,6 +251,29 @@ extension $NotificationRouteExtension on NotificationRoute {
 
   String get location => GoRouteData.$location(
         '/home/notification',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $NotificationSosRouteExtension on NotificationSosRoute {
+  static NotificationSosRoute _fromState(GoRouterState state) =>
+      NotificationSosRoute(
+        id: state.uri.queryParameters['id']!,
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/notification/notification-sos',
+        queryParams: {
+          'id': id,
+        },
       );
 
   void go(BuildContext context) => context.go(location);

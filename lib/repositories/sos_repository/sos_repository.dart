@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 
@@ -37,6 +39,10 @@ class SosRepository {
       if (res.statusCode == 400) {
         throw json['message'] ?? "Terjadi kesalahan";
       }
+    } on SocketException {
+      throw "Terjadi Kesalahan Jaringan";
+    } on TimeoutException {
+      throw "Koneksi internet lambat, periksa jaringan Anda";
     } catch (e) {
       rethrow;
     }

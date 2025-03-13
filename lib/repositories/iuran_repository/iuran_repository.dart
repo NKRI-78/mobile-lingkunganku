@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -37,7 +38,11 @@ class IuranRepository {
         throw json['message'] ?? "Gagal membuat iuran";
       }
     } on SocketException {
-      throw "Terjadi kesalahan jaringan";
+      throw "Terjadi Kesalahan Jaringan";
+    } on TimeoutException {
+      throw "Koneksi internet lambat, periksa jaringan Anda";
+    } catch (e) {
+      rethrow;
     }
   }
 
@@ -57,7 +62,11 @@ class IuranRepository {
         throw json['message'] ?? "Gagal mengecek invoice";
       }
     } on SocketException {
-      throw "Terjadi kesalahan jaringan";
+      throw "Terjadi Kesalahan Jaringan";
+    } on TimeoutException {
+      throw "Koneksi internet lambat, periksa jaringan Anda";
+    } catch (e) {
+      rethrow;
     }
   }
 
@@ -79,9 +88,12 @@ class IuranRepository {
       } else {
         throw Exception("Failed to load invoice: ${res.statusCode}");
       }
+    } on SocketException {
+      throw "Terjadi Kesalahan Jaringan";
+    } on TimeoutException {
+      throw "Koneksi internet lambat, periksa jaringan Anda";
     } catch (e) {
-      debugPrint("Exception caught: $e");
-      throw Exception("Terjadi kesalahan: $e");
+      rethrow;
     }
   }
 
@@ -103,6 +115,10 @@ class IuranRepository {
       } else {
         throw "Error";
       }
+    } on SocketException {
+      throw "Terjadi Kesalahan Jaringan";
+    } on TimeoutException {
+      throw "Koneksi internet lambat, periksa jaringan Anda";
     } catch (e) {
       rethrow;
     }

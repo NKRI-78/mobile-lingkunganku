@@ -32,7 +32,7 @@ class CustomListInvoiceSection extends StatelessWidget {
 
         return Card(
           margin: const EdgeInsets.symmetric(vertical: 10),
-          elevation: 2,
+          elevation: 3,
           child: Column(
             children: [
               ListTile(
@@ -84,8 +84,8 @@ class CustomListInvoiceSection extends StatelessWidget {
                   iuranItem.translateStatus,
                   style: TextStyle(
                     color: iuranItem.translateStatus == "PAID"
-                        ? Colors.green
-                        : Colors.red,
+                        ? AppColors.secondaryColor
+                        : AppColors.redColor,
                     fontWeight: FontWeight.bold,
                   ),
                 ),

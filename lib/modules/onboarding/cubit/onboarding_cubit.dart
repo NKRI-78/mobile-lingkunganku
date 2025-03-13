@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../misc/firebase_messangging.dart';
 import '../../app/bloc/app_bloc.dart';
 
 part 'onboarding_state.dart';
@@ -22,5 +23,7 @@ class OnboardingCubit extends Cubit<OnboardingState> {
   void finishOnboarding(BuildContext context) async {
     context.read<AppBloc>().add(FinishOnboarding());
     // await determinePosition(context);
+    await FirebaseMessagingMisc.init();
+    debugPrint("Firebase Messaging diinisialisasi");
   }
 }

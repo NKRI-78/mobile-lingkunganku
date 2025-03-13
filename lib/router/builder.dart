@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import '../modules/iuran/view/iuran_page.dart';
 import '../modules/iuran_history/view/iuran_history_page.dart';
 import '../modules/notification/view/notification_page.dart';
+import '../modules/notification/view/notification_sos_detail_page.dart';
 import '../modules/sos/view/sos_detail_page.dart';
 import '../modules/news_update/view/news_update_page.dart';
 import '../modules/event/view/event_page.dart';
@@ -49,7 +50,9 @@ class OnboardingRoute extends GoRouteData {
 
 @TypedGoRoute<HomeRoute>(path: '/home', routes: [
   TypedGoRoute<WebViewRoute>(path: 'webview'),
-  TypedGoRoute<NotificationRoute>(path: 'notification'),
+  TypedGoRoute<NotificationRoute>(
+      path: 'notification',
+      routes: [TypedGoRoute<NotificationSosRoute>(path: 'notification-sos')]),
   TypedGoRoute<SettingsRoute>(path: 'settings'),
   TypedGoRoute<WaitingPaymentRoute>(path: 'waiting-payment'),
   TypedGoRoute<IuranRoute>(path: 'iuran', routes: [
@@ -85,8 +88,9 @@ class OnboardingRoute extends GoRouteData {
     ]),
     TypedGoRoute<RegisterWargaRoute>(path: 'register-warga'),
   ]),
-  TypedGoRoute<SosRoute>(
-      path: 'sos', routes: [TypedGoRoute<SosDetailRoute>(path: 'sos-detail')]),
+  TypedGoRoute<SosRoute>(path: 'sos', routes: [
+    TypedGoRoute<SosDetailRoute>(path: 'sos-detail'),
+  ]),
   TypedGoRoute<ForumRoute>(path: 'forum', routes: [
     TypedGoRoute<ForumDetailRoute>(path: 'forum-detail'),
     TypedGoRoute<ForumCreateRoute>(path: 'forum-create'),
@@ -120,6 +124,17 @@ class NotificationRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return NotificationPage();
+  }
+}
+
+class NotificationSosRoute extends GoRouteData {
+  final String id;
+
+  NotificationSosRoute({required this.id});
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return NotificationSosDetailPage(id: id);
   }
 }
 

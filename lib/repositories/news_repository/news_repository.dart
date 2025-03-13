@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 
@@ -23,6 +25,10 @@ class NewsRepository {
       } else {
         throw "error api";
       }
+    } on SocketException {
+      throw "Terjadi Kesalahan Jaringan";
+    } on TimeoutException {
+      throw "Koneksi internet lambat, periksa jaringan Anda";
     } catch (e) {
       rethrow;
     }
@@ -59,6 +65,10 @@ class NewsRepository {
       } else {
         throw Exception("Gagal membuat berita, silahkan cek koneksi anda");
       }
+    } on SocketException {
+      throw "Terjadi Kesalahan Jaringan";
+    } on TimeoutException {
+      throw "Koneksi internet lambat, periksa jaringan Anda";
     } catch (e) {
       rethrow;
     }
@@ -96,6 +106,10 @@ class NewsRepository {
       } else {
         throw json['message'] ?? "Failed to update news";
       }
+    } on SocketException {
+      throw "Terjadi Kesalahan Jaringan";
+    } on TimeoutException {
+      throw "Koneksi internet lambat, periksa jaringan Anda";
     } catch (e) {
       rethrow;
     }

@@ -104,7 +104,7 @@ void _customPaymentSection(BuildContext context, List<Data> selected) {
                   ),
                 ),
                 _buildDetailRow(
-                  "Iuran",
+                  "Harga Iuran",
                   "${Price.currency(selected.fold(0, (sum, item) => sum + (item.totalAmount ?? 0)))}",
                   isBold: true,
                 ),
@@ -121,13 +121,14 @@ void _customPaymentSection(BuildContext context, List<Data> selected) {
                 const SizedBox(height: 10),
                 SizedBox(
                   width: double.infinity,
-                  child: CustomButton(
-                    text: "Bayar",
-                    onPressed:
-                        dialogContext.watch<IuranCubit>().state.channel == null
+                  child: BlocBuilder<IuranCubit, IuranState>(
+                    builder: (context, state) {
+                      return CustomButton(
+                        text: state.isLoading ? "" : "Bayar",
+                        onPressed: state.isLoading || state.channel == null
                             ? null
                             : () async {
-                                final cubit = dialogContext.read<IuranCubit>();
+                                final cubit = context.read<IuranCubit>();
                                 try {
                                   var paymentNumber =
                                       await cubit.checkoutItem();
@@ -140,6 +141,17 @@ void _customPaymentSection(BuildContext context, List<Data> selected) {
                                       '', AppColors.redColor);
                                 }
                               },
+                        child: state.isLoading
+                            ? const SizedBox(
+                                height: 24,
+                                width: 24,
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                ),
+                              )
+                            : null,
+                      );
+                    },
                   ),
                 ),
               ],

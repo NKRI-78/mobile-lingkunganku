@@ -9,6 +9,8 @@ sealed class AppEvent extends Equatable {
 
 final class FinishOnboarding extends AppEvent {}
 
+final class InitialAppData extends AppEvent {}
+
 final class SetUserLogout extends AppEvent {}
 
 final class SetUserData extends AppEvent {

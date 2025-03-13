@@ -1,11 +1,13 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../misc/injections.dart';
 import '../../../misc/pagination.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../repositories/notification_repository/models/notification_model.dart';
 import '../../../repositories/notification_repository/notification_repository.dart';
+import '../../app/bloc/app_bloc.dart';
 
 part 'notification_state.dart';
 
@@ -87,7 +89,7 @@ class NotificationCubit extends Cubit<NotificationState> {
 
   @override
   Future<void> close() {
-    // getIt<AppBloc>().add(GetBadgeNotif());
+    getIt<AppBloc>().add(GetBadgeNotif());
     return super.close();
   }
 }

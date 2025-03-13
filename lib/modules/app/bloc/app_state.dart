@@ -2,14 +2,18 @@ part of 'app_bloc.dart';
 
 @JsonSerializable()
 final class AppState extends Equatable {
+  final NotificationCountModel? badges;
   final bool alreadyOnboarding;
   final User? user;
   final String token;
+  final bool loadingNotif;
 
   const AppState({
+    this.badges,
     this.alreadyOnboarding = false,
     this.user,
     this.token = '',
+    this.loadingNotif = false,
   });
 
   bool get isLogin => token != '' && user != null;
@@ -17,7 +21,13 @@ final class AppState extends Equatable {
   bool get userEmpty => token.isEmpty;
 
   @override
-  List<Object?> get props => [alreadyOnboarding, user, token];
+  List<Object?> get props => [
+        alreadyOnboarding,
+        user,
+        token,
+        loadingNotif,
+        badges,
+      ];
 
   AppState logout() {
     return AppState(
@@ -28,14 +38,18 @@ final class AppState extends Equatable {
   }
 
   AppState copyWith({
+    NotificationCountModel? badges,
     bool? alreadyOnboarding,
     User? user,
     String? token,
+    bool? loadingNotif,
   }) {
     return AppState(
+      badges: badges ?? this.badges,
       alreadyOnboarding: alreadyOnboarding ?? this.alreadyOnboarding,
       user: user ?? this.user,
       token: token ?? this.token,
+      loadingNotif: loadingNotif ?? this.loadingNotif,
     );
   }
 

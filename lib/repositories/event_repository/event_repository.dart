@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -31,8 +32,11 @@ class EventRepository {
       } else {
         throw "Error API: ${res.statusCode} - ${res.body}";
       }
+    } on SocketException {
+      throw "Terjadi Kesalahan Jaringan";
+    } on TimeoutException {
+      throw "Koneksi internet lambat, periksa jaringan Anda";
     } catch (e) {
-      debugPrint("Error fetching events: $e");
       rethrow;
     }
   }
@@ -78,7 +82,9 @@ class EventRepository {
         throw Exception(json['message'] ?? 'Terjadi kesalahan');
       }
     } on SocketException {
-      throw "Terjadi kesalahan jaringan. Periksa koneksi internet Anda.";
+      throw "Terjadi Kesalahan Jaringan";
+    } on TimeoutException {
+      throw "Koneksi internet lambat, periksa jaringan Anda";
     } catch (e) {
       rethrow;
     }
@@ -96,6 +102,10 @@ class EventRepository {
       } else {
         throw "error api";
       }
+    } on SocketException {
+      throw "Terjadi Kesalahan Jaringan";
+    } on TimeoutException {
+      throw "Koneksi internet lambat, periksa jaringan Anda";
     } catch (e) {
       rethrow;
     }

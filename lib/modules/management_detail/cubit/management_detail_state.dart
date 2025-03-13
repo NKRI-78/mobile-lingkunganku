@@ -30,8 +30,12 @@ class ManagementDetailState extends Equatable {
   }) {
     return ManagementDetailState(
       isLoading: isLoading ?? this.isLoading,
-      errorMessage: errorMessage ?? this.errorMessage,
-      successMessage: successMessage ?? this.successMessage,
+      errorMessage: errorMessage ??
+          (isLoading == false
+              ? this.errorMessage
+              : null), // Tetap simpan error jika isLoading selesai
+      successMessage:
+          successMessage ?? (isLoading == false ? this.successMessage : null),
       memberDetail: memberDetail ?? this.memberDetail,
       member: member ?? this.member,
       profile: profile ?? this.profile,
@@ -48,5 +52,6 @@ class ManagementDetailState extends Equatable {
         profile,
         iuran,
         successMessage,
+        DateTime.now(),
       ];
 }
