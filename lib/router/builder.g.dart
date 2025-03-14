@@ -115,6 +115,10 @@ RouteBase get $homeRoute => GoRouteData.$route(
               path: 'transfer-management',
               factory: $TransferManagementRouteExtension._fromState,
             ),
+            GoRouteData.$route(
+              path: 'iuran-info',
+              factory: $IuranInfoRouteExtension._fromState,
+            ),
           ],
         ),
         GoRouteData.$route(
@@ -537,6 +541,23 @@ extension $TransferManagementRouteExtension on TransferManagementRoute {
 
   String get location => GoRouteData.$location(
         '/home/profile/transfer-management',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $IuranInfoRouteExtension on IuranInfoRoute {
+  static IuranInfoRoute _fromState(GoRouterState state) => IuranInfoRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/profile/iuran-info',
       );
 
   void go(BuildContext context) => context.go(location);

@@ -145,6 +145,7 @@ class Neighborhood {
   String? updatedAt;
   String? deletedAt;
   String? phoneSecurity;
+  int? balance;
 
   Neighborhood({
     this.id,
@@ -159,6 +160,7 @@ class Neighborhood {
     this.updatedAt,
     this.deletedAt,
     this.phoneSecurity,
+    this.balance,
   });
 
   factory Neighborhood.fromJson(Map<String, dynamic> json) {
@@ -179,6 +181,7 @@ class Neighborhood {
       updatedAt: json['updated_at'],
       deletedAt: json['deleted_at'],
       phoneSecurity: json['phone_number_security'],
+      balance: json['balance'],
     );
   }
 
@@ -196,6 +199,7 @@ class Neighborhood {
       'updated_at': updatedAt,
       'deleted_at': deletedAt,
       'phone_number_security': phoneSecurity,
+      'balance': balance,
     };
   }
 }

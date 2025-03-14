@@ -72,9 +72,8 @@ class AppBloc extends HydratedBloc<AppEvent, AppState> {
       emit(state.copyWith(loadingNotif: true));
       NotificationCountModel badges = await repoNotif.getBadgesNotif();
       emit(state.copyWith(badges: badges, loadingNotif: false));
-      print("State : ${state.badges!.unreadCount}");
     } catch (e) {
-      print("Error : $e");
+      debugPrint("Error : $e");
     } finally {
       emit(state.copyWith(loadingNotif: false));
     }

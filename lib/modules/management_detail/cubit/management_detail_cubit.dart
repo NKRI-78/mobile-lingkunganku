@@ -22,6 +22,11 @@ class ManagementDetailCubit extends Cubit<ManagementDetailState> {
   final ProfileRepository repoProfile = getIt<ProfileRepository>();
   final IuranRepository repoIuran = getIt<IuranRepository>();
 
+  Future<void> checkUnpaidInvoice(int userId) async {
+    final hasUnpaid = await repoIuran.hasUnpaidInvoice(userId);
+    emit(state.copyWith(hasUnpaidInvoice: hasUnpaid));
+  }
+
   Future<void> createInvoice({
     required int userId,
     required int amount,

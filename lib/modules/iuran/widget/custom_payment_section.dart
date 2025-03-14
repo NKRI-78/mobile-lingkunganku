@@ -43,8 +43,8 @@ void _customPaymentSection(BuildContext context, List<Data> selected) {
                             .read<IuranCubit>()
                             .getPaymentChannel(dialogContext);
                       },
-                      splashColor: Colors.grey.withOpacity(0.3),
-                      highlightColor: Colors.grey.withOpacity(0.1),
+                      splashColor: Colors.grey.withValues(alpha: 0.3),
+                      highlightColor: Colors.grey.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(8),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(

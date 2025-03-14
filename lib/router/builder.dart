@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mobile_lingkunganku/modules/iuran_info/view/iuran_info_page.dart';
 import '../modules/iuran/view/iuran_page.dart';
 import '../modules/iuran_history/view/iuran_history_page.dart';
 import '../modules/notification/view/notification_page.dart';
@@ -50,9 +51,9 @@ class OnboardingRoute extends GoRouteData {
 
 @TypedGoRoute<HomeRoute>(path: '/home', routes: [
   TypedGoRoute<WebViewRoute>(path: 'webview'),
-  TypedGoRoute<NotificationRoute>(
-      path: 'notification',
-      routes: [TypedGoRoute<NotificationSosRoute>(path: 'notification-sos')]),
+  TypedGoRoute<NotificationRoute>(path: 'notification', routes: [
+    TypedGoRoute<NotificationSosRoute>(path: 'notification-sos'),
+  ]),
   TypedGoRoute<SettingsRoute>(path: 'settings'),
   TypedGoRoute<WaitingPaymentRoute>(path: 'waiting-payment'),
   TypedGoRoute<IuranRoute>(path: 'iuran', routes: [
@@ -71,6 +72,7 @@ class OnboardingRoute extends GoRouteData {
   TypedGoRoute<ProfileRoute>(path: 'profile', routes: [
     TypedGoRoute<ProfileUpdateRoute>(path: 'profile-update'),
     TypedGoRoute<TransferManagementRoute>(path: 'transfer-management'),
+    TypedGoRoute<IuranInfoRoute>(path: 'iuran-info'),
   ]),
   TypedGoRoute<ManagementRoute>(path: 'management', routes: [
     TypedGoRoute<ManagementDetailRoute>(path: 'management-detail'),
@@ -257,6 +259,13 @@ class TransferManagementRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return TransferManagementPage();
+  }
+}
+
+class IuranInfoRoute extends GoRouteData {
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return IuranInfoPage();
   }
 }
 

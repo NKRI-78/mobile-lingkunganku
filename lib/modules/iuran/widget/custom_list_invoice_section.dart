@@ -37,32 +37,35 @@ class CustomListInvoiceSection extends StatelessWidget {
             children: [
               ListTile(
                 contentPadding: const EdgeInsets.all(8.0),
-                leading: ValueListenableBuilder<List<Data>>(
-                  valueListenable: selectedInvoices,
-                  builder: (context, selected, child) {
-                    return Checkbox(
-                      activeColor: AppColors.secondaryColor,
-                      checkColor: AppColors.selectColor,
-                      value: selected.contains(iuranItem),
-                      onChanged: (isChecked) {
-                        if (isChecked == true) {
-                          selectedInvoices.value = List.from(selected)
-                            ..add(iuranItem);
-                        } else {
-                          selectedInvoices.value = List.from(selected)
-                            ..remove(iuranItem);
-                        }
-                      },
-                    );
-                  },
-                ),
+                leading: iuranItem.translateStatus == "Sudah Bayar"
+                    ? const SizedBox.shrink()
+                    : ValueListenableBuilder<List<Data>>(
+                        valueListenable: selectedInvoices,
+                        builder: (context, selected, child) {
+                          return Checkbox(
+                            activeColor: AppColors.secondaryColor,
+                            checkColor: AppColors.selectColor,
+                            value: selected.contains(iuranItem),
+                            onChanged: (isChecked) {
+                              if (isChecked == true) {
+                                selectedInvoices.value = List.from(selected)
+                                  ..add(iuranItem);
+                              } else {
+                                selectedInvoices.value = List.from(selected)
+                                  ..remove(iuranItem);
+                              }
+                            },
+                          );
+                        },
+                      ),
                 title: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Expanded(
                       child: Text(
-                        DateHelper.parseDate(
-                            iuranItem.invoiceDate ?? "Tanggal tidak tersedia"),
+                        DateFormat("MMMM yyyy", "id_ID").format(
+                          DateTime.parse(iuranItem.invoiceDate ?? ""),
+                        ),
                         style: AppTextStyles.textProfileBold.copyWith(
                             color: AppColors.blackColor, fontSize: 14),
                       ),
@@ -83,9 +86,11 @@ class CustomListInvoiceSection extends StatelessWidget {
                 subtitle: Text(
                   iuranItem.translateStatus,
                   style: TextStyle(
-                    color: iuranItem.translateStatus == "PAID"
-                        ? AppColors.secondaryColor
-                        : AppColors.redColor,
+                    color: iuranItem.translateStatus == "Sudah Bayar"
+                        ? Colors.green
+                        : iuranItem.translateStatus == "Belum Bayar"
+                            ? Colors.red
+                            : Colors.orange,
                     fontWeight: FontWeight.bold,
                   ),
                 ),

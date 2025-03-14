@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../../widgets/button/custom_button.dart';
+import 'package:mobile_lingkunganku/widgets/button/custom_button.dart';
 
 import '../../../../misc/colors.dart';
 import '../../../../misc/helper.dart';

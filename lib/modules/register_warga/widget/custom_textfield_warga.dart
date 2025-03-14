@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../misc/colors.dart';
@@ -56,6 +57,7 @@ class _FieldEmail extends StatelessWidget {
             var cubit = context.read<RegisterWargaCubit>();
             cubit.copyState(newState: cubit.state.copyWith(email: value));
           },
+          inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r'\s'))],
         );
       },
     );
@@ -165,6 +167,7 @@ Widget _buildTextFormField({
   bool obscureText = false,
   int maxLines = 1,
   required ValueChanged<String> onChanged,
+  List<TextInputFormatter>? inputFormatters,
   int? maxLength,
 }) {
   return Padding(
@@ -187,6 +190,7 @@ Widget _buildTextFormField({
                   ? TextCapitalization.words
                   : TextCapitalization.none,
           onChanged: onChanged,
+          inputFormatters: inputFormatters,
           decoration: InputDecoration(
             labelText: label,
             labelStyle: TextStyle(color: AppColors.buttonColor1),

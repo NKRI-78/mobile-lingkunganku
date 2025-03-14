@@ -8,38 +8,38 @@ class ManagementDetailState extends Equatable {
   final Members? member;
   final ProfileModel? profile;
   final IuranModel? iuran;
+  final bool hasUnpaidInvoice;
 
-  const ManagementDetailState({
-    this.isLoading = false,
-    this.errorMessage,
-    this.successMessage,
-    this.memberDetail,
-    this.member,
-    this.profile,
-    this.iuran,
-  });
+  const ManagementDetailState(
+      {this.isLoading = false,
+      this.errorMessage,
+      this.successMessage,
+      this.memberDetail,
+      this.member,
+      this.profile,
+      this.iuran,
+      this.hasUnpaidInvoice = false});
 
-  ManagementDetailState copyWith({
-    bool? isLoading,
-    String? errorMessage,
-    String? successMessage,
-    ManagementDetailMemberModel? memberDetail,
-    Members? member,
-    ProfileModel? profile,
-    IuranModel? iuran,
-  }) {
+  ManagementDetailState copyWith(
+      {bool? isLoading,
+      String? errorMessage,
+      String? successMessage,
+      ManagementDetailMemberModel? memberDetail,
+      Members? member,
+      ProfileModel? profile,
+      IuranModel? iuran,
+      bool? hasUnpaidInvoice}) {
     return ManagementDetailState(
       isLoading: isLoading ?? this.isLoading,
-      errorMessage: errorMessage ??
-          (isLoading == false
-              ? this.errorMessage
-              : null), // Tetap simpan error jika isLoading selesai
+      errorMessage:
+          errorMessage ?? (isLoading == false ? this.errorMessage : null),
       successMessage:
           successMessage ?? (isLoading == false ? this.successMessage : null),
       memberDetail: memberDetail ?? this.memberDetail,
       member: member ?? this.member,
       profile: profile ?? this.profile,
       iuran: iuran ?? this.iuran,
+      hasUnpaidInvoice: hasUnpaidInvoice ?? this.hasUnpaidInvoice,
     );
   }
 
@@ -52,6 +52,7 @@ class ManagementDetailState extends Equatable {
         profile,
         iuran,
         successMessage,
+        hasUnpaidInvoice,
         DateTime.now(),
       ];
 }

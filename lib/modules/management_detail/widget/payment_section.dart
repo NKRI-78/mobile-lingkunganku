@@ -13,6 +13,7 @@ class PaymentSection extends StatefulWidget {
 
 class _PaymentSectionState extends State<PaymentSection> {
   final TextEditingController amountController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
 
   @override
   void initState() {
@@ -24,6 +25,7 @@ class _PaymentSectionState extends State<PaymentSection> {
   void dispose() {
     amountController.removeListener(_formatAmount);
     amountController.dispose();
+    descriptionController.dispose();
     super.dispose();
   }
 
@@ -41,7 +43,12 @@ class _PaymentSectionState extends State<PaymentSection> {
   Widget build(BuildContext context) {
     return BlocBuilder<ManagementDetailCubit, ManagementDetailState>(
       builder: (context, state) {
-        final userId = state.memberDetail?.data?.id;
+        final userId = state.memberDetail?.data?.id ?? 0;
+        final role = state.memberDetail?.data?.roleApp ?? "";
+
+        print("INI USER TUJUAN : $userId");
+        print("INI ROLE TUJUAN : $role");
+
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -56,6 +63,8 @@ class _PaymentSectionState extends State<PaymentSection> {
                       height: 50,
                       child: TextField(
                         controller: amountController,
+                        enabled: !state
+                            .hasUnpaidInvoice, // 🔥 Disable jika ada tagihan
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
                           hintText: "Rp 0",
@@ -67,7 +76,9 @@ class _PaymentSectionState extends State<PaymentSection> {
                             borderSide: BorderSide.none,
                           ),
                           contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 14),
+                            horizontal: 16,
+                            vertical: 14,
+                          ),
                         ),
                       ),
                     ),
@@ -76,60 +87,80 @@ class _PaymentSectionState extends State<PaymentSection> {
                   SizedBox(
                     height: 50,
                     child: ElevatedButton.icon(
-                      onPressed: () async {
-                        try {
-                          final amountValue = int.tryParse(amountController.text
-                                  .replaceAll(RegExp(r'[^0-9]'), '')) ??
-                              0;
+                      onPressed: state.hasUnpaidInvoice
+                          ? null // 🔥 Disable tombol jika sudah ada tagihan
+                          : () async {
+                              try {
+                                final amountValue = int.tryParse(
+                                        amountController.text.replaceAll(
+                                            RegExp(r'[^0-9]'), '')) ??
+                                    0;
+                                final description =
+                                    descriptionController.text.trim();
 
-                          print(
-                              "User ID: ${userId ?? 0}, Amount: $amountValue");
+                                if (amountValue <= 0) {
+                                  throw Exception(
+                                      "Nominal harus berupa angka yang valid!");
+                                }
+                                if (description.isEmpty) {
+                                  throw Exception(
+                                      "Deskripsi tidak boleh kosong!");
+                                }
 
-                          if (amountValue <= 0) {
-                            throw Exception(
-                                "Nominal harus berupa angka yang valid!");
-                          }
+                                final userId =
+                                    state.memberDetail?.data?.id ?? 0;
 
-                          final hasUnpaid = await context
-                              .read<ManagementDetailCubit>()
-                              .repoIuran
-                              .hasUnpaidInvoice(userId ?? 0);
+                                // 🔥 Cek ulang apakah masih ada invoice yang belum dibayar
+                                final hasUnpaid = await context
+                                    .read<ManagementDetailCubit>()
+                                    .repoIuran
+                                    .hasUnpaidInvoice(userId);
 
-                          if (hasUnpaid) {
-                            throw Exception(
-                                "Pengguna masih memiliki invoice yang belum dibayar");
-                          }
+                                if (hasUnpaid) {
+                                  context.read<ManagementDetailCubit>().emit(
+                                      state.copyWith(hasUnpaidInvoice: true));
+                                  throw Exception(
+                                      "Pengguna masih memiliki invoice yang belum dibayar");
+                                }
 
-                          await context
-                              .read<ManagementDetailCubit>()
-                              .createInvoice(
-                                userId: userId ?? 0,
-                                amount: amountValue,
-                                description: "Tagihan Bulanan",
-                              );
+                                // 🔥 Buat invoice baru
+                                await context
+                                    .read<ManagementDetailCubit>()
+                                    .createInvoice(
+                                      userId: userId,
+                                      amount: amountValue,
+                                      description: description,
+                                    );
 
-                          if (!mounted) return;
+                                if (!mounted) return;
 
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              backgroundColor: AppColors.secondaryColor,
-                              content: Text("Invoice berhasil dibuat"),
-                            ),
-                          );
+                                // 🔥 Perbarui status `hasUnpaidInvoice`
+                                await context
+                                    .read<ManagementDetailCubit>()
+                                    .checkUnpaidInvoice(userId);
 
-                          amountController.clear();
-                        } catch (e) {
-                          if (!mounted) return;
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    backgroundColor: AppColors.secondaryColor,
+                                    content: Text("Invoice berhasil dibuat"),
+                                  ),
+                                );
 
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              backgroundColor: AppColors.redColor,
-                              content: Text(
-                                  e.toString().replaceAll("Exception: ", "")),
-                            ),
-                          );
-                        }
-                      },
+                                amountController.clear();
+                                descriptionController.clear();
+                              } catch (e) {
+                                if (!mounted) return;
+
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    backgroundColor: AppColors.redColor,
+                                    content: Text(e
+                                        .toString()
+                                        .replaceAll("Exception: ", "")),
+                                  ),
+                                );
+                              }
+                            },
                       icon: const Icon(Icons.send, color: Colors.white),
                       label: Text(
                         "Submit",
@@ -144,6 +175,26 @@ class _PaymentSectionState extends State<PaymentSection> {
                     ),
                   ),
                 ],
+              ),
+            ),
+            const SizedBox(height: 10),
+            TextField(
+              maxLines: 2,
+              controller: descriptionController,
+              enabled: !state.hasUnpaidInvoice, // 🔥 Disable jika ada tagihan
+              decoration: InputDecoration(
+                hintText: "Deskripsi Iuran",
+                hintStyle: AppTextStyles.textWelcome,
+                filled: true,
+                fillColor: Colors.white,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide.none,
+                ),
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 14,
+                ),
               ),
             ),
           ],

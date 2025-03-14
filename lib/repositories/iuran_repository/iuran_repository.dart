@@ -70,10 +70,10 @@ class IuranRepository {
     }
   }
 
-  Future<IuranModel> getInvoice() async {
+  Future<IuranModel> getPaidInvoices() async {
     try {
       final res = await http.get(
-        Uri.parse('$iuran/getUnpaidInvoices'),
+        Uri.parse('$iuran/getPaidInvoices'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ${http.token}',
@@ -83,8 +83,33 @@ class IuranRepository {
       if (res.statusCode == 200) {
         debugPrint("Invoice berhasil dilihat");
         final jsonResponse = jsonDecode(res.body);
-        return IuranModel.fromJson(
-            jsonResponse); // Hanya satu model, bukan list
+        return IuranModel.fromJson(jsonResponse);
+      } else {
+        throw Exception("Failed to load invoice: ${res.statusCode}");
+      }
+    } on SocketException {
+      throw "Terjadi Kesalahan Jaringan";
+    } on TimeoutException {
+      throw "Koneksi internet lambat, periksa jaringan Anda";
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<IuranModel> getInvoice() async {
+    try {
+      final res = await http.get(
+        Uri.parse('$iuran/getInvoices'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ${http.token}',
+        },
+      );
+
+      if (res.statusCode == 200) {
+        debugPrint("Invoice berhasil dilihat");
+        final jsonResponse = jsonDecode(res.body);
+        return IuranModel.fromJson(jsonResponse);
       } else {
         throw Exception("Failed to load invoice: ${res.statusCode}");
       }

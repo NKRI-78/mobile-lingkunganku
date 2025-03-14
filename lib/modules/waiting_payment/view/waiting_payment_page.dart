@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 import 'package:slide_countdown/slide_countdown.dart';
 
@@ -68,28 +69,7 @@ class _WaitingPaymentViewState extends State<WaitingPaymentView> {
         );
         final duration = targetDateTime.difference(DateTime.now());
 
-        // double totalProduct = state.payment?.orders?.fold(0.0, (sum, order) {
-        //       return sum! + ((order.price ?? 0));
-        //     }) ??
-        //     0;
-        // double totalShipping = state.payment?.orders?.fold(0.0, (sum, order) {
-        //       return sum! + ((order.otherPrice ?? 0));
-        //     }) ??
-        //     0;
         return Scaffold(
-          // bottomNavigationBar: Container(
-          //   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-          //   color: Colors.transparent,
-          //   child: CustomButton(
-          //       onPressed: () {
-          //         // state.payment?.status == 'PAID'
-          //         //     ? OrderRoute(initIndex: 1).go(context)
-          //         //     : HomeRoute().go(context);
-          //       },
-          //       text: state.payment?.status == 'PAID'
-          //           ? "Lihat status pesanan saya"
-          //           : "Kembali"),
-          // ),
           body: RefreshIndicator(
             color: AppColors.secondaryColor,
             onRefresh: () async {
@@ -246,6 +226,53 @@ class _WaitingPaymentViewState extends State<WaitingPaymentView> {
                                                 const Divider(
                                                   thickness: .3,
                                                   color: AppColors.blackColor,
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(vertical: 5),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      const Text(
+                                                        "Bulan Iuran",
+                                                        style: TextStyle(
+                                                          fontSize: 14,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: AppColors
+                                                              .blackColor,
+                                                        ),
+                                                      ),
+                                                      const SizedBox(height: 4),
+                                                      Expanded(
+                                                        child: Text(
+                                                          state.payment
+                                                                  ?.invoices
+                                                                  ?.map((invoice) => DateFormat(
+                                                                          "MMMM yyyy",
+                                                                          "id_ID")
+                                                                      .format(DateTime.parse(invoice
+                                                                          .invoiceDate
+                                                                          .toString())))
+                                                                  .join(", ") ??
+                                                              "-",
+                                                          textAlign:
+                                                              TextAlign.end,
+                                                          style:
+                                                              const TextStyle(
+                                                            color: AppColors
+                                                                .blackColor,
+                                                            fontSize: 14,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
                                                 Padding(
                                                   padding: const EdgeInsets

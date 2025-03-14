@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile_lingkunganku/misc/price_currency.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';
@@ -8,6 +9,7 @@ import '../../../widgets/background/custom_background.dart';
 import '../../../widgets/header/custom_header_container.dart';
 import '../cubit/profile_cubit.dart';
 import '../widget/family_member_section.dart';
+import '../widget/iuran_info_section.dart';
 import '../widget/profile_info_section.dart';
 import '../widget/referral_code_chief.dart';
 import '../widget/referral_code_family.dart';
@@ -91,7 +93,7 @@ class ProfileView extends StatelessWidget {
                                       ),
                                     ),
                                     TextSpan(
-                                      text: "Rp${saldo.toStringAsFixed(0)}",
+                                      text: Price.currency(saldo.toDouble()),
                                       style: AppTextStyles.textWelcome.copyWith(
                                         fontWeight: FontWeight.bold,
                                         color: Colors.black,
@@ -150,6 +152,8 @@ class ProfileView extends StatelessWidget {
                         spacing: 20,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
+                          if (role != "MEMBER" && role != "SECRETARY")
+                            IuranInfoSection(),
                           ProfileInfoSection(),
                           if (role != "MEMBER" &&
                               role != "SECRETARY" &&
