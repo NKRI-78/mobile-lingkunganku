@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../bloc/home_bloc.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';
@@ -7,6 +6,7 @@ import '../../../misc/text_style.dart';
 import '../../../router/builder.dart';
 import '../../app/bloc/app_bloc.dart';
 import '../../profile/cubit/profile_cubit.dart';
+import '../bloc/home_bloc.dart';
 
 void showLogoutDialog(BuildContext context) {
   showDialog(

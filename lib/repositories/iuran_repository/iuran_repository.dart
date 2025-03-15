@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'models/iuran_paid_model.dart';
 import '../../misc/api_url.dart';
 import '../../misc/http_client.dart';
 import '../../misc/injections.dart';
@@ -70,7 +71,7 @@ class IuranRepository {
     }
   }
 
-  Future<IuranModel> getPaidInvoices() async {
+  Future<List<IuranPaidModel>> getPaidInvoices() async {
     try {
       final res = await http.get(
         Uri.parse('$iuran/getPaidInvoices'),
@@ -83,9 +84,13 @@ class IuranRepository {
       if (res.statusCode == 200) {
         debugPrint("Invoice berhasil dilihat");
         final jsonResponse = jsonDecode(res.body);
-        return IuranModel.fromJson(jsonResponse);
+        final List<IuranPaidModel> invoices = (jsonResponse["data"] as List)
+            .map((e) => IuranPaidModel.fromJson(e))
+            .toList();
+
+        return invoices;
       } else {
-        throw Exception("Failed to load invoice: ${res.statusCode}");
+        throw Exception("Failed to load invoices: ${res.statusCode}");
       }
     } on SocketException {
       throw "Terjadi Kesalahan Jaringan";

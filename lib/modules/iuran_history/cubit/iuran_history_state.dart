@@ -4,10 +4,8 @@ class IuranHistoryState extends Equatable {
   final bool isLoading;
   final String? errorMessage;
   final String? successMessage;
-  final IuranModel? iuran;
+  final List<IuranPaidModel>? iuran;
   final bool loadingChannel;
-  final List<PaymentChannelModel> channels;
-  final PaymentChannelModel? channel;
   final List<Data> selectedInvoices;
   final double adminFee;
 
@@ -17,8 +15,6 @@ class IuranHistoryState extends Equatable {
     this.successMessage,
     this.iuran,
     this.loadingChannel = false,
-    this.channels = const [],
-    this.channel,
     this.selectedInvoices = const [],
     this.adminFee = 0.0,
   });
@@ -27,10 +23,8 @@ class IuranHistoryState extends Equatable {
     bool? isLoading,
     String? errorMessage,
     String? successMessage,
-    IuranModel? iuran,
+    List<IuranPaidModel>? iuran,
     bool? loadingChannel,
-    List<PaymentChannelModel>? channels,
-    PaymentChannelModel? channel,
     List<Data>? selectedInvoices,
     double? adminFee,
   }) {
@@ -40,8 +34,6 @@ class IuranHistoryState extends Equatable {
       successMessage: successMessage ?? this.successMessage,
       iuran: iuran ?? this.iuran,
       loadingChannel: loadingChannel ?? this.loadingChannel,
-      channels: channels ?? this.channels,
-      channel: channel ?? this.channel,
       selectedInvoices: selectedInvoices ?? this.selectedInvoices,
       adminFee: adminFee ?? this.adminFee,
     );
@@ -54,8 +46,6 @@ class IuranHistoryState extends Equatable {
         iuran,
         successMessage,
         loadingChannel,
-        channels,
-        channel,
         selectedInvoices,
         adminFee,
       ];

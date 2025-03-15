@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import '../modules/iuran_history/cubit/iuran_history_cubit.dart';
 import '../modules/event/cubit/event_cubit.dart';
 import '../modules/forum_detail/cubit/forum_detail_cubit.dart';
 import '../modules/news_create/cubit/news_create_cubit.dart';
@@ -59,6 +60,7 @@ class MyInjection {
     getIt.registerCachedFactory<EventDetailCubit>(() => EventDetailCubit());
     getIt.registerCachedFactory<SosCubit>(() => SosCubit());
     getIt.registerCachedFactory<NotificationCubit>(() => NotificationCubit());
+    getIt.registerCachedFactory<IuranHistoryCubit>(() => IuranHistoryCubit());
 
     getIt.registerLazySingleton<AuthRepository>(() => AuthRepository());
     getIt.registerLazySingleton<ProfileRepository>(() => ProfileRepository());

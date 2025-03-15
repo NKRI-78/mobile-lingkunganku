@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_lingkunganku/misc/colors.dart';
-import 'package:mobile_lingkunganku/misc/text_style.dart';
+import '../../../misc/colors.dart';
+import '../../../misc/text_style.dart';
 
 class IuranInfoPage extends StatelessWidget {
   const IuranInfoPage({super.key});

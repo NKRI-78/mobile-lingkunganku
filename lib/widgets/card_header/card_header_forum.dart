@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import '../../misc/injections.dart';
-import '../../modules/app/bloc/app_bloc.dart';
-import '../../repositories/forum_repository/models/forums_model.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import '../../misc/colors.dart';
+import '../../misc/injections.dart';
+import '../../modules/app/bloc/app_bloc.dart';
+import '../../repositories/forum_repository/models/forums_model.dart';
 import '../image/image_avatar.dart';
 
 class CardHeaderForum extends StatelessWidget {

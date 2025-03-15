@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_lingkunganku/misc/price_currency.dart';
+import '../../../misc/price_currency.dart';
+import '../widget/nomor_keamanan_section.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';
@@ -172,6 +173,8 @@ class ProfileView extends StatelessWidget {
                               role != "TREASURER")
                             ReferralCodeChief(),
                           ReferralCodeFamily(),
+                          if (role != "MEMBER" && role != "SECRETARY")
+                            NomorKeamananSection(),
                         ],
                       ),
                     ),

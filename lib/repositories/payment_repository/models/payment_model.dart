@@ -102,7 +102,7 @@ class Invoices {
   String? dueDate;
   String? paidDate;
   int? totalAmount;
-  String? paidAmount;
+  int? paidAmount;
   String? note;
   String? status;
   int? userId;
