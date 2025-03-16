@@ -13,6 +13,14 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   ProfileRepository repo = ProfileRepository();
 
+//   void updatePhoneSecurity(String newPhone) {
+//   emit(state.copyWith(
+//     profile: state.profile?.copyWith(
+//       neighborhood: state.profile?.neighborhood?.copyWith(phoneSecurity: newPhone),
+//     ),
+//   ));
+// }
+
   Future<void> getProfile() async {
     try {
       emit(state.copyWith(isLoading: true));

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:mobile_lingkunganku/misc/date_helper.dart';
+import 'package:mobile_lingkunganku/misc/price_currency.dart';
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
 import '../../../repositories/iuran_repository/models/iuran_paid_model.dart';
@@ -8,10 +10,6 @@ class ListHistoryIuranSection extends StatelessWidget {
   final IuranPaidModel iuran;
 
   const ListHistoryIuranSection({super.key, required this.iuran});
-
-  String formatDate(DateTime date) {
-    return DateFormat('dd MMM yyyy').format(date);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,20 +39,20 @@ class ListHistoryIuranSection extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  iuran.name,
-                  style: AppTextStyles.textStyle1,
+                  "Tagihan Iuran",
+                  style: AppTextStyles.textStyle1.copyWith(fontSize: 18),
                   overflow: TextOverflow.ellipsis,
                 ),
-                const SizedBox(height: 5),
+                SizedBox(height: 10),
                 Text(
-                  "No. Invoice: ${iuran.invoiceNumber}",
-                  style: AppTextStyles.textStyle2,
-                  overflow: TextOverflow.ellipsis,
+                  "Bulan : ${DateHelper.getMonthYear(DateFormat('yyyy-MM-dd').format(iuran.invoiceDate))}",
+                  style: AppTextStyles.textDialog,
                 ),
-                const SizedBox(height: 5),
+                SizedBox(height: 10),
                 Text(
-                  "Tanggal: ${formatDate(iuran.invoiceDate)}",
-                  style: AppTextStyles.textWelcome,
+                  "Keterangan : ${iuran.note}",
+                  style: AppTextStyles.textDialog,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ],
             ),
@@ -62,19 +60,20 @@ class ListHistoryIuranSection extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  "Rp ${iuran.totalAmount}",
-                  style: AppTextStyles.textStyle1.copyWith(color: Colors.green),
+                  Price.currency(iuran.totalAmount.toDouble()),
+                  style: AppTextStyles.textStyle2
+                      .copyWith(color: AppColors.blackColor),
                 ),
-                const SizedBox(height: 5),
+                const SizedBox(height: 20),
                 Chip(
                   label: Text(
                     iuran.translateStatus,
                     style: const TextStyle(color: Colors.white),
                   ),
                   backgroundColor: iuran.translateStatus == "Sudah Bayar"
-                      ? Colors.green
+                      ? AppColors.secondaryColor
                       : iuran.translateStatus == "Belum Bayar"
-                          ? Colors.red
+                          ? AppColors.redColor
                           : Colors.orange,
                 ),
               ],

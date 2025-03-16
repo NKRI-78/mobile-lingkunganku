@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/widgets.dart';
+import 'package:mobile_lingkunganku/repositories/profile_repository/models/contribute_model.dart';
 
 import '../../misc/api_url.dart';
 import '../../misc/http_client.dart';
@@ -21,6 +22,25 @@ class ProfileRepository {
       final json = jsonDecode(res.body);
       if (res.statusCode == 200) {
         return ProfileModel.fromJson(json['data']);
+      } else {
+        throw "error api";
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<ContributeModel?> getContribute() async {
+    try {
+      final res =
+          await http.get(Uri.parse("$profile/getContributionsNegiborhood"));
+
+      debugPrint("Response status: ${res.statusCode}");
+      debugPrint("Response body: ${res.body}");
+
+      final json = jsonDecode(res.body);
+      if (res.statusCode == 200) {
+        return ContributeModel.fromJson(json['data']);
       } else {
         throw "error api";
       }

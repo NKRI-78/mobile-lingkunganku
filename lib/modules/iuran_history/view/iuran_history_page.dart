@@ -26,7 +26,7 @@ class IuranHistoryView extends StatefulWidget {
   const IuranHistoryView({super.key});
 
   @override
-  _IuranHistoryViewState createState() => _IuranHistoryViewState();
+  State<IuranHistoryView> createState() => _IuranHistoryViewState();
 }
 
 class _IuranHistoryViewState extends State<IuranHistoryView> {

@@ -57,6 +57,12 @@ class DateHelper {
     return date;
   }
 
+  static String getMonthYear(String formatDate) {
+    initializeDateFormatting("id");
+    DateTime dateParse = DateTime.parse(formatDate);
+    return DateFormat("MMMM yyyy", "id_ID").format(dateParse);
+  }
+
   static int getHashCode(DateTime key) {
     return key.day * 1000000 + key.month * 10000 + key.year;
   }

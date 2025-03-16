@@ -13,8 +13,14 @@ void showLogoutDialog(BuildContext context) {
     context: context,
     builder: (BuildContext dialogContext) {
       return AlertDialog(
-        title: const Text("Konfirmasi LogOut"),
-        content: const Text("Apakah Anda yakin ingin logout?"),
+        title: const Text(
+          "Konfirmasi LogOut",
+          textAlign: TextAlign.center,
+        ),
+        content: const Text(
+          "Apakah Anda yakin ingin logout?",
+          textAlign: TextAlign.center,
+        ),
         actions: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

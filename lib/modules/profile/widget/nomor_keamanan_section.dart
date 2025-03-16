@@ -5,6 +5,8 @@ import '../cubit/profile_cubit.dart';
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
 
+part '_show_dialog_keamanan.dart';
+
 class NomorKeamananSection extends StatelessWidget {
   const NomorKeamananSection({super.key});
 
@@ -18,7 +20,7 @@ class NomorKeamananSection extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
             child: Container(
               width: double.infinity,
-              padding: EdgeInsets.all(12),
+              padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: Colors.black.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(12),
@@ -30,10 +32,8 @@ class NomorKeamananSection extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        "Nomor Keamanan",
-                        style: AppTextStyles.textProfileNormal,
-                      ),
+                      Text("Nomor Keamanan",
+                          style: AppTextStyles.textProfileNormal),
                       Text(
                         state.profile?.neighborhood?.phoneSecurity ??
                             "Tidak Tersedia",
@@ -42,13 +42,8 @@ class NomorKeamananSection extends StatelessWidget {
                     ],
                   ),
                   IconButton(
-                    icon: const Icon(
-                      Icons.edit,
-                      color: AppColors.whiteColor,
-                    ),
-                    onPressed: () {
-                      //
-                    },
+                    icon: const Icon(Icons.edit, color: AppColors.whiteColor),
+                    onPressed: () => _showKeamananDialog(context),
                   ),
                 ],
               ),

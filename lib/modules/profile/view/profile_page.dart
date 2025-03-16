@@ -146,11 +146,11 @@ class ProfileView extends StatelessWidget {
                   Expanded(
                     child: SingleChildScrollView(
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 20,
-                        vertical: 20,
+                        horizontal: 15,
+                        vertical: 15,
                       ),
                       child: Column(
-                        spacing: 20,
+                        spacing: 15,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           if (role != "MEMBER" && role != "SECRETARY")
