@@ -14,16 +14,18 @@ class HeaderText extends StatelessWidget {
       surfaceTintColor: Colors.transparent,
       pinned: true,
       toolbarHeight: 80,
+      elevation: 2,
       title: Text(text, style: AppTextStyles.textStyle1),
       centerTitle: true,
       leading: IconButton(
-          onPressed: () {
-            GoRouter.of(context).pop();
-          },
-          icon: Icon(
-            Icons.arrow_back_ios_new,
-            color: AppColors.secondaryColor,
-          )),
+        onPressed: () {
+          GoRouter.of(context).pop();
+        },
+        icon: Icon(
+          Icons.arrow_back_ios_new,
+          color: AppColors.secondaryColor,
+        ),
+      ),
     );
   }
 }

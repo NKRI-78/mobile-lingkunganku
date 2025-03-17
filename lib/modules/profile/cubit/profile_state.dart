@@ -4,7 +4,6 @@ class ProfileState extends Equatable {
   final ProfileModel? profile;
   final String? errorMessage;
   final List<FamiliesModel>? families;
-
   final bool isLoading;
 
   const ProfileState({
@@ -13,6 +12,8 @@ class ProfileState extends Equatable {
     this.profile,
     this.isLoading = false,
   });
+
+  String get phoneNumberSecurity => profile?.neighborhood?.phoneSecurity ?? "";
 
   ProfileState copyWith({
     ProfileModel? profile,

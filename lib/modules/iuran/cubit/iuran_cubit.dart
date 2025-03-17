@@ -20,8 +20,7 @@ class IuranCubit extends Cubit<IuranState> {
   void selectPaymentMethod(PaymentChannelModel channel) {
     emit(state.copyWith(
       channel: channel,
-      adminFee:
-          (channel.fee ?? 0).toDouble(), // Ambil fee dari metode pembayaran
+      adminFee: (channel.fee ?? 0).toDouble(),
     ));
   }
 

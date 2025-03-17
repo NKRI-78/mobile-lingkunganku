@@ -11,6 +11,7 @@ import '../../../misc/injections.dart';
 import '../../../repositories/auth_repository/models/user/user_model.dart';
 import '../../../repositories/home_repository/home_repository.dart';
 import '../../../repositories/notification_repository/models/notification_count_model.dart';
+import '../../../repositories/profile_repository/models/profile_model.dart';
 import '../../home/bloc/home_bloc.dart';
 import '../../profile/cubit/profile_cubit.dart';
 

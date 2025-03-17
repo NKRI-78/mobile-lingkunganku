@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile_lingkunganku/router/builder.dart';
 import '../../../misc/price_currency.dart';
 import '../widget/nomor_keamanan_section.dart';
 
@@ -105,7 +106,7 @@ class ProfileView extends StatelessWidget {
                               ),
                               ElevatedButton(
                                 onPressed: () {
-                                  print("Topup Wallet ditekan");
+                                  WalletRoute().go(context);
                                 },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: AppColors.secondaryColor,

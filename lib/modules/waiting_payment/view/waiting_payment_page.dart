@@ -55,6 +55,8 @@ class _WaitingPaymentViewState extends State<WaitingPaymentView> {
   Widget build(BuildContext context) {
     return BlocBuilder<WaitingPaymentCubit, WaitingPaymentState>(
       builder: (context, state) {
+        print("Payment Type: ${state.payment?.paymentType}");
+
         final targetDateTime = DateTime.parse(state.payment?.createdAt == null
                 ? DateTime.now().toString()
                 : state.payment!.createdAt!)
@@ -227,6 +229,59 @@ class _WaitingPaymentViewState extends State<WaitingPaymentView> {
                                                   thickness: .3,
                                                   color: AppColors.blackColor,
                                                 ),
+                                                state.payment?.paymentType !=
+                                                        "TOPUP"
+                                                    ? Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .symmetric(
+                                                                vertical: 5),
+                                                        child: Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            const Text(
+                                                              "Bulan Iuran",
+                                                              style: TextStyle(
+                                                                fontSize: 14,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                color: AppColors
+                                                                    .blackColor,
+                                                              ),
+                                                            ),
+                                                            const SizedBox(
+                                                                height: 4),
+                                                            Expanded(
+                                                              child: Text(
+                                                                state.payment
+                                                                        ?.invoices
+                                                                        ?.map((invoice) => DateFormat("MMMM yyyy", "id_ID").format(DateTime.parse(invoice
+                                                                            .invoiceDate
+                                                                            .toString())))
+                                                                        .join(
+                                                                            ", ") ??
+                                                                    "-",
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .end,
+                                                                style:
+                                                                    const TextStyle(
+                                                                  color: AppColors
+                                                                      .blackColor,
+                                                                  fontSize: 14,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      )
+                                                    : const SizedBox.shrink(),
                                                 Padding(
                                                   padding: const EdgeInsets
                                                       .symmetric(vertical: 5),
@@ -238,56 +293,13 @@ class _WaitingPaymentViewState extends State<WaitingPaymentView> {
                                                         CrossAxisAlignment
                                                             .start,
                                                     children: [
-                                                      const Text(
-                                                        "Bulan Iuran",
-                                                        style: TextStyle(
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: AppColors
-                                                              .blackColor,
-                                                        ),
-                                                      ),
-                                                      const SizedBox(height: 4),
-                                                      Expanded(
-                                                        child: Text(
-                                                          state.payment
-                                                                  ?.invoices
-                                                                  ?.map((invoice) => DateFormat(
-                                                                          "MMMM yyyy",
-                                                                          "id_ID")
-                                                                      .format(DateTime.parse(invoice
-                                                                          .invoiceDate
-                                                                          .toString())))
-                                                                  .join(", ") ??
-                                                              "-",
-                                                          textAlign:
-                                                              TextAlign.end,
-                                                          style:
-                                                              const TextStyle(
-                                                            color: AppColors
-                                                                .blackColor,
-                                                            fontSize: 14,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding: const EdgeInsets
-                                                      .symmetric(vertical: 5),
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      const Text(
-                                                        "Harga Iuran",
-                                                        style: TextStyle(
+                                                      Text(
+                                                        state.payment
+                                                                    ?.paymentType ==
+                                                                "TOPUP"
+                                                            ? "Harga Topup"
+                                                            : "Harga Iuran",
+                                                        style: const TextStyle(
                                                           fontSize: 14,
                                                           fontWeight:
                                                               FontWeight.bold,

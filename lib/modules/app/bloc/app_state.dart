@@ -7,8 +7,10 @@ final class AppState extends Equatable {
   final User? user;
   final String token;
   final bool loadingNotif;
+  final ProfileModel? profile;
 
   const AppState({
+    this.profile,
     this.badges,
     this.alreadyOnboarding = false,
     this.user,
@@ -21,13 +23,8 @@ final class AppState extends Equatable {
   bool get userEmpty => token.isEmpty;
 
   @override
-  List<Object?> get props => [
-        alreadyOnboarding,
-        user,
-        token,
-        loadingNotif,
-        badges,
-      ];
+  List<Object?> get props =>
+      [alreadyOnboarding, user, token, loadingNotif, badges, profile];
 
   AppState logout() {
     return AppState(
@@ -43,11 +40,13 @@ final class AppState extends Equatable {
     User? user,
     String? token,
     bool? loadingNotif,
+    ProfileModel? profile,
   }) {
     return AppState(
       badges: badges ?? this.badges,
       alreadyOnboarding: alreadyOnboarding ?? this.alreadyOnboarding,
       user: user ?? this.user,
+      profile: profile ?? this.profile,
       token: token ?? this.token,
       loadingNotif: loadingNotif ?? this.loadingNotif,
     );

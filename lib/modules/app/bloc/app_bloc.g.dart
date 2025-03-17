@@ -7,6 +7,9 @@ part of 'app_bloc.dart';
 // **************************************************************************
 
 AppState _$AppStateFromJson(Map<String, dynamic> json) => AppState(
+      profile: json['profile'] == null
+          ? null
+          : ProfileModel.fromJson(json['profile'] as Map<String, dynamic>),
       badges: json['badges'] == null
           ? null
           : NotificationCountModel.fromJson(
@@ -25,4 +28,5 @@ Map<String, dynamic> _$AppStateToJson(AppState instance) => <String, dynamic>{
       'user': instance.user,
       'token': instance.token,
       'loadingNotif': instance.loadingNotif,
+      'profile': instance.profile,
     };

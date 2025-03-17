@@ -16,6 +16,7 @@ class PaymentModel {
   String? createdAt;
   String? updatedAt;
   String? deletedAt;
+  String? paymentType;
   List<Invoices>? invoices;
 
   PaymentModel({
@@ -36,6 +37,7 @@ class PaymentModel {
     this.createdAt,
     this.updatedAt,
     this.deletedAt,
+    this.paymentType,
     this.invoices,
   });
 
@@ -57,6 +59,7 @@ class PaymentModel {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     deletedAt = json['deleted_at'];
+    paymentType = json['payment_type'];
     if (json['invoices'] != null) {
       invoices = <Invoices>[];
       json['invoices'].forEach((v) {
@@ -86,6 +89,7 @@ class PaymentModel {
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
     data['deleted_at'] = deletedAt;
+    data['payment_type'] = paymentType;
     if (invoices != null) {
       data['invoices'] = invoices!.map((v) => v.toJson()).toList();
     }

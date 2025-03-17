@@ -108,6 +108,10 @@ RouteBase get $homeRoute => GoRouteData.$route(
           factory: $ProfileRouteExtension._fromState,
           routes: [
             GoRouteData.$route(
+              path: 'wallet',
+              factory: $WalletRouteExtension._fromState,
+            ),
+            GoRouteData.$route(
               path: 'profile-update',
               factory: $ProfileUpdateRouteExtension._fromState,
             ),
@@ -505,6 +509,23 @@ extension $ProfileRouteExtension on ProfileRoute {
 
   String get location => GoRouteData.$location(
         '/home/profile',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $WalletRouteExtension on WalletRoute {
+  static WalletRoute _fromState(GoRouterState state) => WalletRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/profile/wallet',
       );
 
   void go(BuildContext context) => context.go(location);

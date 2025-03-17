@@ -35,6 +35,7 @@ import '../modules/register_warga/view/register_warga_page.dart';
 import '../modules/settings/view/settings_page.dart';
 import '../modules/sos/view/sos_page.dart';
 import '../modules/waiting_payment/view/waiting_payment_page.dart';
+import '../modules/wallet/view/wallet_page.dart';
 import '../modules/webview/view/webview.dart';
 import '../widgets/pages/video/detail_video_player.dart';
 import '../widgets/photo_view/clipped_photo_view.dart';
@@ -70,6 +71,7 @@ class OnboardingRoute extends GoRouteData {
     TypedGoRoute<NewsCreateRoute>(path: 'news-create'),
   ]),
   TypedGoRoute<ProfileRoute>(path: 'profile', routes: [
+    TypedGoRoute<WalletRoute>(path: 'wallet'),
     TypedGoRoute<ProfileUpdateRoute>(path: 'profile-update'),
     TypedGoRoute<TransferManagementRoute>(path: 'transfer-management'),
     TypedGoRoute<IuranInfoRoute>(path: 'iuran-info'),
@@ -231,6 +233,13 @@ class ProfileRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return ProfilePage();
+  }
+}
+
+class WalletRoute extends GoRouteData {
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const WalletPage();
   }
 }
 

@@ -39,6 +39,28 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
   }
 
+  Future<void> updatePhoneSecurity(String phoneSecurity) async {
+    try {
+      emit(state.copyWith(isLoading: true));
+
+      final neighborhoodId = state.profile?.neighborhood?.id.toString();
+      if (neighborhoodId == null) {
+        throw "Neighborhood ID tidak ditemukan!";
+      }
+
+      await repo.updatePhoneSecurity(
+        neighborhoodId: neighborhoodId,
+        phoneSecurity: phoneSecurity,
+      );
+
+      await getProfile(); // Fetch ulang data agar UI terupdate
+
+      emit(state.copyWith(isLoading: false));
+    } catch (e) {
+      emit(state.copyWith(isLoading: false, errorMessage: e.toString()));
+    }
+  }
+
   @override
   Future<void> close() {
     if (getIt.isRegistered<HomeBloc>()) {
