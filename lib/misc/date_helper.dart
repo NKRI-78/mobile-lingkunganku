@@ -51,7 +51,8 @@ class DateHelper {
   static String getFormatedDateWithHours(String formatDate) {
     DateTime dateParse = DateTime.parse(formatDate);
     final result = DateTime(dateParse.year, dateParse.month, dateParse.day,
-        dateParse.hour, dateParse.minute, 9, 0, 0);
+            dateParse.hour, dateParse.minute, 9, 0, 0)
+        .add(Duration(hours: 7));
     initializeDateFormatting("id");
     String date = DateFormat("dd MMMM yyyy | HH:mm a", "id_ID").format(result);
     return date;

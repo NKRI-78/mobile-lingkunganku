@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile_lingkunganku/repositories/notification_repository/models/notification_detail_model.dart';
 import '../../../misc/injections.dart';
 import '../../../misc/pagination.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -18,6 +19,19 @@ class NotificationCubit extends Cubit<NotificationState> {
   NotificationRepository repo = NotificationRepository();
 
   static RefreshController refreshCtrl = RefreshController();
+
+  Future<void> fetchDetailNotif(int idNotif) async {
+    try {
+      emit(state.copyWith(loading: true));
+      final detail = await repo.getDetailNotif(idNotif);
+      print("Notification detail response: $detail");
+      emit(state.copyWith(detail: detail, idNotif: idNotif));
+    } catch (e) {
+      rethrow;
+    } finally {
+      emit(state.copyWith(loading: false));
+    }
+  }
 
   Future<void> fetchNotification() async {
     try {

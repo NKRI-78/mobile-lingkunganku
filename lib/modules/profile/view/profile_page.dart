@@ -174,7 +174,9 @@ class ProfileView extends StatelessWidget {
                               role != "TREASURER")
                             ReferralCodeChief(),
                           ReferralCodeFamily(),
-                          if (role != "MEMBER" && role != "SECRETARY")
+                          if (role != "MEMBER" &&
+                              role != "SECRETARY" &&
+                              role != "TREASURER")
                             NomorKeamananSection(),
                         ],
                       ),

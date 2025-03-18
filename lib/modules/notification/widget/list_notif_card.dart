@@ -20,10 +20,9 @@ class ListNotifCard extends StatelessWidget {
         await context.read<NotificationCubit>().readNotif(notif.id.toString());
         if (notif.type.contains("PAYMENT")) {
           WaitingPaymentRoute(id: notif.paymentId.toString()).push(context);
+        } else {
+          NotificationSosRoute(idNotif: notif.id).push(context);
         }
-        // if (notif.type.contains("SOS")) {
-        //   NotificationSosRoute(id: notif.paymentId.toString()).push(context);
-        // }
       },
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 5),
@@ -78,8 +77,6 @@ class ListNotifCard extends StatelessWidget {
                 fontSize: 13,
               ),
             ),
-
-            // Hanya tampilkan jika tipe notifikasi PAYMENT
             if (notif.type.contains("PAYMENT")) ...[
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import '../../../misc/text_style.dart';
+import '../../misc/text_style.dart';
 
 class CustomFullscreenPreview extends StatelessWidget {
   final String imageUrl;
@@ -25,14 +25,6 @@ class CustomFullscreenPreview extends StatelessWidget {
           icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
           onPressed: () => Navigator.pop(context),
         ),
-        // actions: [
-        //   IconButton(
-        //     icon: const Icon(Icons.more_vert, color: Colors.white),
-        //     onPressed: () {
-        //       // Tambahkan aksi jika diperlukan
-        //     },
-        //   ),
-        // ],
       ),
       body: Center(
         child: InteractiveViewer(

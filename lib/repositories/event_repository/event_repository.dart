@@ -94,19 +94,20 @@ class EventRepository {
     try {
       final res = await http.get(Uri.parse('$event/$idEvent/detail'));
 
-      debugPrint(res.body);
+      debugPrint("API RESPONSE: ${res.body}");
       final json = jsonDecode(res.body);
 
       if (res.statusCode == 200) {
         return EventDetailModel.fromJson(json);
       } else {
-        throw "error api";
+        throw "Error API: ${res.statusCode} - ${res.body}";
       }
     } on SocketException {
       throw "Terjadi Kesalahan Jaringan";
     } on TimeoutException {
       throw "Koneksi internet lambat, periksa jaringan Anda";
     } catch (e) {
+      debugPrint("Error fetching event: $e");
       rethrow;
     }
   }

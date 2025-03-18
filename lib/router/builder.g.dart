@@ -274,13 +274,13 @@ extension $NotificationRouteExtension on NotificationRoute {
 extension $NotificationSosRouteExtension on NotificationSosRoute {
   static NotificationSosRoute _fromState(GoRouterState state) =>
       NotificationSosRoute(
-        id: state.uri.queryParameters['id']!,
+        idNotif: int.parse(state.uri.queryParameters['id-notif']!),
       );
 
   String get location => GoRouteData.$location(
         '/home/notification/notification-sos',
         queryParams: {
-          'id': id,
+          'id-notif': idNotif.toString(),
         },
       );
 

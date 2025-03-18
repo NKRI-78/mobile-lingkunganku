@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:mobile_lingkunganku/repositories/notification_repository/models/notification_detail_model.dart';
 
 import '../../misc/api_url.dart';
 import '../../misc/http_client.dart';
@@ -36,6 +37,22 @@ class NotificationRepository {
       throw json['message'] ?? "Terjadi kesalahan";
     } on SocketException {
       throw "Terjadi kesalahan jaringan";
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<NotificationDetail> getDetailNotif(int idNotif) async {
+    try {
+      final res = await http.get(Uri.parse("$notif/detail/$idNotif"));
+
+      debugPrint(res.body);
+      final json = jsonDecode(res.body);
+      if (res.statusCode == 200) {
+        return NotificationDetail.fromJson(json);
+      } else {
+        throw "error api";
+      }
     } catch (e) {
       rethrow;
     }

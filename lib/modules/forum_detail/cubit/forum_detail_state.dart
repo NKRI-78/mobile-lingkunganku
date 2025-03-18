@@ -11,8 +11,10 @@ class ForumDetailState extends Equatable {
   final int idOrder;
   final int commentId;
   final int? lastIdComment;
+  final ForumComment? comment;
 
   const ForumDetailState({
+    this.comment,
     this.profile,
     this.detailForum,
     this.idForum = "",
@@ -37,9 +39,11 @@ class ForumDetailState extends Equatable {
         idOrder,
         commentId,
         lastIdComment,
+        comment
       ];
 
   ForumDetailState copyWith({
+    ForumComment? comment,
     ProfileModel? profile,
     ForumDetailModel? detailForum,
     String? idForum,
@@ -52,6 +56,7 @@ class ForumDetailState extends Equatable {
     int? lastIdComment,
   }) {
     return ForumDetailState(
+      comment: comment ?? this.comment,
       profile: profile ?? this.profile,
       detailForum: detailForum ?? this.detailForum,
       idForum: idForum ?? this.idForum,

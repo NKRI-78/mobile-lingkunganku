@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';
@@ -25,16 +26,20 @@ class SosCubit extends Cubit<SosState> {
   Future<void> sendSos(
       String title, String description, BuildContext context) async {
     try {
-      emit(state.copyWith(isLoading: true));
       Position position = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.low);
+      List<Placemark> placemarks =
+          await placemarkFromCoordinates(position.latitude, position.longitude);
+      Placemark place = placemarks[0];
+
       debugPrint("Sos ${position.latitude}");
       debugPrint("Sos ${position.longitude}");
       await repo.sendSos(
         longitude: position.longitude.toString(),
         latitude: position.latitude.toString(),
         title: title,
-        message: description,
+        message:
+            "$description ${place.thoroughfare} ${place.subThoroughfare} ${place.locality}, ${place.postalCode}",
       );
       Future.delayed(Duration.zero, () {
         Navigator.of(context, rootNavigator: true).pop();
@@ -47,8 +52,6 @@ class SosCubit extends Cubit<SosState> {
         Navigator.of(context, rootNavigator: true).pop();
         ShowSnackbar.snackbar(context, e.toString(), "", AppColors.redColor);
       });
-    } finally {
-      emit(state.copyWith(isLoading: false));
     }
   }
 

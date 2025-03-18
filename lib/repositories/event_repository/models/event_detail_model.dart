@@ -181,7 +181,7 @@ class Profile {
   int? id;
   String? fullname;
   String? avatarLink;
-  Null detailAddress;
+  String? detailAddress;
   int? userId;
   String? createdAt;
   String? updatedAt;

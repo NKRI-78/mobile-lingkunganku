@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import '../../../widgets/photo_view/custom_fullscreen_preview.dart';
 import '../cubit/event_detail_cubit.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -106,7 +107,6 @@ class EventDetailView extends StatelessWidget {
         final imageUrl = eventData?.imageUrl?.isNotEmpty == true
             ? eventData?.imageUrl
             : null;
-
         return Scaffold(
           appBar: AppBar(
             elevation: 0,
@@ -145,7 +145,7 @@ class EventDetailView extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildImageCard(imageUrl),
+                _buildImageCard(context, imageUrl),
                 const SizedBox(height: 20),
                 state.loading
                     ? _buildLoadingContent()
@@ -204,7 +204,7 @@ Widget _buildContent(eventData) {
   );
 }
 
-Widget _buildImageCard(String? imageUrl) {
+Widget _buildImageCard(BuildContext context, String? imageUrl) {
   return Card(
     elevation: 4.0,
     shape: RoundedRectangleBorder(
@@ -213,15 +213,27 @@ Widget _buildImageCard(String? imageUrl) {
     child: ClipRRect(
       borderRadius: BorderRadius.circular(16.0),
       child: imageUrl != null
-          ? CachedNetworkImage(
-              imageUrl: imageUrl,
-              width: double.infinity,
-              height: 200,
-              fit: BoxFit.cover,
-              placeholder: (context, url) => _buildShimmerPlaceholder(),
-              errorWidget: (context, url, error) => _buildErrorPlaceholder(),
+          ? GestureDetector(
+              onTap: () => _showFullImage(context, imageUrl),
+              child: CachedNetworkImage(
+                imageUrl: imageUrl,
+                width: double.infinity,
+                height: 200,
+                fit: BoxFit.cover,
+                placeholder: (context, url) => _buildShimmerPlaceholder(),
+                errorWidget: (context, url, error) => _buildErrorPlaceholder(),
+              ),
             )
           : _buildErrorPlaceholder(),
+    ),
+  );
+}
+
+void _showFullImage(BuildContext context, String imageUrl) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => CustomFullscreenPreview(imageUrl: imageUrl),
     ),
   );
 }

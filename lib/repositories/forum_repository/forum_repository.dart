@@ -189,4 +189,23 @@ class ForumRepository {
       rethrow;
     }
   }
+
+  Future<void> setLikeUnlike(String commentId) async {
+    try {
+      final res =
+          await http.post(Uri.parse('$forums/$commentId/likeComment'), body: {
+        'comment_id': commentId,
+      });
+
+      debugPrint('Status Like  : ${res.body}');
+
+      if (res.statusCode == 200) {
+        return;
+      } else {
+        throw "error api";
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

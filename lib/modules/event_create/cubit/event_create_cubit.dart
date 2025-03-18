@@ -15,11 +15,10 @@ import '../../event/cubit/event_cubit.dart';
 part 'event_create_state.dart';
 
 class EventCreateCubit extends Cubit<EventCreateState> {
-  EventCreateCubit()
-      : super(EventCreateState(
-          startDate: DateTime.now(),
-          endDate: DateTime.now(),
-        ));
+  EventCreateCubit() : super(EventCreateState(
+            // startDate: DateTime.now(),
+            // endDate: DateTime.now(),
+            ));
 
   EventRepository repo = getIt<EventRepository>();
   AuthRepository repoUpload = getIt<AuthRepository>();

@@ -132,13 +132,15 @@ class NotificationRoute extends GoRouteData {
 }
 
 class NotificationSosRoute extends GoRouteData {
-  final String id;
+  final int idNotif;
 
-  NotificationSosRoute({required this.id});
+  NotificationSosRoute({required this.idNotif});
 
   @override
   Widget build(BuildContext context, GoRouterState state) {
-    return NotificationSosDetailPage(id: id);
+    return NotificationSosDetailPage(
+      idNotif: idNotif,
+    );
   }
 }
 

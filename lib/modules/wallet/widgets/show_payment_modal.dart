@@ -77,7 +77,10 @@ void showPaymentModal(BuildContext context) {
                   ),
                 ),
                 _buildDetailRow(
-                    "Topup Saldo", "${Price.currency(state.amount)}"),
+                  "Topup Saldo",
+                  "${Price.currency(state.amount)}",
+                  isBold: true,
+                ),
                 _buildDetailRow(
                   "Biaya Admin Bank",
                   "${Price.currency(adminFee)}",
