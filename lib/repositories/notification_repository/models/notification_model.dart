@@ -11,6 +11,7 @@ class NotificationModel {
   final int? paymentId;
   final int? totalPrice;
   final String? description;
+  final String? body;
 
   NotificationModel({
     required this.id,
@@ -25,6 +26,7 @@ class NotificationModel {
     this.readAt,
     required this.createdAt,
     required this.updatedAt,
+    required this.body,
   });
 
   factory NotificationModel.fromJson(Map<String, dynamic> json) {
@@ -35,6 +37,7 @@ class NotificationModel {
       type: json['type'] ?? "",
       title: data?['title'] ?? "", // Pastikan mengambil dari `data`
       message: data?['message'] ?? "",
+      body: data['body'] ?? "",
       userId: data?['user_id'],
       notifiableId: json['notifiable_id'] ?? 0,
       readAt:

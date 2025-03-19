@@ -114,8 +114,8 @@ class User {
   String? phone;
   int? id;
   Chief? chief;
-  Null treasurer;
-  Null secretary;
+  Treasurer? treasurer;
+  Secretary? secretary;
   Profile? profile;
   Family? family;
 
@@ -134,8 +134,12 @@ class User {
     phone = json['phone'];
     id = json['id'];
     chief = json['chief'] != null ? Chief.fromJson(json['chief']) : null;
-    treasurer = json['treasurer'];
-    secretary = json['secretary'];
+    treasurer = json['treasurer'] != null
+        ? Treasurer.fromJson(json['treasurer'])
+        : null;
+    secretary = json['secretary'] != null
+        ? Secretary.fromJson(json['secretary'])
+        : null;
     profile =
         json['profile'] != null ? Profile.fromJson(json['profile']) : null;
     family = json['family'] != null ? Family.fromJson(json['family']) : null;
@@ -149,14 +153,50 @@ class User {
     if (chief != null) {
       data['chief'] = chief!.toJson();
     }
-    data['treasurer'] = treasurer;
-    data['secretary'] = secretary;
+    if (treasurer != null) {
+      data['treasurer'] = treasurer!.toJson();
+    }
+    if (secretary != null) {
+      data['secretary'] = secretary!.toJson();
+    }
     if (profile != null) {
       data['profile'] = profile!.toJson();
     }
     if (family != null) {
       data['family'] = family!.toJson();
     }
+    return data;
+  }
+}
+
+class Treasurer {
+  int? id;
+
+  Treasurer({this.id});
+
+  Treasurer.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    return data;
+  }
+}
+
+class Secretary {
+  int? id;
+
+  Secretary({this.id});
+
+  Secretary.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
     return data;
   }
 }

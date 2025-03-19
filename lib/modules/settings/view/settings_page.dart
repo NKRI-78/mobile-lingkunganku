@@ -13,37 +13,47 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  bool _isLocationEnabled = false; // Nilai default
+  bool _isLocationEnabled = false;
+  bool _isNotificationEnabled = false;
 
   @override
   void initState() {
     super.initState();
-    _checkLocationPermission();
+    _checkPermissions();
   }
 
-  // Fungsi untuk memeriksa status izin lokasi
-  Future<void> _checkLocationPermission() async {
-    var status = await Permission.location.status;
+  // Memeriksa status izin lokasi dan notifikasi
+  Future<void> _checkPermissions() async {
+    var locationStatus = await Permission.location.status;
+    var notificationStatus = await Permission.notification.status;
+
     setState(() {
-      _isLocationEnabled = status.isGranted; // Jika granted, nyalakan switch
+      _isLocationEnabled = locationStatus.isGranted;
+      _isNotificationEnabled = notificationStatus.isGranted;
     });
   }
 
-  // Fungsi untuk mengubah status izin lokasi
+  // Mengatur izin lokasi
   Future<void> _toggleLocationPermission(bool newValue) async {
     if (newValue) {
       var result = await Permission.location.request();
-      if (result.isGranted) {
-        setState(() {
-          _isLocationEnabled = true;
-        });
-      } else {
-        setState(() {
-          _isLocationEnabled = false;
-        });
-      }
+      setState(() {
+        _isLocationEnabled = result.isGranted;
+      });
     } else {
-      openAppSettings(); // Arahkan ke pengaturan jika user ingin mematikan izin
+      openAppSettings();
+    }
+  }
+
+  // Mengatur izin notifikasi
+  Future<void> _toggleNotificationPermission(bool newValue) async {
+    if (newValue) {
+      var result = await Permission.notification.request();
+      setState(() {
+        _isNotificationEnabled = result.isGranted;
+      });
+    } else {
+      openAppSettings();
     }
   }
 
@@ -81,8 +91,9 @@ class _SettingsPageState extends State<SettingsPage> {
                     ListTile(
                       title: Text('Notifikasi'),
                       trailing: Switch(
-                        value: false,
-                        onChanged: (value) {},
+                        value: _isNotificationEnabled,
+                        onChanged: (value) =>
+                            _toggleNotificationPermission(value),
                         activeColor: AppColors.whiteColor,
                         activeTrackColor: AppColors.textColor1,
                       ),

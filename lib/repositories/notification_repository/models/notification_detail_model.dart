@@ -49,8 +49,15 @@ class Data {
   int? userId;
   String? latitude;
   String? longitude;
+  String? body;
 
-  Data({this.title, this.message, this.userId, this.latitude, this.longitude});
+  Data(
+      {this.title,
+      this.message,
+      this.userId,
+      this.latitude,
+      this.longitude,
+      this.body});
 
   Data.fromJson(Map<String, dynamic> json) {
     title = json['title'];
@@ -58,6 +65,7 @@ class Data {
     userId = json['user_id'];
     latitude = json['latitude'];
     longitude = json['longitude'];
+    body = json['body'];
   }
 
   Map<String, dynamic> toJson() {
@@ -67,6 +75,7 @@ class Data {
     data['user_id'] = userId;
     data['latitude'] = latitude;
     data['longitude'] = longitude;
+    data['body'] = body;
     return data;
   }
 }

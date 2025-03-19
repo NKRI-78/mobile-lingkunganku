@@ -27,46 +27,97 @@ class NotificationView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 3,
-      child: Scaffold(
-        backgroundColor: Colors.grey[100],
-        appBar: AppBar(
-          surfaceTintColor: Colors.transparent,
-          elevation: 2,
-          shadowColor: Colors.black.withOpacity(0.3),
-          title: Text("Notifikasi", style: AppTextStyles.textStyle1),
-          centerTitle: true,
-          toolbarHeight: 80,
-          leading: IconButton(
-            icon: const Icon(
-              Icons.arrow_back_ios_new,
-              color: AppColors.buttonColor2,
-              size: 24,
+    return BlocBuilder<NotificationCubit, NotificationState>(
+      builder: (context, state) {
+        int unreadSOS = state.notif
+            .where((n) => n.type == "SOS" && n.readAt == null)
+            .length;
+        int unreadPayment = state.notif
+            .where((n) => n.type.contains("PAYMENT") && n.readAt == null)
+            .length;
+        int unreadOther = state.notif
+            .where((n) =>
+                n.type != "SOS" &&
+                !n.type.contains("PAYMENT") &&
+                n.readAt == null)
+            .length;
+
+        return DefaultTabController(
+          length: 3,
+          child: Scaffold(
+            backgroundColor: Colors.grey[100],
+            appBar: AppBar(
+              surfaceTintColor: Colors.transparent,
+              elevation: 2,
+              shadowColor: Colors.black.withOpacity(0.3),
+              title: Text("Notifikasi", style: AppTextStyles.textStyle1),
+              centerTitle: true,
+              toolbarHeight: 80,
+              leading: IconButton(
+                icon: const Icon(
+                  Icons.arrow_back_ios_new,
+                  color: AppColors.buttonColor2,
+                  size: 24,
+                ),
+                onPressed: () {
+                  Navigator.pop(context, true);
+                },
+              ),
+              bottom: TabBar(
+                indicatorColor: AppColors.secondaryColor,
+                labelColor: AppColors.secondaryColor,
+                unselectedLabelColor: Colors.grey,
+                tabs: [
+                  _buildTabWithBadge("SOS", unreadSOS),
+                  _buildTabWithBadge("PAYMENT", unreadPayment),
+                  _buildTabWithBadge("OTHER", unreadOther),
+                ],
+              ),
             ),
-            onPressed: () {
-              Navigator.pop(context, true);
-            },
+            body: const TabBarView(
+              children: [
+                NotificationList(category: "SOS"),
+                NotificationList(category: "PAYMENT"),
+                NotificationList(category: "OTHER"),
+              ],
+            ),
           ),
-          bottom: const TabBar(
-            indicatorColor: AppColors.secondaryColor,
-            labelColor: AppColors.secondaryColor,
-            unselectedLabelColor: Colors.grey,
-            tabs: [
-              Tab(text: "SOS"),
-              Tab(text: "PAYMENT"),
-              Tab(text: "OTHER"),
-            ],
+        );
+      },
+    );
+  }
+
+  Widget _buildTabWithBadge(String title, int unreadCount) {
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        Tab(text: title),
+        if (unreadCount > 0)
+          Positioned(
+            right: -15,
+            top: 0,
+            child: Container(
+              padding: const EdgeInsets.all(6),
+              decoration: const BoxDecoration(
+                color: Colors.red,
+                shape: BoxShape.circle,
+              ),
+              constraints: const BoxConstraints(
+                minWidth: 10,
+                minHeight: 10,
+              ),
+              child: Text(
+                unreadCount.toString(),
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 10,
+                  fontWeight: FontWeight.bold,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
           ),
-        ),
-        body: const TabBarView(
-          children: [
-            NotificationList(category: "SOS"),
-            NotificationList(category: "PAYMENT"),
-            NotificationList(category: "OTHER"),
-          ],
-        ),
-      ),
+      ],
     );
   }
 }

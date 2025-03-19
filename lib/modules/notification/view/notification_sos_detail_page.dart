@@ -111,6 +111,8 @@ class NotificationSosDetailView extends StatelessWidget {
   // Widget Konten Notifikasi
   Widget _buildNotificationContent(
       BuildContext context, NotificationState state) {
+    bool isSosOrPayment =
+        state.detail?.type == 'SOS' || state.detail?.type == 'PAYMENT';
     return Column(
       children: [
         Expanded(
@@ -160,7 +162,9 @@ class NotificationSosDetailView extends StatelessWidget {
                               color: AppColors.greyColor,
                             ),
                             Text(
-                              state.detail?.data?.message ?? "-",
+                              isSosOrPayment
+                                  ? state.detail?.data?.message ?? "-"
+                                  : state.detail?.data?.body ?? "-",
                               style: AppTextStyles.textDialog,
                             ),
                           ],
