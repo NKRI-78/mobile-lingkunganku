@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mobile_lingkunganku/modules/ppob/view/ppob_page.dart';
 import '../modules/iuran_info/view/iuran_info_page.dart';
 import '../modules/iuran/view/iuran_page.dart';
 import '../modules/iuran_history/view/iuran_history_page.dart';
@@ -60,6 +61,7 @@ class OnboardingRoute extends GoRouteData {
   TypedGoRoute<IuranRoute>(path: 'iuran', routes: [
     TypedGoRoute<IuranHistoryRoute>(path: 'iuran-history'),
   ]),
+  TypedGoRoute<PpobRoute>(path: 'ppob'),
   TypedGoRoute<EventRoute>(path: 'event', routes: [
     TypedGoRoute<EventCreateRoute>(path: 'event-create'),
     TypedGoRoute<EventDetailRoute>(path: 'event-detail'),
@@ -162,6 +164,13 @@ class IuranHistoryRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return IuranHistoryPage();
+  }
+}
+
+class PpobRoute extends GoRouteData {
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return PpobPage();
   }
 }
 

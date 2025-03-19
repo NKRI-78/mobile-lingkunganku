@@ -139,44 +139,6 @@ class WalletView extends StatelessWidget {
                           ),
                         ),
                       ),
-                      // const SizedBox(
-                      //   width: 10,
-                      // ),
-                      // Expanded(
-                      //   flex: 2,
-                      //   child: Container(
-                      //     width: double.infinity,
-                      //     height: 50,
-                      //     decoration: BoxDecoration(
-                      //         color: Colors.white,
-                      //         borderRadius: BorderRadius.circular(10),
-                      //         border: Border.all(
-                      //             color: AppColors.greyColor,
-                      //             width: 1,
-                      //             strokeAlign:
-                      //                 BorderSide.strokeAlignOutside)),
-                      //     child: Row(
-                      //       mainAxisAlignment:
-                      //           MainAxisAlignment.spaceEvenly,
-                      //       crossAxisAlignment: CrossAxisAlignment.center,
-                      //       children: [
-                      //         Image.asset(
-                      //           "assets/icons/requset-money-icon.png",
-                      //           width: 24,
-                      //           height: 24,
-                      //           color: AppColors.secondaryColor,
-                      //         ),
-                      //         const Text(
-                      //           "Tarik Dana",
-                      //           style: TextStyle(
-                      //               color: AppColors.secondaryColor,
-                      //               fontSize: 14,
-                      //               fontWeight: FontWeight.bold),
-                      //         ),
-                      //       ],
-                      //     ),
-                      //   ),
-                      // ),
                     ],
                   ),
                   _GridDenom(

@@ -70,6 +70,10 @@ RouteBase get $homeRoute => GoRouteData.$route(
           ],
         ),
         GoRouteData.$route(
+          path: 'ppob',
+          factory: $PpobRouteExtension._fromState,
+        ),
+        GoRouteData.$route(
           path: 'event',
           factory: $EventRouteExtension._fromState,
           routes: [
@@ -357,6 +361,23 @@ extension $IuranHistoryRouteExtension on IuranHistoryRoute {
 
   String get location => GoRouteData.$location(
         '/home/iuran/iuran-history',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $PpobRouteExtension on PpobRoute {
+  static PpobRoute _fromState(GoRouterState state) => PpobRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/ppob',
       );
 
   void go(BuildContext context) => context.go(location);

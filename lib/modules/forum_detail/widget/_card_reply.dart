@@ -135,7 +135,7 @@ class _CardReplyState extends State<CardReply> {
                                         "";
                                   } else {
                                     commentKey.currentState!.controller!.text =
-                                        "@${user?.profile == null ? user?.profile.fullname ?? "" : user?.profile.fullname ?? ""} ";
+                                        "@${user?.username == null ? user?.username ?? "" : user?.username ?? ""} ";
                                   }
 
                                   var cubit = context.read<ForumDetailCubit>();

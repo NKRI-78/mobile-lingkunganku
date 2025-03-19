@@ -1,5 +1,7 @@
 import 'package:get_it/get_it.dart';
+import 'package:mobile_lingkunganku/modules/ppob/cubit/ppob_cubit.dart';
 import 'package:mobile_lingkunganku/modules/wallet/cubit/wallet_cubit.dart';
+import 'package:mobile_lingkunganku/repositories/ppob_repository/ppob_repository.dart';
 import 'package:mobile_lingkunganku/repositories/wallet_repository/wallet_repository.dart';
 import '../modules/iuran_history/cubit/iuran_history_cubit.dart';
 import '../modules/event/cubit/event_cubit.dart';
@@ -64,6 +66,7 @@ class MyInjection {
     getIt.registerCachedFactory<NotificationCubit>(() => NotificationCubit());
     getIt.registerCachedFactory<IuranHistoryCubit>(() => IuranHistoryCubit());
     getIt.registerCachedFactory<WalletCubit>(() => WalletCubit());
+    getIt.registerCachedFactory<PpobCubit>(() => PpobCubit());
 
     getIt.registerLazySingleton<AuthRepository>(() => AuthRepository());
     getIt.registerLazySingleton<ProfileRepository>(() => ProfileRepository());
@@ -78,5 +81,6 @@ class MyInjection {
         () => NotificationRepository());
     getIt.registerLazySingleton<IuranRepository>(() => IuranRepository());
     getIt.registerLazySingleton<WalletRepository>(() => WalletRepository());
+    getIt.registerLazySingleton<PpobRepository>(() => PpobRepository());
   }
 }

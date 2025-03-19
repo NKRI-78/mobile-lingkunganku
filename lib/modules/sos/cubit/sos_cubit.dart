@@ -25,6 +25,7 @@ class SosCubit extends Cubit<SosState> {
 
   Future<void> sendSos(
       String title, String description, BuildContext context) async {
+    emit(state.copyWith(isLoading: true));
     try {
       Position position = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.low);
@@ -41,6 +42,9 @@ class SosCubit extends Cubit<SosState> {
         message:
             "$description ${place.thoroughfare} ${place.subThoroughfare} ${place.locality}, ${place.postalCode}",
       );
+
+      emit(state.copyWith(isLoading: false));
+
       Future.delayed(Duration.zero, () {
         Navigator.of(context, rootNavigator: true).pop();
         Navigator.of(context, rootNavigator: true).pop();
@@ -49,6 +53,7 @@ class SosCubit extends Cubit<SosState> {
       });
     } on Exception catch (e) {
       Future.delayed(Duration.zero, () {
+        emit(state.copyWith(isLoading: false));
         Navigator.of(context, rootNavigator: true).pop();
         ShowSnackbar.snackbar(context, e.toString(), "", AppColors.redColor);
       });
