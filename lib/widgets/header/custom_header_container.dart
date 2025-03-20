@@ -1,10 +1,11 @@
+import 'package:badges/badges.dart' as Badges;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../modules/app/bloc/app_bloc.dart';
+
 import '../../../misc/colors.dart';
 import '../../misc/text_style.dart';
+import '../../modules/app/bloc/app_bloc.dart';
 import 'custom_header_avatar.dart';
-import 'package:badges/badges.dart' as Badges;
 
 class CustomHeaderContainer extends StatelessWidget {
   final VoidCallback? onBackPressed;

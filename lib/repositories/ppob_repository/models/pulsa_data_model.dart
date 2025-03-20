@@ -7,7 +7,7 @@ class PulsaDataModel {
   PulsaDataModel({this.id, this.code, this.price, this.name});
 
   PulsaDataModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    id = json['id'].toString();
     code = json['code'];
     price = json['price'];
     name = json['name'];

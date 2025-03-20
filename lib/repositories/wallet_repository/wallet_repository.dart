@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'package:http/http.dart' as httpBase;
-import 'package:mobile_lingkunganku/misc/api_url.dart';
-import 'package:mobile_lingkunganku/misc/http_client.dart';
-import 'package:mobile_lingkunganku/misc/injections.dart';
-import 'package:mobile_lingkunganku/modules/app/bloc/app_bloc.dart';
+import '../../misc/api_url.dart';
+import '../../misc/http_client.dart';
+import '../../misc/injections.dart';
+import '../../modules/app/bloc/app_bloc.dart';
 import '../iuran_repository/models/payment_channel_model.dart';
 
 class WalletRepository {

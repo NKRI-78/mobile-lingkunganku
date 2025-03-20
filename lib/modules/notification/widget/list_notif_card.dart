@@ -71,7 +71,9 @@ class ListNotifCard extends StatelessWidget {
               color: AppColors.greyColor,
             ),
             Text(
-              notif.type == "SOS" || notif.type.contains("PAYMENT")
+              notif.type == "SOS" ||
+                      notif.type == "GIVEN_ROLE" ||
+                      notif.type.contains("PAYMENT")
                   ? (notif.message)
                   : (notif.body ?? ''),
               style: const TextStyle(

@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_lingkunganku/repositories/notification_repository/models/notification_detail_model.dart';
+import '../../../repositories/notification_repository/models/notification_detail_model.dart';
 import '../../../misc/injections.dart';
 import '../../../misc/pagination.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';

@@ -2,13 +2,13 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'models/forum_detail_model.dart';
-import '../../misc/api_url.dart';
-import 'models/forums_model.dart';
 import 'package:http/http.dart' as ht;
 
+import '../../misc/api_url.dart';
 import '../../misc/http_client.dart';
 import '../../misc/injections.dart';
+import 'models/forum_detail_model.dart';
+import 'models/forums_model.dart';
 
 class ForumRepository {
   String get forums => '${MyApi.baseUrl}/api/v1/forum';

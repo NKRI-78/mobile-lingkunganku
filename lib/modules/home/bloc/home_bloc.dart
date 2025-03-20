@@ -17,9 +17,9 @@ import '../../../repositories/profile_repository/profile_repository.dart';
 import '../../app/bloc/app_bloc.dart';
 import '../../profile/cubit/profile_cubit.dart';
 
+part 'home_bloc.g.dart';
 part 'home_event.dart';
 part 'home_state.dart';
-part 'home_bloc.g.dart';
 
 class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
   final HomeRepository repo;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:mobile_lingkunganku/misc/date_helper.dart';
+import '../../../misc/date_helper.dart';
 import '../../../widgets/button/custom_button.dart';
 import '../cubit/notification_cubit.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -111,8 +111,9 @@ class NotificationSosDetailView extends StatelessWidget {
   // Widget Konten Notifikasi
   Widget _buildNotificationContent(
       BuildContext context, NotificationState state) {
-    bool isSosOrPayment =
-        state.detail?.type == 'SOS' || state.detail?.type == 'PAYMENT';
+    bool isSosOrGivenRoleOrPayment = state.detail?.type == 'SOS' ||
+        state.detail?.type == 'GIVEN_ROLE' ||
+        state.detail?.type == 'PAYMENT';
     return Column(
       children: [
         Expanded(
@@ -162,7 +163,7 @@ class NotificationSosDetailView extends StatelessWidget {
                               color: AppColors.greyColor,
                             ),
                             Text(
-                              isSosOrPayment
+                              isSosOrGivenRoleOrPayment
                                   ? state.detail?.data?.message ?? "-"
                                   : state.detail?.data?.body ?? "-",
                               style: AppTextStyles.textDialog,

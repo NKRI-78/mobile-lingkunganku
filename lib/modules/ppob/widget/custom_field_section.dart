@@ -16,7 +16,8 @@ class CustomFieldSection extends StatefulWidget {
 
 class _CustomFieldSectionState extends State<CustomFieldSection> {
   Timer? _debounce;
-  String? lastPrefix; // Simpan prefix terakhir untuk menghindari fetch berulang
+  String? lastPrefix;
+  String? _errorMessage; // Tambahkan variabel untuk menyimpan pesan error
 
   @override
   void initState() {
@@ -43,30 +44,36 @@ class _CustomFieldSectionState extends State<CustomFieldSection> {
         );
       }
 
-      if (nomor.length >= 4) {
-        String prefix = nomor.substring(0, 4);
+      if (nomor.length < 5) {
+        // ⚠️ Nomor kurang dari 5 digit, tampilkan error
+        setState(() {
+          _errorMessage = "Nomor harus minimal 5 digit.";
+        });
+        return;
+      } else {
+        // ✅ Nomor valid, hilangkan error
+        setState(() {
+          _errorMessage = null;
+        });
+      }
 
-        if (prefix != lastPrefix) {
-          lastPrefix = prefix;
-          if (mounted) {
-            print(
-                "📡 Fetching Data untuk prefix: $prefix, type: ${widget.type}");
-            context
-                .read<PpobCubit>()
-                .fetchPulsaData(prefix: prefix, type: widget.type ?? "PULSA");
-          }
-        } else {
-          print("⚠️ Prefix tidak berubah, tidak fetch ulang.");
+      String prefix = nomor.substring(0, 5);
+      if (prefix != lastPrefix) {
+        lastPrefix = prefix;
+        if (mounted) {
+          print("📡 Fetching Data untuk prefix: $prefix, type: ${widget.type}");
+          context
+              .read<PpobCubit>()
+              .fetchPulsaData(prefix: prefix, type: widget.type ?? "PULSA");
         }
       } else {
-        print("⛔ Nomor kurang dari 4 digit, tidak fetch.");
+        print("⚠️ Prefix tidak berubah, tidak fetch ulang.");
       }
     });
   }
 
   String _normalizePhoneNumber(String number) {
     String cleanedNumber = number.replaceAll(RegExp(r'\D'), '');
-
     if (cleanedNumber.startsWith('0')) {
       return '62${cleanedNumber.substring(1)}';
     } else if (!cleanedNumber.startsWith('62')) {
@@ -77,57 +84,71 @@ class _CustomFieldSectionState extends State<CustomFieldSection> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey, width: 0.5),
-      ),
-      child: Row(
-        children: [
-          Expanded(
-            child: TextField(
-              controller: widget.controller,
-              keyboardType: TextInputType.phone,
-              inputFormatters: [
-                FilteringTextInputFormatter.digitsOnly,
-                LengthLimitingTextInputFormatter(13),
-              ],
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: "Masukan Nomor",
-                hintStyle: AppTextStyles.textWelcome,
-                isDense: true,
-              ),
-            ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12),
+            border: Border.all(color: Colors.grey, width: 0.5),
           ),
-          ElevatedButton.icon(
-            onPressed: () async {
-              final selectedNumber = await Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ContactListPpob()),
-              );
+          child: Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  controller: widget.controller,
+                  keyboardType: TextInputType.phone,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                    LengthLimitingTextInputFormatter(13),
+                  ],
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: "Masukkan Nomor",
+                    hintStyle: AppTextStyles.textWelcome,
+                    isDense: true,
+                  ),
+                ),
+              ),
+              ElevatedButton.icon(
+                onPressed: () async {
+                  final selectedNumber = await Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ContactListPpob()),
+                  );
 
-              if (selectedNumber != null && selectedNumber is String) {
-                widget.controller.text = selectedNumber;
-              }
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.secondaryColor,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
+                  if (selectedNumber != null && selectedNumber is String) {
+                    widget.controller.text = selectedNumber;
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.secondaryColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                ),
+                icon: const Icon(Icons.contacts, color: Colors.white, size: 18),
+                label: const Text(
+                  "Daftar Kontak",
+                  style: TextStyle(color: Colors.white, fontSize: 14),
+                ),
               ),
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-            ),
-            icon: const Icon(Icons.contacts, color: Colors.white, size: 18),
-            label: const Text(
-              "Daftar Kontak",
-              style: TextStyle(color: Colors.white, fontSize: 14),
+            ],
+          ),
+        ),
+        if (_errorMessage != null) // Tampilkan error jika ada
+          Padding(
+            padding: const EdgeInsets.only(top: 4, left: 10),
+            child: Text(
+              _errorMessage!,
+              style: const TextStyle(color: Colors.red, fontSize: 12),
             ),
           ),
-        ],
-      ),
+      ],
     );
   }
 }

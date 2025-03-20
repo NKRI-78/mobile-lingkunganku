@@ -1,16 +1,18 @@
 import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import '../../../misc/theme.dart';
+
 import '../../../misc/colors.dart';
-import '../cubit/profile_update_cubit.dart';
-import '../widget/custom_textfield_name.dart';
-import '../widget/custom_textfield_phone.dart';
+import '../../../misc/theme.dart';
 import '../../../widgets/background/custom_background.dart';
 import '../../../widgets/button/custom_button.dart';
 import '../../../widgets/header/custom_header_container.dart';
+import '../cubit/profile_update_cubit.dart';
+import '../widget/custom_textfield_name.dart';
+import '../widget/custom_textfield_phone.dart';
 
 class ProfileUpdatePage extends StatelessWidget {
   const ProfileUpdatePage({super.key});

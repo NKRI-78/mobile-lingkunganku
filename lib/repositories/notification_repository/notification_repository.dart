@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:mobile_lingkunganku/repositories/notification_repository/models/notification_detail_model.dart';
+import 'models/notification_detail_model.dart';
 
 import '../../misc/api_url.dart';
 import '../../misc/http_client.dart';

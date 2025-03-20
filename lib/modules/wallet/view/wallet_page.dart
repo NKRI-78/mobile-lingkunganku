@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import 'package:mobile_lingkunganku/misc/text_style.dart';
-import 'package:mobile_lingkunganku/modules/wallet/cubit/wallet_cubit.dart';
+import '../../../misc/text_style.dart';
+import '../cubit/wallet_cubit.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/price_currency.dart';

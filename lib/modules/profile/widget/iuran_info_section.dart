@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../misc/price_currency.dart';
 
 import '../../../misc/colors.dart';
+import '../../../misc/price_currency.dart';
 import '../../../misc/text_style.dart';
 import '../../../router/builder.dart';
 import '../cubit/profile_cubit.dart';

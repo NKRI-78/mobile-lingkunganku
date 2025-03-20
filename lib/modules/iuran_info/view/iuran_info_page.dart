@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_lingkunganku/modules/iuran_info/cubit/iuran_info_cubit.dart';
-import 'package:mobile_lingkunganku/modules/iuran_info/widget/list_iuran_info_section.dart';
+import '../cubit/iuran_info_cubit.dart';
+import '../widget/list_iuran_info_section.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';

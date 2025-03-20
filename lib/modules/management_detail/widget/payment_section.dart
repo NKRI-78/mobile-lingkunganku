@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../cubit/management_detail_cubit.dart';
+
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
+import '../cubit/management_detail_cubit.dart';
 
 class PaymentSection extends StatefulWidget {
   const PaymentSection({super.key});

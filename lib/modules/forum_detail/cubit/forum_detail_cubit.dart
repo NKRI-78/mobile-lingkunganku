@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_lingkunganku/repositories/forum_repository/models/forums_model.dart';
+import '../../../repositories/forum_repository/models/forums_model.dart';
 import '../../../repositories/profile_repository/models/profile_model.dart';
 import '../../../misc/colors.dart';
 import '../../../misc/snackbar.dart';

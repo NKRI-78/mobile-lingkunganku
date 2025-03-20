@@ -1,12 +1,12 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_lingkunganku/misc/injections.dart';
-import 'package:mobile_lingkunganku/modules/wallet/widgets/show_payment_modal.dart';
-import 'package:mobile_lingkunganku/repositories/iuran_repository/iuran_repository.dart';
-import 'package:mobile_lingkunganku/repositories/iuran_repository/models/payment_channel_model.dart';
-import 'package:mobile_lingkunganku/repositories/profile_repository/models/profile_model.dart';
-import 'package:mobile_lingkunganku/repositories/wallet_repository/wallet_repository.dart';
+import '../../../misc/injections.dart';
+import '../widgets/show_payment_modal.dart';
+import '../../../repositories/iuran_repository/iuran_repository.dart';
+import '../../../repositories/iuran_repository/models/payment_channel_model.dart';
+import '../../../repositories/profile_repository/models/profile_model.dart';
+import '../../../repositories/wallet_repository/wallet_repository.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/snackbar.dart';

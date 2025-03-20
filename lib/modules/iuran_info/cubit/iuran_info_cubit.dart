@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
-import 'package:mobile_lingkunganku/repositories/profile_repository/models/contribute_model.dart';
-import 'package:mobile_lingkunganku/repositories/profile_repository/profile_repository.dart';
+import '../../../repositories/profile_repository/models/contribute_model.dart';
+import '../../../repositories/profile_repository/profile_repository.dart';
 
 part 'iuran_info_state.dart';
 

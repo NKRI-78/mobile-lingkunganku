@@ -1,12 +1,12 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../misc/injections.dart';
-import '../../event/cubit/event_cubit.dart';
-import '../../../repositories/event_repository/event_repository.dart';
 
+import '../../../misc/injections.dart';
+import '../../../repositories/event_repository/event_repository.dart';
 import '../../../repositories/event_repository/models/event_detail_model.dart';
 import '../../../repositories/profile_repository/models/profile_model.dart';
 import '../../../repositories/profile_repository/profile_repository.dart';
+import '../../event/cubit/event_cubit.dart';
 
 part 'event_detail_state.dart';
 

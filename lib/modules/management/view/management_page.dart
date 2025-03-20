@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import '../../../misc/injections.dart';
-import '../cubit/management_cubit.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../misc/colors.dart';
+import '../../../misc/injections.dart';
 import '../../../misc/text_style.dart';
+import '../cubit/management_cubit.dart';
 import '../widget/member_tile_section.dart';
 
 class ManagementPage extends StatelessWidget {

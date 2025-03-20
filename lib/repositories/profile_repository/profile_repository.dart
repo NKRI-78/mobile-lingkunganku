@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/widgets.dart';
-import 'package:mobile_lingkunganku/repositories/profile_repository/models/contribute_model.dart';
+import 'models/contribute_model.dart';
 
 import '../../misc/api_url.dart';
 import '../../misc/http_client.dart';
