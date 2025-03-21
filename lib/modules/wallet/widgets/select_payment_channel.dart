@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../cubit/wallet_cubit.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/price_currency.dart';
 import '../../../misc/text_style.dart';
 import '../../../misc/theme.dart';
 import '../../../widgets/image/image_card.dart';
+import '../cubit/wallet_cubit.dart';
 
 class SelectPaymentChannel extends StatelessWidget {
   const SelectPaymentChannel({super.key});
@@ -26,7 +26,6 @@ class SelectPaymentChannel extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                // Header dengan tombol kembali
                 Row(
                   children: [
                     IconButton(
@@ -53,59 +52,63 @@ class SelectPaymentChannel extends StatelessWidget {
 
                 // List Metode Pembayaran dalam bentuk Card
                 Flexible(
-                  child: ListView.builder(
+                  child: ListView(
                     shrinkWrap: true,
-                    itemCount: state.channels.length,
-                    itemBuilder: (context, index) {
-                      final e = state.channels[index];
-                      return Card(
-                        color: AppColors.whiteColor,
-                        margin: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 5),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        elevation: 4,
-                        child: ListTile(
-                          contentPadding: const EdgeInsets.symmetric(
-                              vertical: 5, horizontal: 10),
-                          title: Text(
-                            e.name == "Saldo"
-                                ? "Lingkunganku Wallet"
-                                : e.name ?? "",
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16),
-                          ),
-                          onTap: () {
-                            context.read<WalletCubit>().setPaymentChannel(e);
-
-                            Navigator.pop(context);
-                          },
-                          leading: ClipRRect(
-                            borderRadius: BorderRadius.circular(10),
-                            child: ImageCard(
-                              image: e.logo ?? "",
-                              height: 60,
-                              width: 60,
-                              radius: 10,
-                              imageError: imageDefault,
-                            ),
-                          ),
-                          subtitle: Text(
-                            e.paymentType == "APP"
-                                ? 'Saldo: ${Price.currency(e.user?.balance?.toDouble() ?? 0.0)}'
-                                : e.paymentType
-                                        ?.replaceAll("_", " ")
-                                        .replaceAll("GOPAY", "QRIS") ??
-                                    "",
-                            style: const TextStyle(
-                                fontSize: 14, color: Colors.grey),
-                          ),
-                          trailing: const Icon(Icons.arrow_forward_ios,
-                              size: 18, color: AppColors.secondaryColor),
-                        ),
-                      );
-                    },
+                    children: state.channels
+                        .where((element) => element.id != 0)
+                        .map((e) => Card(
+                              color: AppColors.whiteColor,
+                              margin: const EdgeInsets.symmetric(
+                                  vertical: 10, horizontal: 5),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              elevation: 4,
+                              child: ListTile(
+                                contentPadding: const EdgeInsets.symmetric(
+                                    vertical: 5, horizontal: 10),
+                                title: Text(
+                                  e.name == "Saldo"
+                                      ? "Lingkunganku Wallet"
+                                      : e.name ?? "",
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16),
+                                ),
+                                onTap: () {
+                                  context
+                                      .read<WalletCubit>()
+                                      .setPaymentChannel(e);
+                                  // context
+                                  //     .read<WalletCubit>()
+                                  //     .updateCheckout(e: e);
+                                  Navigator.pop(context);
+                                },
+                                leading: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: ImageCard(
+                                    image: e.logo ?? "",
+                                    height: 60,
+                                    width: 60,
+                                    radius: 10,
+                                    imageError: imageDefault,
+                                  ),
+                                ),
+                                subtitle: Text(
+                                  e.paymentType == "APP"
+                                      ? 'Saldo: ${Price.currency(e.user?.balance?.toDouble() ?? 0.0)}'
+                                      : e.paymentType
+                                              ?.replaceAll("_", " ")
+                                              .replaceAll("GOPAY", "QRIS") ??
+                                          "",
+                                  style: const TextStyle(
+                                      fontSize: 14, color: Colors.grey),
+                                ),
+                                trailing: const Icon(Icons.arrow_forward_ios,
+                                    size: 18, color: AppColors.secondaryColor),
+                              ),
+                            ))
+                        .toList(),
                   ),
                 ),
                 const SizedBox(height: 10),

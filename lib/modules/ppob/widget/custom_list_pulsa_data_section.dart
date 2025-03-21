@@ -26,13 +26,10 @@ class _CustomListPulsaDataSectionState
   @override
   Widget build(BuildContext context) {
     return widget.pulsaData.isEmpty
-        ? const Padding(
-            padding: EdgeInsets.all(20),
-            child: Center(
-              child: Text(
-                "Tidak ada paket pulsa tersedia",
-                style: TextStyle(fontSize: 16, color: Colors.red),
-              ),
+        ? Center(
+            child: Text(
+              "Tidak ada paket pulsa tersedia",
+              style: TextStyle(fontSize: 16, color: Colors.red),
             ),
           )
         : GridView.builder(

@@ -14,7 +14,7 @@ class IuranPaidModel {
       case 'unpaid':
         return 'Belum Bayar';
       case 'paid':
-        return 'Sudah Bayar';
+        return 'Lunas';
       default:
         return 'Status tidak tersedia';
     }

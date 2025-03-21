@@ -39,10 +39,41 @@ class _IuranViewState extends State<IuranView> {
   final ValueNotifier<List<Data>> _selectedInvoices = ValueNotifier([]);
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final iuranList = context.read<IuranCubit>().state.iuran?.data ?? [];
+
+      if (iuranList.isNotEmpty) {
+        // Cari invoice pertama yang belum dibayar
+        final firstUnpaidInvoice = iuranList.firstWhere(
+          (item) => item.translateStatus == "Belum Bayar",
+          orElse: () =>
+              iuranList.first, // Jika semua sudah dibayar, pilih pertama
+        );
+
+        // Tambahkan invoice pertama ke dalam daftar selected jika belum ada
+        if (!_selectedInvoices.value.contains(firstUnpaidInvoice)) {
+          _selectedInvoices.value = [firstUnpaidInvoice];
+        }
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocBuilder<IuranCubit, IuranState>(
       builder: (context, state) {
         final List<Data> iuranList = state.iuran?.data ?? [];
+
+        // **Perbarui pilihan setelah data dimuat**
+        if (iuranList.isNotEmpty && _selectedInvoices.value.isEmpty) {
+          final firstUnpaidInvoice = iuranList.firstWhere(
+            (item) => item.translateStatus == "Belum Bayar",
+            orElse: () => iuranList.first,
+          );
+          _selectedInvoices.value = [firstUnpaidInvoice];
+        }
 
         return Scaffold(
           backgroundColor: Colors.grey[100],
@@ -80,9 +111,26 @@ class _IuranViewState extends State<IuranView> {
           body: RefreshIndicator(
             color: AppColors.secondaryColor,
             onRefresh: () async {
-              _selectedInvoices.value = [];
-              context.read<IuranCubit>().getInvoice();
+              _selectedInvoices.value = []; // Reset pilihan
+
+              await context.read<IuranCubit>().getInvoice();
               await Future.delayed(const Duration(seconds: 1));
+
+              // Ambil data terbaru setelah refresh
+              final iuranList =
+                  context.read<IuranCubit>().state.iuran?.data ?? [];
+
+              if (iuranList.isNotEmpty) {
+                // Cari invoice pertama yang belum dibayar
+                final firstUnpaidInvoice = iuranList.firstWhere(
+                  (item) => item.translateStatus == "Belum Bayar",
+                  orElse: () => iuranList
+                      .first, // Jika semua sudah dibayar, pilih pertama
+                );
+
+                // Tambahkan invoice pertama ke dalam daftar selected jika belum ada
+                _selectedInvoices.value = [firstUnpaidInvoice];
+              }
             },
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -98,10 +146,8 @@ class _IuranViewState extends State<IuranView> {
             child: ValueListenableBuilder<List<Data>>(
               valueListenable: _selectedInvoices,
               builder: (context, selected, child) {
-                final int totalAmount = selected.fold(
-                    0, (sum, item) => sum + (item.totalAmount ?? 0));
                 return CustomButton(
-                  text: "Bayar Tagihan\n\nTotal Tagihan Rp $totalAmount",
+                  text: "Bayar Iuran",
                   onPressed: selected.isNotEmpty
                       ? () {
                           _customPaymentSection(context, selected);

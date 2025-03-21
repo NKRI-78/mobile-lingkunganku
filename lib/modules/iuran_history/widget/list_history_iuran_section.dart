@@ -70,7 +70,7 @@ class ListHistoryIuranSection extends StatelessWidget {
                     iuran.translateStatus,
                     style: const TextStyle(color: Colors.white),
                   ),
-                  backgroundColor: iuran.translateStatus == "Sudah Bayar"
+                  backgroundColor: iuran.translateStatus == "Lunas"
                       ? AppColors.secondaryColor
                       : iuran.translateStatus == "Belum Bayar"
                           ? AppColors.redColor

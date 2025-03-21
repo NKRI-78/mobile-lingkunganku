@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../cubit/iuran_cubit.dart';
+import 'package:mobile_lingkunganku/modules/ppob/cubit/ppob_cubit.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/price_currency.dart';
@@ -13,7 +13,7 @@ class SelectPaymentChannel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<IuranCubit, IuranState>(
+    return BlocBuilder<PpobCubit, PpobState>(
       builder: (context, state) {
         return WillPopScope(
           onWillPop: () async => false,
@@ -58,10 +58,6 @@ class SelectPaymentChannel extends StatelessWidget {
                     itemCount: state.channels.length,
                     itemBuilder: (context, index) {
                       final e = state.channels[index];
-                      final bool isWallet = e.name == "Saldo";
-                      final double balance = e.user?.balance?.toDouble() ?? 0.0;
-                      final bool isDisabled = isWallet && balance == 0;
-
                       return Card(
                         color: AppColors.whiteColor,
                         margin: const EdgeInsets.symmetric(
@@ -74,23 +70,16 @@ class SelectPaymentChannel extends StatelessWidget {
                           contentPadding: const EdgeInsets.symmetric(
                               vertical: 5, horizontal: 10),
                           title: Text(
-                            isWallet ? "Lingkunganku Wallet" : e.name ?? "",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 16,
-                              color: isWallet && balance == 0
-                                  ? Colors.grey
-                                  : Colors.black,
-                            ),
+                            e.name == "Saldo"
+                                ? "Lingkunganku Wallet"
+                                : e.name ?? "",
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16),
                           ),
-                          onTap: isDisabled
-                              ? null
-                              : () {
-                                  context
-                                      .read<IuranCubit>()
-                                      .setPaymentChannel(e);
-                                  Navigator.pop(context);
-                                },
+                          onTap: () {
+                            context.read<PpobCubit>().setPaymentChannel(e);
+                            Navigator.pop(context);
+                          },
                           leading: ClipRRect(
                             borderRadius: BorderRadius.circular(10),
                             child: ImageCard(
@@ -102,26 +91,17 @@ class SelectPaymentChannel extends StatelessWidget {
                             ),
                           ),
                           subtitle: Text(
-                            isWallet
-                                ? 'Saldo: ${Price.currency(balance)}'
+                            e.paymentType == "APP"
+                                ? 'Saldo: ${Price.currency(e.user?.balance?.toDouble() ?? 0.0)}'
                                 : e.paymentType
                                         ?.replaceAll("_", " ")
                                         .replaceAll("GOPAY", "QRIS") ??
                                     "",
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: isWallet && balance == 0
-                                  ? Colors.red
-                                  : Colors.grey,
-                            ),
+                            style: const TextStyle(
+                                fontSize: 14, color: Colors.grey),
                           ),
-                          trailing: Icon(
-                            Icons.arrow_forward_ios,
-                            size: 18,
-                            color: isDisabled
-                                ? Colors.grey
-                                : AppColors.secondaryColor,
-                          ),
+                          trailing: const Icon(Icons.arrow_forward_ios,
+                              size: 18, color: AppColors.secondaryColor),
                         ),
                       );
                     },

@@ -1,8 +1,9 @@
-part of '../view/iuran_page.dart';
+part of '../view/ppob_page.dart';
 
-void _customPaymentSection(BuildContext context, List<Data> selected) {
-  final iuranCubit = context.read<IuranCubit>();
-  iuranCubit.emit(iuranCubit.state.copyWith(selectedInvoices: selected));
+void _customPaymentSection(BuildContext context, List<PulsaDataModel> selected,
+    String phoneNumber, String type) {
+  final ppobCubit = context.read<PpobCubit>();
+  final String? productType = ppobCubit.currentType;
 
   showModalBottomSheet(
     context: context,
@@ -12,17 +13,27 @@ void _customPaymentSection(BuildContext context, List<Data> selected) {
     ),
     builder: (context) {
       return BlocProvider.value(
-        value: iuranCubit,
-        child: Builder(builder: (dialogContext) {
-          final selectedChannel =
-              dialogContext.watch<IuranCubit>().state.channel;
-          final adminFee = dialogContext.watch<IuranCubit>().state.adminFee;
-          final totalAmount =
-              selected.fold(0, (sum, item) => sum + (item.totalAmount ?? 0)) +
-                  adminFee;
+        value: ppobCubit,
+        child:
+            BlocBuilder<PpobCubit, PpobState>(builder: (dialogContext, state) {
+          final pulsaData = selected.first;
+          final selectedChannel = state.channel;
+          final double productPrice = pulsaData.price?.toDouble() ?? 0;
+          final double totalAmount = productPrice + state.adminFee;
+
+          String getProductTitle(String? type) {
+            switch (type) {
+              case "PULSA":
+                return "Harga Pulsa";
+              case "DATA":
+                return "Harga Paket Data";
+              default:
+                return "Harga Produk";
+            }
+          }
 
           return Padding(
-            padding: const EdgeInsets.all(20),
+            padding: EdgeInsets.all(20),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -40,23 +51,22 @@ void _customPaymentSection(BuildContext context, List<Data> selected) {
                     InkWell(
                       onTap: () {
                         dialogContext
-                            .read<IuranCubit>()
+                            .read<PpobCubit>()
                             .getPaymentChannel(dialogContext);
                       },
                       splashColor: Colors.grey.withValues(alpha: 0.3),
                       highlightColor: Colors.grey.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(8),
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 5, vertical: 10),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 5, vertical: 10),
                         child: Text(
-                          dialogContext.watch<IuranCubit>().state.channel ==
-                                  null
+                          dialogContext.watch<PpobCubit>().state.channel == null
                               ? "Pilih Pembayaran"
                               : "Ganti Pembayaran",
                           style: TextStyle(
                             color: dialogContext
-                                        .watch<IuranCubit>()
+                                        .watch<PpobCubit>()
                                         .state
                                         .channel ==
                                     null
@@ -66,7 +76,7 @@ void _customPaymentSection(BuildContext context, List<Data> selected) {
                           ),
                         ),
                       ),
-                    ),
+                    )
                   ],
                 ),
                 Divider(),
@@ -80,19 +90,22 @@ void _customPaymentSection(BuildContext context, List<Data> selected) {
                   ),
                 ),
                 SizedBox(height: 5),
-                _buildDetailRow("Keterangan", selected.first.note.toString()),
                 _buildDetailRow(
-                    "Bulan Iuran",
-                    selected
-                        .map((e) =>
-                            DateHelper.getMonthYear(e.invoiceDate.toString()))
-                        .toSet()
-                        .join(", ")),
-                _buildDetailRowWithImage(
-                  "Pembayaran Dengan",
-                  selectedChannel?.logo ?? "",
-                  selectedChannel?.name ?? " _ ",
+                    "Pembayaran Untuk", selected.first.name.toString()),
+                _buildDetailRow(
+                  getProductTitle(productType),
+                  "${Price.currency(productPrice)}",
+                  isBold: true,
                 ),
+                _buildDetailRow(
+                  "Biaya Admin Bank",
+                  "${Price.currency(state.adminFee)}",
+                  isBold: true,
+                ),
+                _buildDetailRowWithImage(
+                    "Pembayaran Dengan",
+                    selectedChannel?.logo ?? "",
+                    selectedChannel?.name ?? " _ "),
                 Divider(),
                 SizedBox(height: 5),
                 Align(
@@ -104,16 +117,6 @@ void _customPaymentSection(BuildContext context, List<Data> selected) {
                   ),
                 ),
                 _buildDetailRow(
-                  "Harga Iuran",
-                  "${Price.currency(selected.fold(0, (sum, item) => sum + (item.totalAmount ?? 0)))}",
-                  isBold: true,
-                ),
-                _buildDetailRow(
-                  "Biaya Admin Bank",
-                  "${Price.currency(adminFee)}",
-                  isBold: true,
-                ),
-                _buildDetailRow(
                   "Total Pembayaran",
                   "${Price.currency(totalAmount)}",
                   isBold: true,
@@ -121,21 +124,23 @@ void _customPaymentSection(BuildContext context, List<Data> selected) {
                 const SizedBox(height: 10),
                 SizedBox(
                   width: double.infinity,
-                  child: BlocBuilder<IuranCubit, IuranState>(
+                  child: BlocBuilder<PpobCubit, PpobState>(
                     builder: (context, state) {
+                      final userId = getIt<AppBloc>().state.user?.id ?? 0;
                       return CustomButton(
                         text: state.isLoading ? "" : "Bayar",
                         onPressed: state.isLoading || state.channel == null
                             ? null
                             : () async {
-                                final cubit = context.read<IuranCubit>();
+                                final cubit = context.read<PpobCubit>();
                                 try {
-                                  var paymentNumber =
-                                      await cubit.checkoutItem();
-                                  if (context.mounted) {
-                                    WaitingPaymentRoute(id: paymentNumber)
-                                        .go(context);
-                                  }
+                                  var paymentNumber = await cubit.checkoutItem(
+                                      userId.toString(), type, phoneNumber);
+
+                                  // if (context.mounted) {
+                                  //   WaitingPaymentRoute(id: paymentNumber)
+                                  //       .go(context);
+                                  // }
                                 } catch (e) {
                                   ShowSnackbar.snackbar(context, e.toString(),
                                       '', AppColors.redColor);

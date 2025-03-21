@@ -180,11 +180,12 @@ class _PaymentSectionState extends State<PaymentSection> {
             ),
             const SizedBox(height: 10),
             TextField(
-              maxLines: 2,
+              maxLines: 1,
+              maxLength: 50,
               controller: descriptionController,
               enabled: !state.hasUnpaidInvoice, // 🔥 Disable jika ada tagihan
               decoration: InputDecoration(
-                hintText: "Deskripsi Iuran",
+                hintText: "Keterangan Iuran",
                 hintStyle: AppTextStyles.textWelcome,
                 filled: true,
                 fillColor: Colors.white,

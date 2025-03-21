@@ -37,7 +37,7 @@ class CustomListInvoiceSection extends StatelessWidget {
             children: [
               ListTile(
                 contentPadding: const EdgeInsets.all(8.0),
-                leading: iuranItem.translateStatus == "Sudah Bayar"
+                leading: iuranItem.translateStatus == "Lunas"
                     ? const SizedBox.shrink()
                     : ValueListenableBuilder<List<Data>>(
                         valueListenable: selectedInvoices,
@@ -47,13 +47,16 @@ class CustomListInvoiceSection extends StatelessWidget {
                             checkColor: AppColors.selectColor,
                             value: selected.contains(iuranItem),
                             onChanged: (isChecked) {
+                              final List<Data> updatedSelection =
+                                  List.from(selected);
+
                               if (isChecked == true) {
-                                selectedInvoices.value = List.from(selected)
-                                  ..add(iuranItem);
+                                updatedSelection.add(iuranItem);
                               } else {
-                                selectedInvoices.value = List.from(selected)
-                                  ..remove(iuranItem);
+                                updatedSelection.remove(iuranItem);
                               }
+
+                              selectedInvoices.value = updatedSelection;
                             },
                           );
                         },

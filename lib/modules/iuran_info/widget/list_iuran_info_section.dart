@@ -82,7 +82,7 @@ class ListIuranInfoSection extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     softWrap: true,
                   ),
-                  backgroundColor: contribute.translateStatus == "Sudah Bayar"
+                  backgroundColor: contribute.translateStatus == "Lunas"
                       ? AppColors.secondaryColor
                       : contribute.translateStatus == "Belum Bayar"
                           ? AppColors.redColor
