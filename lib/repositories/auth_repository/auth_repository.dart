@@ -117,6 +117,7 @@ class AuthRepository {
     required String longitude,
     String name = '',
     String avatarLink = '',
+    String gender = '',
   }) async {
     try {
       final response =
@@ -131,6 +132,7 @@ class AuthRepository {
         'longitude': longitude,
         'name': name,
         'avatar_link': avatarLink,
+        'gender': gender,
       });
 
       final json = jsonDecode(response.body);
@@ -157,6 +159,7 @@ class AuthRepository {
     String password = '',
     String referral = '',
     String avatarLink = '',
+    String gender = '',
   }) async {
     try {
       final response =
@@ -168,6 +171,7 @@ class AuthRepository {
         'password': password,
         'referral': referral,
         'avatar_link': avatarLink,
+        'gender': gender,
       });
       final json = jsonDecode(response.body);
       if (response.statusCode == 200) {

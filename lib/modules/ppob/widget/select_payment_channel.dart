@@ -58,6 +58,7 @@ class SelectPaymentChannel extends StatelessWidget {
                     itemCount: state.channels.length,
                     itemBuilder: (context, index) {
                       final e = state.channels[index];
+                      final isSelectable = e.id == 2 || e.id == 3;
                       return Card(
                         color: AppColors.whiteColor,
                         margin: const EdgeInsets.symmetric(
@@ -73,13 +74,21 @@ class SelectPaymentChannel extends StatelessWidget {
                             e.name == "Saldo"
                                 ? "Lingkunganku Wallet"
                                 : e.name ?? "",
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16),
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                                color: isSelectable
+                                    ? AppColors.blackColor
+                                    : AppColors.textColor),
                           ),
-                          onTap: () {
-                            context.read<PpobCubit>().setPaymentChannel(e);
-                            Navigator.pop(context);
-                          },
+                          onTap: isSelectable
+                              ? () {
+                                  context
+                                      .read<PpobCubit>()
+                                      .setPaymentChannel(e);
+                                  Navigator.pop(context);
+                                }
+                              : null,
                           leading: ClipRRect(
                             borderRadius: BorderRadius.circular(10),
                             child: ImageCard(
@@ -93,15 +102,22 @@ class SelectPaymentChannel extends StatelessWidget {
                           subtitle: Text(
                             e.paymentType == "APP"
                                 ? 'Saldo: ${Price.currency(e.user?.balance?.toDouble() ?? 0.0)}'
-                                : e.paymentType
-                                        ?.replaceAll("_", " ")
-                                        .replaceAll("GOPAY", "QRIS") ??
-                                    "",
-                            style: const TextStyle(
-                                fontSize: 14, color: Colors.grey),
+                                : isSelectable
+                                    ? e.paymentType
+                                            ?.replaceAll("_", " ")
+                                            .replaceAll("GOPAY", "QRIS") ??
+                                        ""
+                                    : "Sedang Dalam Perbaikan",
+                            style: TextStyle(
+                              fontSize: isSelectable ? 14 : 12,
+                              color: isSelectable ? Colors.grey : Colors.red,
+                            ),
                           ),
-                          trailing: const Icon(Icons.arrow_forward_ios,
-                              size: 18, color: AppColors.secondaryColor),
+                          trailing: Icon(Icons.arrow_forward_ios,
+                              size: 18,
+                              color: isSelectable
+                                  ? AppColors.secondaryColor
+                                  : AppColors.textColor),
                         ),
                       );
                     },

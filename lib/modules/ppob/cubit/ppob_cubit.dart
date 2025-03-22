@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -88,27 +90,24 @@ class PpobCubit extends Cubit<PpobState> {
 
   Future<void> checkoutItem(String userId, String type, String idPel) async {
     try {
-      emit(state.copyWith(isLoading: true));
+      emit(state.copyWith(isLoading: true, errorMessage: null));
 
       if (state.channel == null) {
         throw Exception("Silakan pilih metode pembayaran terlebih dahulu.");
       }
-      if (state.pulsaData.isEmpty) {
-        throw Exception(
-            "Silakan pilih produk pulsa atau data terlebih dahulu.");
+      if (state.selectedPulsaData == null) {
+        throw Exception("Silakan pilih produk pulsa atau data.");
       }
-      // emit(state.copyWith(selectedPulsaData: sele))
-      final PulsaDataModel? selectedProduct = state.selectedPulsaData;
-      if (selectedProduct == null) {
-        throw Exception("Silakan pilih produk pulsa atau data yang tersedia.");
-      }
+
+      final PulsaDataModel selectedProduct = state.selectedPulsaData!;
       final bool isValidProduct = state.pulsaData
           .any((product) => product.code == selectedProduct.code);
       if (!isValidProduct) {
         throw Exception("Produk yang dipilih tidak tersedia.");
       }
 
-      await repo.checkoutItem(
+      // 🔹 Ambil response lengkap dari repository
+      final Map<String, dynamic> paymentData = await repo.checkoutItem(
         idPel: idPel,
         userId: userId,
         productId: selectedProduct.code ?? "",
@@ -117,12 +116,20 @@ class PpobCubit extends Cubit<PpobState> {
         type: type,
       );
 
-      emit(state.copyWith(isLoading: false, isSuccess: true));
+      emit(state.copyWith(
+        isLoading: false,
+        isSuccess: true,
+        paymentAccess: paymentData["payment_access"],
+        // orderId: paymentData["order_id"],
+        // paymentType: paymentData["payment_type"],
+        // rawResponse: paymentData, // 🔹 Simpan raw response
+      ));
     } catch (e) {
       emit(state.copyWith(
-          isLoading: false, isSuccess: false, errorMessage: e.toString()));
-      print(e);
-      rethrow;
+        isLoading: false,
+        isSuccess: false,
+        errorMessage: e.toString(),
+      ));
     }
   }
 

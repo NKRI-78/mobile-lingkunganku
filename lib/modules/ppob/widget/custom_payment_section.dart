@@ -134,13 +134,16 @@ void _customPaymentSection(BuildContext context, List<PulsaDataModel> selected,
                             : () async {
                                 final cubit = context.read<PpobCubit>();
                                 try {
-                                  var paymentNumber = await cubit.checkoutItem(
+                                  await cubit.checkoutItem(
                                       userId.toString(), type, phoneNumber);
 
-                                  // if (context.mounted) {
-                                  //   WaitingPaymentRoute(id: paymentNumber)
-                                  //       .go(context);
-                                  // }
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          PpobWaitingPaymentPage(),
+                                    ),
+                                  );
                                 } catch (e) {
                                   ShowSnackbar.snackbar(context, e.toString(),
                                       '', AppColors.redColor);

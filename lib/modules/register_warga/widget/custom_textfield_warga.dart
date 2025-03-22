@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../misc/colors.dart';
+import '../../../misc/text_style.dart';
 import '../cubit/register_warga_cubit.dart';
 
 class CustomTextfieldWarga extends StatelessWidget {
@@ -13,6 +14,7 @@ class CustomTextfieldWarga extends StatelessWidget {
     return Column(
       children: [
         _FieldName(),
+        _FieldGender(),
         _FieldEmail(),
         _FieldPhone(),
         _FieldDetailAddress(),
@@ -39,6 +41,59 @@ class _FieldName extends StatelessWidget {
                     .state
                     .copyWith(name: value));
           },
+        );
+      },
+    );
+  }
+}
+
+class _FieldGender extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<RegisterWargaCubit, RegisterWargaState>(
+      buildWhen: (previous, current) => previous.gender != current.gender,
+      builder: (context, state) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Jenis Kelamin', style: AppTextStyles.textStyle2),
+              Row(
+                children: [
+                  Checkbox(
+                    value: state.gender == 'L',
+                    onChanged: (bool? value) {
+                      if (value == true) {
+                        context.read<RegisterWargaCubit>().copyState(
+                              newState: state.copyWith(gender: 'L'),
+                            );
+                      }
+                    },
+                    activeColor: AppColors.buttonColor1,
+                    side: BorderSide(color: AppColors.whiteColor, width: 1.5),
+                  ),
+                  Text('Laki - Laki',
+                      style: TextStyle(color: AppColors.textColor2)),
+                  SizedBox(width: 20),
+                  Checkbox(
+                    value: state.gender == 'P',
+                    onChanged: (bool? value) {
+                      if (value == true) {
+                        context.read<RegisterWargaCubit>().copyState(
+                              newState: state.copyWith(gender: 'P'),
+                            );
+                      }
+                    },
+                    activeColor: AppColors.buttonColor1,
+                    side: BorderSide(color: AppColors.whiteColor, width: 1.5),
+                  ),
+                  Text('Perempuan',
+                      style: TextStyle(color: AppColors.textColor2)),
+                ],
+              ),
+            ],
+          ),
         );
       },
     );

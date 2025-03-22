@@ -99,7 +99,7 @@ class PpobRepository {
     }
   }
 
-  Future<String> checkoutItem({
+  Future<Map<String, dynamic>> checkoutItem({
     required String idPel,
     required String userId,
     required String productId,
@@ -133,21 +133,21 @@ class PpobRepository {
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> decoded = json.decode(response.body);
+
         if (decoded['error'] == false) {
-          return decoded['message'] ?? "Checkout sukses";
+          return decoded['data'] ?? {}; // ✅ Kembalikan seluruh data
         } else {
           throw Exception(decoded['message'] ?? "Checkout gagal");
         }
       } else {
-        throw Exception(
-            "Failed to checkout. Status code: ${response.statusCode}");
+        throw Exception("Gagal checkout. Status code: ${response.statusCode}");
       }
     } on TimeoutException {
-      throw Exception("Request timeout, server not responding");
+      throw Exception("Request timeout, server tidak merespons");
     } on SocketException {
-      throw Exception("Network error, please check your connection");
+      throw Exception("Koneksi bermasalah, periksa jaringan Anda");
     } catch (e) {
-      throw Exception("Checkout failed: $e");
+      throw Exception("Checkout gagal: $e");
     }
   }
 }

@@ -25,7 +25,6 @@ class WaitingPaymentPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("ID Payement : $id");
     return BlocProvider<WaitingPaymentCubit>(
       create: (context) => WaitingPaymentCubit(id: id)..init(context),
       child: const WaitingPaymentView(),

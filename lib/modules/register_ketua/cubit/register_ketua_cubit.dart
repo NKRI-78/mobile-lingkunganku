@@ -41,11 +41,16 @@ class RegisterKetuaCubit extends Cubit<RegisterKetuaState> {
     required String password,
     required String passwordConfirm,
     required String neighborhoodName,
+    required String gender,
   }) {
     debugPrint("Password $password Confirm Password $passwordConfirm");
     if (name.isEmpty) {
       ShowSnackbar.snackbar(
           context, "Harap masukkan nama", '', AppColors.redColor);
+      return false;
+    } else if (gender.isEmpty) {
+      ShowSnackbar.snackbar(context, "Harap pilih salah satu jenis kelamin", '',
+          AppColors.redColor);
       return false;
     } else if (!email
         .contains(RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$'))) {
@@ -105,6 +110,7 @@ class RegisterKetuaCubit extends Cubit<RegisterKetuaState> {
         email: state.email,
         password: state.password,
         passwordConfirm: state.passwordConfirm,
+        gender: state.gender,
       );
 
       if (!isClear) {
@@ -129,6 +135,7 @@ class RegisterKetuaCubit extends Cubit<RegisterKetuaState> {
         latitude: state.latitude.toString(),
         longitude: state.longitude.toString(),
         avatarLink: remaplink[0]['url']['url'],
+        gender: state.gender,
       );
 
       if (context.mounted) {

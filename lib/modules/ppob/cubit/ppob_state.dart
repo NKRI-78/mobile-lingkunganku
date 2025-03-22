@@ -9,9 +9,10 @@ class PpobState extends Equatable {
   final List<PaymentChannelModelV2> channels;
   final PaymentChannelModelV2? channel;
   final double adminFee;
-  final PulsaDataModel? selectedPulsaData; // Menyimpan produk yang dipilih
+  final PulsaDataModel? selectedPulsaData;
   final String? selectedType;
   final String? idpel;
+  final String? paymentAccess;
 
   const PpobState({
     this.pulsaData = const [],
@@ -25,6 +26,7 @@ class PpobState extends Equatable {
     this.selectedPulsaData,
     this.selectedType,
     this.idpel,
+    this.paymentAccess,
   });
 
   @override
@@ -40,6 +42,7 @@ class PpobState extends Equatable {
         selectedPulsaData,
         selectedType,
         idpel,
+        paymentAccess,
       ];
 
   PpobState copyWith({
@@ -54,6 +57,7 @@ class PpobState extends Equatable {
     PulsaDataModel? selectedPulsaData,
     String? selectedType,
     String? idpel,
+    String? paymentAccess,
   }) {
     return PpobState(
       pulsaData: pulsaData ?? this.pulsaData,
@@ -67,6 +71,7 @@ class PpobState extends Equatable {
       selectedPulsaData: selectedPulsaData ?? this.selectedPulsaData,
       selectedType: selectedType ?? this.selectedType,
       idpel: idpel ?? this.idpel,
+      paymentAccess: paymentAccess ?? this.paymentAccess,
     );
   }
 }
