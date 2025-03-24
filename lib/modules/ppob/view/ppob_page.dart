@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile_lingkunganku/misc/injections.dart';
 import 'package:mobile_lingkunganku/modules/app/bloc/app_bloc.dart';
-import 'package:mobile_lingkunganku/modules/ppob/view/ppob_waiting_payment_page.dart';
+import 'package:mobile_lingkunganku/router/builder.dart';
 import '../../../misc/colors.dart';
 import '../../../misc/price_currency.dart';
 import '../../../misc/snackbar.dart';

@@ -16,6 +16,10 @@ class IuranCubit extends Cubit<IuranState> {
 
   final IuranRepository repo = getIt<IuranRepository>();
 
+  void updateSelectedInvoices(List<Data> selected) {
+    emit(state.copyWith(selectedInvoices: selected));
+  }
+
   /// **Memilih metode pembayaran dan menyimpan fee (biaya admin)**
   void selectPaymentMethod(PaymentChannelModel channel) {
     emit(state.copyWith(

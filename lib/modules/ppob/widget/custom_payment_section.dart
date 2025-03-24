@@ -20,6 +20,9 @@ void _customPaymentSection(BuildContext context, List<PulsaDataModel> selected,
           final selectedChannel = state.channel;
           final double productPrice = pulsaData.price?.toDouble() ?? 0;
           final double totalAmount = productPrice + state.adminFee;
+          final String paymentCode = state.channel?.nameCode ?? "";
+          final String nameProduct = selected.first.name.toString();
+          final String logoChannel = state.channel?.logo ?? "";
 
           String getProductTitle(String? type) {
             switch (type) {
@@ -90,8 +93,7 @@ void _customPaymentSection(BuildContext context, List<PulsaDataModel> selected,
                   ),
                 ),
                 SizedBox(height: 5),
-                _buildDetailRow(
-                    "Pembayaran Untuk", selected.first.name.toString()),
+                _buildDetailRow("Pembayaran Untuk", nameProduct),
                 _buildDetailRow(
                   getProductTitle(productType),
                   "${Price.currency(productPrice)}",
@@ -134,16 +136,24 @@ void _customPaymentSection(BuildContext context, List<PulsaDataModel> selected,
                             : () async {
                                 final cubit = context.read<PpobCubit>();
                                 try {
-                                  await cubit.checkoutItem(
+                                  final response = await cubit.checkoutItem(
                                       userId.toString(), type, phoneNumber);
 
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          PpobWaitingPaymentPage(),
-                                    ),
-                                  );
+                                  if (response != null) {
+                                    PpobPaymentRoute(
+                                      paymentExpire:
+                                          DateTime.now().add(Duration(days: 1)),
+                                      paymentAccess:
+                                          response['payment_access'] ?? "-",
+                                      totalPayment: totalAmount,
+                                      paymentCode: paymentCode,
+                                      nameProduct: nameProduct,
+                                      logoChannel: logoChannel,
+                                    ).go(context);
+                                  } else {
+                                    throw Exception(
+                                        "Gagal mendapatkan kode pembayaran.");
+                                  }
                                 } catch (e) {
                                   ShowSnackbar.snackbar(context, e.toString(),
                                       '', AppColors.redColor);

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mobile_lingkunganku/modules/ppob/view/ppob_waiting_payment_page.dart';
 import '../modules/ppob/view/ppob_page.dart';
 import '../modules/iuran_info/view/iuran_info_page.dart';
 import '../modules/iuran/view/iuran_page.dart';
@@ -58,6 +59,7 @@ class OnboardingRoute extends GoRouteData {
   ]),
   TypedGoRoute<SettingsRoute>(path: 'settings'),
   TypedGoRoute<WaitingPaymentRoute>(path: 'waiting-payment'),
+  TypedGoRoute<PpobPaymentRoute>(path: 'ppob-payment'),
   TypedGoRoute<IuranRoute>(path: 'iuran', routes: [
     TypedGoRoute<IuranHistoryRoute>(path: 'iuran-history'),
   ]),
@@ -182,6 +184,36 @@ class WaitingPaymentRoute extends GoRouteData {
   Widget build(BuildContext context, GoRouterState state) {
     return WaitingPaymentPage(
       id: id,
+    );
+  }
+}
+
+class PpobPaymentRoute extends GoRouteData {
+  final String paymentAccess;
+  final double totalPayment;
+  final String paymentCode;
+  final String nameProduct;
+  final String logoChannel;
+  final DateTime paymentExpire;
+
+  PpobPaymentRoute({
+    required this.paymentAccess,
+    required this.totalPayment,
+    required this.paymentCode,
+    required this.nameProduct,
+    required this.logoChannel,
+    required this.paymentExpire,
+  });
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return PpobWaitingPaymentPage(
+      paymentAccess: paymentAccess,
+      totalPayment: totalPayment,
+      paymentCode: paymentCode,
+      nameProduct: nameProduct,
+      logoChannel: logoChannel,
+      paymentExpire: paymentExpire,
     );
   }
 }

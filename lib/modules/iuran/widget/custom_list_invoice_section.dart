@@ -89,7 +89,7 @@ class CustomListInvoiceSection extends StatelessWidget {
                 subtitle: Text(
                   iuranItem.translateStatus,
                   style: TextStyle(
-                    color: iuranItem.translateStatus == "Sudah Bayar"
+                    color: iuranItem.translateStatus == "Lunas"
                         ? Colors.green
                         : iuranItem.translateStatus == "Belum Bayar"
                             ? Colors.red

@@ -2,7 +2,7 @@ part of '../view/iuran_page.dart';
 
 void _customPaymentSection(BuildContext context, List<Data> selected) {
   final iuranCubit = context.read<IuranCubit>();
-  iuranCubit.emit(iuranCubit.state.copyWith(selectedInvoices: selected));
+  iuranCubit.updateSelectedInvoices(selected);
 
   showModalBottomSheet(
     context: context,
@@ -129,6 +129,29 @@ void _customPaymentSection(BuildContext context, List<Data> selected) {
                             ? null
                             : () async {
                                 final cubit = context.read<IuranCubit>();
+
+                                final bool isWallet =
+                                    state.channel?.name == "Saldo";
+                                final double balance =
+                                    state.channel?.user?.balance?.toDouble() ??
+                                        0.0;
+                                final double totalAmount = selected.fold(
+                                        0,
+                                        (sum, item) =>
+                                            sum + (item.totalAmount ?? 0)) +
+                                    state.adminFee;
+
+                                if (isWallet && balance < totalAmount) {
+                                  Navigator.pop(context); // Tutup modal
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text("Saldo tidak mencukupi!"),
+                                      backgroundColor: AppColors.redColor,
+                                    ),
+                                  );
+                                  return;
+                                }
+
                                 try {
                                   var paymentNumber =
                                       await cubit.checkoutItem();
@@ -137,8 +160,14 @@ void _customPaymentSection(BuildContext context, List<Data> selected) {
                                         .go(context);
                                   }
                                 } catch (e) {
-                                  ShowSnackbar.snackbar(context, e.toString(),
-                                      '', AppColors.redColor);
+                                  Navigator.pop(
+                                      context); // Tutup modal sebelum menampilkan error
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(e.toString()),
+                                      backgroundColor: AppColors.redColor,
+                                    ),
+                                  );
                                 }
                               },
                         child: state.isLoading

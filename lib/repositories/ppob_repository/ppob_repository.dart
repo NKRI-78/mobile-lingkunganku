@@ -111,6 +111,7 @@ class PpobRepository {
       final uri = Uri.parse("$payment/inquiry");
       var headers = {'Content-Type': 'application/json'};
 
+      // ✅ Hanya mengirimkan data yang dibutuhkan
       final body = jsonEncode({
         "app": "lingkunganku",
         "idpel": idPel,
@@ -121,8 +122,7 @@ class PpobRepository {
         "type": type,
       });
 
-      debugPrint("Sending Checkout Request to: $uri");
-      debugPrint("Request Body: $body");
+      debugPrint("Checkout Request: $body");
 
       final response = await httpBase
           .post(uri, headers: headers, body: body)
@@ -134,20 +134,16 @@ class PpobRepository {
       if (response.statusCode == 200) {
         final Map<String, dynamic> decoded = json.decode(response.body);
 
-        if (decoded['error'] == false) {
-          return decoded['data'] ?? {}; // ✅ Kembalikan seluruh data
+        if (decoded['error'] == false && decoded.containsKey("data")) {
+          return decoded["data"]; // ✅ Hanya mengembalikan bagian 'data'
         } else {
           throw Exception(decoded['message'] ?? "Checkout gagal");
         }
       } else {
         throw Exception("Gagal checkout. Status code: ${response.statusCode}");
       }
-    } on TimeoutException {
-      throw Exception("Request timeout, server tidak merespons");
-    } on SocketException {
-      throw Exception("Koneksi bermasalah, periksa jaringan Anda");
     } catch (e) {
-      throw Exception("Checkout gagal: $e");
+      rethrow;
     }
   }
 }

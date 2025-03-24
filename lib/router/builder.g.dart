@@ -60,6 +60,10 @@ RouteBase get $homeRoute => GoRouteData.$route(
           factory: $WaitingPaymentRouteExtension._fromState,
         ),
         GoRouteData.$route(
+          path: 'ppob-payment',
+          factory: $PpobPaymentRouteExtension._fromState,
+        ),
+        GoRouteData.$route(
           path: 'iuran',
           factory: $IuranRouteExtension._fromState,
           routes: [
@@ -325,6 +329,39 @@ extension $WaitingPaymentRouteExtension on WaitingPaymentRoute {
         '/home/waiting-payment',
         queryParams: {
           'id': id,
+        },
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $PpobPaymentRouteExtension on PpobPaymentRoute {
+  static PpobPaymentRoute _fromState(GoRouterState state) => PpobPaymentRoute(
+        paymentAccess: state.uri.queryParameters['payment-access']!,
+        totalPayment: double.parse(state.uri.queryParameters['total-payment']!),
+        paymentCode: state.uri.queryParameters['payment-code']!,
+        nameProduct: state.uri.queryParameters['name-product']!,
+        logoChannel: state.uri.queryParameters['logo-channel']!,
+        paymentExpire:
+            DateTime.parse(state.uri.queryParameters['payment-expire']!),
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/ppob-payment',
+        queryParams: {
+          'payment-access': paymentAccess,
+          'total-payment': totalPayment.toString(),
+          'payment-code': paymentCode,
+          'name-product': nameProduct,
+          'logo-channel': logoChannel,
+          'payment-expire': paymentExpire.toString(),
         },
       );
 

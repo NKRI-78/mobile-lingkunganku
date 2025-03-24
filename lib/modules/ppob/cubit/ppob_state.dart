@@ -12,7 +12,7 @@ class PpobState extends Equatable {
   final PulsaDataModel? selectedPulsaData;
   final String? selectedType;
   final String? idpel;
-  final String? paymentAccess;
+  final String? paymentCode;
 
   const PpobState({
     this.pulsaData = const [],
@@ -26,7 +26,7 @@ class PpobState extends Equatable {
     this.selectedPulsaData,
     this.selectedType,
     this.idpel,
-    this.paymentAccess,
+    this.paymentCode,
   });
 
   @override
@@ -42,7 +42,7 @@ class PpobState extends Equatable {
         selectedPulsaData,
         selectedType,
         idpel,
-        paymentAccess,
+        paymentCode,
       ];
 
   PpobState copyWith({
@@ -57,7 +57,7 @@ class PpobState extends Equatable {
     PulsaDataModel? selectedPulsaData,
     String? selectedType,
     String? idpel,
-    String? paymentAccess,
+    String? paymentCode,
   }) {
     return PpobState(
       pulsaData: pulsaData ?? this.pulsaData,
@@ -71,7 +71,7 @@ class PpobState extends Equatable {
       selectedPulsaData: selectedPulsaData ?? this.selectedPulsaData,
       selectedType: selectedType ?? this.selectedType,
       idpel: idpel ?? this.idpel,
-      paymentAccess: paymentAccess ?? this.paymentAccess,
+      paymentCode: paymentCode ?? this.paymentCode,
     );
   }
 }

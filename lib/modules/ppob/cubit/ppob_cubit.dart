@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,14 +23,11 @@ class PpobCubit extends Cubit<PpobState> {
 
   Future<void> fetchPulsaData(
       {required String prefix, required String type}) async {
-    print("📡 Calling API with prefix: $prefix, type: $type");
-
     emit(state.copyWith(isLoading: true, errorMessage: null, isSuccess: null));
     _currentType = type;
 
     try {
       final data = await repo.fetchPulsaData(prefix: prefix, type: type);
-      print("✅ Data fetched successfully: ${data.length} items");
 
       emit(state.copyWith(
         pulsaData: data,
@@ -88,7 +83,8 @@ class PpobCubit extends Cubit<PpobState> {
     }
   }
 
-  Future<void> checkoutItem(String userId, String type, String idPel) async {
+  Future<Map<String, dynamic>?> checkoutItem(
+      String userId, String type, String idPel) async {
     try {
       emit(state.copyWith(isLoading: true, errorMessage: null));
 
@@ -100,13 +96,7 @@ class PpobCubit extends Cubit<PpobState> {
       }
 
       final PulsaDataModel selectedProduct = state.selectedPulsaData!;
-      final bool isValidProduct = state.pulsaData
-          .any((product) => product.code == selectedProduct.code);
-      if (!isValidProduct) {
-        throw Exception("Produk yang dipilih tidak tersedia.");
-      }
 
-      // 🔹 Ambil response lengkap dari repository
       final Map<String, dynamic> paymentData = await repo.checkoutItem(
         idPel: idPel,
         userId: userId,
@@ -116,20 +106,24 @@ class PpobCubit extends Cubit<PpobState> {
         type: type,
       );
 
+      debugPrint("Checkout Success: $paymentData");
+
       emit(state.copyWith(
         isLoading: false,
         isSuccess: true,
-        paymentAccess: paymentData["payment_access"],
-        // orderId: paymentData["order_id"],
-        // paymentType: paymentData["payment_type"],
-        // rawResponse: paymentData, // 🔹 Simpan raw response
       ));
+
+      return paymentData;
     } catch (e) {
+      debugPrint("Checkout Error: $e");
+
       emit(state.copyWith(
         isLoading: false,
         isSuccess: false,
         errorMessage: e.toString(),
       ));
+
+      return null;
     }
   }
 

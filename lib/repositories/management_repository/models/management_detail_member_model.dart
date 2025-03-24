@@ -12,12 +12,10 @@ class ManagementDetailMemberModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['message'] = message;
-    if (this.data != null) {
-      data['data'] = this.data!.toJson();
-    }
-    return data;
+    return {
+      'message': message,
+      'data': data?.toJson(),
+    };
   }
 }
 
@@ -31,7 +29,7 @@ class MemberData {
   Treasurer? treasurer;
   Secretary? secretary;
   Profile? profile;
-  Treasurer? family;
+  Family? family;
   List<Families>? families;
   String? roleApp;
 
@@ -50,19 +48,20 @@ class MemberData {
     }
   }
 
-  MemberData(
-      {this.id,
-      this.email,
-      this.phone,
-      this.createdAt,
-      this.familyId,
-      this.updatedAt,
-      this.treasurer,
-      this.secretary,
-      this.profile,
-      this.family,
-      this.families,
-      this.roleApp});
+  MemberData({
+    this.id,
+    this.email,
+    this.phone,
+    this.createdAt,
+    this.familyId,
+    this.updatedAt,
+    this.treasurer,
+    this.secretary,
+    this.profile,
+    this.family,
+    this.families,
+    this.roleApp,
+  });
 
   MemberData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -79,40 +78,28 @@ class MemberData {
         : null;
     profile =
         json['profile'] != null ? Profile.fromJson(json['profile']) : null;
-
-    family = json['family'] != null ? Treasurer.fromJson(json['family']) : null;
-    if (json['families'] != null) {
-      families = <Families>[];
-      json['families'].forEach((v) {
-        families!.add(Families.fromJson(v));
-      });
-    }
+    family = json['family'] != null ? Family.fromJson(json['family']) : null;
+    families = json['families'] != null
+        ? List<Families>.from(json['families'].map((v) => Families.fromJson(v)))
+        : [];
     roleApp = json['roleApp'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['email'] = email;
-    data['phone'] = phone;
-    data['created_at'] = createdAt;
-    data['family_id'] = familyId;
-    data['updated_at'] = updatedAt;
-    if (treasurer != null) {
-      data['treasurer'] = treasurer!.toJson();
-    }
-    data['secretary'] = secretary;
-    if (profile != null) {
-      data['profile'] = profile!.toJson();
-    }
-    if (family != null) {
-      data['family'] = family!.toJson();
-    }
-    if (families != null) {
-      data['families'] = families!.map((v) => v.toJson()).toList();
-    }
-    data['roleApp'] = roleApp;
-    return data;
+    return {
+      'id': id,
+      'email': email,
+      'phone': phone,
+      'created_at': createdAt,
+      'family_id': familyId,
+      'updated_at': updatedAt,
+      'treasurer': treasurer?.toJson(),
+      'secretary': secretary?.toJson(),
+      'profile': profile?.toJson(),
+      'family': family?.toJson(),
+      'families': families?.map((v) => v.toJson()).toList(),
+      'roleApp': roleApp,
+    };
   }
 }
 
@@ -126,9 +113,7 @@ class Treasurer {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    return data;
+    return {'id': id};
   }
 }
 
@@ -142,9 +127,7 @@ class Secretary {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    return data;
+    return {'id': id};
   }
 }
 
@@ -182,10 +165,7 @@ class Family {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['referral'] = referral;
-    return data;
+    return {'id': id, 'referral': referral};
   }
 }
 
@@ -196,19 +176,19 @@ class Families {
   Chief? chief;
   Treasurer? treasurer;
   Secretary? secretary;
-  //
   ProfileFamily? profile;
-  Treasurer? family;
+  Family? family;
 
-  Families(
-      {this.email,
-      this.phone,
-      this.id,
-      this.chief,
-      this.treasurer,
-      this.secretary,
-      this.profile,
-      this.family});
+  Families({
+    this.email,
+    this.phone,
+    this.id,
+    this.chief,
+    this.treasurer,
+    this.secretary,
+    this.profile,
+    this.family,
+  });
 
   Families.fromJson(Map<String, dynamic> json) {
     email = json['email'];
@@ -224,26 +204,23 @@ class Families {
     profile = json['profile'] != null
         ? ProfileFamily.fromJson(json['profile'])
         : null;
-    family = json['family'] != null ? Treasurer.fromJson(json['family']) : null;
+    family = json['family'] != null ? Family.fromJson(json['family']) : null;
+
+    // Debugging
+    print("Parsing Families: ID = $id, Name = ${profile?.fullname}");
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['email'] = email;
-    data['phone'] = phone;
-    data['id'] = id;
-    if (chief != null) {
-      data['chief'] = chief!.toJson();
-    }
-    data['treasurer'] = treasurer;
-    data['secretary'] = secretary;
-    if (profile != null) {
-      data['profile'] = profile!.toJson();
-    }
-    if (family != null) {
-      data['family'] = family!.toJson();
-    }
-    return data;
+    return {
+      'email': email,
+      'phone': phone,
+      'id': id,
+      'chief': chief?.toJson(),
+      'treasurer': treasurer?.toJson(),
+      'secretary': secretary?.toJson(),
+      'profile': profile?.toJson(),
+      'family': family?.toJson(),
+    };
   }
 }
 
@@ -252,38 +229,43 @@ class ProfileFamily {
   String? fullname;
   String? avatarLink;
   String? detailAddress;
+  String? gender;
   int? userId;
   String? createdAt;
   String? updatedAt;
 
-  ProfileFamily(
-      {this.id,
-      this.fullname,
-      this.avatarLink,
-      this.detailAddress,
-      this.userId,
-      this.createdAt,
-      this.updatedAt});
+  ProfileFamily({
+    this.id,
+    this.fullname,
+    this.avatarLink,
+    this.detailAddress,
+    this.gender,
+    this.userId,
+    this.createdAt,
+    this.updatedAt,
+  });
 
   ProfileFamily.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     fullname = json['fullname'];
     avatarLink = json['avatar_link'];
     detailAddress = json['detail_address'];
+    gender = json['gender'];
     userId = json['user_id'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['fullname'] = fullname;
-    data['avatar_link'] = avatarLink;
-    data['detail_address'] = detailAddress;
-    data['user_id'] = userId;
-    data['created_at'] = createdAt;
-    data['updated_at'] = updatedAt;
-    return data;
+    return {
+      'id': id,
+      'fullname': fullname,
+      'avatar_link': avatarLink,
+      'detail_address': detailAddress,
+      'gender': gender,
+      'user_id': userId,
+      'created_at': createdAt,
+      'updated_at': updatedAt,
+    };
   }
 }
