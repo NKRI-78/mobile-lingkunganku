@@ -190,7 +190,9 @@ class _NotificationListState extends State<NotificationList> {
                               physics: const NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
                               children: notifications
-                                  .map((e) => ListNotifCard(notif: e))
+                                  .map((e) => ListNotifCard(
+                                        notif: e,
+                                      ))
                                   .toList(),
                             )
                           ]),

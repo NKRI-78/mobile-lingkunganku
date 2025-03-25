@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:mobile_lingkunganku/repositories/profile_repository/profile_repository.dart';
 import '../../../repositories/notification_repository/notification_repository.dart';
 
 import '../../../misc/http_client.dart';
@@ -27,10 +28,12 @@ class AppBloc extends HydratedBloc<AppEvent, AppState> {
     on<SetUserData>(_onSetUserData);
     on<AppEvent>((event, emit) {});
     on<GetBadgeNotif>(_onGetBadgeNotif);
+    on<GetProfileData>(_onGetProfile);
   }
 
   HomeRepository repoHome = HomeRepository();
   NotificationRepository repoNotif = NotificationRepository();
+  ProfileRepository repoProfile = ProfileRepository();
 
   @override
   AppState? fromJson(Map<String, dynamic> json) {
@@ -80,8 +83,20 @@ class AppBloc extends HydratedBloc<AppEvent, AppState> {
     }
   }
 
+  FutureOr<void> _onGetProfile(
+      GetProfileData event, Emitter<AppState> emit) async {
+    try {
+      final profile = await repoProfile.getProfile();
+      emit(state.copyWith(profile: profile));
+      print("Profile Ke ambil ya babi");
+    } catch (e) {
+      print("Error : $e");
+    }
+  }
+
   FutureOr<void> _onInitialAppData(
       InitialAppData event, Emitter<AppState> emit) {
     add(GetBadgeNotif());
+    add(GetProfileData());
   }
 }

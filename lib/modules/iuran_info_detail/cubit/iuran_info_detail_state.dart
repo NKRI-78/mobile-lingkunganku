@@ -1,32 +1,28 @@
-part of 'iuran_info_cubit.dart';
+part of 'iuran_info_detail_cubit.dart';
 
-class IuranInfoState extends Equatable {
+class IuranInfoDetailState extends Equatable {
   final String? errorMessage;
   final bool isLoading;
   final ContributeModel? contribute;
-  final ManagementMemberModel? memberData;
 
-  const IuranInfoState({
+  const IuranInfoDetailState({
     this.errorMessage,
     this.isLoading = false,
     this.contribute,
-    this.memberData,
   });
 
-  IuranInfoState copyWith({
+  IuranInfoDetailState copyWith({
     bool? isLoading,
     String? errorMessage,
     ContributeModel? contribute,
-    ManagementMemberModel? memberData,
   }) {
-    return IuranInfoState(
+    return IuranInfoDetailState(
       isLoading: isLoading ?? this.isLoading,
       errorMessage: errorMessage ?? this.errorMessage,
       contribute: contribute ?? this.contribute,
-      memberData: memberData ?? this.memberData,
     );
   }
 
   @override
-  List<Object?> get props => [isLoading, errorMessage, contribute, memberData];
+  List<Object?> get props => [isLoading, errorMessage, contribute];
 }

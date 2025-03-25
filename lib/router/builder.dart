@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mobile_lingkunganku/modules/iuran_info_detail/view/iuran_info_detail_page.dart';
 import 'package:mobile_lingkunganku/modules/ppob/view/ppob_waiting_payment_page.dart';
 import '../modules/ppob/view/ppob_page.dart';
 import '../modules/iuran_info/view/iuran_info_page.dart';
@@ -78,7 +79,9 @@ class OnboardingRoute extends GoRouteData {
     TypedGoRoute<WalletRoute>(path: 'wallet'),
     TypedGoRoute<ProfileUpdateRoute>(path: 'profile-update'),
     TypedGoRoute<TransferManagementRoute>(path: 'transfer-management'),
-    TypedGoRoute<IuranInfoRoute>(path: 'iuran-info'),
+    TypedGoRoute<IuranInfoRoute>(path: 'iuran-info', routes: [
+      TypedGoRoute<IuranInfoDetailRoute>(path: 'iuran-detail'),
+    ]),
   ]),
   TypedGoRoute<ManagementRoute>(path: 'management', routes: [
     TypedGoRoute<ManagementDetailRoute>(path: 'management-detail'),
@@ -318,6 +321,16 @@ class IuranInfoRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return IuranInfoPage();
+  }
+}
+
+class IuranInfoDetailRoute extends GoRouteData {
+  final String userId;
+
+  IuranInfoDetailRoute({required this.userId});
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return IuranInfoDetailPage(userId: userId);
   }
 }
 

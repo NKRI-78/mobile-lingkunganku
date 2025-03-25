@@ -131,8 +131,6 @@ class IuranRepository {
     try {
       var res = await http.get(Uri.parse(paymentChannel));
 
-      print(res.body);
-
       final json = jsonDecode(res.body);
       if (res.statusCode == 200) {
         var list = (json['data'] as List)
@@ -188,24 +186,19 @@ class IuranRepository {
       request.body = json.encode(requestBody);
       request.headers.addAll(headers);
 
-      print("Request Body: ${request.body}");
-
       httpBase.StreamedResponse response = await request.send();
       var responseString = await response.stream.bytesToString();
       final decodedMap = json.decode(responseString);
 
-      print("Response Status: ${response.statusCode}");
-      print("Response Body: $decodedMap");
-
       if (response.statusCode == 200) {
         var paymentNumber = decodedMap['data']['id'];
-        print("Payment Number: $paymentNumber");
+
         return paymentNumber.toString();
       } else {
         throw decodedMap['message'] ?? "Terjadi kesalahan";
       }
     } catch (e) {
-      print("Error: $e");
+      debugPrint("Error: $e");
       rethrow;
     }
   }

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../cubit/iuran_info_cubit.dart';
-import '../widget/list_iuran_info_section.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-import '../../../misc/colors.dart';
-import '../../../misc/text_style.dart';
 import '../../../widgets/pages/empty_page.dart';
 import '../../../widgets/pages/loading_page.dart';
+import '../cubit/iuran_info_cubit.dart';
+import '../widget/list_iuran_info_section.dart';
+
+import '../../../misc/colors.dart';
+import '../../../misc/text_style.dart';
 
 class IuranInfoPage extends StatelessWidget {
   const IuranInfoPage({super.key});
@@ -14,8 +15,8 @@ class IuranInfoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => IuranInfoCubit()..fetchContribute(),
-      child: IuranInfoView(),
+      create: (context) => IuranInfoCubit()..fetchManagementMembers(),
+      child: const IuranInfoView(),
     );
   }
 }
@@ -32,7 +33,7 @@ class _IuranInfoViewState extends State<IuranInfoView> {
       RefreshController(initialRefresh: false);
 
   void _onRefresh() async {
-    await context.read<IuranInfoCubit>().fetchContribute();
+    await context.read<IuranInfoCubit>().fetchManagementMembers();
     _refreshController.refreshCompleted();
   }
 
@@ -47,7 +48,7 @@ class _IuranInfoViewState extends State<IuranInfoView> {
             surfaceTintColor: Colors.transparent,
             elevation: 2,
             shadowColor: Colors.black.withOpacity(0.3),
-            title: Text('Information Iuran', style: AppTextStyles.textStyle1),
+            title: Text('Informasi Iuran', style: AppTextStyles.textStyle1),
             centerTitle: true,
             toolbarHeight: 100,
             leading: IconButton(
@@ -84,24 +85,48 @@ class _IuranInfoViewState extends State<IuranInfoView> {
               releaseIcon:
                   const Icon(Icons.refresh, color: AppColors.secondaryColor),
             ),
-            child: state.isLoading
-                ? const LoadingPage()
-                : state.contribute == null ||
-                        state.contribute!.contributions.isEmpty
-                    ? const EmptyPage(msg: "Tidak ada Riwayat Iuran..")
-                    : ListView.builder(
-                        padding: const EdgeInsets.all(16),
-                        itemCount: state.contribute?.contributions.length,
-                        itemBuilder: (context, index) {
-                          final contribute =
-                              state.contribute?.contributions[index];
-                          if (contribute != null) {
-                            return ListIuranInfoSection(contribute: contribute);
-                          } else {
-                            return const SizedBox.shrink();
-                          }
-                        },
+            child: BlocBuilder<IuranInfoCubit, IuranInfoState>(
+              buildWhen: (previous, current) =>
+                  previous.memberData != current.memberData ||
+                  previous.isLoading != current.isLoading,
+              builder: (context, state) {
+                final members = state.memberData?.data?.members ?? [];
+
+                if (state.isLoading) {
+                  return const LoadingPage();
+                }
+
+                if (members.isEmpty) {
+                  return const EmptyPage(
+                    msg: "Data Member Belum Tersedia..",
+                  );
+                }
+
+                return CustomScrollView(
+                  shrinkWrap: true,
+                  physics: const ScrollPhysics(),
+                  slivers: [
+                    SliverPadding(
+                      padding: const EdgeInsets.all(20),
+                      sliver: SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                          (context, index) {
+                            final member = members[index];
+                            return ListIuranInfoSection(
+                              userId: member.id.toString(),
+                              name:
+                                  member.profile?.fullname ?? "Tidak ada nama",
+                              avatarUrl: member.profile?.avatarLink,
+                            );
+                          },
+                          childCount: members.length,
+                        ),
                       ),
+                    ),
+                  ],
+                );
+              },
+            ),
           ),
         );
       },

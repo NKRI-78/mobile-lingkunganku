@@ -2,11 +2,11 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/widgets.dart';
-import 'models/contribute_model.dart';
 
 import '../../misc/api_url.dart';
 import '../../misc/http_client.dart';
 import '../../misc/injections.dart';
+import 'models/contribute_model.dart';
 import 'models/profile_model.dart';
 
 class ProfileRepository {
@@ -30,10 +30,10 @@ class ProfileRepository {
     }
   }
 
-  Future<ContributeModel?> getContribute() async {
+  Future<ContributeModel?> getContribute(String userId) async {
     try {
       final res =
-          await http.get(Uri.parse("$profile/getContributionsNegiborhood"));
+          await http.get(Uri.parse("$profile/getContributionsPerUser/$userId"));
 
       debugPrint("Response status: ${res.statusCode}");
       debugPrint("Response body: ${res.body}");

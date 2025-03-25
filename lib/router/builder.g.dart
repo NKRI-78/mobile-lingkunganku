@@ -130,6 +130,12 @@ RouteBase get $homeRoute => GoRouteData.$route(
             GoRouteData.$route(
               path: 'iuran-info',
               factory: $IuranInfoRouteExtension._fromState,
+              routes: [
+                GoRouteData.$route(
+                  path: 'iuran-detail',
+                  factory: $IuranInfoDetailRouteExtension._fromState,
+                ),
+              ],
             ),
           ],
         ),
@@ -637,6 +643,29 @@ extension $IuranInfoRouteExtension on IuranInfoRoute {
 
   String get location => GoRouteData.$location(
         '/home/profile/iuran-info',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $IuranInfoDetailRouteExtension on IuranInfoDetailRoute {
+  static IuranInfoDetailRoute _fromState(GoRouterState state) =>
+      IuranInfoDetailRoute(
+        userId: state.uri.queryParameters['user-id']!,
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/profile/iuran-info/iuran-detail',
+        queryParams: {
+          'user-id': userId,
+        },
       );
 
   void go(BuildContext context) => context.go(location);

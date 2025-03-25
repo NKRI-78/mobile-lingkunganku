@@ -7,6 +7,7 @@ import '../../../misc/pagination.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../repositories/notification_repository/models/notification_model.dart';
+import '../../../repositories/notification_repository/models/notificationv2_model.dart';
 import '../../../repositories/notification_repository/notification_repository.dart';
 import '../../app/bloc/app_bloc.dart';
 
@@ -24,7 +25,6 @@ class NotificationCubit extends Cubit<NotificationState> {
     try {
       emit(state.copyWith(loading: true));
       final detail = await repo.getDetailNotif(idNotif);
-      print("Notification detail response: $detail");
       emit(state.copyWith(detail: detail, idNotif: idNotif));
     } catch (e) {
       rethrow;
@@ -36,6 +36,7 @@ class NotificationCubit extends Cubit<NotificationState> {
   Future<void> fetchNotification() async {
     try {
       emit(state.copyWith(loading: true));
+      fetchInboxNotifications();
       PaginationModel<NotificationModel> data = await repo.getNotification();
 
       emit(state.copyWith(
@@ -45,7 +46,25 @@ class NotificationCubit extends Cubit<NotificationState> {
         loading: false,
       ));
     } catch (e) {
-      print("Error fetchNotification: $e");
+      debugPrint("Error fetchNotification: $e");
+      emit(state.copyWith(loading: false));
+    }
+  }
+
+  Future<void> fetchInboxNotifications() async {
+    try {
+      int userId = getIt<AppBloc>().state.profile?.id ?? 0;
+
+      emit(state.copyWith(loading: true));
+      List<NotificationV2Model> data =
+          await repo.getInboxNotifications(userId.toString());
+
+      emit(state.copyWith(
+        inboxNotif: data,
+        loading: false,
+      ));
+    } catch (e) {
+      debugPrint("Error fetchInboxNotifications: $e");
       emit(state.copyWith(loading: false));
     }
   }
@@ -82,8 +101,6 @@ class NotificationCubit extends Cubit<NotificationState> {
         nextPageNotif: data.pagination.currentPage + 1,
         pagination: data.pagination,
       ));
-
-      print("State Paging : ${data.pagination.currentPage}");
 
       refreshCtrl.loadComplete();
     } catch (e) {

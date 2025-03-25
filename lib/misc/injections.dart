@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import '../modules/iuran_info_detail/cubit/iuran_info_detail_cubit.dart';
 import '../modules/ppob/cubit/ppob_cubit.dart';
 import '../modules/wallet/cubit/wallet_cubit.dart';
 import '../repositories/ppob_repository/ppob_repository.dart';
@@ -67,6 +68,8 @@ class MyInjection {
     getIt.registerCachedFactory<IuranHistoryCubit>(() => IuranHistoryCubit());
     getIt.registerCachedFactory<WalletCubit>(() => WalletCubit());
     getIt.registerCachedFactory<PpobCubit>(() => PpobCubit());
+    getIt.registerCachedFactory<IuranInfoDetailCubit>(
+        () => IuranInfoDetailCubit());
 
     getIt.registerLazySingleton<AuthRepository>(() => AuthRepository());
     getIt.registerLazySingleton<ProfileRepository>(() => ProfileRepository());
