@@ -44,6 +44,16 @@ RouteBase get $homeRoute => GoRouteData.$route(
         GoRouteData.$route(
           path: 'notification',
           factory: $NotificationRouteExtension._fromState,
+          routes: [
+            GoRouteData.$route(
+              path: 'notification-sos',
+              factory: $NotificationSosRouteExtension._fromState,
+            ),
+            GoRouteData.$route(
+              path: 'notification-ppob',
+              factory: $NotificationPpobRouteExtension._fromState,
+            ),
+          ],
         ),
         GoRouteData.$route(
           path: 'settings',
@@ -54,6 +64,10 @@ RouteBase get $homeRoute => GoRouteData.$route(
           factory: $WaitingPaymentRouteExtension._fromState,
         ),
         GoRouteData.$route(
+          path: 'ppob-payment',
+          factory: $PpobPaymentRouteExtension._fromState,
+        ),
+        GoRouteData.$route(
           path: 'iuran',
           factory: $IuranRouteExtension._fromState,
           routes: [
@@ -62,6 +76,10 @@ RouteBase get $homeRoute => GoRouteData.$route(
               factory: $IuranHistoryRouteExtension._fromState,
             ),
           ],
+        ),
+        GoRouteData.$route(
+          path: 'ppob',
+          factory: $PpobRouteExtension._fromState,
         ),
         GoRouteData.$route(
           path: 'event',
@@ -102,12 +120,26 @@ RouteBase get $homeRoute => GoRouteData.$route(
           factory: $ProfileRouteExtension._fromState,
           routes: [
             GoRouteData.$route(
+              path: 'wallet',
+              factory: $WalletRouteExtension._fromState,
+            ),
+            GoRouteData.$route(
               path: 'profile-update',
               factory: $ProfileUpdateRouteExtension._fromState,
             ),
             GoRouteData.$route(
               path: 'transfer-management',
               factory: $TransferManagementRouteExtension._fromState,
+            ),
+            GoRouteData.$route(
+              path: 'iuran-info',
+              factory: $IuranInfoRouteExtension._fromState,
+              routes: [
+                GoRouteData.$route(
+                  path: 'iuran-detail',
+                  factory: $IuranInfoDetailRouteExtension._fromState,
+                ),
+              ],
             ),
           ],
         ),
@@ -257,6 +289,52 @@ extension $NotificationRouteExtension on NotificationRoute {
   void replace(BuildContext context) => context.replace(location);
 }
 
+extension $NotificationSosRouteExtension on NotificationSosRoute {
+  static NotificationSosRoute _fromState(GoRouterState state) =>
+      NotificationSosRoute(
+        idNotif: int.parse(state.uri.queryParameters['id-notif']!),
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/notification/notification-sos',
+        queryParams: {
+          'id-notif': idNotif.toString(),
+        },
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $NotificationPpobRouteExtension on NotificationPpobRoute {
+  static NotificationPpobRoute _fromState(GoRouterState state) =>
+      NotificationPpobRoute(
+        idNotif: int.parse(state.uri.queryParameters['id-notif']!),
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/notification/notification-ppob',
+        queryParams: {
+          'id-notif': idNotif.toString(),
+        },
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
 extension $SettingsRouteExtension on SettingsRoute {
   static SettingsRoute _fromState(GoRouterState state) => SettingsRoute();
 
@@ -297,6 +375,39 @@ extension $WaitingPaymentRouteExtension on WaitingPaymentRoute {
   void replace(BuildContext context) => context.replace(location);
 }
 
+extension $PpobPaymentRouteExtension on PpobPaymentRoute {
+  static PpobPaymentRoute _fromState(GoRouterState state) => PpobPaymentRoute(
+        paymentAccess: state.uri.queryParameters['payment-access']!,
+        totalPayment: double.parse(state.uri.queryParameters['total-payment']!),
+        paymentCode: state.uri.queryParameters['payment-code']!,
+        nameProduct: state.uri.queryParameters['name-product']!,
+        logoChannel: state.uri.queryParameters['logo-channel']!,
+        paymentExpire:
+            DateTime.parse(state.uri.queryParameters['payment-expire']!),
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/ppob-payment',
+        queryParams: {
+          'payment-access': paymentAccess,
+          'total-payment': totalPayment.toString(),
+          'payment-code': paymentCode,
+          'name-product': nameProduct,
+          'logo-channel': logoChannel,
+          'payment-expire': paymentExpire.toString(),
+        },
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
 extension $IuranRouteExtension on IuranRoute {
   static IuranRoute _fromState(GoRouterState state) => IuranRoute();
 
@@ -320,6 +431,23 @@ extension $IuranHistoryRouteExtension on IuranHistoryRoute {
 
   String get location => GoRouteData.$location(
         '/home/iuran/iuran-history',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $PpobRouteExtension on PpobRoute {
+  static PpobRoute _fromState(GoRouterState state) => PpobRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/ppob',
       );
 
   void go(BuildContext context) => context.go(location);
@@ -484,6 +612,23 @@ extension $ProfileRouteExtension on ProfileRoute {
   void replace(BuildContext context) => context.replace(location);
 }
 
+extension $WalletRouteExtension on WalletRoute {
+  static WalletRoute _fromState(GoRouterState state) => WalletRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/profile/wallet',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
 extension $ProfileUpdateRouteExtension on ProfileUpdateRoute {
   static ProfileUpdateRoute _fromState(GoRouterState state) =>
       ProfileUpdateRoute();
@@ -508,6 +653,46 @@ extension $TransferManagementRouteExtension on TransferManagementRoute {
 
   String get location => GoRouteData.$location(
         '/home/profile/transfer-management',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $IuranInfoRouteExtension on IuranInfoRoute {
+  static IuranInfoRoute _fromState(GoRouterState state) => IuranInfoRoute();
+
+  String get location => GoRouteData.$location(
+        '/home/profile/iuran-info',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $IuranInfoDetailRouteExtension on IuranInfoDetailRoute {
+  static IuranInfoDetailRoute _fromState(GoRouterState state) =>
+      IuranInfoDetailRoute(
+        userId: state.uri.queryParameters['user-id']!,
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/profile/iuran-info/iuran-detail',
+        queryParams: {
+          'user-id': userId,
+        },
       );
 
   void go(BuildContext context) => context.go(location);

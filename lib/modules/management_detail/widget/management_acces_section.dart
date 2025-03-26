@@ -65,6 +65,7 @@ class ManagementAccesSection extends StatelessWidget {
             ),
             overflow: TextOverflow.ellipsis,
             maxLines: 2,
+            textAlign: TextAlign.center,
           ),
         )
       ],

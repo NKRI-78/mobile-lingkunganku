@@ -9,7 +9,11 @@ sealed class AppEvent extends Equatable {
 
 final class FinishOnboarding extends AppEvent {}
 
+final class InitialAppData extends AppEvent {}
+
 final class SetUserLogout extends AppEvent {}
+
+final class GetProfileData extends AppEvent {}
 
 final class SetUserData extends AppEvent {
   final User user;
@@ -19,3 +23,9 @@ final class SetUserData extends AppEvent {
 }
 
 final class GetBadgeNotif extends AppEvent {}
+
+final class UpdateUnreadCount extends AppEvent {
+  final int unreadCount;
+
+  const UpdateUnreadCount(this.unreadCount);
+}

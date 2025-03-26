@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_lingkunganku/modules/iuran/cubit/iuran_cubit.dart';
+import '../cubit/iuran_cubit.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/price_currency.dart';
@@ -18,7 +18,7 @@ class SelectPaymentChannel extends StatelessWidget {
         return WillPopScope(
           onWillPop: () async => false,
           child: Container(
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
             decoration: const BoxDecoration(
               borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
               color: Colors.white,
@@ -47,6 +47,7 @@ class SelectPaymentChannel extends StatelessWidget {
                     const SizedBox(width: 25),
                   ],
                 ),
+                const SizedBox(height: 10),
                 const Divider(),
                 const SizedBox(height: 10),
 
@@ -57,28 +58,39 @@ class SelectPaymentChannel extends StatelessWidget {
                     itemCount: state.channels.length,
                     itemBuilder: (context, index) {
                       final e = state.channels[index];
+                      final bool isWallet = e.name == "Saldo";
+                      final double balance = e.user?.balance?.toDouble() ?? 0.0;
+                      final bool isDisabled = isWallet && balance == 0;
+
                       return Card(
                         color: AppColors.whiteColor,
                         margin: const EdgeInsets.symmetric(
-                            vertical: 5, horizontal: 5),
+                            vertical: 10, horizontal: 5),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
                         elevation: 4,
                         child: ListTile(
                           contentPadding: const EdgeInsets.symmetric(
-                              vertical: 10, horizontal: 10),
+                              vertical: 5, horizontal: 10),
                           title: Text(
-                            e.name == "Saldo"
-                                ? "Lingkunganku Wallet"
-                                : e.name ?? "",
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16),
+                            isWallet ? "Lingkunganku Wallet" : e.name ?? "",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              color: isWallet && balance == 0
+                                  ? Colors.grey
+                                  : Colors.black,
+                            ),
                           ),
-                          onTap: () {
-                            context.read<IuranCubit>().setPaymentChannel(e);
-                            Navigator.pop(context);
-                          },
+                          onTap: isDisabled
+                              ? null
+                              : () {
+                                  context
+                                      .read<IuranCubit>()
+                                      .setPaymentChannel(e);
+                                  Navigator.pop(context);
+                                },
                           leading: ClipRRect(
                             borderRadius: BorderRadius.circular(10),
                             child: ImageCard(
@@ -90,22 +102,32 @@ class SelectPaymentChannel extends StatelessWidget {
                             ),
                           ),
                           subtitle: Text(
-                            e.paymentType == "APP"
-                                ? 'Saldo: ${Price.currency(e.user?.balance?.toDouble() ?? 0.0)}'
+                            isWallet
+                                ? 'Saldo: ${Price.currency(balance)}'
                                 : e.paymentType
                                         ?.replaceAll("_", " ")
                                         .replaceAll("GOPAY", "QRIS") ??
                                     "",
-                            style: const TextStyle(
-                                fontSize: 14, color: Colors.grey),
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: isWallet && balance == 0
+                                  ? Colors.red
+                                  : Colors.grey,
+                            ),
                           ),
-                          trailing: const Icon(Icons.arrow_forward_ios,
-                              size: 18, color: AppColors.secondaryColor),
+                          trailing: Icon(
+                            Icons.arrow_forward_ios,
+                            size: 18,
+                            color: isDisabled
+                                ? Colors.grey
+                                : AppColors.secondaryColor,
+                          ),
                         ),
                       );
                     },
                   ),
                 ),
+                const SizedBox(height: 10),
               ],
             ),
           ),

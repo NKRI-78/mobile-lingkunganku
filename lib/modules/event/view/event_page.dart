@@ -17,7 +17,7 @@ class EventPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider.value(
-      value: getIt<EventCubit>(),
+      value: getIt<EventCubit>()..fetchEvent(),
       child: const EventView(),
     );
   }

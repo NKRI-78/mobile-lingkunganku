@@ -183,14 +183,14 @@ class _NewsUpdateViewState extends State<NewsUpdateView> {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(
                   content: Text("Berita berhasil diperbarui"),
-                  backgroundColor: Colors.green),
+                  backgroundColor: AppColors.secondaryColor),
             );
             ShowMoreNewsRoute().go(context);
           } else if (state.errorMessage != null) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                   content: Text(state.errorMessage!),
-                  backgroundColor: Colors.red),
+                  backgroundColor: AppColors.redColor),
             );
           }
         },

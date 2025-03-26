@@ -1,11 +1,12 @@
 import 'dart:async';
 
-import 'package:go_router/go_router.dart';
-import '../../../misc/colors.dart';
-import 'package:shimmer/shimmer.dart';
-import 'package:webview_flutter/webview_flutter.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:shimmer/shimmer.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:webview_flutter/webview_flutter.dart';
+
+import '../../../misc/colors.dart';
 
 class WebViewScreen extends StatefulWidget {
   final String title;

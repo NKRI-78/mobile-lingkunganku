@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../misc/colors.dart';
 import '../../../../misc/price_currency.dart';
@@ -12,14 +13,6 @@ class ExpiredStatus extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<WaitingPaymentCubit, WaitingPaymentState>(
       builder: (context, state) {
-        double totalProduct = state.payment?.orders?.fold(0.0, (sum, order) {
-              return sum! + ((order.price ?? 0));
-            }) ??
-            0;
-        double totalShipping = state.payment?.orders?.fold(0.0, (sum, order) {
-              return sum! + ((order.otherPrice ?? 0));
-            }) ??
-            0;
         return Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -72,40 +65,54 @@ class ExpiredStatus extends StatelessWidget {
                       thickness: .3,
                       color: AppColors.blackColor,
                     ),
+                    state.payment?.paymentType != "TOPUP"
+                        ? Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 5),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  "Bulan Iuran",
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColors.blackColor,
+                                  ),
+                                ),
+                                const SizedBox(height: 4),
+                                Expanded(
+                                  child: Text(
+                                    state.payment?.invoices
+                                            ?.map((invoice) =>
+                                                DateFormat("MMMM yyyy", "id_ID")
+                                                    .format(DateTime.parse(
+                                                        invoice.invoiceDate
+                                                            .toString())))
+                                            .join(", ") ??
+                                        "-",
+                                    textAlign: TextAlign.end,
+                                    style: const TextStyle(
+                                      color: AppColors.blackColor,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        : const SizedBox.shrink(),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 5),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            "Harga Produk",
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.blackColor,
-                            ),
-                          ),
-                          const SizedBox(height: 4),
                           Text(
-                            Price.currency(totalProduct),
+                            state.payment?.paymentType == "TOPUP"
+                                ? "Harga Topup"
+                                : "Harga Iuran",
                             style: const TextStyle(
-                              color: AppColors.blackColor,
-                              fontSize: 14,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 5),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            "Biaya Ongkir",
-                            style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
                               color: AppColors.blackColor,
@@ -113,7 +120,8 @@ class ExpiredStatus extends StatelessWidget {
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            Price.currency(totalShipping),
+                            Price.currency(
+                                state.payment!.price?.toDouble() ?? 0.0),
                             style: const TextStyle(
                               color: AppColors.blackColor,
                               fontSize: 14,

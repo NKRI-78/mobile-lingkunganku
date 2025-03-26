@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:equatable/equatable.dart';
@@ -17,6 +16,10 @@ class RegisterWargaCubit extends Cubit<RegisterWargaState> {
   RegisterWargaCubit() : super(RegisterWargaState());
 
   AuthRepository repo = getIt<AuthRepository>();
+
+  void updateGender(String newGender) {
+    emit(state.copyWith(gender: newGender));
+  }
 
   void togglePasswordVisibility() {
     emit(state.copyWith(isPasswordObscured: !state.isPasswordObscured));
@@ -39,11 +42,16 @@ class RegisterWargaCubit extends Cubit<RegisterWargaState> {
     required String password,
     required String passwordConfirm,
     required String referral,
+    required String gender,
   }) {
     debugPrint("Password $password Confirm Password $passwordConfirm");
     if (name.isEmpty) {
       ShowSnackbar.snackbar(
           context, "Harap masukkan nama", '', AppColors.redColor);
+      return false;
+    } else if (gender.isEmpty) {
+      ShowSnackbar.snackbar(context, "Harap pilih salah satu jenis kelamin", '',
+          AppColors.redColor);
       return false;
     } else if (!email
         .contains(RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$'))) {
@@ -95,6 +103,7 @@ class RegisterWargaCubit extends Cubit<RegisterWargaState> {
         password: state.password,
         passwordConfirm: state.passwordConfirm,
         referral: state.referral,
+        gender: state.gender,
       );
 
       // Jika validasi gagal, hentikan proses
@@ -110,8 +119,6 @@ class RegisterWargaCubit extends Cubit<RegisterWargaState> {
       final remaplink =
           linkImage.map((e) => {'url': e, 'type': "image"}).toList();
 
-      // Mencoba mendaftarkan pengguna
-      print("remap : ${jsonEncode(remaplink[0]['url']['url'])}");
       await repo.registerMember(
         name: state.name,
         email: state.email,
@@ -120,6 +127,7 @@ class RegisterWargaCubit extends Cubit<RegisterWargaState> {
         password: state.password,
         referral: state.referral,
         avatarLink: remaplink[0]['url']['url'],
+        gender: state.gender,
       );
 
       // Jika berhasil, langsung pindah halaman

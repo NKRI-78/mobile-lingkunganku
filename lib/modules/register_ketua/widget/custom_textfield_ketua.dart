@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile_lingkunganku/misc/text_style.dart';
 
 import '../../../misc/colors.dart';
 import '../../../widgets/contact/contact_list_page.dart';
@@ -14,6 +16,7 @@ class CustomTextfieldKetua extends StatelessWidget {
     return Column(
       children: [
         _FieldName(),
+        _FieldGender(),
         _FieldEmail(),
         _FieldPhone(),
         _FieldPhoneSecurity(),
@@ -49,6 +52,55 @@ class _FieldName extends StatelessWidget {
   }
 }
 
+class _FieldGender extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<RegisterKetuaCubit, RegisterKetuaState>(
+      buildWhen: (previous, current) => previous.gender != current.gender,
+      builder: (context, state) {
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('Jenis Kelamin', style: AppTextStyles.textStyle2),
+              Row(
+                children: [
+                  Checkbox(
+                    value: state.gender == 'L',
+                    onChanged: (bool? value) {
+                      if (value == true && state.gender != 'L') {
+                        context.read<RegisterKetuaCubit>().updateGender('L');
+                      }
+                    },
+                    activeColor: AppColors.buttonColor1,
+                    side: BorderSide(color: AppColors.whiteColor, width: 1.5),
+                  ),
+                  Text('Laki - Laki',
+                      style: TextStyle(color: AppColors.textColor2)),
+                  SizedBox(width: 20),
+                  Checkbox(
+                    value: state.gender == 'P',
+                    onChanged: (bool? value) {
+                      if (value == true && state.gender != 'P') {
+                        context.read<RegisterKetuaCubit>().updateGender('P');
+                      }
+                    },
+                    activeColor: AppColors.buttonColor1,
+                    side: BorderSide(color: AppColors.whiteColor, width: 1.5),
+                  ),
+                  Text('Perempuan',
+                      style: TextStyle(color: AppColors.textColor2)),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+}
+
 class _FieldEmail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -61,6 +113,7 @@ class _FieldEmail extends StatelessWidget {
             var cubit = context.read<RegisterKetuaCubit>();
             cubit.copyState(newState: cubit.state.copyWith(email: value));
           },
+          inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r'\s'))],
         );
       },
     );
@@ -248,6 +301,7 @@ Widget _buildTextFormField({
   required ValueChanged<String> onChanged,
   int? maxLength,
   TextEditingController? controller,
+  List<TextInputFormatter>? inputFormatters,
 }) {
   return Padding(
     padding: const EdgeInsets.only(bottom: 12),
@@ -271,6 +325,7 @@ Widget _buildTextFormField({
               ? TextCapitalization.words
               : TextCapitalization.none,
           onChanged: onChanged,
+          inputFormatters: inputFormatters,
           decoration: InputDecoration(
             labelText: label,
             labelStyle: TextStyle(color: AppColors.buttonColor1),

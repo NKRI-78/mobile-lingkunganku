@@ -35,11 +35,12 @@ class RemoveUserSection extends StatelessWidget {
         children: [
           Expanded(
             child: Text(
-              "Hapus Member Dari Grup",
+              isChief ? "Hapus Member Tidak Dapat" : "Hapus Member Dari Grup",
               style: AppTextStyles.textProfileBold
                   .copyWith(color: AppColors.redColor),
               overflow: TextOverflow.ellipsis,
               maxLines: 2,
+              textAlign: TextAlign.center,
             ),
           ),
           const Icon(

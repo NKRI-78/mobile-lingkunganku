@@ -2,7 +2,7 @@ part of '../view/iuran_page.dart';
 
 void _customPaymentSection(BuildContext context, List<Data> selected) {
   final iuranCubit = context.read<IuranCubit>();
-  iuranCubit.emit(iuranCubit.state.copyWith(selectedInvoices: selected));
+  iuranCubit.updateSelectedInvoices(selected);
 
   showModalBottomSheet(
     context: context,
@@ -43,8 +43,8 @@ void _customPaymentSection(BuildContext context, List<Data> selected) {
                             .read<IuranCubit>()
                             .getPaymentChannel(dialogContext);
                       },
-                      splashColor: Colors.grey.withOpacity(0.3),
-                      highlightColor: Colors.grey.withOpacity(0.1),
+                      splashColor: Colors.grey.withValues(alpha: 0.3),
+                      highlightColor: Colors.grey.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(8),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
@@ -82,10 +82,10 @@ void _customPaymentSection(BuildContext context, List<Data> selected) {
                 SizedBox(height: 5),
                 _buildDetailRow("Keterangan", selected.first.note.toString()),
                 _buildDetailRow(
-                    "Tanggal Iuran",
+                    "Bulan Iuran",
                     selected
                         .map((e) =>
-                            DateHelper.parseDate(e.invoiceDate.toString()))
+                            DateHelper.getMonthYear(e.invoiceDate.toString()))
                         .toSet()
                         .join(", ")),
                 _buildDetailRowWithImage(
@@ -104,7 +104,7 @@ void _customPaymentSection(BuildContext context, List<Data> selected) {
                   ),
                 ),
                 _buildDetailRow(
-                  "Iuran",
+                  "Harga Iuran",
                   "${Price.currency(selected.fold(0, (sum, item) => sum + (item.totalAmount ?? 0)))}",
                   isBold: true,
                 ),
@@ -121,13 +121,37 @@ void _customPaymentSection(BuildContext context, List<Data> selected) {
                 const SizedBox(height: 10),
                 SizedBox(
                   width: double.infinity,
-                  child: CustomButton(
-                    text: "Bayar",
-                    onPressed:
-                        dialogContext.watch<IuranCubit>().state.channel == null
+                  child: BlocBuilder<IuranCubit, IuranState>(
+                    builder: (context, state) {
+                      return CustomButton(
+                        text: state.isLoading ? "" : "Bayar",
+                        onPressed: state.isLoading || state.channel == null
                             ? null
                             : () async {
-                                final cubit = dialogContext.read<IuranCubit>();
+                                final cubit = context.read<IuranCubit>();
+
+                                final bool isWallet =
+                                    state.channel?.name == "Saldo";
+                                final double balance =
+                                    state.channel?.user?.balance?.toDouble() ??
+                                        0.0;
+                                final double totalAmount = selected.fold(
+                                        0,
+                                        (sum, item) =>
+                                            sum + (item.totalAmount ?? 0)) +
+                                    state.adminFee;
+
+                                if (isWallet && balance < totalAmount) {
+                                  Navigator.pop(context); // Tutup modal
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text("Saldo tidak mencukupi!"),
+                                      backgroundColor: AppColors.redColor,
+                                    ),
+                                  );
+                                  return;
+                                }
+
                                 try {
                                   var paymentNumber =
                                       await cubit.checkoutItem();
@@ -136,10 +160,27 @@ void _customPaymentSection(BuildContext context, List<Data> selected) {
                                         .go(context);
                                   }
                                 } catch (e) {
-                                  ShowSnackbar.snackbar(context, e.toString(),
-                                      '', AppColors.redColor);
+                                  Navigator.pop(
+                                      context); // Tutup modal sebelum menampilkan error
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(e.toString()),
+                                      backgroundColor: AppColors.redColor,
+                                    ),
+                                  );
                                 }
                               },
+                        child: state.isLoading
+                            ? const SizedBox(
+                                height: 24,
+                                width: 24,
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                ),
+                              )
+                            : null,
+                      );
+                    },
                   ),
                 ),
               ],

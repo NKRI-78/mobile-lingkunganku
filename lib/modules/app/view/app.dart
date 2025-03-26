@@ -13,7 +13,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     final app = getIt<AppBloc>();
     return BlocProvider<AppBloc>.value(
-      value: app,
+      value: app..add(InitialAppData()),
       child: const AppView(),
     );
   }

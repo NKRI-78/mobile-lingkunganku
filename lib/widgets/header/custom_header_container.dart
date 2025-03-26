@@ -1,6 +1,10 @@
+import 'package:badges/badges.dart' as Badges;
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../misc/colors.dart';
 import '../../misc/text_style.dart';
+import '../../modules/app/bloc/app_bloc.dart';
 import 'custom_header_avatar.dart';
 
 class CustomHeaderContainer extends StatelessWidget {
@@ -15,7 +19,7 @@ class CustomHeaderContainer extends StatelessWidget {
   final String displayText;
   final String? avatarLink;
   final List<Widget> children;
-  final bool isHomeOrPublic; // ✅ Tambahkan parameter ini
+  final bool isHomeOrPublic;
 
   const CustomHeaderContainer({
     super.key,
@@ -30,7 +34,7 @@ class CustomHeaderContainer extends StatelessWidget {
     required this.showText,
     this.avatarLink,
     this.showAvatar = true,
-    required this.isHomeOrPublic, // ✅ Tambahkan parameter ini
+    required this.isHomeOrPublic,
   });
 
   @override
@@ -84,17 +88,35 @@ class CustomHeaderContainer extends StatelessWidget {
               else
                 const Spacer(),
 
-              // **Tombol Notifikasi di Kanan**
               if (onNotificationPressed != null)
-                _buildIconButton(
-                  icon: Icons.notifications_on_outlined,
-                  onPressed: onNotificationPressed!,
+                BlocBuilder<AppBloc, AppState>(
+                  builder: (context, state) {
+                    return Badges.Badge(
+                      position: Badges.BadgePosition.topEnd(end: 0),
+                      showBadge: state.badges?.unreadCount == null ||
+                              state.badges?.unreadCount == 0
+                          ? false
+                          : true,
+                      badgeStyle:
+                          const Badges.BadgeStyle(padding: EdgeInsets.all(5)),
+                      badgeContent: Text(
+                        state.loadingNotif
+                            ? '..'
+                            : '${state.badges?.unreadCount}',
+                        style:
+                            const TextStyle(fontSize: 10, color: Colors.white),
+                      ),
+                      child: _buildIconButton(
+                          icon: Icons.notifications_active_outlined,
+                          onPressed: onNotificationPressed!),
+                    );
+                  },
                 )
               else
                 const SizedBox(width: 48),
             ],
           ),
-          SizedBox(height: 5),
+          const SizedBox(height: 5),
           // **Menampilkan Avatar hanya jika `showAvatar` == true**
           if (showAvatar)
             CustomHeaderAvatar(

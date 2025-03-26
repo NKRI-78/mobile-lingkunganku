@@ -79,6 +79,9 @@ class BottomNavBarSection extends StatelessWidget {
                 if (index == 1) {
                   IuranRoute().go(context);
                 }
+                if (index == 2) {
+                  PpobRoute().go(context);
+                }
                 if (index == 3) {
                   EventRoute().go(context);
                 } else {

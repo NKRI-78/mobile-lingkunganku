@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../router/builder.dart';
+import '../../../misc/price_currency.dart';
+import '../widget/nomor_keamanan_section.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';
@@ -8,6 +11,7 @@ import '../../../widgets/background/custom_background.dart';
 import '../../../widgets/header/custom_header_container.dart';
 import '../cubit/profile_cubit.dart';
 import '../widget/family_member_section.dart';
+import '../widget/iuran_info_section.dart';
 import '../widget/profile_info_section.dart';
 import '../widget/referral_code_chief.dart';
 import '../widget/referral_code_family.dart';
@@ -91,7 +95,7 @@ class ProfileView extends StatelessWidget {
                                       ),
                                     ),
                                     TextSpan(
-                                      text: "Rp${saldo.toStringAsFixed(0)}",
+                                      text: Price.currency(saldo.toDouble()),
                                       style: AppTextStyles.textWelcome.copyWith(
                                         fontWeight: FontWeight.bold,
                                         color: Colors.black,
@@ -102,7 +106,7 @@ class ProfileView extends StatelessWidget {
                               ),
                               ElevatedButton(
                                 onPressed: () {
-                                  print("Topup Wallet ditekan");
+                                  WalletRoute().go(context);
                                 },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: AppColors.secondaryColor,
@@ -143,13 +147,15 @@ class ProfileView extends StatelessWidget {
                   Expanded(
                     child: SingleChildScrollView(
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 20,
-                        vertical: 20,
+                        horizontal: 15,
+                        vertical: 15,
                       ),
                       child: Column(
-                        spacing: 20,
+                        spacing: 15,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
+                          if (role != "MEMBER" && role != "SECRETARY")
+                            IuranInfoSection(),
                           ProfileInfoSection(),
                           if (role != "MEMBER" &&
                               role != "SECRETARY" &&
@@ -168,6 +174,10 @@ class ProfileView extends StatelessWidget {
                               role != "TREASURER")
                             ReferralCodeChief(),
                           ReferralCodeFamily(),
+                          if (role != "MEMBER" &&
+                              role != "SECRETARY" &&
+                              role != "TREASURER")
+                            NomorKeamananSection(),
                         ],
                       ),
                     ),

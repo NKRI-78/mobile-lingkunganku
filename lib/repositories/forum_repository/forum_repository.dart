@@ -2,13 +2,13 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'models/forum_detail_model.dart';
-import '../../misc/api_url.dart';
-import 'models/forums_model.dart';
 import 'package:http/http.dart' as ht;
 
+import '../../misc/api_url.dart';
 import '../../misc/http_client.dart';
 import '../../misc/injections.dart';
+import 'models/forum_detail_model.dart';
+import 'models/forums_model.dart';
 
 class ForumRepository {
   String get forums => '${MyApi.baseUrl}/api/v1/forum';
@@ -177,6 +177,25 @@ class ForumRepository {
   Future<void> setLikeUnlikeForum(String idForum) async {
     try {
       final res = await http.post(Uri.parse('$forums/$idForum/like'));
+
+      debugPrint('Status Like  : ${res.body}');
+
+      if (res.statusCode == 200) {
+        return;
+      } else {
+        throw "error api";
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> setLikeUnlike(String commentId) async {
+    try {
+      final res =
+          await http.post(Uri.parse('$forums/$commentId/likeComment'), body: {
+        'comment_id': commentId,
+      });
 
       debugPrint('Status Like  : ${res.body}');
 

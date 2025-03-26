@@ -196,7 +196,7 @@ class SosView extends StatelessWidget {
                                 if (phoneNumber != null &&
                                     phoneNumber.isNotEmpty) {
                                   final whatsappUrl =
-                                      "https://wa.me/$phoneNumber";
+                                      "https://wa.me/62$phoneNumber";
                                   if (!await canLaunchUrl(
                                       Uri.parse(whatsappUrl))) {
                                     !await launchUrl(Uri.parse(whatsappUrl),

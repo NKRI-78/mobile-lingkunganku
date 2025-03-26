@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../repositories/forum_repository/models/forums_model.dart';
 import '../../../repositories/profile_repository/models/profile_model.dart';
 import '../../../misc/colors.dart';
 import '../../../misc/snackbar.dart';
@@ -127,6 +128,18 @@ class ForumDetailCubit extends Cubit<ForumDetailState> {
       );
     } finally {
       emit(state.copyWith(loadingComment: false));
+    }
+  }
+
+  Future<void> setLikeUnlike(
+      {required String commentId, required String idForum}) async {
+    try {
+      await repo.setLikeUnlike(commentId);
+      final comment = await repo.getDetailForum(idForum);
+      emit(ForumDetailState(
+          idForum: idForum, detailForum: comment, loading: false));
+    } catch (e) {
+      ///
     }
   }
 

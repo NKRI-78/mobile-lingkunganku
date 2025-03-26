@@ -13,6 +13,14 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   ProfileRepository repo = ProfileRepository();
 
+//   void updatePhoneSecurity(String newPhone) {
+//   emit(state.copyWith(
+//     profile: state.profile?.copyWith(
+//       neighborhood: state.profile?.neighborhood?.copyWith(phoneSecurity: newPhone),
+//     ),
+//   ));
+// }
+
   Future<void> getProfile() async {
     try {
       emit(state.copyWith(isLoading: true));
@@ -28,6 +36,28 @@ class ProfileCubit extends Cubit<ProfileState> {
       emit(state.copyWith(errorMessage: "Gagal memuat profil: $e"));
     } finally {
       emit(state.copyWith(isLoading: false));
+    }
+  }
+
+  Future<void> updatePhoneSecurity(String phoneSecurity) async {
+    try {
+      emit(state.copyWith(isLoading: true));
+
+      final neighborhoodId = state.profile?.neighborhood?.id.toString();
+      if (neighborhoodId == null) {
+        throw "Neighborhood ID tidak ditemukan!";
+      }
+
+      await repo.updatePhoneSecurity(
+        neighborhoodId: neighborhoodId,
+        phoneSecurity: phoneSecurity,
+      );
+
+      await getProfile(); // Fetch ulang data agar UI terupdate
+
+      emit(state.copyWith(isLoading: false));
+    } catch (e) {
+      emit(state.copyWith(isLoading: false, errorMessage: e.toString()));
     }
   }
 

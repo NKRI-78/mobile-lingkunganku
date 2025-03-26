@@ -7,8 +7,8 @@ import '../../../misc/text_style.dart';
 import '../../../widgets/background/custom_background.dart';
 import '../../../widgets/button/custom_button.dart';
 import '../cubit/register_warga_cubit.dart';
-import '../widget/customfield_warga_foto.dart';
 import '../widget/custom_textfield_warga.dart';
+import '../widget/customfield_warga_foto.dart';
 
 class RegisterWargaPage extends StatelessWidget {
   const RegisterWargaPage({super.key});

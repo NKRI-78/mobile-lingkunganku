@@ -1,4 +1,10 @@
 import 'package:get_it/get_it.dart';
+import '../modules/iuran_info_detail/cubit/iuran_info_detail_cubit.dart';
+import '../modules/ppob/cubit/ppob_cubit.dart';
+import '../modules/wallet/cubit/wallet_cubit.dart';
+import '../repositories/ppob_repository/ppob_repository.dart';
+import '../repositories/wallet_repository/wallet_repository.dart';
+import '../modules/iuran_history/cubit/iuran_history_cubit.dart';
 import '../modules/event/cubit/event_cubit.dart';
 import '../modules/forum_detail/cubit/forum_detail_cubit.dart';
 import '../modules/news_create/cubit/news_create_cubit.dart';
@@ -59,6 +65,11 @@ class MyInjection {
     getIt.registerCachedFactory<EventDetailCubit>(() => EventDetailCubit());
     getIt.registerCachedFactory<SosCubit>(() => SosCubit());
     getIt.registerCachedFactory<NotificationCubit>(() => NotificationCubit());
+    getIt.registerCachedFactory<IuranHistoryCubit>(() => IuranHistoryCubit());
+    getIt.registerCachedFactory<WalletCubit>(() => WalletCubit());
+    getIt.registerCachedFactory<PpobCubit>(() => PpobCubit());
+    getIt.registerCachedFactory<IuranInfoDetailCubit>(
+        () => IuranInfoDetailCubit());
 
     getIt.registerLazySingleton<AuthRepository>(() => AuthRepository());
     getIt.registerLazySingleton<ProfileRepository>(() => ProfileRepository());
@@ -72,5 +83,7 @@ class MyInjection {
     getIt.registerLazySingleton<NotificationRepository>(
         () => NotificationRepository());
     getIt.registerLazySingleton<IuranRepository>(() => IuranRepository());
+    getIt.registerLazySingleton<WalletRepository>(() => WalletRepository());
+    getIt.registerLazySingleton<PpobRepository>(() => PpobRepository());
   }
 }

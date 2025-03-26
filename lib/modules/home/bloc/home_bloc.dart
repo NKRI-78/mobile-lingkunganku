@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-import '../../../misc/firebase_messangging.dart';
 import '../../../misc/injections.dart';
 import '../../../misc/location.dart';
 import '../../../repositories/home_repository/home_repository.dart';
@@ -15,11 +14,12 @@ import '../../../repositories/home_repository/models/data_pagination.dart';
 import '../../../repositories/home_repository/models/news_model.dart';
 import '../../../repositories/profile_repository/models/profile_model.dart';
 import '../../../repositories/profile_repository/profile_repository.dart';
+import '../../app/bloc/app_bloc.dart';
 import '../../profile/cubit/profile_cubit.dart';
 
+part 'home_bloc.g.dart';
 part 'home_event.dart';
 part 'home_state.dart';
-part 'home_bloc.g.dart';
 
 class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
   final HomeRepository repo;
@@ -55,6 +55,7 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
     emit(state.copyWith(isLoading: true));
 
     try {
+      getIt<AppBloc>().add(InitialAppData());
       await _fetchNews(emit, isRefresh: true);
       debugPrint("Berita berhasil diambil");
 
@@ -69,9 +70,6 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
 
       await determinePosition(event.context!);
       debugPrint("Lokasi berhasil didapatkan");
-
-      await FirebaseMessagingMisc.init();
-      debugPrint("Firebase Messaging diinisialisasi");
     } catch (e) {
       debugPrint("Error in HomeInit: $e");
     }

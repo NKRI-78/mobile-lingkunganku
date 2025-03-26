@@ -62,6 +62,7 @@ class CustomButton extends StatelessWidget {
                 if (icon != null) const SizedBox(width: 8),
                 Text(
                   text,
+                  textAlign: TextAlign.center,
                   style: TextStyle(
                     color: textColor,
                     fontSize: 16,

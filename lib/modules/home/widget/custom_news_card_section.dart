@@ -93,7 +93,6 @@ class _NewsContent extends StatelessWidget {
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
-            const SizedBox(height: 5),
             Text(
               content.replaceAll(RegExp(r'<[^>]*>|&[^;]+;'), ""),
               maxLines: 2,

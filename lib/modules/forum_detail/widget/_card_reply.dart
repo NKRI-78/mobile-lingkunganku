@@ -26,7 +26,6 @@ class _CardReplyState extends State<CardReply> {
   @override
   Widget build(BuildContext context) {
     final userId = getIt<AppBloc>().state.user?.id;
-    // final userId = getIt<AppBloc>().state.user?.id;
     final user = widget.comment?.user;
     return BlocBuilder<ForumDetailCubit, ForumDetailState>(
         builder: (context, state) {
@@ -136,7 +135,7 @@ class _CardReplyState extends State<CardReply> {
                                         "";
                                   } else {
                                     commentKey.currentState!.controller!.text =
-                                        "@${user?.profile == null ? user?.profile.fullname ?? "" : user?.profile.fullname ?? ""} ";
+                                        "@${user?.username == null ? user?.username ?? "" : user?.username ?? ""} ";
                                   }
 
                                   var cubit = context.read<ForumDetailCubit>();

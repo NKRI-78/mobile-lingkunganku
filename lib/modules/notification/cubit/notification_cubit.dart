@@ -1,11 +1,18 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile_lingkunganku/repositories/notification_repository/models/notification_detailv2_model.dart';
+import 'package:mobile_lingkunganku/repositories/ppob_repository/ppob_repository.dart';
+import '../../../repositories/notification_repository/models/notification_detail_model.dart';
+import '../../../misc/injections.dart';
 import '../../../misc/pagination.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../repositories/notification_repository/models/notification_model.dart';
+import '../../../repositories/notification_repository/models/notificationv2_model.dart';
 import '../../../repositories/notification_repository/notification_repository.dart';
+import '../../../repositories/ppob_repository/models/payment_channel_modelv2.dart';
+import '../../app/bloc/app_bloc.dart';
 
 part 'notification_state.dart';
 
@@ -14,21 +21,68 @@ class NotificationCubit extends Cubit<NotificationState> {
       : super(NotificationState(pagination: Pagination.initial));
 
   NotificationRepository repo = NotificationRepository();
+  PpobRepository repoPPOB = PpobRepository();
 
   static RefreshController refreshCtrl = RefreshController();
 
+  Future<void> fetchDetailNotif(int idNotif) async {
+    try {
+      emit(state.copyWith(loading: true));
+      final detail = await repo.getDetailNotif(idNotif);
+      emit(state.copyWith(detail: detail, idNotif: idNotif));
+    } catch (e) {
+      rethrow;
+    } finally {
+      emit(state.copyWith(loading: false));
+    }
+  }
+
   Future<void> fetchNotification() async {
     try {
+      emit(state.copyWith(loading: true));
+      fetchInboxNotifications();
       PaginationModel<NotificationModel> data = await repo.getNotification();
 
       emit(state.copyWith(
         notif: data.list,
-        nextPageNotif: data.pagination.currentPage,
+        nextPageNotif: data.pagination.currentPage + 1,
         pagination: data.pagination,
+        loading: false,
       ));
     } catch (e) {
+      debugPrint("Error fetchNotification: $e");
       emit(state.copyWith(loading: false));
-      print(e);
+    }
+  }
+
+  Future<void> fetchInboxNotifications() async {
+    try {
+      int userId = getIt<AppBloc>().state.profile?.id ?? 0;
+
+      emit(state.copyWith(loading: true));
+      List<NotificationV2Model> data =
+          await repo.getInboxNotifications(userId.toString());
+
+      emit(state.copyWith(
+        inboxNotif: data,
+        loading: false,
+      ));
+    } catch (e) {
+      debugPrint("Error fetchInboxNotifications: $e");
+      emit(state.copyWith(loading: false));
+    }
+  }
+
+  Future<void> fetchDetailInboxNotifications(int idNotif) async {
+    try {
+      emit(state.copyWith(loading: true));
+      final detailv2 = await repo.getDetailNotifV2(idNotif);
+
+      emit(state.copyWith(detailv2: detailv2, idNotif: idNotif));
+    } catch (e) {
+      rethrow;
+    } finally {
+      emit(state.copyWith(loading: false));
     }
   }
 
@@ -65,8 +119,6 @@ class NotificationCubit extends Cubit<NotificationState> {
         pagination: data.pagination,
       ));
 
-      print("State Paging : ${data.pagination.currentPage}");
-
       refreshCtrl.loadComplete();
     } catch (e) {
       debugPrint("error $e");
@@ -85,7 +137,7 @@ class NotificationCubit extends Cubit<NotificationState> {
 
   @override
   Future<void> close() {
-    // getIt<AppBloc>().add(GetBadgeNotif());
+    getIt<AppBloc>().add(GetBadgeNotif());
     return super.close();
   }
 }

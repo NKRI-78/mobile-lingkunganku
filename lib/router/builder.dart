@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mobile_lingkunganku/modules/iuran_info_detail/view/iuran_info_detail_page.dart';
+import 'package:mobile_lingkunganku/modules/notification/view/detail/notification_ppob_detail_page.dart';
+import 'package:mobile_lingkunganku/modules/ppob/view/ppob_waiting_payment_page.dart';
+import '../modules/ppob/view/ppob_page.dart';
+import '../modules/iuran_info/view/iuran_info_page.dart';
 import '../modules/iuran/view/iuran_page.dart';
 import '../modules/iuran_history/view/iuran_history_page.dart';
 import '../modules/notification/view/notification_page.dart';
+import '../modules/notification/view/detail/notification_sos_detail_page.dart';
 import '../modules/sos/view/sos_detail_page.dart';
 import '../modules/news_update/view/news_update_page.dart';
 import '../modules/event/view/event_page.dart';
@@ -33,6 +39,7 @@ import '../modules/register_warga/view/register_warga_page.dart';
 import '../modules/settings/view/settings_page.dart';
 import '../modules/sos/view/sos_page.dart';
 import '../modules/waiting_payment/view/waiting_payment_page.dart';
+import '../modules/wallet/view/wallet_page.dart';
 import '../modules/webview/view/webview.dart';
 import '../widgets/pages/video/detail_video_player.dart';
 import '../widgets/photo_view/clipped_photo_view.dart';
@@ -49,12 +56,17 @@ class OnboardingRoute extends GoRouteData {
 
 @TypedGoRoute<HomeRoute>(path: '/home', routes: [
   TypedGoRoute<WebViewRoute>(path: 'webview'),
-  TypedGoRoute<NotificationRoute>(path: 'notification'),
+  TypedGoRoute<NotificationRoute>(path: 'notification', routes: [
+    TypedGoRoute<NotificationSosRoute>(path: 'notification-sos'),
+    TypedGoRoute<NotificationPpobRoute>(path: 'notification-ppob'),
+  ]),
   TypedGoRoute<SettingsRoute>(path: 'settings'),
   TypedGoRoute<WaitingPaymentRoute>(path: 'waiting-payment'),
+  TypedGoRoute<PpobPaymentRoute>(path: 'ppob-payment'),
   TypedGoRoute<IuranRoute>(path: 'iuran', routes: [
     TypedGoRoute<IuranHistoryRoute>(path: 'iuran-history'),
   ]),
+  TypedGoRoute<PpobRoute>(path: 'ppob'),
   TypedGoRoute<EventRoute>(path: 'event', routes: [
     TypedGoRoute<EventCreateRoute>(path: 'event-create'),
     TypedGoRoute<EventDetailRoute>(path: 'event-detail'),
@@ -66,8 +78,12 @@ class OnboardingRoute extends GoRouteData {
     TypedGoRoute<NewsCreateRoute>(path: 'news-create'),
   ]),
   TypedGoRoute<ProfileRoute>(path: 'profile', routes: [
+    TypedGoRoute<WalletRoute>(path: 'wallet'),
     TypedGoRoute<ProfileUpdateRoute>(path: 'profile-update'),
     TypedGoRoute<TransferManagementRoute>(path: 'transfer-management'),
+    TypedGoRoute<IuranInfoRoute>(path: 'iuran-info', routes: [
+      TypedGoRoute<IuranInfoDetailRoute>(path: 'iuran-detail'),
+    ]),
   ]),
   TypedGoRoute<ManagementRoute>(path: 'management', routes: [
     TypedGoRoute<ManagementDetailRoute>(path: 'management-detail'),
@@ -85,8 +101,9 @@ class OnboardingRoute extends GoRouteData {
     ]),
     TypedGoRoute<RegisterWargaRoute>(path: 'register-warga'),
   ]),
-  TypedGoRoute<SosRoute>(
-      path: 'sos', routes: [TypedGoRoute<SosDetailRoute>(path: 'sos-detail')]),
+  TypedGoRoute<SosRoute>(path: 'sos', routes: [
+    TypedGoRoute<SosDetailRoute>(path: 'sos-detail'),
+  ]),
   TypedGoRoute<ForumRoute>(path: 'forum', routes: [
     TypedGoRoute<ForumDetailRoute>(path: 'forum-detail'),
     TypedGoRoute<ForumCreateRoute>(path: 'forum-create'),
@@ -123,6 +140,32 @@ class NotificationRoute extends GoRouteData {
   }
 }
 
+class NotificationSosRoute extends GoRouteData {
+  final int idNotif;
+
+  NotificationSosRoute({required this.idNotif});
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return NotificationSosDetailPage(
+      idNotif: idNotif,
+    );
+  }
+}
+
+class NotificationPpobRoute extends GoRouteData {
+  final int idNotif;
+
+  NotificationPpobRoute({required this.idNotif});
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return NotificationPpobDetailPage(
+      idNotif: idNotif,
+    );
+  }
+}
+
 class SettingsRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
@@ -144,6 +187,13 @@ class IuranHistoryRoute extends GoRouteData {
   }
 }
 
+class PpobRoute extends GoRouteData {
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return PpobPage();
+  }
+}
+
 class WaitingPaymentRoute extends GoRouteData {
   final String id;
 
@@ -152,6 +202,36 @@ class WaitingPaymentRoute extends GoRouteData {
   Widget build(BuildContext context, GoRouterState state) {
     return WaitingPaymentPage(
       id: id,
+    );
+  }
+}
+
+class PpobPaymentRoute extends GoRouteData {
+  final String paymentAccess;
+  final double totalPayment;
+  final String paymentCode;
+  final String nameProduct;
+  final String logoChannel;
+  final DateTime paymentExpire;
+
+  PpobPaymentRoute({
+    required this.paymentAccess,
+    required this.totalPayment,
+    required this.paymentCode,
+    required this.nameProduct,
+    required this.logoChannel,
+    required this.paymentExpire,
+  });
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return PpobWaitingPaymentPage(
+      paymentAccess: paymentAccess,
+      totalPayment: totalPayment,
+      paymentCode: paymentCode,
+      nameProduct: nameProduct,
+      logoChannel: logoChannel,
+      paymentExpire: paymentExpire,
     );
   }
 }
@@ -217,6 +297,13 @@ class ProfileRoute extends GoRouteData {
   }
 }
 
+class WalletRoute extends GoRouteData {
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return const WalletPage();
+  }
+}
+
 class ShowMoreNewsRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
@@ -242,6 +329,23 @@ class TransferManagementRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return TransferManagementPage();
+  }
+}
+
+class IuranInfoRoute extends GoRouteData {
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return IuranInfoPage();
+  }
+}
+
+class IuranInfoDetailRoute extends GoRouteData {
+  final String userId;
+
+  IuranInfoDetailRoute({required this.userId});
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return IuranInfoDetailPage(userId: userId);
   }
 }
 

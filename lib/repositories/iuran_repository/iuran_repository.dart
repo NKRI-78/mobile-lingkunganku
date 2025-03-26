@@ -1,7 +1,9 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'models/iuran_paid_model.dart';
 import '../../misc/api_url.dart';
 import '../../misc/http_client.dart';
 import '../../misc/injections.dart';
@@ -37,7 +39,11 @@ class IuranRepository {
         throw json['message'] ?? "Gagal membuat iuran";
       }
     } on SocketException {
-      throw "Terjadi kesalahan jaringan";
+      throw "Terjadi Kesalahan Jaringan";
+    } on TimeoutException {
+      throw "Koneksi internet lambat, periksa jaringan Anda";
+    } catch (e) {
+      rethrow;
     }
   }
 
@@ -57,14 +63,18 @@ class IuranRepository {
         throw json['message'] ?? "Gagal mengecek invoice";
       }
     } on SocketException {
-      throw "Terjadi kesalahan jaringan";
+      throw "Terjadi Kesalahan Jaringan";
+    } on TimeoutException {
+      throw "Koneksi internet lambat, periksa jaringan Anda";
+    } catch (e) {
+      rethrow;
     }
   }
 
-  Future<IuranModel> getInvoice() async {
+  Future<List<IuranPaidModel>> getPaidInvoices() async {
     try {
       final res = await http.get(
-        Uri.parse('$iuran/getUnpaidInvoices'),
+        Uri.parse('$iuran/getPaidInvoices'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ${http.token}',
@@ -74,22 +84,52 @@ class IuranRepository {
       if (res.statusCode == 200) {
         debugPrint("Invoice berhasil dilihat");
         final jsonResponse = jsonDecode(res.body);
-        return IuranModel.fromJson(
-            jsonResponse); // Hanya satu model, bukan list
+        final List<IuranPaidModel> invoices = (jsonResponse["data"] as List)
+            .map((e) => IuranPaidModel.fromJson(e))
+            .toList();
+
+        return invoices;
+      } else {
+        throw Exception("Failed to load invoices: ${res.statusCode}");
+      }
+    } on SocketException {
+      throw "Terjadi Kesalahan Jaringan";
+    } on TimeoutException {
+      throw "Koneksi internet lambat, periksa jaringan Anda";
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<IuranModel> getInvoice() async {
+    try {
+      final res = await http.get(
+        Uri.parse('$iuran/getInvoices'),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ${http.token}',
+        },
+      );
+
+      if (res.statusCode == 200) {
+        debugPrint("Invoice berhasil dilihat");
+        final jsonResponse = jsonDecode(res.body);
+        return IuranModel.fromJson(jsonResponse);
       } else {
         throw Exception("Failed to load invoice: ${res.statusCode}");
       }
+    } on SocketException {
+      throw "Terjadi Kesalahan Jaringan";
+    } on TimeoutException {
+      throw "Koneksi internet lambat, periksa jaringan Anda";
     } catch (e) {
-      debugPrint("Exception caught: $e");
-      throw Exception("Terjadi kesalahan: $e");
+      rethrow;
     }
   }
 
   Future<List<PaymentChannelModel>> getChannels() async {
     try {
       var res = await http.get(Uri.parse(paymentChannel));
-
-      print(res.body);
 
       final json = jsonDecode(res.body);
       if (res.statusCode == 200) {
@@ -103,6 +143,10 @@ class IuranRepository {
       } else {
         throw "Error";
       }
+    } on SocketException {
+      throw "Terjadi Kesalahan Jaringan";
+    } on TimeoutException {
+      throw "Koneksi internet lambat, periksa jaringan Anda";
     } catch (e) {
       rethrow;
     }
@@ -142,24 +186,19 @@ class IuranRepository {
       request.body = json.encode(requestBody);
       request.headers.addAll(headers);
 
-      print("Request Body: ${request.body}");
-
       httpBase.StreamedResponse response = await request.send();
       var responseString = await response.stream.bytesToString();
       final decodedMap = json.decode(responseString);
 
-      print("Response Status: ${response.statusCode}");
-      print("Response Body: $decodedMap");
-
       if (response.statusCode == 200) {
         var paymentNumber = decodedMap['data']['id'];
-        print("Payment Number: $paymentNumber");
+
         return paymentNumber.toString();
       } else {
         throw decodedMap['message'] ?? "Terjadi kesalahan";
       }
     } catch (e) {
-      print("Error: $e");
+      debugPrint("Error: $e");
       rethrow;
     }
   }

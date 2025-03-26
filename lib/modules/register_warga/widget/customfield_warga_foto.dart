@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
 import '../cubit/register_warga_cubit.dart';
@@ -78,18 +79,18 @@ class _ImagePickerBottomSheet extends StatelessWidget {
     return Wrap(
       children: [
         ListTile(
-          leading: Icon(Icons.image, color: Colors.blueAccent),
+          leading: Icon(Icons.image, color: AppColors.likeColor),
           title: Text("Pilih dari Galeri"),
           onTap: () => _pickImage(context, ImageSource.gallery),
         ),
         ListTile(
-          leading: Icon(Icons.camera_alt, color: Colors.green),
+          leading: Icon(Icons.camera_alt, color: AppColors.secondaryColor),
           title: Text("Gunakan Kamera"),
           onTap: () => _pickImage(context, ImageSource.camera),
         ),
         if (context.read<RegisterWargaCubit>().state.fileImage != null)
           ListTile(
-            leading: Icon(Icons.delete, color: Colors.red),
+            leading: Icon(Icons.delete, color: AppColors.redColor),
             title: Text("Hapus Foto"),
             onTap: () {
               context.read<RegisterWargaCubit>().copyState(

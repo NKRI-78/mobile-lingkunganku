@@ -343,14 +343,17 @@ class User {
   String phone;
   String email;
   Profile profile;
+  String username;
 
   User({
+    required this.username,
     required this.phone,
     required this.email,
     required this.profile,
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
+        username: json["username"] ?? "",
         phone: json["phone"] ?? "",
         email: json["email"] ?? "",
         profile: json["profile"] != null
@@ -359,12 +362,14 @@ class User {
       );
 
   Map<String, dynamic> toJson() => {
+        "username": username,
         "phone": phone,
         "email": email,
         "profile": profile.toJson(),
       };
 
   static User empty() => User(
+        username: "",
         phone: "",
         email: "",
         profile: Profile.empty(),
@@ -379,8 +384,10 @@ class Profile {
   int userId;
   DateTime createdAt;
   DateTime updatedAt;
+  String username;
 
   Profile({
+    required this.username,
     required this.id,
     required this.fullname,
     required this.avatarLink,
@@ -393,6 +400,7 @@ class Profile {
   factory Profile.fromJson(Map<String, dynamic> json) => Profile(
         id: json["id"] ?? 0,
         fullname: json["fullname"] ?? "",
+        username: json["username"] ?? "",
         avatarLink: json["avatar_link"] ?? "",
         detailAddress: json["detail_address"],
         userId: json["user_id"] ?? 0,
@@ -405,6 +413,7 @@ class Profile {
   Map<String, dynamic> toJson() => {
         "id": id,
         "fullname": fullname,
+        "username": username,
         "avatar_link": avatarLink,
         "detail_address": detailAddress,
         "user_id": userId,
@@ -415,6 +424,7 @@ class Profile {
   static Profile empty() => Profile(
         id: 0,
         fullname: "",
+        username: "",
         avatarLink: "",
         detailAddress: null,
         userId: 0,

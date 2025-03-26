@@ -12,6 +12,7 @@ class RegisterWargaState extends Equatable {
   final String passwordConfirm;
   final String referral;
   final File? fileImage;
+  final String gender;
 
   const RegisterWargaState({
     this.isLoading = false,
@@ -25,6 +26,7 @@ class RegisterWargaState extends Equatable {
     this.passwordConfirm = '',
     this.referral = '',
     this.fileImage,
+    this.gender = '',
   });
 
   @override
@@ -40,6 +42,7 @@ class RegisterWargaState extends Equatable {
         passwordConfirm,
         referral,
         fileImage,
+        gender,
       ];
 
   RegisterWargaState copyWith({
@@ -54,8 +57,8 @@ class RegisterWargaState extends Equatable {
     String? passwordConfirm,
     String? referral,
     ValueGetter<File?>? fileImage,
+    String? gender,
   }) {
-    print('Referral before copyWith: $referral'); // Debugging
     return RegisterWargaState(
       isLoading: isLoading ?? this.isLoading,
       isPasswordObscured: isPasswordObscured ?? this.isPasswordObscured,
@@ -69,6 +72,7 @@ class RegisterWargaState extends Equatable {
       passwordConfirm: passwordConfirm ?? this.passwordConfirm,
       referral: referral ?? this.referral,
       fileImage: fileImage != null ? fileImage() : this.fileImage,
+      gender: gender ?? this.gender,
     );
   }
 }

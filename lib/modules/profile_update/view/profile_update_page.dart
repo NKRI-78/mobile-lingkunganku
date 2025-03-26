@@ -1,16 +1,18 @@
 import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import '../../../misc/theme.dart';
+
 import '../../../misc/colors.dart';
-import '../cubit/profile_update_cubit.dart';
-import '../widget/custom_textfield_name.dart';
-import '../widget/custom_textfield_phone.dart';
+import '../../../misc/theme.dart';
 import '../../../widgets/background/custom_background.dart';
 import '../../../widgets/button/custom_button.dart';
 import '../../../widgets/header/custom_header_container.dart';
+import '../cubit/profile_update_cubit.dart';
+import '../widget/custom_textfield_name.dart';
+import '../widget/custom_textfield_phone.dart';
 
 class ProfileUpdatePage extends StatelessWidget {
   const ProfileUpdatePage({super.key});
@@ -192,18 +194,18 @@ class _ImagePickerBottomSheet extends StatelessWidget {
     return Wrap(
       children: [
         ListTile(
-          leading: Icon(Icons.image, color: Colors.blueAccent),
+          leading: Icon(Icons.image, color: AppColors.likeColor),
           title: Text("Pilih dari Galeri"),
           onTap: () => _pickImage(context, ImageSource.gallery),
         ),
         ListTile(
-          leading: Icon(Icons.camera_alt, color: Colors.green),
+          leading: Icon(Icons.camera_alt, color: AppColors.secondaryColor),
           title: Text("Gunakan Kamera"),
           onTap: () => _pickImage(context, ImageSource.camera),
         ),
         if (context.read<ProfileUpdateCubit>().state.fileImage != null)
           ListTile(
-            leading: Icon(Icons.delete, color: Colors.red),
+            leading: Icon(Icons.delete, color: AppColors.redColor),
             title: Text("Hapus Foto"),
             onTap: () {
               context.read<ProfileUpdateCubit>().copyState(

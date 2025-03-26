@@ -12,7 +12,7 @@ part 'event_state.dart';
 
 class EventCubit extends Cubit<EventState> {
   EventCubit() : super(const EventState()) {
-    fetchEvent();
+    // fetchEvent();
   }
 
   EventRepository repo = getIt<EventRepository>();

@@ -22,6 +22,7 @@ class ProfileModel {
   dynamic secretary;
   Profile? profile;
   Family? family;
+  Headmaster? headmaster;
   String? roleApp;
   final List<FamiliesModel> families;
   String get translateRoleApp {
@@ -62,6 +63,7 @@ class ProfileModel {
     this.profile,
     this.family,
     this.roleApp,
+    this.headmaster,
     required this.families,
   });
 
@@ -92,6 +94,9 @@ class ProfileModel {
       chief: json['chief'] != null ? Chief.fromJson(json['chief']) : null,
       treasurer: json['treasurer'],
       secretary: json['secretary'],
+      headmaster: json['headmaster'] != null
+          ? Headmaster.fromJson(json['headmaster'])
+          : null,
       profile:
           json['profile'] != null ? Profile.fromJson(json['profile']) : null,
       family: json['family'] != null ? Family.fromJson(json['family']) : null,
@@ -128,7 +133,53 @@ class ProfileModel {
       'profile': profile?.toJson(),
       'family': family?.toJson(),
       'roleApp': roleApp,
+      'headmaster': headmaster?.toJson(),
     };
+  }
+}
+
+class Headmaster {
+  int? id;
+  Null name;
+  String? referral;
+  int? neighborhoodId;
+  int? headmasterId;
+  String? createdAt;
+  String? updatedAt;
+  Null deletedAt;
+
+  Headmaster(
+      {this.id,
+      this.name,
+      this.referral,
+      this.neighborhoodId,
+      this.headmasterId,
+      this.createdAt,
+      this.updatedAt,
+      this.deletedAt});
+
+  Headmaster.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    referral = json['referral'];
+    neighborhoodId = json['neighborhood_id'];
+    headmasterId = json['headmaster_id'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    deletedAt = json['deleted_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['referral'] = referral;
+    data['neighborhood_id'] = neighborhoodId;
+    data['headmaster_id'] = headmasterId;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['deleted_at'] = deletedAt;
+    return data;
   }
 }
 
@@ -145,6 +196,7 @@ class Neighborhood {
   String? updatedAt;
   String? deletedAt;
   String? phoneSecurity;
+  int? balance;
 
   Neighborhood({
     this.id,
@@ -159,6 +211,7 @@ class Neighborhood {
     this.updatedAt,
     this.deletedAt,
     this.phoneSecurity,
+    this.balance,
   });
 
   factory Neighborhood.fromJson(Map<String, dynamic> json) {
@@ -179,6 +232,7 @@ class Neighborhood {
       updatedAt: json['updated_at'],
       deletedAt: json['deleted_at'],
       phoneSecurity: json['phone_number_security'],
+      balance: json['balance'],
     );
   }
 
@@ -196,6 +250,7 @@ class Neighborhood {
       'updated_at': updatedAt,
       'deleted_at': deletedAt,
       'phone_number_security': phoneSecurity,
+      'balance': balance,
     };
   }
 }

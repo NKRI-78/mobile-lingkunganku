@@ -34,7 +34,7 @@ class DateHelper {
               days: 1,
             )
           : const Duration(
-              minutes: 30,
+              minutes: 15,
             ),
     ));
     return date;
@@ -51,10 +51,17 @@ class DateHelper {
   static String getFormatedDateWithHours(String formatDate) {
     DateTime dateParse = DateTime.parse(formatDate);
     final result = DateTime(dateParse.year, dateParse.month, dateParse.day,
-        dateParse.hour, dateParse.minute, 9, 0, 0);
+            dateParse.hour, dateParse.minute, 9, 0, 0)
+        .add(Duration(hours: 7));
     initializeDateFormatting("id");
     String date = DateFormat("dd MMMM yyyy | HH:mm a", "id_ID").format(result);
     return date;
+  }
+
+  static String getMonthYear(String formatDate) {
+    initializeDateFormatting("id");
+    DateTime dateParse = DateTime.parse(formatDate);
+    return DateFormat("MMMM yyyy", "id_ID").format(dateParse);
   }
 
   static int getHashCode(DateTime key) {

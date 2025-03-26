@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_lingkunganku/misc/theme.dart';
+import '../../../misc/theme.dart';
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
 
@@ -22,7 +22,7 @@ class ListNews extends StatelessWidget {
       },
       child: Container(
         width: double.infinity,
-        height: 110,
+        height: 115,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15),
             color: AppColors.whiteColor),
@@ -39,7 +39,7 @@ class ListNews extends StatelessWidget {
                 child: ImageCard(
                   imageError: imageDefault,
                   image: news.linkImage,
-                  radius: 30,
+                  radius: 0,
                   height: 150,
                   width: 150,
                 ),

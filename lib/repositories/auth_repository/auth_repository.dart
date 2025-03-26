@@ -117,6 +117,7 @@ class AuthRepository {
     required String longitude,
     String name = '',
     String avatarLink = '',
+    String gender = '',
   }) async {
     try {
       final response =
@@ -131,6 +132,7 @@ class AuthRepository {
         'longitude': longitude,
         'name': name,
         'avatar_link': avatarLink,
+        'gender': gender,
       });
 
       final json = jsonDecode(response.body);
@@ -141,7 +143,11 @@ class AuthRepository {
         throw json['message'] ?? "Terjadi kesalahan";
       }
     } on SocketException {
-      throw "Terjadi kesalahan jaringan";
+      throw "Terjadi Kesalahan Jaringan";
+    } on TimeoutException {
+      throw "Koneksi internet lambat, periksa jaringan Anda";
+    } catch (e) {
+      rethrow;
     }
   }
 
@@ -153,6 +159,7 @@ class AuthRepository {
     String password = '',
     String referral = '',
     String avatarLink = '',
+    String gender = '',
   }) async {
     try {
       final response =
@@ -164,6 +171,7 @@ class AuthRepository {
         'password': password,
         'referral': referral,
         'avatar_link': avatarLink,
+        'gender': gender,
       });
       final json = jsonDecode(response.body);
       if (response.statusCode == 200) {
@@ -173,7 +181,11 @@ class AuthRepository {
         throw json['message'] ?? "Terjadi kesalahan";
       }
     } on SocketException {
-      throw "Terjadi kesalahan jaringan";
+      throw "Terjadi Kesalahan Jaringan";
+    } on TimeoutException {
+      throw "Koneksi internet lambat, periksa jaringan Anda";
+    } catch (e) {
+      rethrow;
     }
   }
 
@@ -195,7 +207,11 @@ class AuthRepository {
         throw json['message'] ?? "Terjadi kesalahan";
       }
     } on SocketException {
-      throw "Terjadi kesalahan jaringan";
+      throw "Terjadi Kesalahan Jaringan";
+    } on TimeoutException {
+      throw "Koneksi internet lambat, periksa jaringan Anda";
+    } catch (e) {
+      rethrow;
     }
   }
 

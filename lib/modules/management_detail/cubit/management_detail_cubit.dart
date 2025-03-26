@@ -22,6 +22,11 @@ class ManagementDetailCubit extends Cubit<ManagementDetailState> {
   final ProfileRepository repoProfile = getIt<ProfileRepository>();
   final IuranRepository repoIuran = getIt<IuranRepository>();
 
+  Future<void> checkUnpaidInvoice(int userId) async {
+    final hasUnpaid = await repoIuran.hasUnpaidInvoice(userId);
+    emit(state.copyWith(hasUnpaidInvoice: hasUnpaid));
+  }
+
   Future<void> createInvoice({
     required int userId,
     required int amount,
@@ -29,15 +34,18 @@ class ManagementDetailCubit extends Cubit<ManagementDetailState> {
   }) async {
     try {
       if (amount <= 0) {
+        print("Error: Nominal harus berupa angka yang valid!");
         emit(state.copyWith(
             errorMessage: "Nominal harus berupa angka yang valid!"));
         return;
       }
 
       emit(state.copyWith(isLoading: true, errorMessage: null));
+      print("State updated: isLoading -> true");
 
       final hasUnpaid = await repoIuran.hasUnpaidInvoice(userId);
       if (hasUnpaid) {
+        print("Error: Pengguna masih memiliki invoice yang belum dibayar");
         emit(state.copyWith(
           isLoading: false,
           errorMessage: "Pengguna masih memiliki invoice yang belum dibayar",
@@ -51,14 +59,16 @@ class ManagementDetailCubit extends Cubit<ManagementDetailState> {
         description: description,
       );
 
+      print("Success: Invoice berhasil dibuat");
       emit(state.copyWith(
         isLoading: false,
         successMessage: "Invoice berhasil dibuat",
       ));
     } catch (e) {
+      print("Error: $e");
       emit(state.copyWith(
         isLoading: false,
-        errorMessage: "$e",
+        errorMessage: "Terjadi kesalahan: $e",
       ));
     }
   }

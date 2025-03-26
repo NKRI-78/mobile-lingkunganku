@@ -224,9 +224,21 @@ class SosDetailView extends StatelessWidget {
                                           onPressed: () {
                                             Navigator.pop(context);
                                           },
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: AppColors.redColor,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                            ),
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 12),
+                                          ),
                                           child: Text(
                                             "CANCEL",
-                                            style: AppTextStyles.textDialog,
+                                            style: AppTextStyles.textDialog
+                                                .copyWith(
+                                                    color:
+                                                        AppColors.whiteColor),
                                           ),
                                         ),
                                       ),
@@ -244,6 +256,17 @@ class SosDetailView extends StatelessWidget {
                                                           .sendSos(title,
                                                               message, context);
                                                     },
+                                              style: ElevatedButton.styleFrom(
+                                                backgroundColor:
+                                                    AppColors.secondaryColor,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(8),
+                                                ),
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 12),
+                                              ),
                                               child: state.isLoading
                                                   ? const SizedBox(
                                                       width: 20,
@@ -251,14 +274,17 @@ class SosDetailView extends StatelessWidget {
                                                       child:
                                                           CircularProgressIndicator(
                                                         color: AppColors
-                                                            .secondaryColor,
+                                                            .whiteColor,
                                                         strokeWidth: 2,
                                                       ),
                                                     )
                                                   : Text(
                                                       "OK",
                                                       style: AppTextStyles
-                                                          .textDialog,
+                                                          .textDialog
+                                                          .copyWith(
+                                                              color: AppColors
+                                                                  .whiteColor),
                                                     ),
                                             );
                                           },

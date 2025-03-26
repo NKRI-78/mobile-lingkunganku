@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_lingkunganku/modules/iuran/widget/select_payment_channel.dart';
+import '../widget/select_payment_channel.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';
@@ -16,12 +16,15 @@ class IuranCubit extends Cubit<IuranState> {
 
   final IuranRepository repo = getIt<IuranRepository>();
 
+  void updateSelectedInvoices(List<Data> selected) {
+    emit(state.copyWith(selectedInvoices: selected));
+  }
+
   /// **Memilih metode pembayaran dan menyimpan fee (biaya admin)**
   void selectPaymentMethod(PaymentChannelModel channel) {
     emit(state.copyWith(
       channel: channel,
-      adminFee:
-          (channel.fee ?? 0).toDouble(), // Ambil fee dari metode pembayaran
+      adminFee: (channel.fee ?? 0).toDouble(),
     ));
   }
 
