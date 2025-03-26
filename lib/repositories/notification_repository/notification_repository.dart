@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:mobile_lingkunganku/repositories/notification_repository/models/notification_detailv2_model.dart';
 import 'package:mobile_lingkunganku/repositories/notification_repository/models/notificationv2_model.dart';
 import 'models/notification_detail_model.dart';
 
@@ -100,10 +101,6 @@ class NotificationRepository {
         body: jsonEncode({"user_id": userId}),
       );
 
-      debugPrint("🔹 Request to: $notifV2");
-      debugPrint("📩 Request body: {\"user_id\": \"$userId\"}");
-      debugPrint("📩 Response body: ${res.body}");
-
       final json = jsonDecode(res.body);
       if (res.statusCode == 200) {
         return (json['data'] as List)
@@ -114,6 +111,26 @@ class NotificationRepository {
       throw json['message'] ?? "Terjadi kesalahan";
     } on SocketException {
       throw "Terjadi kesalahan jaringan";
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<NotificationDetailV2> getDetailNotifV2(int idNotif) async {
+    try {
+      final res = await http.post(
+        Uri.parse("$notifV2/detail"),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({"id": idNotif}),
+      );
+
+      debugPrint(res.body);
+      final json = jsonDecode(res.body);
+      if (res.statusCode == 200) {
+        return NotificationDetailV2.fromJson(json['data']);
+      } else {
+        throw "error api";
+      }
     } catch (e) {
       rethrow;
     }

@@ -12,57 +12,62 @@ class ListHistoryIuranSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        // Detail History Iuran
-      },
-      child: Container(
-        height: 120,
-        width: double.infinity,
-        padding: const EdgeInsets.all(12),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-          color: AppColors.whiteColor,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 5,
-              spreadRadius: 1,
-            ),
-          ],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  iuran.translateStatus,
-                  style: AppTextStyles.textStyle1.copyWith(fontSize: 18),
-                  overflow: TextOverflow.ellipsis,
-                ),
-                Text(
-                  DateHelper.getMonthYear(
-                      DateFormat('yyyy-MM-dd').format(iuran.invoiceDate)),
-                  style: AppTextStyles.textStyle2.copyWith(fontSize: 12),
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ],
-            ),
-            SizedBox(height: 3),
-            Text(
-              "Tanggal Bayar : ${DateHelper.parseDate(iuran.paidDate.toString())}",
-              style: AppTextStyles.textWelcome.copyWith(fontSize: 10),
-              overflow: TextOverflow.ellipsis,
-            ),
-            Text(
-              "Keterangan : ${iuran.note.toString()}",
-              style: AppTextStyles.textWelcome.copyWith(fontSize: 10),
-              maxLines: 3,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ],
+    return Card(
+      margin: EdgeInsets.symmetric(vertical: 8),
+      elevation: 3,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: InkWell(
+        onTap: () {
+          // Detail History Iuran
+        },
+        child: Container(
+          height: 120,
+          width: double.infinity,
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15),
+            color: AppColors.whiteColor,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.1),
+                blurRadius: 5,
+                spreadRadius: 1,
+              ),
+            ],
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    iuran.translateStatus,
+                    style: AppTextStyles.textStyle1.copyWith(fontSize: 18),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  Text(
+                    DateHelper.getMonthYear(
+                        DateFormat('yyyy-MM-dd').format(iuran.invoiceDate)),
+                    style: AppTextStyles.textStyle2.copyWith(fontSize: 12),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+              SizedBox(height: 3),
+              Text(
+                "Tanggal Bayar : ${DateHelper.parseDate(iuran.paidDate.toString())}",
+                style: AppTextStyles.textWelcome.copyWith(fontSize: 10),
+                overflow: TextOverflow.ellipsis,
+              ),
+              Text(
+                "Keterangan : ${iuran.note.toString()}",
+                style: AppTextStyles.textWelcome.copyWith(fontSize: 10),
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
+          ),
         ),
       ),
     );

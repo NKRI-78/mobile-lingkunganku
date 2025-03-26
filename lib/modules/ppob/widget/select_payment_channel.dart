@@ -15,6 +15,8 @@ class SelectPaymentChannel extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<PpobCubit, PpobState>(
       builder: (context, state) {
+        final filteredChannels =
+            state.channels.where((e) => e.id == 2 || e.id == 3).toList();
         return WillPopScope(
           onWillPop: () async => false,
           child: Container(
@@ -49,15 +51,15 @@ class SelectPaymentChannel extends StatelessWidget {
                 ),
                 const SizedBox(height: 10),
                 const Divider(),
-                const SizedBox(height: 10),
+                const SizedBox(height: 20),
 
                 // List Metode Pembayaran dalam bentuk Card
                 Flexible(
                   child: ListView.builder(
                     shrinkWrap: true,
-                    itemCount: state.channels.length,
+                    itemCount: filteredChannels.length,
                     itemBuilder: (context, index) {
-                      final e = state.channels[index];
+                      final e = filteredChannels[index];
                       final isSelectable = e.id == 2 || e.id == 3;
                       return Card(
                         color: AppColors.whiteColor,
@@ -123,7 +125,7 @@ class SelectPaymentChannel extends StatelessWidget {
                     },
                   ),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 30),
               ],
             ),
           ),

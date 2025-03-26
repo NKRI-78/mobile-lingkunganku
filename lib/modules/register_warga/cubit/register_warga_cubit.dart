@@ -17,6 +17,10 @@ class RegisterWargaCubit extends Cubit<RegisterWargaState> {
 
   AuthRepository repo = getIt<AuthRepository>();
 
+  void updateGender(String newGender) {
+    emit(state.copyWith(gender: newGender));
+  }
+
   void togglePasswordVisibility() {
     emit(state.copyWith(isPasswordObscured: !state.isPasswordObscured));
   }

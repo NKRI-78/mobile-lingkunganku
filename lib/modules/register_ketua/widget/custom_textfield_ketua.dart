@@ -69,10 +69,8 @@ class _FieldGender extends StatelessWidget {
                   Checkbox(
                     value: state.gender == 'L',
                     onChanged: (bool? value) {
-                      if (value == true) {
-                        context.read<RegisterKetuaCubit>().copyState(
-                              newState: state.copyWith(gender: 'L'),
-                            );
+                      if (value == true && state.gender != 'L') {
+                        context.read<RegisterKetuaCubit>().updateGender('L');
                       }
                     },
                     activeColor: AppColors.buttonColor1,
@@ -84,10 +82,8 @@ class _FieldGender extends StatelessWidget {
                   Checkbox(
                     value: state.gender == 'P',
                     onChanged: (bool? value) {
-                      if (value == true) {
-                        context.read<RegisterKetuaCubit>().copyState(
-                              newState: state.copyWith(gender: 'P'),
-                            );
+                      if (value == true && state.gender != 'P') {
+                        context.read<RegisterKetuaCubit>().updateGender('P');
                       }
                     },
                     activeColor: AppColors.buttonColor1,

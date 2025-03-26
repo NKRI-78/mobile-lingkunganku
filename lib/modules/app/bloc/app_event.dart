@@ -23,3 +23,9 @@ final class SetUserData extends AppEvent {
 }
 
 final class GetBadgeNotif extends AppEvent {}
+
+final class UpdateUnreadCount extends AppEvent {
+  final int unreadCount;
+
+  const UpdateUnreadCount(this.unreadCount);
+}

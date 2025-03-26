@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mobile_lingkunganku/modules/iuran_info_detail/view/iuran_info_detail_page.dart';
+import 'package:mobile_lingkunganku/modules/notification/view/detail/notification_ppob_detail_page.dart';
 import 'package:mobile_lingkunganku/modules/ppob/view/ppob_waiting_payment_page.dart';
 import '../modules/ppob/view/ppob_page.dart';
 import '../modules/iuran_info/view/iuran_info_page.dart';
 import '../modules/iuran/view/iuran_page.dart';
 import '../modules/iuran_history/view/iuran_history_page.dart';
 import '../modules/notification/view/notification_page.dart';
-import '../modules/notification/view/notification_sos_detail_page.dart';
+import '../modules/notification/view/detail/notification_sos_detail_page.dart';
 import '../modules/sos/view/sos_detail_page.dart';
 import '../modules/news_update/view/news_update_page.dart';
 import '../modules/event/view/event_page.dart';
@@ -57,6 +58,7 @@ class OnboardingRoute extends GoRouteData {
   TypedGoRoute<WebViewRoute>(path: 'webview'),
   TypedGoRoute<NotificationRoute>(path: 'notification', routes: [
     TypedGoRoute<NotificationSosRoute>(path: 'notification-sos'),
+    TypedGoRoute<NotificationPpobRoute>(path: 'notification-ppob'),
   ]),
   TypedGoRoute<SettingsRoute>(path: 'settings'),
   TypedGoRoute<WaitingPaymentRoute>(path: 'waiting-payment'),
@@ -146,6 +148,19 @@ class NotificationSosRoute extends GoRouteData {
   @override
   Widget build(BuildContext context, GoRouterState state) {
     return NotificationSosDetailPage(
+      idNotif: idNotif,
+    );
+  }
+}
+
+class NotificationPpobRoute extends GoRouteData {
+  final int idNotif;
+
+  NotificationPpobRoute({required this.idNotif});
+
+  @override
+  Widget build(BuildContext context, GoRouterState state) {
+    return NotificationPpobDetailPage(
       idNotif: idNotif,
     );
   }

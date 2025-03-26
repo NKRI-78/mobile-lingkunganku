@@ -7,7 +7,10 @@ class NotificationState extends Equatable {
   final int nextPageNotif;
   final bool loading;
   final NotificationDetail? detail;
+  final NotificationDetailV2? detailv2;
   final int idNotif;
+  final List<PaymentChannelModelV2> channels;
+  final PaymentChannelModelV2? channel;
 
   const NotificationState({
     required this.pagination,
@@ -16,7 +19,10 @@ class NotificationState extends Equatable {
     this.inboxNotif = const [],
     this.nextPageNotif = 1,
     this.detail,
+    this.detailv2,
     this.idNotif = 0,
+    this.channels = const [],
+    this.channel,
   });
 
   @override
@@ -28,6 +34,9 @@ class NotificationState extends Equatable {
         detail,
         idNotif,
         inboxNotif,
+        detailv2,
+        channels,
+        channel,
       ];
 
   NotificationState copyWith({
@@ -38,6 +47,9 @@ class NotificationState extends Equatable {
     int? nextPageNotif,
     final NotificationDetail? detail,
     final int? idNotif,
+    final NotificationDetailV2? detailv2,
+    List<PaymentChannelModelV2>? channels,
+    PaymentChannelModelV2? channel,
   }) {
     return NotificationState(
       pagination: pagination ?? this.pagination,
@@ -47,6 +59,9 @@ class NotificationState extends Equatable {
       nextPageNotif: nextPageNotif ?? this.nextPageNotif,
       detail: detail ?? this.detail,
       idNotif: idNotif ?? this.idNotif,
+      detailv2: detailv2 ?? this.detailv2,
+      channels: channels ?? this.channels,
+      channel: channel ?? this.channel,
     );
   }
 }

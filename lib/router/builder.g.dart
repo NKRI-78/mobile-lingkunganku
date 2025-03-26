@@ -49,6 +49,10 @@ RouteBase get $homeRoute => GoRouteData.$route(
               path: 'notification-sos',
               factory: $NotificationSosRouteExtension._fromState,
             ),
+            GoRouteData.$route(
+              path: 'notification-ppob',
+              factory: $NotificationPpobRouteExtension._fromState,
+            ),
           ],
         ),
         GoRouteData.$route(
@@ -293,6 +297,29 @@ extension $NotificationSosRouteExtension on NotificationSosRoute {
 
   String get location => GoRouteData.$location(
         '/home/notification/notification-sos',
+        queryParams: {
+          'id-notif': idNotif.toString(),
+        },
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $NotificationPpobRouteExtension on NotificationPpobRoute {
+  static NotificationPpobRoute _fromState(GoRouterState state) =>
+      NotificationPpobRoute(
+        idNotif: int.parse(state.uri.queryParameters['id-notif']!),
+      );
+
+  String get location => GoRouteData.$location(
+        '/home/notification/notification-ppob',
         queryParams: {
           'id-notif': idNotif.toString(),
         },

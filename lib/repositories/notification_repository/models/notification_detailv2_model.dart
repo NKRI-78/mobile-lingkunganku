@@ -1,4 +1,4 @@
-class NotificationV2Model {
+class NotificationDetailV2 {
   int? id;
   String? title;
   String? description;
@@ -10,18 +10,7 @@ class NotificationV2Model {
   String? link;
   bool? isRead;
 
-  String get translateStatus {
-    switch (field2) {
-      case 'UNPAID':
-        return 'Belum Bayar';
-      case 'PAID':
-        return 'Lunas';
-      default:
-        return 'Status tidak tersedia';
-    }
-  }
-
-  NotificationV2Model(
+  NotificationDetailV2(
       {this.id,
       this.title,
       this.description,
@@ -33,7 +22,7 @@ class NotificationV2Model {
       this.link,
       this.isRead});
 
-  NotificationV2Model.fromJson(Map<String, dynamic> json) {
+  NotificationDetailV2.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     title = json['title'];
     description = json['description'];

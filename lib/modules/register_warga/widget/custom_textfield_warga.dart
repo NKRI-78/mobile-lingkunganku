@@ -64,10 +64,10 @@ class _FieldGender extends StatelessWidget {
                   Checkbox(
                     value: state.gender == 'L',
                     onChanged: (bool? value) {
-                      if (value == true) {
-                        context.read<RegisterWargaCubit>().copyState(
-                              newState: state.copyWith(gender: 'L'),
-                            );
+                      if (value == true && state.gender != 'L') {
+                        context
+                            .read<RegisterWargaCubit>()
+                            .updateGender('L'); // Gunakan metode baru
                       }
                     },
                     activeColor: AppColors.buttonColor1,
@@ -79,10 +79,10 @@ class _FieldGender extends StatelessWidget {
                   Checkbox(
                     value: state.gender == 'P',
                     onChanged: (bool? value) {
-                      if (value == true) {
-                        context.read<RegisterWargaCubit>().copyState(
-                              newState: state.copyWith(gender: 'P'),
-                            );
+                      if (value == true && state.gender != 'P') {
+                        context
+                            .read<RegisterWargaCubit>()
+                            .updateGender('P'); // Gunakan metode baru
                       }
                     },
                     activeColor: AppColors.buttonColor1,

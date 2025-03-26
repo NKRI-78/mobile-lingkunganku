@@ -23,6 +23,10 @@ class RegisterKetuaCubit extends Cubit<RegisterKetuaState> {
 
   static GoogleMapController? googleMapCheckIn;
 
+  void updateGender(String newGender) {
+    emit(state.copyWith(gender: newGender));
+  }
+
   void togglePasswordVisibility() {
     emit(state.copyWith(isPasswordObscured: !state.isPasswordObscured));
   }
