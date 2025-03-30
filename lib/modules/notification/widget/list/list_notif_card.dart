@@ -18,9 +18,15 @@ class ListNotifCard extends StatelessWidget {
     return InkWell(
       onTap: () async {
         await context.read<NotificationCubit>().readNotif(notif.id.toString());
-        if (notif.type.contains("PAYMENT")) {
+
+        if (notif.type == "INVOICES") {
+          // Jika INVOICE, masuk ke halaman Iuran
+          IuranRoute().push(context);
+        } else if (notif.type.contains("PAYMENT")) {
+          // Jika bukan INVOICE, masuk ke detail pembayaran
           WaitingPaymentRoute(id: notif.paymentId.toString()).push(context);
         } else {
+          // Navigasi default untuk notifikasi lain
           NotificationSosRoute(idNotif: notif.id).push(context);
         }
       },
@@ -28,11 +34,12 @@ class ListNotifCard extends StatelessWidget {
         margin: const EdgeInsets.symmetric(vertical: 5),
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
         decoration: BoxDecoration(
-            color: notif.readAt == null
-                ? AppColors.greyColor.withOpacity(0.2)
-                : AppColors.whiteColor,
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: AppColors.blackColor.withOpacity(0.2))),
+          color: notif.readAt == null
+              ? AppColors.greyColor.withOpacity(0.2)
+              : AppColors.whiteColor,
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: AppColors.blackColor.withOpacity(0.2)),
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -45,9 +52,10 @@ class ListNotifCard extends StatelessWidget {
                   child: Text(
                     notif.title,
                     style: const TextStyle(
-                        color: AppColors.blackColor,
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold),
+                      color: AppColors.blackColor,
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
                 Expanded(
@@ -66,15 +74,14 @@ class ListNotifCard extends StatelessWidget {
                 ),
               ],
             ),
-            const Divider(
-              thickness: .5,
-              color: AppColors.greyColor,
-            ),
+            const Divider(thickness: .5, color: AppColors.greyColor),
             Text(
               notif.type == "SOS" ||
                       notif.type == "GIVEN_ROLE" ||
-                      notif.type.contains("PAYMENT")
-                  ? (notif.message)
+                      notif.type.contains("PAYMENT") ||
+                      notif.type == "BROADCAST" ||
+                      notif.type == "INVOICES"
+                  ? notif.message
                   : (notif.body ?? ''),
               style: const TextStyle(
                 color: AppColors.blackColor,
@@ -82,6 +89,36 @@ class ListNotifCard extends StatelessWidget {
               ),
             ),
             if (notif.type.contains("PAYMENT")) ...[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Expanded(
+                    child: Text(
+                      'Jenis Pembayaran',
+                      style: TextStyle(
+                        color: AppColors.blackColor,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text(
+                          notif.paymentType == "INVOICE" ? "IURAN" : "TOPUP",
+                          style: const TextStyle(
+                            color: AppColors.blackColor,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 5),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,

@@ -58,8 +58,26 @@ class CustomListInvoiceSection extends StatelessWidget {
 
                                       if (isChecked == true) {
                                         updatedSelection.add(iuranItem);
+
+                                        // Pastikan semua kotak sebelumnya juga tercentang
+                                        for (int i = index - 1; i >= 0; i--) {
+                                          if (!updatedSelection
+                                              .contains(iuran![i])) {
+                                            updatedSelection.add(iuran![i]);
+                                          }
+                                        }
                                       } else {
                                         updatedSelection.remove(iuranItem);
+
+                                        // Jika kotak ini di-uncek, maka kotak setelahnya juga harus di-uncek
+                                        for (int i = index + 1;
+                                            i < iuran!.length;
+                                            i++) {
+                                          if (updatedSelection
+                                              .contains(iuran![i])) {
+                                            updatedSelection.remove(iuran![i]);
+                                          }
+                                        }
                                       }
 
                                       selectedInvoices.value = updatedSelection;

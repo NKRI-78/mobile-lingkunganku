@@ -4,7 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:mobile_lingkunganku/repositories/profile_repository/profile_repository.dart';
+import '../../../repositories/profile_repository/profile_repository.dart';
 import '../../../repositories/notification_repository/notification_repository.dart';
 
 import '../../../misc/http_client.dart';
@@ -88,9 +88,8 @@ class AppBloc extends HydratedBloc<AppEvent, AppState> {
     try {
       final profile = await repoProfile.getProfile();
       emit(state.copyWith(profile: profile));
-      print("Profile Ke ambil ya babi");
     } catch (e) {
-      print("Error : $e");
+      debugPrint("Error : $e");
     }
   }
 

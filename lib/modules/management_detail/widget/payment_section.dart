@@ -89,7 +89,7 @@ class _PaymentSectionState extends State<PaymentSection> {
                     height: 50,
                     child: ElevatedButton.icon(
                       onPressed: state.hasUnpaidInvoice
-                          ? null // 🔥 Disable tombol jika sudah ada tagihan
+                          ? null // 🔥 Disable tombol jika ada invoice tertunda
                           : () async {
                               try {
                                 final amountValue = int.tryParse(
@@ -111,17 +111,31 @@ class _PaymentSectionState extends State<PaymentSection> {
                                 final userId =
                                     state.memberDetail?.data?.id ?? 0;
 
-                                // 🔥 Cek ulang apakah masih ada invoice yang belum dibayar
+                                // 🔥 Cek apakah ada invoice yang belum dibayar
                                 final hasUnpaid = await context
                                     .read<ManagementDetailCubit>()
                                     .repoIuran
                                     .hasUnpaidInvoice(userId);
 
                                 if (hasUnpaid) {
-                                  context.read<ManagementDetailCubit>().emit(
-                                      state.copyWith(hasUnpaidInvoice: true));
-                                  throw Exception(
-                                      "Pengguna masih memiliki invoice yang belum dibayar");
+                                  if (!state.hasUnpaidInvoice) {
+                                    context.read<ManagementDetailCubit>().emit(
+                                          state.copyWith(
+                                              hasUnpaidInvoice: true),
+                                        );
+                                  }
+
+                                  // 🔥 Langsung tampilkan SnackBar tanpa addPostFrameCallback
+                                  if (mounted) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        backgroundColor: AppColors.redColor,
+                                        content: Text(
+                                            "Pengguna masih memiliki invoice yang belum dibayar"),
+                                      ),
+                                    );
+                                  }
+                                  return; // **Hentikan proses**
                                 }
 
                                 // 🔥 Buat invoice baru

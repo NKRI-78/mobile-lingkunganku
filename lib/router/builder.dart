@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mobile_lingkunganku/modules/iuran_info_detail/view/iuran_info_detail_page.dart';
-import 'package:mobile_lingkunganku/modules/notification/view/detail/notification_ppob_detail_page.dart';
-import 'package:mobile_lingkunganku/modules/ppob/view/ppob_waiting_payment_page.dart';
+import '../modules/iuran_info_detail/view/iuran_info_detail_page.dart';
+import '../modules/notification/view/detail/notification_ppob_detail_page.dart';
+import '../modules/ppob/view/ppob_waiting_payment_page.dart';
 import '../modules/ppob/view/ppob_page.dart';
 import '../modules/iuran_info/view/iuran_info_page.dart';
 import '../modules/iuran/view/iuran_page.dart';

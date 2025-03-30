@@ -34,7 +34,6 @@ class ManagementAccesSection extends StatelessWidget {
           onPressed: isDisabled
               ? null
               : () {
-                  print("Dialog muncul");
                   _showManagementAccesDialog(
                     context,
                     (member?.secretary?.id?.toString() ??

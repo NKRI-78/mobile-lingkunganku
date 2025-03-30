@@ -1,8 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:flutter/material.dart';
+
+import '../widgets/button/custom_button.dart';
 import 'colors.dart';
 import 'text_style.dart';
-import '../widgets/button/custom_button.dart';
 
 class GeneralModal {
   static Future<void> showConfirmModal({

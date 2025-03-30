@@ -1,13 +1,14 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../misc/theme.dart';
-import '../../modules/forum_detail/cubit/forum_detail_cubit.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
 
 import '../../misc/colors.dart';
+import '../../misc/download_manager.dart';
+import '../../misc/theme.dart';
+import '../../modules/forum_detail/cubit/forum_detail_cubit.dart';
 
 class ClippedPhotoPage extends StatelessWidget {
   const ClippedPhotoPage({
@@ -195,7 +196,31 @@ class _ClippedPhotoViewState extends State<ClippedPhotoView> {
                               },
                               onSelected: (route) async {
                                 if (route == "/save") {
-                                  // await DownloadHelper.downloadDoc(context: context, url: st.comment?.data.medias[indexImage].path ?? "");
+                                  if (st.detailForum?.forumMedia != null &&
+                                      indexImage <
+                                          st.detailForum!.forumMedia!.length) {
+                                    String imageUrl = st.detailForum!
+                                            .forumMedia![indexImage].link ??
+                                        "";
+
+                                    if (imageUrl.isNotEmpty) {
+                                      await DownloadHelper.downloadDoc(
+                                          context: context, url: imageUrl);
+                                    } else {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                            content: Text(
+                                                "Gagal mengunduh: URL tidak valid")),
+                                      );
+                                    }
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                          content: Text(
+                                              "Gagal mengunduh: Data media tidak ditemukan")),
+                                    );
+                                  }
                                 }
                               },
                             ),

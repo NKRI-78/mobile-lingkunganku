@@ -3,8 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:mobile_lingkunganku/misc/injections.dart';
-import 'package:mobile_lingkunganku/modules/notification/cubit/notification_cubit.dart';
+import '../../../../misc/injections.dart';
+import '../../cubit/notification_cubit.dart';
 import 'package:slide_countdown/slide_countdown.dart';
 
 import '../../../../misc/colors.dart';

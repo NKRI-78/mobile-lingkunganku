@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:mobile_lingkunganku/modules/iuran_info_detail/cubit/iuran_info_detail_cubit.dart';
-import 'package:mobile_lingkunganku/modules/iuran_info_detail/widget/list_detail_iuran_section.dart';
-import 'package:mobile_lingkunganku/widgets/pages/empty_page.dart';
-import 'package:mobile_lingkunganku/widgets/pages/loading_page.dart';
+import '../cubit/iuran_info_detail_cubit.dart';
+import '../widget/list_detail_iuran_section.dart';
+import '../../../widgets/pages/empty_page.dart';
+import '../../../widgets/pages/loading_page.dart';
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
 
