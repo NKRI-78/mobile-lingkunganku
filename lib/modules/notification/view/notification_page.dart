@@ -37,8 +37,7 @@ class NotificationView extends StatelessWidget {
             .length;
         int unreadOther = state.notif
             .where((n) =>
-                n.type != "SOS" &&
-                !n.type.contains("PAYMENT") &&
+                ["BROADCAST", "GIVEN_ROLE", "INVOICES"].contains(n.type) &&
                 n.readAt == null)
             .length;
 

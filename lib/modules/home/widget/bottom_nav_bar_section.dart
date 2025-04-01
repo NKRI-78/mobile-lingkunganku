@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:badges/badges.dart' as Badges;
 
 import '../../../misc/colors.dart';
 import '../../../router/builder.dart';
@@ -37,9 +38,31 @@ class BottomNavBarSection extends StatelessWidget {
                       width: 30, height: 35),
                   label: '',
                 ),
+                // Menambahkan Badges pada Iuran
                 BottomNavigationBarItem(
-                  icon: Image.asset('assets/icons/iuran.png',
-                      width: 30, height: 35),
+                  icon: BlocBuilder<AppBloc, AppState>(
+                    builder: (context, state) {
+                      int unpaidIuranCount = state.iuranBadges?.count ?? 0;
+                      return Badges.Badge(
+                        position:
+                            Badges.BadgePosition.topEnd(top: -12, end: -13),
+                        showBadge: unpaidIuranCount > 0,
+                        badgeStyle: const Badges.BadgeStyle(
+                          padding: EdgeInsets.all(5),
+                        ),
+                        badgeContent: Text(
+                          '$unpaidIuranCount',
+                          style:
+                              const TextStyle(fontSize: 8, color: Colors.white),
+                        ),
+                        child: Image.asset(
+                          'assets/icons/iuran.png',
+                          width: 30,
+                          height: 35,
+                        ),
+                      );
+                    },
+                  ),
                   label: '',
                 ),
                 BottomNavigationBarItem(

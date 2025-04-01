@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:mobile_lingkunganku/repositories/iuran_repository/models/iuran_count_model.dart';
 import 'models/iuran_paid_model.dart';
 import '../../misc/api_url.dart';
 import '../../misc/http_client.dart';
@@ -199,6 +200,22 @@ class IuranRepository {
       }
     } catch (e) {
       debugPrint("Error: $e");
+      rethrow;
+    }
+  }
+
+  Future<IuranCountModel> getBadgesIuran() async {
+    try {
+      final res = await http.get(Uri.parse('$iuran/getUnpaidInvoiceCount'));
+
+      debugPrint(res.body);
+      final json = jsonDecode(res.body);
+      if (res.statusCode == 200) {
+        return IuranCountModel.fromJson(json['data']);
+      } else {
+        throw json['message'] ?? "Terjadi Kesalahan";
+      }
+    } catch (e) {
       rethrow;
     }
   }

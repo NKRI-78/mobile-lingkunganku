@@ -5,7 +5,6 @@ import '../cubit/transfer_management_cubit.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
-import '../../../misc/theme.dart';
 
 part '_show_transfer_dialog.dart';
 part '_show_peringatan_dialog.dart';
@@ -28,11 +27,26 @@ class MemberListSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: CircleAvatar(
-        radius: 24,
-        backgroundColor: Colors.grey.shade300,
-        backgroundImage: avatarUrl != null && avatarUrl!.isNotEmpty
-            ? CachedNetworkImageProvider(avatarUrl!) as ImageProvider
-            : const AssetImage(avatarDefault),
+        radius: 25,
+        backgroundColor: AppColors.secondaryColor,
+        child: ClipOval(
+            child: avatarUrl != null && avatarUrl!.isNotEmpty
+                ? CachedNetworkImage(
+                    imageUrl: avatarUrl!,
+                    width: 50,
+                    height: 50,
+                    fit: BoxFit.cover,
+                    placeholder: (context, url) => CircularProgressIndicator(
+                          color: AppColors.secondaryColor,
+                        ),
+                    errorWidget: (context, url, error) => Icon(
+                          Icons.person,
+                          color: Colors.white,
+                        ))
+                : Icon(
+                    Icons.person,
+                    color: Colors.white,
+                  )),
       ),
       title: Text(name, style: AppTextStyles.textDialog),
       subtitle: Text(role, style: TextStyle(color: Colors.grey.shade600)),
@@ -40,7 +54,7 @@ class MemberListSection extends StatelessWidget {
         if (role.toLowerCase() == "ketua") {
           return _showPeringatanDialog(context);
         }
-        print("ROLE DIPILIH : $role");
+        debugPrint("ROLE DIPILIH : $role");
         _showTransferDialog(context, userId, name);
       },
     );

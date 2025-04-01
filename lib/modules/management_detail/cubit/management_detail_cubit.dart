@@ -27,49 +27,66 @@ class ManagementDetailCubit extends Cubit<ManagementDetailState> {
     emit(state.copyWith(hasUnpaidInvoice: hasUnpaid));
   }
 
+  void validateAmount(String amount) {
+    final amountValue = int.tryParse(amount) ?? 0;
+
+    if (amountValue <= 0) {
+      emit(state.copyWith(
+        errorMessage: "Nominal harus berupa angka yang valid!",
+        successMessage: null,
+      ));
+    } else {
+      emit(state.copyWith(
+        errorMessage: null, // 🔥 Reset error jika angka sudah valid
+      ));
+    }
+  }
+
   Future<void> createInvoice({
     required int userId,
-    required int amount,
+    required String amount,
     required String description,
   }) async {
+    print(
+        "🚀 createInvoice DIPANGGIL untuk userId: $userId, amount: $amount, description: $description");
+
+    // 🔥 Validasi langsung sebelum memproses
+    final amountValue = int.tryParse(amount) ?? 0;
+    if (amountValue <= 0) {
+      emit(state.copyWith(
+          errorMessage: "Nominal harus berupa angka yang valid!",
+          successMessage: null));
+      return;
+    }
+
+    if (description.trim().isEmpty) {
+      emit(state.copyWith(
+          errorMessage: "Deskripsi tidak boleh kosong!", successMessage: null));
+      return;
+    }
+
     try {
-      if (amount <= 0) {
-        print("Error: Nominal harus berupa angka yang valid!");
-        emit(state.copyWith(
-            errorMessage: "Nominal harus berupa angka yang valid!"));
-        return;
-      }
-
-      emit(state.copyWith(isLoading: true, errorMessage: null));
-      print("State updated: isLoading -> true");
-
-      final hasUnpaid = await repoIuran.hasUnpaidInvoice(userId);
-      if (hasUnpaid) {
-        print("Error: Pengguna masih memiliki invoice yang belum dibayar");
-        emit(state.copyWith(
-          isLoading: false,
-          errorMessage: "Pengguna masih memiliki invoice yang belum dibayar",
-        ));
-        return;
-      }
+      emit(state.copyWith(
+          errorMessage: null, successMessage: null, isLoading: true));
 
       await repoIuran.createInvoice(
         userId: userId,
-        amount: amount,
+        amount: amountValue,
         description: description,
       );
 
-      print("Success: Invoice berhasil dibuat");
+      print("🎉 Invoice berhasil dibuat!");
+
       emit(state.copyWith(
+        successMessage: "Iuran berhasil dibuat",
+        errorMessage: null,
         isLoading: false,
-        successMessage: "Invoice berhasil dibuat",
       ));
+
+      await checkUnpaidInvoice(userId);
     } catch (e) {
-      print("Error: $e");
-      emit(state.copyWith(
-        isLoading: false,
-        errorMessage: "Terjadi kesalahan: $e",
-      ));
+      print("🔥 ERROR: $e");
+      emit(state.copyWith(errorMessage: "$e", isLoading: false));
     }
   }
 

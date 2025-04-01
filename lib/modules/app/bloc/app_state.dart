@@ -3,6 +3,7 @@ part of 'app_bloc.dart';
 @JsonSerializable()
 final class AppState extends Equatable {
   final NotificationCountModel? badges;
+  final IuranCountModel? iuranBadges;
   final bool alreadyOnboarding;
   final User? user;
   final String token;
@@ -12,6 +13,7 @@ final class AppState extends Equatable {
   const AppState({
     this.profile,
     this.badges,
+    this.iuranBadges,
     this.alreadyOnboarding = false,
     this.user,
     this.token = '',
@@ -23,8 +25,15 @@ final class AppState extends Equatable {
   bool get userEmpty => token.isEmpty;
 
   @override
-  List<Object?> get props =>
-      [alreadyOnboarding, user, token, loadingNotif, badges, profile];
+  List<Object?> get props => [
+        alreadyOnboarding,
+        user,
+        token,
+        loadingNotif,
+        badges,
+        profile,
+        iuranBadges,
+      ];
 
   AppState logout() {
     return AppState(
@@ -36,6 +45,7 @@ final class AppState extends Equatable {
 
   AppState copyWith({
     NotificationCountModel? badges,
+    IuranCountModel? iuranBadges,
     bool? alreadyOnboarding,
     User? user,
     String? token,
@@ -44,6 +54,7 @@ final class AppState extends Equatable {
   }) {
     return AppState(
       badges: badges ?? this.badges,
+      iuranBadges: iuranBadges ?? this.iuranBadges,
       alreadyOnboarding: alreadyOnboarding ?? this.alreadyOnboarding,
       user: user ?? this.user,
       profile: profile ?? this.profile,

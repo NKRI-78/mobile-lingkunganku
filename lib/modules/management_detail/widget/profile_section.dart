@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
-import '../../../misc/theme.dart';
 import '../../../repositories/management_repository/models/management_detail_member_model.dart';
 
 class ProfileSection extends StatelessWidget {
@@ -27,12 +26,23 @@ class ProfileSection extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: 50,
-            backgroundColor: AppColors.textColor1,
-            backgroundImage: (member?.profile != null &&
-                    member!.profile!.avatarLink != null &&
-                    member!.profile!.avatarLink!.isNotEmpty)
-                ? CachedNetworkImageProvider(member!.profile!.avatarLink!)
-                : const AssetImage(avatarDefault) as ImageProvider,
+            backgroundColor: AppColors.secondaryColor,
+            child: ClipOval(
+              child: member?.profile?.avatarLink != null &&
+                      member!.profile!.avatarLink!.isNotEmpty
+                  ? CachedNetworkImage(
+                      imageUrl: member!.profile!.avatarLink!,
+                      width: 100,
+                      height: 100,
+                      fit: BoxFit.cover,
+                      placeholder: (context, url) => CircularProgressIndicator(
+                        color: AppColors.secondaryColor,
+                      ),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.person, color: Colors.white),
+                    )
+                  : const Icon(Icons.person, color: Colors.white),
+            ),
           ),
           const SizedBox(height: 10),
           SizedBox(

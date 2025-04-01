@@ -34,8 +34,8 @@ class _PaymentSectionState extends State<PaymentSection> {
     String text = amountController.text.replaceAll(RegExp(r'[^0-9]'), '');
     if (text.isNotEmpty) {
       amountController.value = TextEditingValue(
-        text: "Rp $text",
-        selection: TextSelection.collapsed(offset: "Rp $text".length),
+        text: text,
+        selection: TextSelection.collapsed(offset: text.length),
       );
     }
   }
@@ -46,6 +46,27 @@ class _PaymentSectionState extends State<PaymentSection> {
       builder: (context, state) {
         final userId = state.memberDetail?.data?.id ?? 0;
         final role = state.memberDetail?.data?.roleApp ?? "";
+        String formattedAmount =
+            amountController.text.replaceAll(RegExp(r'[^0-9]'), '');
+
+        print("📌 State Error: ${state.errorMessage}");
+        print("📌 State Success: ${state.successMessage}");
+
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (state.errorMessage != null) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                  content: Text(state.errorMessage!),
+                  backgroundColor: AppColors.redColor),
+            );
+          } else if (state.successMessage != null) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                  content: Text(state.successMessage!),
+                  backgroundColor: AppColors.secondaryColor),
+            );
+          }
+        });
 
         print("INI USER TUJUAN : $userId");
         print("INI ROLE TUJUAN : $role");
@@ -64,8 +85,14 @@ class _PaymentSectionState extends State<PaymentSection> {
                       height: 50,
                       child: TextField(
                         controller: amountController,
-                        enabled: !state
-                            .hasUnpaidInvoice, // 🔥 Disable jika ada tagihan
+                        onChanged: (value) {
+                          // 🔥 Perbaiki validasi langsung saat user mengetik
+                          final formattedAmount =
+                              value.replaceAll(RegExp(r'[^0-9]'), '');
+                          context
+                              .read<ManagementDetailCubit>()
+                              .validateAmount(formattedAmount);
+                        },
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
                           hintText: "Rp 0",
@@ -91,90 +118,17 @@ class _PaymentSectionState extends State<PaymentSection> {
                       onPressed: state.hasUnpaidInvoice
                           ? null // 🔥 Disable tombol jika ada invoice tertunda
                           : () async {
-                              try {
-                                final amountValue = int.tryParse(
-                                        amountController.text.replaceAll(
-                                            RegExp(r'[^0-9]'), '')) ??
-                                    0;
-                                final description =
-                                    descriptionController.text.trim();
+                              final userId = state.memberDetail?.data?.id ?? 0;
 
-                                if (amountValue <= 0) {
-                                  throw Exception(
-                                      "Nominal harus berupa angka yang valid!");
-                                }
-                                if (description.isEmpty) {
-                                  throw Exception(
-                                      "Deskripsi tidak boleh kosong!");
-                                }
-
-                                final userId =
-                                    state.memberDetail?.data?.id ?? 0;
-
-                                // 🔥 Cek apakah ada invoice yang belum dibayar
-                                final hasUnpaid = await context
-                                    .read<ManagementDetailCubit>()
-                                    .repoIuran
-                                    .hasUnpaidInvoice(userId);
-
-                                if (hasUnpaid) {
-                                  if (!state.hasUnpaidInvoice) {
-                                    context.read<ManagementDetailCubit>().emit(
-                                          state.copyWith(
-                                              hasUnpaidInvoice: true),
-                                        );
-                                  }
-
-                                  // 🔥 Langsung tampilkan SnackBar tanpa addPostFrameCallback
-                                  if (mounted) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        backgroundColor: AppColors.redColor,
-                                        content: Text(
-                                            "Pengguna masih memiliki invoice yang belum dibayar"),
-                                      ),
-                                    );
-                                  }
-                                  return; // **Hentikan proses**
-                                }
-
-                                // 🔥 Buat invoice baru
-                                await context
-                                    .read<ManagementDetailCubit>()
-                                    .createInvoice(
-                                      userId: userId,
-                                      amount: amountValue,
-                                      description: description,
-                                    );
-
-                                if (!mounted) return;
-
-                                // 🔥 Perbarui status `hasUnpaidInvoice`
-                                await context
-                                    .read<ManagementDetailCubit>()
-                                    .checkUnpaidInvoice(userId);
-
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    backgroundColor: AppColors.secondaryColor,
-                                    content: Text("Invoice berhasil dibuat"),
-                                  ),
-                                );
-
-                                amountController.clear();
-                                descriptionController.clear();
-                              } catch (e) {
-                                if (!mounted) return;
-
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    backgroundColor: AppColors.redColor,
-                                    content: Text(e
-                                        .toString()
-                                        .replaceAll("Exception: ", "")),
-                                  ),
-                                );
-                              }
+                              // 🔥 Panggil Cubit langsung tanpa validasi tambahan
+                              context
+                                  .read<ManagementDetailCubit>()
+                                  .createInvoice(
+                                    userId: userId,
+                                    amount: formattedAmount,
+                                    description:
+                                        descriptionController.text.trim(),
+                                  );
                             },
                       icon: const Icon(Icons.send, color: Colors.white),
                       label: Text(

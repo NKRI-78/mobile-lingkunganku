@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_lingkunganku/misc/colors.dart';
 
 import '../../../misc/text_style.dart';
-import '../../../misc/theme.dart';
 import '../../../router/builder.dart';
 
 class MemberTile extends StatelessWidget {
@@ -23,11 +23,26 @@ class MemberTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       leading: CircleAvatar(
-        radius: 24,
-        backgroundColor: Colors.grey.shade300,
-        backgroundImage: avatarUrl != null && avatarUrl!.isNotEmpty
-            ? CachedNetworkImageProvider(avatarUrl!) as ImageProvider
-            : const AssetImage(avatarDefault),
+        radius: 25,
+        backgroundColor: AppColors.secondaryColor,
+        child: ClipOval(
+            child: avatarUrl != null && avatarUrl!.isNotEmpty
+                ? CachedNetworkImage(
+                    imageUrl: avatarUrl!,
+                    width: 50,
+                    height: 50,
+                    fit: BoxFit.cover,
+                    placeholder: (context, url) => CircularProgressIndicator(
+                        color: AppColors.secondaryColor),
+                    errorWidget: (context, url, error) => Icon(
+                      Icons.person,
+                      color: Colors.white,
+                    ),
+                  )
+                : Icon(
+                    Icons.person,
+                    color: Colors.white,
+                  )),
       ),
       title: Text(name, style: AppTextStyles.textDialog),
       subtitle: Text(role, style: TextStyle(color: Colors.grey.shade600)),

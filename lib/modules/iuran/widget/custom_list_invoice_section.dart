@@ -20,7 +20,7 @@ class CustomListInvoiceSection extends StatelessWidget {
     }
 
     if (iuran == null || iuran!.isEmpty) {
-      return const Center(child: EmptyPage(msg: 'Data Tagihan Kosong'));
+      return const Center(child: EmptyPage(msg: 'Data Iuran Kosong'));
     }
 
     return BlocBuilder<AppBloc, AppState>(
