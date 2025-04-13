@@ -55,7 +55,7 @@ class DownloadHelper {
                 pr.close();
                 Uint8List uint8List = Uint8List.fromList(bytes);
 
-                await FileStorage.saveFile(uint8List, filename);
+                await FileStorage.saveFileUrl(uint8List, filename);
                 // ignore: use_build_context_synchronously
                 if (context.mounted) {
                   await FileStorage.getFileFromAsset(

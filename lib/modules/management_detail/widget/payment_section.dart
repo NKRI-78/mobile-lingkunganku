@@ -115,21 +115,15 @@ class _PaymentSectionState extends State<PaymentSection> {
                   SizedBox(
                     height: 50,
                     child: ElevatedButton.icon(
-                      onPressed: state.hasUnpaidInvoice
-                          ? null // 🔥 Disable tombol jika ada invoice tertunda
-                          : () async {
-                              final userId = state.memberDetail?.data?.id ?? 0;
-
-                              // 🔥 Panggil Cubit langsung tanpa validasi tambahan
-                              context
-                                  .read<ManagementDetailCubit>()
-                                  .createInvoice(
-                                    userId: userId,
-                                    amount: formattedAmount,
-                                    description:
-                                        descriptionController.text.trim(),
-                                  );
-                            },
+                      onPressed: () {
+                        final userId = state.memberDetail?.data?.id ?? 0;
+                        _showinvoiceDialog(
+                          context,
+                          userId,
+                          formattedAmount,
+                          descriptionController.text.trim(),
+                        );
+                      },
                       icon: const Icon(Icons.send, color: Colors.white),
                       label: Text(
                         "Submit",
@@ -170,6 +164,146 @@ class _PaymentSectionState extends State<PaymentSection> {
           ],
         );
       },
+    );
+  }
+
+  void _showinvoiceDialog(
+      BuildContext context, int userId, String amount, String description) {
+    final cubit = context.read<ManagementDetailCubit>();
+
+    showDialog(
+      context: context,
+      builder: (context) => BlocProvider.value(
+        value: cubit,
+        child: AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          contentPadding: EdgeInsets.all(12),
+          content: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Image.asset(
+                    'assets/icons/chat_bubble.png',
+                    height: 120,
+                    width: 120,
+                  ),
+                  const SizedBox(height: 10),
+                  const Text(
+                    "Konfirmasi Iuran",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                  ),
+                  const SizedBox(height: 10),
+                  const Text(
+                    "Pilih tindakan yang ingin Anda lakukan terhadap iuran pengguna ini.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 14),
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      SizedBox(
+                        width: 120,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.secondaryColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                            cubit.updateInvoice(
+                              userId: userId,
+                              amount: amount,
+                              description: description,
+                            );
+                          },
+                          child: const Text(
+                            "Update",
+                            style: TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 120,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.secondaryColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                            cubit.createInvoice(
+                              userId: userId,
+                              amount: amount,
+                              description: description,
+                            );
+                          },
+                          child: const Text(
+                            "Buat Baru",
+                            style: TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+              Positioned(
+                top: -10,
+                right: -10,
+                child: IconButton(
+                  icon: const Icon(Icons.close, color: AppColors.textColor),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ),
+            ],
+          ),
+          // actionsAlignment: MainAxisAlignment.spaceEvenly,
+          // actions: [
+          //   SizedBox(
+          //     width: double.infinity,
+          //     child: CustomButton(
+          //       text: "Update Iuran",
+          //       onPressed: () {
+          //         Navigator.of(context).pop();
+          //         cubit.updateInvoice(
+          //           userId: userId,
+          //           amount: amount,
+          //           description: description,
+          //         );
+          //       },
+          //     ),
+          //   ),
+          //   SizedBox(
+          //     width: double.infinity,
+          //     child: CustomButton(
+          //       text: "Buat Iuran",
+          //       onPressed: () {
+          //         Navigator.of(context).pop();
+          //         cubit.createInvoice(
+          //           userId: userId,
+          //           amount: amount,
+          //           description: description,
+          //         );
+          //       },
+          //     ),
+          //   ),
+          // ],
+        ),
+      ),
     );
   }
 }

@@ -90,6 +90,54 @@ class ManagementDetailCubit extends Cubit<ManagementDetailState> {
     }
   }
 
+  Future<void> updateInvoice({
+    required int userId,
+    required String amount,
+    required String description,
+  }) async {
+    print(
+        "✏️ updateInvoice DIPANGGIL untuk userId: $userId, amount: $amount, description: $description");
+
+    // Validasi input
+    final amountValue = int.tryParse(amount) ?? 0;
+    if (amountValue <= 0) {
+      emit(state.copyWith(
+          errorMessage: "Nominal harus berupa angka yang valid!",
+          successMessage: null));
+      return;
+    }
+
+    if (description.trim().isEmpty) {
+      emit(state.copyWith(
+          errorMessage: "Deskripsi tidak boleh kosong!", successMessage: null));
+      return;
+    }
+
+    try {
+      emit(state.copyWith(
+          errorMessage: null, successMessage: null, isLoading: true));
+
+      await repoIuran.updateInvoice(
+        userId: userId,
+        amount: amountValue,
+        description: description,
+      );
+
+      print("✅ Invoice berhasil diupdate!");
+
+      emit(state.copyWith(
+        successMessage: "Iuran berhasil diperbarui",
+        errorMessage: null,
+        isLoading: false,
+      ));
+
+      await checkUnpaidInvoice(userId);
+    } catch (e) {
+      print("🔥 ERROR UPDATE: $e");
+      emit(state.copyWith(errorMessage: "$e", isLoading: false));
+    }
+  }
+
   Future<void> getProfile() async {
     try {
       emit(state.copyWith(isLoading: true, errorMessage: null));

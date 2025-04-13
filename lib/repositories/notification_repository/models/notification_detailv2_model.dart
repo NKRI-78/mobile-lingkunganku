@@ -7,6 +7,7 @@ class NotificationDetailV2 {
   String? field4;
   String? field5;
   String? field6;
+  String? field7;
   String? link;
   bool? isRead;
 
@@ -19,6 +20,7 @@ class NotificationDetailV2 {
       this.field4,
       this.field5,
       this.field6,
+      this.field7,
       this.link,
       this.isRead});
 
@@ -31,6 +33,7 @@ class NotificationDetailV2 {
     field4 = json['field4'];
     field5 = json['field5'];
     field6 = json['field6'];
+    field7 = json['field7'];
     link = json['link'];
     isRead = json['is_read'];
   }
@@ -45,6 +48,7 @@ class NotificationDetailV2 {
     data['field4'] = field4;
     data['field5'] = field5;
     data['field6'] = field6;
+    data['field7'] = field7;
     data['link'] = link;
     data['is_read'] = isRead;
     return data;

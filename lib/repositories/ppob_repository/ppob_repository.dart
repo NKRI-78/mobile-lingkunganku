@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as httpBase;
-import '../../misc/api_url.dart';
+
 import 'models/payment_channel_modelv2.dart';
 import '../../misc/http_client.dart';
 import '../../misc/injections.dart';
@@ -11,7 +11,7 @@ import 'models/pulsa_data_model.dart';
 
 class PpobRepository {
   String get ppob => 'https://api-ppob.langitdigital78.com/api/v1/ppob/info';
-  String get payment => '${MyApi.baseUrlPpob}/api/v1/payment';
+  String get payment => 'http://157.245.193.49:3098/api/v1/channel';
 
   final http = getIt<BaseNetworkClient>();
 
@@ -108,7 +108,8 @@ class PpobRepository {
     required String type,
   }) async {
     try {
-      final uri = Uri.parse("$payment/inquiry");
+      final uri = Uri.parse(
+          "https://api-ppob.langitdigital78.com/api/v1/payment/inquiry");
       var headers = {'Content-Type': 'application/json'};
 
       // ✅ Hanya mengirimkan data yang dibutuhkan

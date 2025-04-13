@@ -140,9 +140,20 @@ void _customPaymentSection(BuildContext context, List<PulsaDataModel> selected,
                                       userId.toString(), type, phoneNumber);
 
                                   if (response != null) {
+                                    final isQRPayment = paymentCode
+                                            .toLowerCase()
+                                            .contains("gopay") ||
+                                        paymentCode
+                                            .toLowerCase()
+                                            .contains("qris");
+
+                                    final expireTime = isQRPayment
+                                        ? DateTime.now()
+                                            .add(const Duration(minutes: 15))
+                                        : DateTime.now()
+                                            .add(const Duration(days: 1));
                                     PpobPaymentRoute(
-                                      paymentExpire:
-                                          DateTime.now().add(Duration(days: 1)),
+                                      paymentExpire: expireTime,
                                       paymentAccess:
                                           response['payment_access'] ?? "-",
                                       totalPayment: totalAmount,

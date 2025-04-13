@@ -41,6 +41,15 @@ class _NotificationPpobDetailViewState
   Widget build(BuildContext context) {
     return BlocBuilder<NotificationCubit, NotificationState>(
       builder: (context, state) {
+        if (state.loading || state.detailv2 == null) {
+          return const Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(
+                color: AppColors.secondaryColor,
+              ),
+            ),
+          );
+        }
         return Scaffold(
           appBar: AppBar(
             surfaceTintColor: Colors.transparent,
@@ -89,6 +98,7 @@ class _NotificationPpobDetailViewState
                   context,
                   state.detailv2?.title ?? "-",
                   state.detailv2?.description ?? "-",
+                  state.detailv2?.field7 ?? "-",
                 ),
               ],
             ),
@@ -188,13 +198,17 @@ Widget _buildPaymentBox(
   String logoChannel,
   String paymentAccess,
 ) {
+  final isQRPayment = paymentCode.toLowerCase().contains("gopay") ||
+      paymentCode.toLowerCase().contains("qris");
+
   return Container(
     margin: const EdgeInsets.symmetric(vertical: 5),
     padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
     decoration: BoxDecoration(
-        color: AppColors.whiteColor,
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: AppColors.blackColor.withOpacity(0.2))),
+      color: AppColors.whiteColor,
+      borderRadius: BorderRadius.circular(10),
+      border: Border.all(color: AppColors.blackColor.withOpacity(0.2)),
+    ),
     child: Column(
       children: [
         Row(
@@ -207,7 +221,7 @@ Widget _buildPaymentBox(
                   : "",
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-
+            // Jika kamu ingin munculkan logo channel:
             // ImageCard(
             //   image: logoChannel,
             //   radius: 0,
@@ -217,40 +231,70 @@ Widget _buildPaymentBox(
             // ),
           ],
         ),
-        Divider(color: AppColors.blackColor, thickness: .3, height: 5),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text('Nomor Virtual Account',
-                    style:
-                        TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
-                Text(paymentAccess,
-                    style: const TextStyle(
-                        fontSize: 14, fontWeight: FontWeight.bold)),
-              ],
-            ),
-            InkWell(
-              onTap: () async {
-                await Clipboard.setData(ClipboardData(text: paymentAccess));
-                ShowSnackbar.snackbar(context, "Berhasil menyalin nomor VA", '',
-                    AppColors.secondaryColor);
+        const Divider(color: AppColors.blackColor, thickness: 1.2, height: 20),
+        if (isQRPayment) ...[
+          const SizedBox(height: 10),
+          const Text(
+            "Silakan scan QR berikut untuk membayar:",
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 10),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: Image.network(
+              paymentAccess,
+              width: double.infinity,
+              height: 260,
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) {
+                return const Text('Gagal memuat QR Code');
               },
-              child: const Row(
+            ),
+          ),
+        ] else ...[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Salin',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.secondaryColor)),
-                  SizedBox(width: 6),
-                  Icon(Icons.copy, color: AppColors.secondaryColor),
+                  const Text(
+                    'Nomor Virtual Account',
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                  ),
+                  Text(
+                    paymentAccess,
+                    style: const TextStyle(
+                        fontSize: 14, fontWeight: FontWeight.bold),
+                  ),
                 ],
               ),
-            )
-          ],
-        ),
+              InkWell(
+                onTap: () async {
+                  await Clipboard.setData(ClipboardData(text: paymentAccess));
+                  ShowSnackbar.snackbar(
+                    context,
+                    "Berhasil menyalin nomor VA",
+                    '',
+                    AppColors.secondaryColor,
+                  );
+                },
+                child: const Row(
+                  children: [
+                    Text(
+                      'Salin',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.secondaryColor),
+                    ),
+                    SizedBox(width: 6),
+                    Icon(Icons.copy, color: AppColors.secondaryColor),
+                  ],
+                ),
+              )
+            ],
+          ),
+        ]
       ],
     ),
   );
@@ -260,6 +304,7 @@ Widget _buildDetailPayment(
   BuildContext context,
   String nameProduct,
   String totalPayment,
+  String numberTelfon,
 ) {
   // Menghapus "Terima kasih! telah melakukan transaksi" jika ada dalam nameProduct
   String cleanedNameProduct = nameProduct
@@ -291,30 +336,50 @@ Widget _buildDetailPayment(
           color: AppColors.blackColor,
         ),
         if (cleanedNameProduct.isNotEmpty) // Menampilkan hanya jika ada isi
-          Padding(
-            padding: const EdgeInsets.only(bottom: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Nama Produk",
-                  style: TextStyle(
-                    color: AppColors.blackColor,
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                  ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Nama Produk",
+                style: TextStyle(
+                  color: AppColors.blackColor,
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
                 ),
-                Text(
-                  cleanedNameProduct,
-                  style: TextStyle(
-                    color: AppColors.blackColor,
-                    fontSize: 14,
-                  ),
+              ),
+              Text(
+                cleanedNameProduct,
+                style: TextStyle(
+                  color: AppColors.blackColor,
+                  fontSize: 14,
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
+        SizedBox(height: 5),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Nomor Telepon",
+              style: TextStyle(
+                color: AppColors.blackColor,
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Text(
+              numberTelfon,
+              style: TextStyle(
+                color: AppColors.blackColor,
+                fontSize: 14,
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: 5),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,

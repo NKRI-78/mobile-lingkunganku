@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../app/bloc/app_bloc.dart';
 import '../widget/notification_list.dart';
 import '../widget/notification_list_ppob.dart';
 
@@ -157,7 +158,11 @@ class NotificationView extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).pop();
                 Future.delayed(Duration.zero, () {
-                  notificationCubit.readAllNotif();
+                  final userId = getIt<AppBloc>().state.profile?.id.toString();
+                  if (userId != null) {
+                    notificationCubit.readAllNotif();
+                    notificationCubit.readAllNotifPpob(userId);
+                  }
                 });
               },
               child: const Text(

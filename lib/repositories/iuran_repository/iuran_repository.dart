@@ -48,6 +48,34 @@ class IuranRepository {
     }
   }
 
+  Future<void> updateInvoice({
+    required int userId,
+    required int amount,
+    required String description,
+  }) async {
+    try {
+      final response = await http.post(
+        Uri.parse('$iuran/updateInvoicePerAccount'),
+        body: {
+          'amount': amount.toString(),
+          'description': description,
+          'user_id': userId.toString(),
+        },
+      );
+
+      final json = jsonDecode(response.body);
+      if (response.statusCode != 200) {
+        throw json['message'] ?? "Gagal update iuran";
+      }
+    } on SocketException {
+      throw "Terjadi Kesalahan Jaringan";
+    } on TimeoutException {
+      throw "Koneksi internet lambat, periksa jaringan Anda";
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<bool> hasUnpaidInvoice(int userId) async {
     try {
       final response = await http.get(

@@ -148,6 +148,18 @@ class NotificationCubit extends Cubit<NotificationState> {
     }
   }
 
+  Future<void> readAllNotifPpob(String userId) async {
+    try {
+      await repo.readAllNotifPpob(userId);
+
+      final updatedNotif = state.inboxNotif.map((notif) => notif).toList();
+
+      emit(state.copyWith(inboxNotif: updatedNotif));
+    } catch (e) {
+      debugPrint("Error readAllNotifPpob: $e");
+    }
+  }
+
   @override
   Future<void> close() {
     getIt<AppBloc>().add(GetBadgeNotif());

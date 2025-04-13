@@ -109,6 +109,29 @@ class NotificationRepository {
     }
   }
 
+  Future<void> readAllNotifPpob(String userId) async {
+    try {
+      final res = await http.put(
+        Uri.parse('$notifV2/update/allread'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'user_id': userId}),
+      );
+
+      debugPrint(res.body);
+
+      final json = jsonDecode(res.body);
+      if (res.statusCode == 200 && json['error'] == false) {
+        return;
+      } else {
+        throw json['message'] ?? "Terjadi kesalahan";
+      }
+    } on SocketException {
+      throw "Terjadi kesalahan jaringan";
+    } catch (e) {
+      throw "Gagal menandai notifikasi PPOB sebagai dibaca: $e";
+    }
+  }
+
   Future<List<NotificationV2Model>> getInboxNotifications(String userId) async {
     try {
       final res = await http.post(
