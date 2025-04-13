@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_lingkunganku/repositories/notification_repository/models/notification_detailv2_model.dart';
-import 'package:mobile_lingkunganku/repositories/ppob_repository/ppob_repository.dart';
+import '../../../repositories/notification_repository/models/notification_detailv2_model.dart';
+import '../../../repositories/ppob_repository/ppob_repository.dart';
 import '../../../repositories/notification_repository/models/notification_detail_model.dart';
 import '../../../misc/injections.dart';
 import '../../../misc/pagination.dart';
@@ -132,6 +132,31 @@ class NotificationCubit extends Cubit<NotificationState> {
       await repo.readNotif(idNotif);
     } catch (e) {
       rethrow;
+    }
+  }
+
+  Future<void> readAllNotif() async {
+    try {
+      await repo.readAllNotif();
+
+      final updatedNotif =
+          state.notif.map((n) => n.copyWith(readAt: DateTime.now())).toList();
+
+      emit(state.copyWith(notif: updatedNotif));
+    } catch (e) {
+      debugPrint("Error readAllNotif: $e");
+    }
+  }
+
+  Future<void> readAllNotifPpob(String userId) async {
+    try {
+      await repo.readAllNotifPpob(userId);
+
+      final updatedNotif = state.inboxNotif.map((notif) => notif).toList();
+
+      emit(state.copyWith(inboxNotif: updatedNotif));
+    } catch (e) {
+      debugPrint("Error readAllNotifPpob: $e");
     }
   }
 

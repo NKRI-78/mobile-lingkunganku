@@ -7,50 +7,6 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:224199405058:android:5715cf51893c2848eb411b",
-        "android_client_info": {
-          "package_name": "com.example.mobile_lingkunganku"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "224199405058-ohq1b6n7jil08do25t371tst1ekfi1q2.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.mobile_lingkunganku",
-            "certificate_hash": "212450370ea7776e3f4158848880345b99a14c33"
-          }
-        },
-        {
-          "client_id": "224199405058-h371q33kg66ge24nrboub2qo1i7u6t2t.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDqoy-bs-uAUsQfeLEgjpATvM9lZ3OSdHg"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "224199405058-h371q33kg66ge24nrboub2qo1i7u6t2t.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "224199405058-2btuhncumpud4hbdek9qab57oh10b19f.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.inovatif78.koperasiyamaha"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
         "mobilesdk_app_id": "1:224199405058:android:fd28ea311f781f78eb411b",
         "android_client_info": {
           "package_name": "com.inovasi78.amulet.v2"
@@ -409,6 +365,50 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "224199405058-h371q33kg66ge24nrboub2qo1i7u6t2t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDqoy-bs-uAUsQfeLEgjpATvM9lZ3OSdHg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "224199405058-h371q33kg66ge24nrboub2qo1i7u6t2t.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "224199405058-2btuhncumpud4hbdek9qab57oh10b19f.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.inovatif78.koperasiyamaha"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:224199405058:android:be38a14749ac4756eb411b",
+        "android_client_info": {
+          "package_name": "com.langitdigital78.mobile_lingkunganku"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "224199405058-ml4lj6nbv37ahej9l5ha7kad5mh7cmt4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.langitdigital78.mobile_lingkunganku",
+            "certificate_hash": "212450370ea7776e3f4158848880345b99a14c33"
+          }
+        },
         {
           "client_id": "224199405058-h371q33kg66ge24nrboub2qo1i7u6t2t.apps.googleusercontent.com",
           "client_type": 3

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_lingkunganku/modules/notification/widget/notification_list.dart';
-import 'package:mobile_lingkunganku/modules/notification/widget/notification_list_ppob.dart';
+import '../../app/bloc/app_bloc.dart';
+import '../widget/notification_list.dart';
+import '../widget/notification_list_ppob.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';
@@ -29,7 +30,6 @@ class NotificationView extends StatelessWidget {
       builder: (context, state) {
         int unreadPPOB =
             state.inboxNotif.where((n) => n.isRead == false).length;
-
         int unreadSOS = state.notif
             .where((n) => n.type == "SOS" && n.readAt == null)
             .length;
@@ -38,8 +38,7 @@ class NotificationView extends StatelessWidget {
             .length;
         int unreadOther = state.notif
             .where((n) =>
-                n.type != "SOS" &&
-                !n.type.contains("PAYMENT") &&
+                ["BROADCAST", "GIVEN_ROLE", "INVOICES"].contains(n.type) &&
                 n.readAt == null)
             .length;
 
@@ -64,6 +63,15 @@ class NotificationView extends StatelessWidget {
                   Navigator.pop(context, true);
                 },
               ),
+              actions: [
+                IconButton(
+                  icon: Icon(Icons.done_all_rounded,
+                      color: AppColors.buttonColor2),
+                  onPressed: () {
+                    _showReadAllDialog(context);
+                  },
+                ),
+              ],
               bottom: TabBar(
                 isScrollable: true,
                 tabAlignment: TabAlignment.start,
@@ -89,6 +97,82 @@ class NotificationView extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+
+  void _showReadAllDialog(BuildContext context) {
+    final notificationCubit = context.read<NotificationCubit>();
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => BlocProvider.value(
+        value: notificationCubit,
+        child: AlertDialog(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Image.asset(
+                'assets/images/done.png',
+                height: 120,
+                width: 120,
+              ),
+              const SizedBox(height: 12),
+              const Text(
+                "Tandai semua dibaca?",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+              ),
+              const SizedBox(height: 10),
+              const Text(
+                "Apakah kamu yakin ingin menandai semua notifikasi sebagai telah dibaca?",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 14),
+              ),
+            ],
+          ),
+          actionsAlignment: MainAxisAlignment.spaceEvenly,
+          actions: [
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.redColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text(
+                "Batal",
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+              ),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.secondaryColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+                Future.delayed(Duration.zero, () {
+                  final userId = getIt<AppBloc>().state.profile?.id.toString();
+                  if (userId != null) {
+                    notificationCubit.readAllNotif();
+                    notificationCubit.readAllNotifPpob(userId);
+                  }
+                });
+              },
+              child: const Text(
+                "Yakin",
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 

@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:mobile_lingkunganku/repositories/notification_repository/models/notification_detailv2_model.dart';
-import 'package:mobile_lingkunganku/repositories/notification_repository/models/notificationv2_model.dart';
+import 'models/notification_detailv2_model.dart';
+import 'models/notificationv2_model.dart';
 import 'models/notification_detail_model.dart';
 
 import '../../misc/api_url.dart';
@@ -90,6 +90,45 @@ class NotificationRepository {
       }
     } on SocketException {
       throw "Terjadi kesalahan jaringan";
+    }
+  }
+
+  Future<void> readAllNotif() async {
+    try {
+      final res = await http.post(Uri.parse('$notif/readAllNotif'));
+
+      debugPrint(res.body);
+      final json = jsonDecode(res.body);
+      if (res.statusCode == 200) {
+        return;
+      } else {
+        throw json['message'] ?? "Terjadi kesalahan";
+      }
+    } on SocketException {
+      throw "Terjadi kesalahan jaringan";
+    }
+  }
+
+  Future<void> readAllNotifPpob(String userId) async {
+    try {
+      final res = await http.put(
+        Uri.parse('$notifV2/update/allread'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({'user_id': userId}),
+      );
+
+      debugPrint(res.body);
+
+      final json = jsonDecode(res.body);
+      if (res.statusCode == 200 && json['error'] == false) {
+        return;
+      } else {
+        throw json['message'] ?? "Terjadi kesalahan";
+      }
+    } on SocketException {
+      throw "Terjadi kesalahan jaringan";
+    } catch (e) {
+      throw "Gagal menandai notifikasi PPOB sebagai dibaca: $e";
     }
   }
 

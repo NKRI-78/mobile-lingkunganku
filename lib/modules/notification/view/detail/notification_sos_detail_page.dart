@@ -111,9 +111,12 @@ class NotificationSosDetailView extends StatelessWidget {
   // Widget Konten Notifikasi
   Widget _buildNotificationContent(
       BuildContext context, NotificationState state) {
-    bool isSosOrGivenRoleOrPayment = state.detail?.type == 'SOS' ||
-        state.detail?.type == 'GIVEN_ROLE' ||
-        state.detail?.type == 'PAYMENT';
+    bool isSosOrGivenRoleOrPaymentOrBroadcastOrInvoices =
+        state.detail?.type == 'SOS' ||
+            state.detail?.type == 'GIVEN_ROLE' ||
+            state.detail?.type == 'PAYMENT' ||
+            state.detail?.type == 'BROADCAST' ||
+            state.detail?.type == 'INVOICES';
     return Column(
       children: [
         Expanded(
@@ -163,7 +166,7 @@ class NotificationSosDetailView extends StatelessWidget {
                               color: AppColors.greyColor,
                             ),
                             Text(
-                              isSosOrGivenRoleOrPayment
+                              isSosOrGivenRoleOrPaymentOrBroadcastOrInvoices
                                   ? state.detail?.data?.message ?? "-"
                                   : state.detail?.data?.body ?? "-",
                               style: AppTextStyles.textDialog,

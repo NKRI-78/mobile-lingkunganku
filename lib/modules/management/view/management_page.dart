@@ -205,7 +205,7 @@ class ManagementViewState extends State<ManagementView> {
 
 void _shareDownloadLink(BuildContext context) async {
   const apkDownloadLink =
-      "https://drive.google.com/file/d/1R_KRK6AWNbMLGNqYRcq5F7p2GFZTBdI9/view";
+      "https://play.google.com/store/apps/details?id=com.langitdigital78.mobile_lingkunganku&pcampaignid=web_share";
 
   final message = Uri.encodeComponent(
       "Halo! Saya ingin mengajak Anda untuk bergabung di lingkungan ini.\n\n"

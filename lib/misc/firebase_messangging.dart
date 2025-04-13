@@ -4,6 +4,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:mobile_lingkunganku/router/builder.dart';
+import 'package:mobile_lingkunganku/router/router.dart';
 import '../firebase_options.dart';
 
 class FirebaseMessagingMisc {
@@ -14,9 +16,21 @@ class FirebaseMessagingMisc {
         debugPrint('Pasklik');
         debugPrint("Data : ${message?.data}");
         await Future.delayed(const Duration(seconds: 2));
-        // if (myNavigatorKey.currentContext != null && message?.data['type'] == "PAYMENT") {
-        //   WaitingPaymentRoute(id: message?.data['id'] ?? "0").push(myNavigatorKey.currentContext!);
-        // }
+
+        if (myNavigatorKey.currentContext != null) {
+          final type = message?.data['type'];
+          final id = message?.data['id'] ?? "0";
+
+          if (type == "PAYMENT") {
+            WaitingPaymentRoute(id: id).push(myNavigatorKey.currentContext!);
+          } else if (type == "SOS") {
+            NotificationSosRoute(idNotif: id)
+                .push(myNavigatorKey.currentContext!);
+          } else if (type == "BROADCAST") {
+            NotificationSosRoute(idNotif: id)
+                .push(myNavigatorKey.currentContext!);
+          }
+        }
       },
     );
 
@@ -26,9 +40,20 @@ class FirebaseMessagingMisc {
       debugPrint("Test comment id${message.data['title']}");
       debugPrint("Data notif: ${message.data}");
       await Future.delayed(const Duration(seconds: 2));
-      // if (myNavigatorKey.currentContext != null && message.data['type'] == "PAYMENT") {
-      //   WaitingPaymentRoute(id: message.data['id'] ?? "0").push(myNavigatorKey.currentContext!);
-      // }
+
+      if (myNavigatorKey.currentContext != null) {
+        final type = message.data['type'];
+        final id = message.data['id'] ?? "0";
+
+        if (type == "PAYMENT") {
+          WaitingPaymentRoute(id: id).push(myNavigatorKey.currentContext!);
+        } else if (type == "SOS") {
+          NotificationSosRoute(idNotif: id)
+              .push(myNavigatorKey.currentContext!);
+        } else if (type == "BROADCAST") {
+          NotificationRoute().push(myNavigatorKey.currentContext!);
+        }
+      }
     });
   }
 }
@@ -38,9 +63,6 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await setupFlutterNotifications();
 
-  // showFlutterNotification(message);
-  // If you're going to use other Firebase services in the background, such as Firestore,
-  // make sure you call `initializeApp` before using other Firebase services.
   debugPrint('Handling a background message ${message.data}');
 }
 
@@ -60,23 +82,15 @@ Future<void> setupFlutterNotifications() async {
     description:
         'This channel is used for important notifications.', // description
     importance: Importance.high,
-    // sound: RawResourceAndroidNotificationSound('notification'),
-    // playSound: true,
   );
 
   flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
-  /// Create an Android Notification Channel.
-  ///
-  /// We use this channel in the `AndroidManifest.xml` file to override the
-  /// default FCM channel to enable heads up notifications.
   await flutterLocalNotificationsPlugin
       .resolvePlatformSpecificImplementation<
           AndroidFlutterLocalNotificationsPlugin>()
       ?.createNotificationChannel(channel);
 
-  /// Update the iOS foreground notification presentation options to allow
-  /// heads up notifications.
   await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
     alert: true,
     badge: true,
@@ -91,7 +105,6 @@ Future<void> setupFlutterNotifications() async {
     requestSoundPermission: false,
     requestBadgePermission: false,
     requestAlertPermission: false,
-    // onDidReceiveLocalNotification: onDidReceiveLocalNotification,
   );
 
   const LinuxInitializationSettings initializationSettingsLinux =
@@ -106,19 +119,24 @@ Future<void> setupFlutterNotifications() async {
       onDidReceiveNotificationResponse: onDidReceiveNotificationResponse);
 }
 
-void onDidReceiveLocalNotification(
-    int id, String? title, String? body, String? payload) async {
-  // display a dialog with the notification details, tap ok to go to another page
-}
-
 void onDidReceiveNotificationResponse(
     NotificationResponse notificationResponse) async {
   final String? payload = notificationResponse.payload;
-  if (notificationResponse.payload != null) {
-    debugPrint("Test comment id ${json.decode(payload!)}");
-    // if (json.decode(payload)['type'] == "PAYMENT") {
-    //   WaitingPaymentRoute(id: json.decode(payload)['id']).push(myNavigatorKey.currentContext!);
-    // }
+  if (payload != null) {
+    debugPrint("Test comment id ${json.decode(payload)}");
+
+    final data = json.decode(payload);
+    final type = data['type'];
+    final id = int.tryParse(data['id'].toString()) ?? 0;
+
+    if (type == "PAYMENT") {
+      WaitingPaymentRoute(id: id.toString())
+          .push(myNavigatorKey.currentContext!);
+    } else if (type == "SOS") {
+      NotificationSosRoute(idNotif: id).push(myNavigatorKey.currentContext!);
+    } else if (type == "BROADCAST") {
+      NotificationRoute().push(myNavigatorKey.currentContext!);
+    }
   }
 }
 
@@ -128,6 +146,7 @@ void showFlutterNotification(RemoteMessage message) async {
 
   if (notification != null && android != null && !kIsWeb) {
     debugPrint("Channel name : ${notification.title}");
+
     flutterLocalNotificationsPlugin.show(
         notification.hashCode,
         notification.title,
@@ -138,8 +157,6 @@ void showFlutterNotification(RemoteMessage message) async {
             channel.name,
             channelDescription: channel.description,
             icon: '@drawable/ic_notification',
-            // sound: const RawResourceAndroidNotificationSound('notification'),
-            // playSound: true,
           ),
         ),
         payload: json.encode(message.data));

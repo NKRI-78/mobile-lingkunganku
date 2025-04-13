@@ -20,8 +20,8 @@ class NewsModel {
   });
 
   factory NewsModel.fromJson(Map<String, dynamic> json) => NewsModel(
-        id: json["id"]!,
-        userId: json["user_id"],
+        id: json['id'] ?? 0,
+        userId: json["user_id"] ?? 0,
         linkImage: json["link_image"] ?? "",
         title: json["title"],
         content: json["content"],

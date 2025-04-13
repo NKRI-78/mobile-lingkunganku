@@ -14,10 +14,9 @@ class RemoveUserSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("Member: ${member?.toJson()}");
-
-    // Cek apakah user adalah CHIEF (gunakan toUpperCase() untuk menghindari kesalahan kapitalisasi)
     final bool isChief = (member?.roleApp?.toUpperCase() ?? "") == "CHIEF";
+
+    if (isChief) return const SizedBox.shrink();
 
     return ElevatedButton(
       onPressed: (member == null || isChief)

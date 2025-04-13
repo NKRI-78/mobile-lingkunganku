@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile_lingkunganku/router/builder.dart';
+import '../../../misc/colors.dart';
+import '../../../router/builder.dart';
 import '../../../misc/text_style.dart';
-import '../../../misc/theme.dart';
 
 class ListIuranInfoSection extends StatelessWidget {
   final String userId;
@@ -32,10 +32,25 @@ class ListIuranInfoSection extends StatelessWidget {
           child: Row(
             children: [
               CircleAvatar(
-                radius: 28,
-                backgroundImage: avatarUrl != null && avatarUrl!.isNotEmpty
-                    ? CachedNetworkImageProvider(avatarUrl!) as ImageProvider
-                    : const AssetImage(avatarDefault),
+                radius: 25,
+                backgroundColor: AppColors.secondaryColor,
+                child: ClipOval(
+                  child: avatarUrl != null && avatarUrl!.isNotEmpty
+                      ? CachedNetworkImage(
+                          imageUrl: avatarUrl!,
+                          width: 50,
+                          height: 50,
+                          fit: BoxFit.cover,
+                          placeholder: (context, url) =>
+                              CircularProgressIndicator(
+                                  color: AppColors.secondaryColor),
+                          errorWidget: (context, url, error) => Icon(
+                            Icons.person,
+                            color: Colors.white,
+                          ),
+                        )
+                      : const Icon(Icons.person, color: Colors.white),
+                ),
               ),
               const SizedBox(width: 12),
               Expanded(

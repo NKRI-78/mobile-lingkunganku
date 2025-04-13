@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_lingkunganku/misc/injections.dart';
-import 'package:mobile_lingkunganku/modules/app/bloc/app_bloc.dart';
-import 'package:mobile_lingkunganku/router/builder.dart';
+import '../../../misc/injections.dart';
+import '../../app/bloc/app_bloc.dart';
+import '../../../router/builder.dart';
 import '../../../misc/colors.dart';
 import '../../../misc/price_currency.dart';
 import '../../../misc/snackbar.dart';
@@ -59,8 +59,7 @@ class _PpobViewState extends State<PpobView> {
     setState(() {
       selectedIndex = index;
       selectedType = index == 0 ? "PULSA" : (index == 1 ? "DATA" : null);
-      selectedPulsaDataNotifier.value =
-          null; // Reset pilihan pulsa saat berganti kategori
+      selectedPulsaDataNotifier.value = null;
     });
 
     final cubit = context.read<PpobCubit>();
@@ -81,6 +80,59 @@ class _PpobViewState extends State<PpobView> {
 
   @override
   Widget build(BuildContext context) {
+    // Susun widget di luar builder delegate agar childCount bisa akses
+    final widgets = <Widget>[
+      CustomCardSection(
+        selectedIndex: selectedIndex,
+        onCardSelected: _onCardSelected,
+      ),
+      const SizedBox(height: 20),
+    ];
+
+    if (selectedIndex == 0 || selectedIndex == 1) {
+      widgets.addAll([
+        CustomFieldSection(controller: _controller, type: selectedType),
+        const SizedBox(height: 10),
+        BlocBuilder<PpobCubit, PpobState>(
+          builder: (context, state) {
+            if (state.isLoading) {
+              return const Center(
+                heightFactor: 5,
+                child:
+                    CircularProgressIndicator(color: AppColors.secondaryColor),
+              );
+            } else if (state.isSuccess == true && state.pulsaData.isNotEmpty) {
+              return CustomListPulsaDataSection(
+                pulsaData: state.pulsaData,
+                onSelected: _onPulsaDataSelected,
+              );
+            } else if (state.isSuccess == false) {
+              return const Center(
+                child: Text(
+                  "Terjadi kesalahan",
+                  style: TextStyle(color: Colors.red),
+                ),
+              );
+            }
+            return const SizedBox.shrink();
+          },
+        ),
+      ]);
+    } else if (selectedIndex == 2) {
+      widgets.addAll([
+        Padding(
+          padding: const EdgeInsets.all(6.0),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(16),
+            child: Image.asset(
+              'assets/images/comingsoon.png',
+              fit: BoxFit.contain,
+            ),
+          ),
+        ),
+      ]);
+    }
+
     return Scaffold(
       backgroundColor: Colors.grey[300],
       bottomNavigationBar: Padding(
@@ -130,52 +182,8 @@ class _PpobViewState extends State<PpobView> {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             sliver: SliverList(
               delegate: SliverChildBuilderDelegate(
-                (context, index) {
-                  final widgets = [
-                    CustomCardSection(
-                      selectedIndex: selectedIndex,
-                      onCardSelected: _onCardSelected,
-                    ),
-                    const SizedBox(height: 20),
-                    if (selectedIndex == 0 || selectedIndex == 1)
-                      CustomFieldSection(
-                          controller: _controller, type: selectedType),
-                    const SizedBox(height: 10),
-                    BlocBuilder<PpobCubit, PpobState>(
-                      builder: (context, state) {
-                        if (state.isLoading) {
-                          return const Center(
-                            heightFactor: 5,
-                            child: CircularProgressIndicator(
-                                color: AppColors.secondaryColor),
-                          );
-                        } else if (state.isSuccess == true &&
-                            state.pulsaData.isNotEmpty) {
-                          return CustomListPulsaDataSection(
-                            pulsaData: state.pulsaData,
-                            onSelected: _onPulsaDataSelected,
-                          );
-                        } else if (state.isSuccess == false) {
-                          return Center(
-                            child: Text("Terjadi kesalahan",
-                                style: TextStyle(color: Colors.red)),
-                          );
-                        }
-                        return const SizedBox.shrink();
-                      },
-                    ),
-                  ];
-
-                  // ✅ Pastikan index aman sebelum mengakses list
-                  if (index >= widgets.length) {
-                    return const SizedBox.shrink(); // Menghindari RangeError
-                  }
-
-                  return widgets[index];
-                },
-                childCount: (selectedIndex == 0 || selectedIndex == 1)
-                    ? 5
-                    : 4, // ✅ Sesuaikan childCount
+                (context, index) => widgets[index],
+                childCount: widgets.length,
               ),
             ),
           ),

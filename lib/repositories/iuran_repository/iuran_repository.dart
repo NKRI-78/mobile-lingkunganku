@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:mobile_lingkunganku/repositories/iuran_repository/models/iuran_count_model.dart';
 import 'models/iuran_paid_model.dart';
 import '../../misc/api_url.dart';
 import '../../misc/http_client.dart';
@@ -37,6 +38,34 @@ class IuranRepository {
       final json = jsonDecode(response.body);
       if (response.statusCode != 200) {
         throw json['message'] ?? "Gagal membuat iuran";
+      }
+    } on SocketException {
+      throw "Terjadi Kesalahan Jaringan";
+    } on TimeoutException {
+      throw "Koneksi internet lambat, periksa jaringan Anda";
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> updateInvoice({
+    required int userId,
+    required int amount,
+    required String description,
+  }) async {
+    try {
+      final response = await http.post(
+        Uri.parse('$iuran/updateInvoicePerAccount'),
+        body: {
+          'amount': amount.toString(),
+          'description': description,
+          'user_id': userId.toString(),
+        },
+      );
+
+      final json = jsonDecode(response.body);
+      if (response.statusCode != 200) {
+        throw json['message'] ?? "Gagal update iuran";
       }
     } on SocketException {
       throw "Terjadi Kesalahan Jaringan";
@@ -199,6 +228,22 @@ class IuranRepository {
       }
     } catch (e) {
       debugPrint("Error: $e");
+      rethrow;
+    }
+  }
+
+  Future<IuranCountModel> getBadgesIuran() async {
+    try {
+      final res = await http.get(Uri.parse('$iuran/getUnpaidInvoiceCount'));
+
+      debugPrint(res.body);
+      final json = jsonDecode(res.body);
+      if (res.statusCode == 200) {
+        return IuranCountModel.fromJson(json['data']);
+      } else {
+        throw json['message'] ?? "Terjadi Kesalahan";
+      }
+    } catch (e) {
       rethrow;
     }
   }

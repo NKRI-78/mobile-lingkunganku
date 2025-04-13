@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_lingkunganku/modules/ppob/cubit/ppob_cubit.dart';
+import '../cubit/ppob_cubit.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/price_currency.dart';
@@ -15,8 +15,13 @@ class SelectPaymentChannel extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<PpobCubit, PpobState>(
       builder: (context, state) {
-        final filteredChannels =
-            state.channels.where((e) => e.id == 2 || e.id == 3).toList();
+        final filteredChannels = state.channels;
+
+        // Pakai harga pulsa aja
+        final double pulsaPrice =
+            state.selectedPulsaData?.price?.toDouble() ?? 0;
+        final bool isBelowMinimum = pulsaPrice < 50000;
+
         return WillPopScope(
           onWillPop: () async => false,
           child: Container(
@@ -28,14 +33,12 @@ class SelectPaymentChannel extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                // Header dengan tombol kembali
+                // Header
                 Row(
                   children: [
                     IconButton(
-                      icon: const Icon(
-                        Icons.arrow_back_ios_new_outlined,
-                        color: AppColors.blackColor,
-                      ),
+                      icon: const Icon(Icons.arrow_back_ios_new_outlined,
+                          color: AppColors.blackColor),
                       onPressed: () => Navigator.pop(context),
                     ),
                     Expanded(
@@ -43,7 +46,9 @@ class SelectPaymentChannel extends StatelessWidget {
                         "Pilih Metode Pembayaran",
                         textAlign: TextAlign.center,
                         style: AppTextStyles.textProfileBold.copyWith(
-                            color: AppColors.blackColor, fontSize: 18),
+                          color: AppColors.blackColor,
+                          fontSize: 18,
+                        ),
                       ),
                     ),
                     const SizedBox(width: 25),
@@ -53,14 +58,17 @@ class SelectPaymentChannel extends StatelessWidget {
                 const Divider(),
                 const SizedBox(height: 20),
 
-                // List Metode Pembayaran dalam bentuk Card
                 Flexible(
                   child: ListView.builder(
                     shrinkWrap: true,
                     itemCount: filteredChannels.length,
                     itemBuilder: (context, index) {
                       final e = filteredChannels[index];
-                      final isSelectable = e.id == 2 || e.id == 3;
+
+                      final isGoPay = (e.paymentType?.toUpperCase() ?? "")
+                          .contains("GOPAY");
+                      final isSelectable = !isBelowMinimum || isGoPay;
+
                       return Card(
                         color: AppColors.whiteColor,
                         margin: const EdgeInsets.symmetric(
@@ -77,11 +85,12 @@ class SelectPaymentChannel extends StatelessWidget {
                                 ? "Lingkunganku Wallet"
                                 : e.name ?? "",
                             style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16,
-                                color: isSelectable
-                                    ? AppColors.blackColor
-                                    : AppColors.textColor),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                              color: isSelectable
+                                  ? AppColors.blackColor
+                                  : Colors.grey,
+                            ),
                           ),
                           onTap: isSelectable
                               ? () {
@@ -102,24 +111,26 @@ class SelectPaymentChannel extends StatelessWidget {
                             ),
                           ),
                           subtitle: Text(
-                            e.paymentType == "APP"
-                                ? 'Saldo: ${Price.currency(e.user?.balance?.toDouble() ?? 0.0)}'
-                                : isSelectable
-                                    ? e.paymentType
+                            isSelectable
+                                ? (e.paymentType == "APP"
+                                    ? 'Saldo: ${Price.currency(e.user?.balance?.toDouble() ?? 0.0)}'
+                                    : e.paymentType
                                             ?.replaceAll("_", " ")
                                             .replaceAll("GOPAY", "QRIS") ??
-                                        ""
-                                    : "Sedang Dalam Perbaikan",
+                                        "")
+                                : "Minimal harga Rp50.000",
                             style: TextStyle(
-                              fontSize: isSelectable ? 14 : 12,
+                              fontSize: 13,
                               color: isSelectable ? Colors.grey : Colors.red,
                             ),
                           ),
-                          trailing: Icon(Icons.arrow_forward_ios,
-                              size: 18,
-                              color: isSelectable
-                                  ? AppColors.secondaryColor
-                                  : AppColors.textColor),
+                          trailing: Icon(
+                            Icons.arrow_forward_ios,
+                            size: 18,
+                            color: isSelectable
+                                ? AppColors.secondaryColor
+                                : Colors.grey,
+                          ),
                         ),
                       );
                     },

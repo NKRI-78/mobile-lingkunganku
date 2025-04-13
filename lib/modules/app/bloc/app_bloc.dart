@@ -4,7 +4,9 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:mobile_lingkunganku/repositories/profile_repository/profile_repository.dart';
+import 'package:mobile_lingkunganku/repositories/iuran_repository/iuran_repository.dart';
+import 'package:mobile_lingkunganku/repositories/iuran_repository/models/iuran_count_model.dart';
+import '../../../repositories/profile_repository/profile_repository.dart';
 import '../../../repositories/notification_repository/notification_repository.dart';
 
 import '../../../misc/http_client.dart';
@@ -28,12 +30,14 @@ class AppBloc extends HydratedBloc<AppEvent, AppState> {
     on<SetUserData>(_onSetUserData);
     on<AppEvent>((event, emit) {});
     on<GetBadgeNotif>(_onGetBadgeNotif);
+    on<GetBadgeIuran>(_onGetBadgeIuran);
     on<GetProfileData>(_onGetProfile);
   }
 
   HomeRepository repoHome = HomeRepository();
   NotificationRepository repoNotif = NotificationRepository();
   ProfileRepository repoProfile = ProfileRepository();
+  IuranRepository repoIuran = IuranRepository();
 
   @override
   AppState? fromJson(Map<String, dynamic> json) {
@@ -83,20 +87,33 @@ class AppBloc extends HydratedBloc<AppEvent, AppState> {
     }
   }
 
+  FutureOr<void> _onGetBadgeIuran(
+      GetBadgeIuran event, Emitter<AppState> emit) async {
+    try {
+      emit(state.copyWith(loadingNotif: true));
+      IuranCountModel iuranBadges = await repoIuran.getBadgesIuran();
+      emit(state.copyWith(iuranBadges: iuranBadges, loadingNotif: false));
+    } catch (e) {
+      debugPrint("Error : $e");
+    } finally {
+      emit(state.copyWith(loadingNotif: false));
+    }
+  }
+
   FutureOr<void> _onGetProfile(
       GetProfileData event, Emitter<AppState> emit) async {
     try {
       final profile = await repoProfile.getProfile();
       emit(state.copyWith(profile: profile));
-      print("Profile Ke ambil ya babi");
     } catch (e) {
-      print("Error : $e");
+      debugPrint("Error : $e");
     }
   }
 
   FutureOr<void> _onInitialAppData(
       InitialAppData event, Emitter<AppState> emit) {
     add(GetBadgeNotif());
+    add(GetBadgeIuran());
     add(GetProfileData());
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_lingkunganku/misc/date_helper.dart';
-import 'package:mobile_lingkunganku/misc/text_style.dart';
-import 'package:mobile_lingkunganku/repositories/profile_repository/models/contribute_model.dart';
+import '../../../misc/date_helper.dart';
+import '../../../misc/text_style.dart';
+import '../../../repositories/profile_repository/models/contribute_model.dart';
 
 import '../../../misc/colors.dart';
 

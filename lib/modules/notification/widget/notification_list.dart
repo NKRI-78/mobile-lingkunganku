@@ -38,7 +38,10 @@ class _NotificationListState extends State<NotificationList> {
         final notifications = state.notif.where((n) {
           if (widget.category == "SOS") return n.type == "SOS";
           if (widget.category == "PAYMENT") return n.type.contains("PAYMENT");
-          return n.type != "SOS" && !n.type.contains("PAYMENT");
+          if (widget.category == "OTHER") {
+            return ["BROADCAST", "GIVEN_ROLE", "INVOICES"].contains(n.type);
+          }
+          return false;
         }).toList();
 
         return SmartRefresher(

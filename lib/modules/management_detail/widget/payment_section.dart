@@ -34,8 +34,8 @@ class _PaymentSectionState extends State<PaymentSection> {
     String text = amountController.text.replaceAll(RegExp(r'[^0-9]'), '');
     if (text.isNotEmpty) {
       amountController.value = TextEditingValue(
-        text: "Rp $text",
-        selection: TextSelection.collapsed(offset: "Rp $text".length),
+        text: text,
+        selection: TextSelection.collapsed(offset: text.length),
       );
     }
   }
@@ -46,6 +46,27 @@ class _PaymentSectionState extends State<PaymentSection> {
       builder: (context, state) {
         final userId = state.memberDetail?.data?.id ?? 0;
         final role = state.memberDetail?.data?.roleApp ?? "";
+        String formattedAmount =
+            amountController.text.replaceAll(RegExp(r'[^0-9]'), '');
+
+        print("📌 State Error: ${state.errorMessage}");
+        print("📌 State Success: ${state.successMessage}");
+
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (state.errorMessage != null) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                  content: Text(state.errorMessage!),
+                  backgroundColor: AppColors.redColor),
+            );
+          } else if (state.successMessage != null) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                  content: Text(state.successMessage!),
+                  backgroundColor: AppColors.secondaryColor),
+            );
+          }
+        });
 
         print("INI USER TUJUAN : $userId");
         print("INI ROLE TUJUAN : $role");
@@ -64,8 +85,14 @@ class _PaymentSectionState extends State<PaymentSection> {
                       height: 50,
                       child: TextField(
                         controller: amountController,
-                        enabled: !state
-                            .hasUnpaidInvoice, // 🔥 Disable jika ada tagihan
+                        onChanged: (value) {
+                          // 🔥 Perbaiki validasi langsung saat user mengetik
+                          final formattedAmount =
+                              value.replaceAll(RegExp(r'[^0-9]'), '');
+                          context
+                              .read<ManagementDetailCubit>()
+                              .validateAmount(formattedAmount);
+                        },
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
                           hintText: "Rp 0",
@@ -88,80 +115,15 @@ class _PaymentSectionState extends State<PaymentSection> {
                   SizedBox(
                     height: 50,
                     child: ElevatedButton.icon(
-                      onPressed: state.hasUnpaidInvoice
-                          ? null // 🔥 Disable tombol jika sudah ada tagihan
-                          : () async {
-                              try {
-                                final amountValue = int.tryParse(
-                                        amountController.text.replaceAll(
-                                            RegExp(r'[^0-9]'), '')) ??
-                                    0;
-                                final description =
-                                    descriptionController.text.trim();
-
-                                if (amountValue <= 0) {
-                                  throw Exception(
-                                      "Nominal harus berupa angka yang valid!");
-                                }
-                                if (description.isEmpty) {
-                                  throw Exception(
-                                      "Deskripsi tidak boleh kosong!");
-                                }
-
-                                final userId =
-                                    state.memberDetail?.data?.id ?? 0;
-
-                                // 🔥 Cek ulang apakah masih ada invoice yang belum dibayar
-                                final hasUnpaid = await context
-                                    .read<ManagementDetailCubit>()
-                                    .repoIuran
-                                    .hasUnpaidInvoice(userId);
-
-                                if (hasUnpaid) {
-                                  context.read<ManagementDetailCubit>().emit(
-                                      state.copyWith(hasUnpaidInvoice: true));
-                                  throw Exception(
-                                      "Pengguna masih memiliki invoice yang belum dibayar");
-                                }
-
-                                // 🔥 Buat invoice baru
-                                await context
-                                    .read<ManagementDetailCubit>()
-                                    .createInvoice(
-                                      userId: userId,
-                                      amount: amountValue,
-                                      description: description,
-                                    );
-
-                                if (!mounted) return;
-
-                                // 🔥 Perbarui status `hasUnpaidInvoice`
-                                await context
-                                    .read<ManagementDetailCubit>()
-                                    .checkUnpaidInvoice(userId);
-
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    backgroundColor: AppColors.secondaryColor,
-                                    content: Text("Invoice berhasil dibuat"),
-                                  ),
-                                );
-
-                                amountController.clear();
-                                descriptionController.clear();
-                              } catch (e) {
-                                if (!mounted) return;
-
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    backgroundColor: AppColors.redColor,
-                                    content: Text(e
-                                        .toString()
-                                        .replaceAll("Exception: ", "")),
-                                  ),
-                                );
-                              }
-                            },
+                      onPressed: () {
+                        final userId = state.memberDetail?.data?.id ?? 0;
+                        _showinvoiceDialog(
+                          context,
+                          userId,
+                          formattedAmount,
+                          descriptionController.text.trim(),
+                        );
+                      },
                       icon: const Icon(Icons.send, color: Colors.white),
                       label: Text(
                         "Submit",
@@ -202,6 +164,146 @@ class _PaymentSectionState extends State<PaymentSection> {
           ],
         );
       },
+    );
+  }
+
+  void _showinvoiceDialog(
+      BuildContext context, int userId, String amount, String description) {
+    final cubit = context.read<ManagementDetailCubit>();
+
+    showDialog(
+      context: context,
+      builder: (context) => BlocProvider.value(
+        value: cubit,
+        child: AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          contentPadding: EdgeInsets.all(12),
+          content: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Image.asset(
+                    'assets/icons/chat_bubble.png',
+                    height: 120,
+                    width: 120,
+                  ),
+                  const SizedBox(height: 10),
+                  const Text(
+                    "Konfirmasi Iuran",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                  ),
+                  const SizedBox(height: 10),
+                  const Text(
+                    "Pilih tindakan yang ingin Anda lakukan terhadap iuran pengguna ini.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 14),
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      SizedBox(
+                        width: 120,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.secondaryColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                            cubit.updateInvoice(
+                              userId: userId,
+                              amount: amount,
+                              description: description,
+                            );
+                          },
+                          child: const Text(
+                            "Update",
+                            style: TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 120,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.secondaryColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                            cubit.createInvoice(
+                              userId: userId,
+                              amount: amount,
+                              description: description,
+                            );
+                          },
+                          child: const Text(
+                            "Buat Baru",
+                            style: TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+              Positioned(
+                top: -10,
+                right: -10,
+                child: IconButton(
+                  icon: const Icon(Icons.close, color: AppColors.textColor),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ),
+            ],
+          ),
+          // actionsAlignment: MainAxisAlignment.spaceEvenly,
+          // actions: [
+          //   SizedBox(
+          //     width: double.infinity,
+          //     child: CustomButton(
+          //       text: "Update Iuran",
+          //       onPressed: () {
+          //         Navigator.of(context).pop();
+          //         cubit.updateInvoice(
+          //           userId: userId,
+          //           amount: amount,
+          //           description: description,
+          //         );
+          //       },
+          //     ),
+          //   ),
+          //   SizedBox(
+          //     width: double.infinity,
+          //     child: CustomButton(
+          //       text: "Buat Iuran",
+          //       onPressed: () {
+          //         Navigator.of(context).pop();
+          //         cubit.createInvoice(
+          //           userId: userId,
+          //           amount: amount,
+          //           description: description,
+          //         );
+          //       },
+          //     ),
+          //   ),
+          // ],
+        ),
+      ),
     );
   }
 }

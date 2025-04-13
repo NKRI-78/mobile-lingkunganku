@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_lingkunganku/router/builder.dart';
+import '../../../../router/builder.dart';
 import '../../../../misc/colors.dart';
 import '../../../../repositories/notification_repository/models/notificationv2_model.dart';
 
