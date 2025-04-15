@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:open_file_plus/open_file_plus.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:gallery_saver_plus/gallery_saver.dart';
 
 import 'colors.dart';
 import 'snackbar.dart';
@@ -22,23 +23,35 @@ class FileStorage {
   }
 
   static Future<String> getProperDirectory(String filename) async {
-    if (Platform.isAndroid) {
-      final status = await Permission.manageExternalStorage.request();
-      if (!status.isGranted) throw Exception('Permission ditolak');
-
-      String basePath;
+    if (Platform.isAndroid && Platform.version.contains('13')) {
       if (_isImage(filename)) {
-        basePath = '/storage/emulated/0/Pictures/LINGKUNGANKU-MOBILE';
+        final photoPermission = await Permission.photos.request();
+        if (!photoPermission.isGranted) {
+          throw Exception('Permission ditolak untuk akses Foto');
+        }
       } else if (_isVideo(filename)) {
-        basePath = '/storage/emulated/0/Movies/LINGKUNGANKU-MOBILE';
+        final videoPermission = await Permission.videos.request();
+        if (!videoPermission.isGranted) {
+          throw Exception('Permission ditolak untuk akses Video');
+        }
       } else {
-        basePath = '/storage/emulated/0/Documents/LINGKUNGANKU-MOBILE';
+        final storagePermission = await Permission.storage.request();
+        if (!storagePermission.isGranted) {
+          throw Exception('Permission ditolak untuk akses Penyimpanan');
+        }
       }
 
-      final dir = Directory(basePath);
-      if (!await dir.exists()) await dir.create(recursive: true);
-      return basePath;
+      final dir = await getExternalStorageDirectory(); // app-specific dir
+      final path = '${dir!.path}/LINGKUNGANKU-MOBILE';
+
+      final folder = Directory(path);
+      if (!await folder.exists()) {
+        await folder.create(recursive: true);
+      }
+
+      return path;
     } else {
+      // iOS atau lainnya
       final directory = await getApplicationDocumentsDirectory();
       final path = '${directory.path}/LINGKUNGANKU-MOBILE';
       await Directory(path).create(recursive: true);
@@ -58,7 +71,7 @@ class FileStorage {
           isExistFile ? AppColors.redColor : AppColors.secondaryColor,
       duration: const Duration(seconds: 5),
       content: Text(
-        "${isExistFile ? 'File sudah ada di' : 'File berhasil diunduh, File disimpan ke'} $filePath",
+        "${isExistFile ? 'File sudah ada di' : 'File berhasil diunduh, disimpan ke'} $filePath",
         style: const TextStyle(
             color: AppColors.whiteColor, fontWeight: FontWeight.w700),
       ),
@@ -69,10 +82,18 @@ class FileStorage {
           final result = await OpenFile.open(filePath);
           Future.delayed(Duration.zero, () {
             result.type.name != "noAppToOpen"
-                ? ShowSnackbar.snackbar(context, "Successfully opened the file",
-                    '', AppColors.secondaryColor)
+                ? ShowSnackbar.snackbar(
+                    context,
+                    "File berhasil dibuka",
+                    '',
+                    AppColors.secondaryColor,
+                  )
                 : ShowSnackbar.snackbar(
-                    context, result.message, '', AppColors.redColor);
+                    context,
+                    result.message,
+                    '',
+                    AppColors.redColor,
+                  );
           });
         },
       ),
@@ -92,36 +113,30 @@ class FileStorage {
 
   static Future<File> saveFile(Uint8List bytes, String filename) async {
     final path = await getProperDirectory(filename);
-    final folder = Directory(path);
-
-    if (!await folder.exists()) {
-      await folder.create(recursive: true);
-    }
-
-    final file = File('${folder.path}/$filename');
+    final file = File('$path/$filename');
     return file.writeAsBytes(bytes);
   }
 
   static Future<File> saveFileUrl(Uint8List bytes, String filename) async {
     final path = await getProperDirectory(filename);
-    final folder = Directory(path);
-
-    if (!await folder.exists()) {
-      await folder.create(recursive: true);
-    }
-
-    final filePath = '${folder.path}/$filename';
+    final filePath = '$path/$filename';
     final file = File(filePath);
 
-    // Write bytes to file
     await file.writeAsBytes(bytes);
 
     // Save to gallery if image or video
-    if (_isImage(filename) || _isVideo(filename)) {
-      // Jangan simpan lagi ke gallery jika sudah berada di folder gallery (Pictures/Movies)
-      // Karena akan duplicate
-      debugPrint(
-          "File image/video sudah disimpan di folder gallery, skip GallerySaver.");
+    if (_isImage(filename)) {
+      final result = await GallerySaver.saveImage(
+        file.path,
+        albumName: 'LINGKUNGANKU-MOBILE',
+      );
+      debugPrint("Save image to gallery result: ${result ?? 'null'}");
+    } else if (_isVideo(filename)) {
+      final result = await GallerySaver.saveVideo(
+        file.path,
+        albumName: 'LINGKUNGANKU-MOBILE',
+      );
+      debugPrint("Save video to gallery result: ${result ?? 'null'}");
     }
 
     return file;

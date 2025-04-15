@@ -34,6 +34,7 @@ dependencies:
   flutter_local_notifications: ^18.0.1
   flutter_mentions: ^2.0.1
   flutter_otp_text_field: ^1.4.0+2
+  gallery_saver_plus: ^3.2.4
   geocoding: ^3.0.0
   geolocator: ^13.0.2
   get_it: ^8.0.3

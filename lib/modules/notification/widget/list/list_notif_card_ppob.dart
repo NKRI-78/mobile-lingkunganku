@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../misc/date_helper.dart';
 import '../../../../router/builder.dart';
 import '../../../../misc/colors.dart';
 import '../../../../repositories/notification_repository/models/notificationv2_model.dart';
@@ -39,6 +40,26 @@ class ListNotifCardPpob extends StatelessWidget {
             const Divider(
               thickness: 0.5,
               color: AppColors.greyColor,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text(
+                  "Tanggal",
+                  style: TextStyle(
+                    color: AppColors.blackColor,
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  DateHelper.parseDate(notifv2.field5.toString()),
+                  style: const TextStyle(
+                    color: AppColors.blackColor,
+                    fontSize: 14,
+                  ),
+                ),
+              ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
