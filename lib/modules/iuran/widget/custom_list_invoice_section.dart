@@ -141,12 +141,13 @@ class CustomListInvoiceSection extends StatelessWidget {
                         builder: (context, expanded, child) {
                           if (!expanded) return const SizedBox.shrink();
                           return Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.only(bottom: 8.0),
                             child: Column(
                               children: [
                                 Text(
                                   'Keterangan : ${iuranItem.note}',
-                                  style: AppTextStyles.textDialog,
+                                  style: AppTextStyles.textDialog
+                                      .copyWith(fontSize: 12),
                                   textAlign: TextAlign.center,
                                 ),
                               ],
