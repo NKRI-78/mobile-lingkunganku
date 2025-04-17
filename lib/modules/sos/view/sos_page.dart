@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -63,8 +65,12 @@ class SosView extends StatelessWidget {
               Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(
-                        left: 30, right: 30, top: 100, bottom: 10),
+                    padding: EdgeInsets.only(
+                      left: 30,
+                      right: 30,
+                      top: Platform.isIOS ? 150 : 100,
+                      bottom: 10,
+                    ),
                     child: Text(
                       'Pilih Darurat apa yang kamu alami, maka user dalam satu Lingkungan mu akan mendapatkan notifikasi',
                       textAlign: TextAlign.center,
@@ -197,16 +203,21 @@ class SosView extends StatelessWidget {
                                     phoneNumber.isNotEmpty) {
                                   final whatsappUrl =
                                       "https://wa.me/62$phoneNumber";
-                                  if (!await canLaunchUrl(
+
+                                  // Cek apakah URL bisa dibuka
+                                  if (await canLaunchUrl(
                                       Uri.parse(whatsappUrl))) {
-                                    !await launchUrl(Uri.parse(whatsappUrl),
+                                    // Luncurkan WhatsApp dalam mode eksternal (untuk iOS dan Android)
+                                    await launchUrl(Uri.parse(whatsappUrl),
                                         mode: LaunchMode.externalApplication);
                                   } else {
+                                    // Tampilkan pesan error jika WhatsApp tidak bisa dibuka
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
-                                          backgroundColor: AppColors.redColor,
-                                          content: Text(
-                                              "Tidak dapat membuka WhatsApp")),
+                                        backgroundColor: AppColors.redColor,
+                                        content: Text(
+                                            "Tidak dapat membuka WhatsApp"),
+                                      ),
                                     );
                                   }
                                 } else {

@@ -207,31 +207,25 @@ void _shareDownloadLink(BuildContext context) async {
   const apkDownloadLink =
       "https://play.google.com/store/apps/details?id=com.langitdigital78.mobile_lingkunganku&pcampaignid=web_share";
 
-  final message = Uri.encodeComponent(
+  final message =
       "Halo! Saya ingin mengajak Anda untuk bergabung di lingkungan ini.\n\n"
       "Download aplikasinya di: $apkDownloadLink\n\n"
-      "Yuk, gabung sekarang!");
+      "Yuk, gabung sekarang!";
 
-  final Uri waUrl1 = Uri.parse("https://wa.me/?text=$message");
-  final Uri waUrl2 = Uri.parse("whatsapp://send?text=$message");
+  final encodedMessage = Uri.encodeComponent(message);
+  final Uri waUrl = Uri.parse("whatsapp://send?text=$encodedMessage");
+  final Uri waWebUrl = Uri.parse("https://wa.me/?text=$encodedMessage");
 
   try {
-    // Coba dengan metode pertama
-    if (!await canLaunchUrl(waUrl1)) {
-      await launchUrl(waUrl1, mode: LaunchMode.externalApplication);
-    }
-    // Coba dengan metode kedua (fallback untuk Android 12 ke bawah)
-    else if (!await canLaunchUrl(waUrl2)) {
-      await launchUrl(waUrl2, mode: LaunchMode.externalApplication);
-    }
-    // Jika masih gagal, pakai launch() sebagai alternatif
-    else {
-      await launch(waUrl2.toString());
+    if (await canLaunchUrl(waUrl)) {
+      await launchUrl(waUrl, mode: LaunchMode.externalApplication);
+    } else if (await canLaunchUrl(waWebUrl)) {
+      await launchUrl(waWebUrl, mode: LaunchMode.externalApplication);
     }
   } catch (e) {
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text("Tidak dapat membuka WhatsApp"),
+      SnackBar(
+        content: Text("Gagal membuka WhatsApp: ${e.toString()}"),
         backgroundColor: AppColors.redColor,
       ),
     );

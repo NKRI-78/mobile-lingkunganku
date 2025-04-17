@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:equatable/equatable.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -143,6 +144,13 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
 
   Future<void> setFcm(Emitter<HomeState> emit) async {
     try {
+      if (Platform.isIOS) {
+        await Future<void>.delayed(const Duration(
+          seconds: 3,
+        ));
+        var apnsToken = await FirebaseMessaging.instance.getAPNSToken();
+        print('APNS Token: $apnsToken');
+      }
       final token = await FirebaseMessaging.instance.getToken();
       await repo.setFcm(token ?? '');
     } catch (e) {

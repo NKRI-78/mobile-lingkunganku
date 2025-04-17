@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -26,7 +28,7 @@ class DrawerSection extends StatelessWidget {
           final role = state.profile?.roleApp ?? '';
           final avatarLink = state.profile?.profile?.avatarLink ?? '';
 
-          print("ROLE SAAT INI ${role}");
+          print("ROLE SAAT INI $role");
 
           return Drawer(
             child: Container(
@@ -86,13 +88,20 @@ class DrawerSection extends StatelessWidget {
                               children: [
                                 Positioned.fill(
                                   child: Container(
-                                      color: Colors.black.withOpacity(0.1)),
+                                    color: (Platform.isIOS && !isLoggedIn)
+                                        ? Colors.transparent
+                                        : Colors.black.withOpacity(
+                                            0.1), // Transparent jika di iOS dan belum login
+                                  ),
                                 ),
                                 Container(
                                   padding:
                                       const EdgeInsets.symmetric(vertical: 5),
                                   decoration: BoxDecoration(
-                                    color: Colors.black.withOpacity(0.1),
+                                    color: (Platform.isIOS && !isLoggedIn)
+                                        ? Colors.transparent
+                                        : Colors.black.withOpacity(
+                                            0.1), // Transparent jika di iOS dan belum login
                                     borderRadius: BorderRadius.circular(12),
                                     border: Border.all(
                                       color: AppColors.whiteColor,
@@ -113,17 +122,19 @@ class DrawerSection extends StatelessWidget {
                                             ProfileRoute().go(context);
                                           },
                                         ),
-                                      ListTile(
-                                        leading: Icon(Icons.settings_outlined,
-                                            size: 26,
-                                            color: AppColors.whiteColor),
-                                        title: Text("Settings",
-                                            style:
-                                                AppTextStyles.textProfileBold),
-                                        onTap: () {
-                                          SettingsRoute().go(context);
-                                        },
-                                      ),
+                                      if (Platform
+                                          .isAndroid) // Only show Settings on Android
+                                        ListTile(
+                                          leading: Icon(Icons.settings_outlined,
+                                              size: 26,
+                                              color: AppColors.whiteColor),
+                                          title: Text("Settings",
+                                              style: AppTextStyles
+                                                  .textProfileBold),
+                                          onTap: () {
+                                            SettingsRoute().go(context);
+                                          },
+                                        ),
                                       if (isLoggedIn)
                                         if (role == "CHIEF" ||
                                             role == "SECRETARY" ||

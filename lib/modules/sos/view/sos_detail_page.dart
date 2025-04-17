@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mobile_lingkunganku/misc/location.dart';
 import '../../../widgets/background/custom_background.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:slide_to_confirm/slide_to_confirm.dart';
 
 import '../../../misc/colors.dart';
@@ -93,35 +93,19 @@ class SosDetailView extends StatelessWidget {
                   margin:
                       const EdgeInsets.only(top: 10.0, left: 10.0, right: 10.0),
                   child: ConfirmationSlider(
-                    foregroundColor: AppColors.greyColor,
-                    text: 'Geser untuk mengirim',
-                    onConfirmation: () async {
-                      debugPrint("Confirm");
-                      if (await Permission.location.request().isGranted &&
-                          context.mounted) {
-                        buildAgreementDialog(context, sosType,
-                            message); // Kirim sosType & message
-                      } else if (await Permission.location.request().isDenied ||
-                          await Permission.location
-                              .request()
-                              .isPermanentlyDenied) {
-                        await Permission.location.request();
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            backgroundColor: AppColors.redColor,
-                            content: Text(
-                              "Storage feature needed, please activate your storage",
-                              style: TextStyle(color: AppColors.redColor),
-                            ),
-                          ),
-                        );
-                      } else {
+                      foregroundColor: AppColors.greyColor,
+                      text: 'Geser untuk mengirim',
+                      onConfirmation: () async {
+                        debugPrint("Confirm");
+
+                        var position = await determinePosition(context);
+
+                        print('Position: $position');
+
                         if (context.mounted) {
-                          Navigator.pop(context);
+                          buildAgreementDialog(context, sosType, message);
                         }
-                      }
-                    },
-                  ),
+                      }),
                 )
               ],
             ),
