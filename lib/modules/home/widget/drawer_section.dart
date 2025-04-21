@@ -104,7 +104,9 @@ class DrawerSection extends StatelessWidget {
                                             0.1), // Transparent jika di iOS dan belum login
                                     borderRadius: BorderRadius.circular(12),
                                     border: Border.all(
-                                      color: AppColors.whiteColor,
+                                      color: (Platform.isIOS && !isLoggedIn)
+                                          ? Colors.transparent
+                                          : AppColors.whiteColor,
                                       width: 1,
                                     ),
                                   ),
