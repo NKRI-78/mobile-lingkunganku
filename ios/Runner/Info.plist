@@ -30,20 +30,28 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	
 	<key>NSCameraUsageDescription</key>
-	<string>This app requires camera access to take photos or videos.</string>
+	<string>This app requires access to your camera to take photos or videos for use in the Forum, News, and Profile features.</string>
+	
 	<key>NSContactsUsageDescription</key>
-	<string>Reason we need access to the contact list</string>
+	<string>Access to contacts is needed to select saved numbers for PPOB services and ensure phone number security.</string>
+
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>App requires location for emergency features.</string>
+	<string>This app requires access to your location even when running in the background to support the SOS feature in emergency situations.</string>
+
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>This app needs access to location when open.</string>
+	<string>This app requires location access during registration to automatically fill in your address and improve location-based services such as SOS.</string>
+
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Used to capture audio for image picker plugin</string>
+	<string>This app needs microphone access to record audio when capturing videos in the Forum</string>
+
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>This app requires access to the gallery to select or save photos.</string>
+	<string>This app needs access to photo library to upload or select images for Forum posts, News content, and Profile.</string>
+
 	<key>NSUserNotificationUsageDescription</key>
 	<string>This app requires permission to send important notifications..</string>
+
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>
