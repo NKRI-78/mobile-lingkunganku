@@ -21,6 +21,10 @@ class RegisterWargaCubit extends Cubit<RegisterWargaState> {
     emit(state.copyWith(gender: newGender));
   }
 
+  void toggleTermsAcceptance(bool value) {
+    emit(state.copyWith(isTermsAccepted: value));
+  }
+
   void togglePasswordVisibility() {
     emit(state.copyWith(isPasswordObscured: !state.isPasswordObscured));
   }
@@ -42,25 +46,16 @@ class RegisterWargaCubit extends Cubit<RegisterWargaState> {
     required String password,
     required String passwordConfirm,
     required String referral,
-    required String gender,
   }) {
     debugPrint("Password $password Confirm Password $passwordConfirm");
     if (name.isEmpty) {
       ShowSnackbar.snackbar(
           context, "Harap masukkan nama", '', AppColors.redColor);
       return false;
-    } else if (gender.isEmpty) {
-      ShowSnackbar.snackbar(context, "Harap pilih salah satu jenis kelamin", '',
-          AppColors.redColor);
-      return false;
     } else if (!email
         .contains(RegExp(r'^.+@[a-zA-Z]+\.{1}[a-zA-Z]+(\.{0,1}[a-zA-Z]+)$'))) {
       ShowSnackbar.snackbar(
           context, "Harap masukkan email yang tepat", '', AppColors.redColor);
-      return false;
-    } else if (phone.length < 10) {
-      ShowSnackbar.snackbar(
-          context, "No Hp Minimal 10 Angka", '', AppColors.redColor);
       return false;
     } else if (password.length < 8) {
       ShowSnackbar.snackbar(
@@ -77,6 +72,10 @@ class RegisterWargaCubit extends Cubit<RegisterWargaState> {
     } else if (referral.isEmpty) {
       ShowSnackbar.snackbar(
           context, "Harap masukkan kode referral", '', AppColors.redColor);
+      return false;
+    } else if (!state.isTermsAccepted) {
+      ShowSnackbar.snackbar(context,
+          "Anda harus menyetujui syarat dan ketentuan", '', AppColors.redColor);
       return false;
     }
     return true;
@@ -103,7 +102,6 @@ class RegisterWargaCubit extends Cubit<RegisterWargaState> {
         password: state.password,
         passwordConfirm: state.passwordConfirm,
         referral: state.referral,
-        gender: state.gender,
       );
 
       // Jika validasi gagal, hentikan proses
@@ -127,7 +125,7 @@ class RegisterWargaCubit extends Cubit<RegisterWargaState> {
         password: state.password,
         referral: state.referral,
         avatarLink: remaplink[0]['url']['url'],
-        gender: state.gender,
+        gender: state.gender.isEmpty ? '-' : state.gender,
       );
 
       // Jika berhasil, langsung pindah halaman
