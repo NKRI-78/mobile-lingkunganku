@@ -17,6 +17,7 @@ class RegisterKetuaState extends Equatable {
   final String passwordConfirm;
   final File? fileImage;
   final String gender;
+  final bool isTermsAccepted;
 
   const RegisterKetuaState({
     this.isLoading = false,
@@ -35,6 +36,7 @@ class RegisterKetuaState extends Equatable {
     this.passwordConfirm = '',
     this.fileImage,
     this.gender = '',
+    this.isTermsAccepted = false,
   });
 
   RegisterKetuaState copyWith({
@@ -54,6 +56,7 @@ class RegisterKetuaState extends Equatable {
     String? passwordConfirm,
     ValueGetter<File?>? fileImage,
     String? gender,
+    bool? isTermsAccepted,
   }) {
     return RegisterKetuaState(
       isLoading: isLoading ?? this.isLoading,
@@ -73,6 +76,7 @@ class RegisterKetuaState extends Equatable {
       passwordConfirm: passwordConfirm ?? this.passwordConfirm,
       fileImage: fileImage != null ? fileImage() : this.fileImage,
       gender: gender ?? this.gender,
+      isTermsAccepted: isTermsAccepted ?? this.isTermsAccepted,
     );
   }
 
@@ -94,5 +98,6 @@ class RegisterKetuaState extends Equatable {
         passwordConfirm,
         fileImage,
         gender,
+        isTermsAccepted,
       ];
 }

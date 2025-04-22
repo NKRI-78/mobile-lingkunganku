@@ -5,6 +5,7 @@ import '../../../misc/text_style.dart';
 
 import '../../../misc/colors.dart';
 import '../../../widgets/contact/contact_list_page.dart';
+import '../../../widgets/terms_of_services/pdf_view.dart';
 import '../cubit/register_ketua_cubit.dart';
 import '../view/register_ketua_page.dart';
 
@@ -17,6 +18,7 @@ class CustomTextfieldKetua extends StatelessWidget {
       children: [
         _FieldName(),
         _FieldGender(),
+        SizedBox(height: 10),
         _FieldEmail(),
         _FieldPhone(),
         _FieldPhoneSecurity(),
@@ -26,6 +28,7 @@ class CustomTextfieldKetua extends StatelessWidget {
         const InputLocation(),
         _FieldPassword(),
         _FieldConfirmPassword(),
+        _FieldTermsOfService(),
       ],
     );
   }
@@ -69,8 +72,10 @@ class _FieldGender extends StatelessWidget {
                   Checkbox(
                     value: state.gender == 'L',
                     onChanged: (bool? value) {
-                      if (value == true && state.gender != 'L') {
+                      if (value == true) {
                         context.read<RegisterKetuaCubit>().updateGender('L');
+                      } else if (state.gender == 'L') {
+                        context.read<RegisterKetuaCubit>().updateGender('-');
                       }
                     },
                     activeColor: AppColors.buttonColor1,
@@ -82,8 +87,10 @@ class _FieldGender extends StatelessWidget {
                   Checkbox(
                     value: state.gender == 'P',
                     onChanged: (bool? value) {
-                      if (value == true && state.gender != 'P') {
+                      if (value == true) {
                         context.read<RegisterKetuaCubit>().updateGender('P');
+                      } else if (state.gender == 'P') {
+                        context.read<RegisterKetuaCubit>().updateGender('-');
                       }
                     },
                     activeColor: AppColors.buttonColor1,
@@ -92,6 +99,13 @@ class _FieldGender extends StatelessWidget {
                   Text('Perempuan',
                       style: TextStyle(color: AppColors.textColor2)),
                 ],
+              ),
+              Text(
+                '*Opsional: Anda dapat memilih jenis kelamin atau melewati pilihan ini.',
+                style: TextStyle(
+                  fontSize: 12,
+                  color: AppColors.textColor2.withOpacity(0.6),
+                ),
               ),
             ],
           ),
@@ -287,6 +301,66 @@ class _FieldConfirmPassword extends StatelessWidget {
                 newState: cubit.state.copyWith(passwordConfirm: value));
           },
           isObscured: isObscured,
+        );
+      },
+    );
+  }
+}
+
+class _FieldTermsOfService extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<RegisterKetuaCubit, RegisterKetuaState>(
+      buildWhen: (previous, current) =>
+          previous.isTermsAccepted != current.isTermsAccepted,
+      builder: (context, state) {
+        return Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Checkbox(
+              value: state.isTermsAccepted,
+              onChanged: (bool? value) {
+                context
+                    .read<RegisterKetuaCubit>()
+                    .toggleTermsAcceptance(value ?? false);
+              },
+              activeColor: AppColors.buttonColor1,
+              side: BorderSide(color: AppColors.whiteColor, width: 1.5),
+            ),
+            Expanded(
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => const TermsPdfPage(),
+                    ),
+                  );
+                },
+                child: RichText(
+                  textAlign: TextAlign.justify,
+                  text: TextSpan(
+                    style: TextStyle(color: AppColors.textColor2, fontSize: 14),
+                    children: [
+                      TextSpan(
+                        text:
+                            'Dengan mendaftar, saya menyatakan bahwa saya telah membaca dan menyetujui ',
+                      ),
+                      TextSpan(
+                        text: 'Syarat & Ketentuan',
+                        style: TextStyle(
+                          color: AppColors.buttonColor1,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                      TextSpan(
+                        text: ', serta bersedia menjadi bagian dari warga',
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
         );
       },
     );
