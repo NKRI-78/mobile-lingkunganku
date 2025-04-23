@@ -6,6 +6,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:mobile_lingkunganku/misc/modal.dart';
 
 import '../../../misc/injections.dart';
 import '../../../misc/location.dart';
@@ -55,6 +56,10 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
   Future<void> _onHomeInit(HomeInit event, Emitter<HomeState> emit) async {
     emit(state.copyWith(isLoading: true));
 
+    if (!getIt<AppBloc>().state.alreadyShowTermCondition) {
+      await GeneralModal.termsAndCondition();
+    }
+
     try {
       getIt<AppBloc>().add(InitialAppData());
       await _fetchNews(emit, isRefresh: true);
@@ -76,6 +81,7 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
     }
 
     emit(state.copyWith(isLoading: false));
+
     debugPrint("✅ HomeInit completed");
   }
 

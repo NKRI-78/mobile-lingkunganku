@@ -159,6 +159,7 @@ class ForumCreateCubit extends Cubit<ForumCreateState> {
     }
 
     List<File> newImages = [];
+    double totalSize = 0;
     if (imageSource == ImageSource.gallery) {
       resultList = await MultiImagePicker.pickImages(
         androidOptions: const AndroidOptions(maxImages: 8),
@@ -177,9 +178,15 @@ class ForumCreateCubit extends Cubit<ForumCreateState> {
 
         File compressedFile = await compressImage(tempFile.path);
         newImages.add(compressedFile);
+        int sizeInBytes = compressedFile.lengthSync();
+        totalSize += sizeInBytes / (1024 * 1024);
         isImage = true;
       }
-      emit(state.copyWith(pickedFile: newImages, feedType: "image"));
+      emit(state.copyWith(
+        pickedFile: newImages,
+        feedType: "image",
+        fileSize: totalSize.toStringAsFixed(2),
+      ));
     }
   }
 

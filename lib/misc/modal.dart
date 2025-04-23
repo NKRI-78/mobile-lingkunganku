@@ -1,7 +1,9 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_lingkunganku/router/router.dart';
 
 import '../widgets/button/custom_button.dart';
+import '../widgets/terms_of_services/term_condition.dart';
 import 'colors.dart';
 import 'text_style.dart';
 
@@ -53,5 +55,16 @@ class GeneralModal {
         ],
       ),
     ).show();
+  }
+
+  static Future<Object?> termsAndCondition() async {
+    return showDialog(
+      context: myNavigatorKey.currentContext!,
+      barrierDismissible: false,
+      useSafeArea: false,
+      builder: (context) {
+        return const TermCondition();
+      },
+    );
   }
 }

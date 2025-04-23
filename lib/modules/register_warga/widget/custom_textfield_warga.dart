@@ -19,6 +19,7 @@ class CustomTextfieldWarga extends StatelessWidget {
         SizedBox(height: 10),
         _FieldEmail(),
         _FieldPhone(),
+        SizedBox(height: 10),
         _FieldDetailAddress(),
         _FieldPassword(),
         _FieldConfirmPassword(),
@@ -135,14 +136,29 @@ class _FieldPhone extends StatelessWidget {
     return BlocBuilder<RegisterWargaCubit, RegisterWargaState>(
       buildWhen: (previous, current) => previous.phone != current.phone,
       builder: (context, state) {
-        return _buildTextFormField(
-          maxLength: 13,
-          label: 'No Handphone',
-          keyboardType: TextInputType.phone,
-          onChanged: (value) {
-            var cubit = context.read<RegisterWargaCubit>();
-            cubit.copyState(newState: cubit.state.copyWith(phone: value));
-          },
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildTextFormField(
+              maxLength: 13,
+              label: 'No Handphone',
+              keyboardType: TextInputType.phone,
+              onChanged: (value) {
+                var cubit = context.read<RegisterWargaCubit>();
+                cubit.copyState(newState: cubit.state.copyWith(phone: value));
+              },
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 20.0),
+              child: Text(
+                '*Opsional: Anda dapat mengisi nomor handphone atau melewati pilihan ini.',
+                style: TextStyle(
+                  fontSize: 12,
+                  color: AppColors.textColor2.withOpacity(0.6),
+                ),
+              ),
+            ),
+          ],
         );
       },
     );
