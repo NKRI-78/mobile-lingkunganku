@@ -34,25 +34,45 @@ class ThumbnailMedia extends StatelessWidget {
                         itemBuilder: (context, index) {
                           bool isVideo =
                               st.pickedFile[index].path.endsWith(".mp4");
+                          bool isDoc = st.pickedFile[index].path
+                              .contains(RegExp(r'\.pdf$|\.doc$|\.txt$|\.zip$'));
 
                           return Stack(
                             children: [
-                              Container(
-                                width: 100,
-                                height: 100,
-                                margin: const EdgeInsets.only(right: 5),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  image: DecorationImage(
-                                    image: isVideo
-                                        ? MemoryImage(st.videoFileThumbnail!)
-                                        : FileImage(
-                                                File(st.pickedFile[index].path))
-                                            as ImageProvider,
-                                    fit: BoxFit.cover,
+                              // Gambar dan Video
+                              if (!isDoc)
+                                Container(
+                                  width: 100,
+                                  height: 100,
+                                  margin: const EdgeInsets.only(right: 5),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    image: DecorationImage(
+                                      image: isVideo
+                                          ? MemoryImage(st.videoFileThumbnail!)
+                                          : FileImage(File(
+                                                  st.pickedFile[index].path))
+                                              as ImageProvider,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                )
+                              // Jika Dokumen, Tampilkan Gambar Default
+                              else
+                                Container(
+                                  width: 100,
+                                  height: 100,
+                                  margin: const EdgeInsets.only(right: 5),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    image: const DecorationImage(
+                                      image: AssetImage(
+                                          'assets/icons/document.png'),
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                 ),
-                              ),
+                              // Ikon Play untuk Video
                               if (isVideo)
                                 const Positioned(
                                   top: 30,
@@ -77,8 +97,7 @@ class ThumbnailMedia extends StatelessWidget {
                                     height: 30,
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
-                                      color:
-                                          Colors.black.withValues(alpha: 0.5),
+                                      color: Colors.black.withOpacity(0.5),
                                     ),
                                     child: const Icon(
                                       Icons.close,
@@ -97,13 +116,15 @@ class ThumbnailMedia extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 10.0),
                   child: Row(
                     children: [
-                      const Text("Total File Size:",
+                      const Text("Total Ukuran File :",
                           style: TextStyle(
                             color: AppColors.blackColor,
                           )),
                       const SizedBox(width: 8.0),
                       Text(
-                        "${st.fileSize} ",
+                        st.fileSize.contains("MB")
+                            ? st.fileSize
+                            : "${st.fileSize} MB", // Menampilkan ukuran dalam MB
                         style: const TextStyle(
                           color: AppColors.blackColor,
                         ),

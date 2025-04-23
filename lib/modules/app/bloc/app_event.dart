@@ -11,6 +11,8 @@ final class FinishOnboarding extends AppEvent {}
 
 final class InitialAppData extends AppEvent {}
 
+final class FinishTermCondition extends AppEvent {}
+
 final class SetUserLogout extends AppEvent {}
 
 final class GetProfileData extends AppEvent {}

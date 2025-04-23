@@ -26,8 +26,16 @@ class DetailForum extends StatelessWidget {
                       context: context,
                       onPressed: () async {
                         context.read<ForumDetailCubit>().deleteForum(
-                            idForum: forum?.id.toString() ?? "0",
-                            context: context);
+                              idForum: forum?.id.toString() ?? "0",
+                              context: context,
+                            );
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Postingan berhasil dihapus!'),
+                            backgroundColor: AppColors.secondaryColor,
+                            duration: Duration(seconds: 2),
+                          ),
+                        );
                       },
                       locationImage: 'assets/icons/delete-icon.png');
                 } else {
@@ -36,6 +44,13 @@ class DetailForum extends StatelessWidget {
                       context: context,
                       onPressed: () async {
                         Navigator.pop(context);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Postingan berhasil dilaporkan!'),
+                            backgroundColor: AppColors.secondaryColor,
+                            duration: Duration(seconds: 2),
+                          ),
+                        );
                       },
                       locationImage: 'assets/icons/delete-icon.png');
                 }

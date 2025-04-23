@@ -32,6 +32,7 @@ class AppBloc extends HydratedBloc<AppEvent, AppState> {
     on<GetBadgeNotif>(_onGetBadgeNotif);
     on<GetBadgeIuran>(_onGetBadgeIuran);
     on<GetProfileData>(_onGetProfile);
+    on<FinishTermCondition>(_onFinishTermCondition);
   }
 
   HomeRepository repoHome = HomeRepository();
@@ -108,6 +109,11 @@ class AppBloc extends HydratedBloc<AppEvent, AppState> {
     } catch (e) {
       debugPrint("Error : $e");
     }
+  }
+
+  FutureOr<void> _onFinishTermCondition(
+      FinishTermCondition event, Emitter<AppState> emit) {
+    emit(state.copyWith(alreadyShowTermCondition: true));
   }
 
   FutureOr<void> _onInitialAppData(

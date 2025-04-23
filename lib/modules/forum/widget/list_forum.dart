@@ -46,6 +46,13 @@ class ForumListSection extends StatelessWidget {
                           .read<ForumCubit>()
                           .deleteForum(idForum: forums.id.toString());
                       Navigator.pop(context);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Postingan berhasil dihapus!'),
+                          backgroundColor: AppColors.secondaryColor,
+                          duration: Duration(seconds: 2),
+                        ),
+                      );
                     },
                     locationImage: 'assets/icons/delete-icon.png',
                   );
@@ -55,6 +62,13 @@ class ForumListSection extends StatelessWidget {
                     context: context,
                     onPressed: () async {
                       Navigator.pop(context);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Postingan berhasil dilaporkan!'),
+                          backgroundColor: AppColors.secondaryColor,
+                          duration: Duration(seconds: 2),
+                        ),
+                      );
                     },
                     locationImage: 'assets/icons/delete-icon.png',
                   );
