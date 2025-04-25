@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../misc/colors.dart';
-import '../../app/bloc/app_bloc.dart';
-import '../cubit/forum_detail_cubit.dart';
-import '../view/forum_detail_page.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
+import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';
 import '../../../repositories/forum_repository/models/forums_model.dart';
 import '../../../widgets/detect_text/detect_text.dart';
 import '../../../widgets/image/image_avatar.dart';
-import 'package:timeago/timeago.dart' as timeago;
+import '../../app/bloc/app_bloc.dart';
+import '../cubit/forum_detail_cubit.dart';
+import '../view/forum_detail_page.dart';
 
 class CardReply extends StatefulWidget {
   const CardReply({super.key, this.comment, required this.focusNode});

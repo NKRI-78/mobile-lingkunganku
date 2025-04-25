@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../widget/custom_banner_section.dart';
 import 'package:shimmer/shimmer.dart';
+
 import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';
 import '../../../misc/text_style.dart';
@@ -12,6 +12,7 @@ import '../../../widgets/header/custom_header_container.dart';
 import '../../app/bloc/app_bloc.dart';
 import '../bloc/home_bloc.dart';
 import '../widget/bottom_nav_bar_section.dart';
+import '../widget/custom_banner_section.dart';
 import '../widget/custom_news_card_section.dart';
 import '../widget/drawer_section.dart';
 import '../widget/show_dialog_register.dart';

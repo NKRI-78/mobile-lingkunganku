@@ -1,15 +1,15 @@
 import 'package:equatable/equatable.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../misc/injections.dart';
 import '../../../repositories/iuran_repository/iuran_repository.dart';
 import '../../../repositories/iuran_repository/models/iuran_model.dart';
-import '../../../misc/injections.dart';
-import '../../../repositories/profile_repository/models/profile_model.dart';
-import '../../../repositories/profile_repository/profile_repository.dart';
-import '../../management/cubit/management_cubit.dart';
 import '../../../repositories/management_repository/management_repository.dart';
 import '../../../repositories/management_repository/models/management_detail_member_model.dart';
 import '../../../repositories/management_repository/models/management_member_model.dart';
+import '../../../repositories/profile_repository/models/profile_model.dart';
+import '../../../repositories/profile_repository/profile_repository.dart';
+import '../../management/cubit/management_cubit.dart';
 
 part 'management_detail_state.dart';
 

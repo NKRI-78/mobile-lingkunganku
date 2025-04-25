@@ -1,6 +1,6 @@
+import 'package:badges/badges.dart' as Badges;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:badges/badges.dart' as Badges;
 
 import '../../../misc/colors.dart';
 import '../../../router/builder.dart';

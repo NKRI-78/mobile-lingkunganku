@@ -19,8 +19,7 @@ class EventRepository {
     try {
       debugPrint("Fetching events...");
 
-      final res =
-          await http.get(Uri.parse(event)).timeout(const Duration(seconds: 10));
+      final res = await http.get(Uri.parse(event));
 
       debugPrint("Response Status: ${res.statusCode}");
       debugPrint("Response Body: ${res.body}");

@@ -146,7 +146,7 @@ class _FieldPhone extends StatelessWidget {
           children: [
             _buildTextFormField(
               maxLength: 13,
-              label: 'No Handphone',
+              label: 'Nomor Telepon',
               keyboardType: TextInputType.phone,
               onChanged: (value) {
                 var cubit = context.read<RegisterKetuaCubit>();

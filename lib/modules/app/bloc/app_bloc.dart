@@ -4,8 +4,8 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:mobile_lingkunganku/repositories/iuran_repository/iuran_repository.dart';
-import 'package:mobile_lingkunganku/repositories/iuran_repository/models/iuran_count_model.dart';
+import '../../../repositories/iuran_repository/iuran_repository.dart';
+import '../../../repositories/iuran_repository/models/iuran_count_model.dart';
 import '../../../repositories/profile_repository/profile_repository.dart';
 import '../../../repositories/notification_repository/notification_repository.dart';
 

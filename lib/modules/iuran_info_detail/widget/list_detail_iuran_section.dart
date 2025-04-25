@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+
+import '../../../misc/colors.dart';
 import '../../../misc/date_helper.dart';
 import '../../../misc/text_style.dart';
 import '../../../repositories/profile_repository/models/contribute_model.dart';
-
-import '../../../misc/colors.dart';
 
 class ListDetailIuranSection extends StatelessWidget {
   const ListDetailIuranSection({super.key, required this.contribute});

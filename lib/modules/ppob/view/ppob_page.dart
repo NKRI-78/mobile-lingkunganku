@@ -135,44 +135,62 @@ class _PpobViewState extends State<PpobView> {
 
     return Scaffold(
       backgroundColor: Colors.grey[300],
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.only(bottom: 10, right: 20, left: 20),
-        child: ValueListenableBuilder<PulsaDataModel?>(
-          valueListenable: selectedPulsaDataNotifier,
-          builder: (context, selectedPulsaData, child) {
-            return InkWell(
-              onTap: (selectedIndex == -1 || selectedPulsaData == null)
-                  ? null
-                  : () {
-                      _customPaymentSection(context, [selectedPulsaData],
-                          _controller.text, selectedType ?? "PULSA");
-                      final cubit = context.read<PpobCubit>();
-                      cubit.copyState(
-                          newState: cubit.state
-                              .copyWith(selectedPulsaData: selectedPulsaData));
-                    },
-              child: Container(
-                width: double.infinity,
-                height: 70,
-                decoration: BoxDecoration(
-                  color: (selectedIndex == -1 || selectedPulsaData == null)
-                      ? Colors.grey
-                      : AppColors.secondaryColor,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: const Center(
-                  child: Text(
-                    "Lanjutkan",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
+      resizeToAvoidBottomInset: true,
+      bottomNavigationBar: AnimatedPadding(
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.easeOut,
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom > 0
+              ? MediaQuery.of(context).viewInsets.bottom
+              : 10,
+          left: 20,
+          right: 20,
+        ),
+        child: SafeArea(
+          top: false,
+          child: ValueListenableBuilder<PulsaDataModel?>(
+            valueListenable: selectedPulsaDataNotifier,
+            builder: (context, selectedPulsaData, child) {
+              return InkWell(
+                onTap: (selectedIndex == -1 || selectedPulsaData == null)
+                    ? null
+                    : () {
+                        _customPaymentSection(
+                          context,
+                          [selectedPulsaData],
+                          _controller.text,
+                          selectedType ?? "PULSA",
+                        );
+                        final cubit = context.read<PpobCubit>();
+                        cubit.copyState(
+                          newState: cubit.state.copyWith(
+                            selectedPulsaData: selectedPulsaData,
+                          ),
+                        );
+                      },
+                child: Container(
+                  width: double.infinity,
+                  height: 70,
+                  decoration: BoxDecoration(
+                    color: (selectedIndex == -1 || selectedPulsaData == null)
+                        ? Colors.grey
+                        : AppColors.secondaryColor,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: const Center(
+                    child: Text(
+                      "Lanjutkan",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            );
-          },
+              );
+            },
+          ),
         ),
       ),
       body: CustomScrollView(

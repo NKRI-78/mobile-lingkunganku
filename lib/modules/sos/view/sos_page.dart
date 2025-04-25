@@ -45,7 +45,7 @@ class SosView extends StatelessWidget {
               style: AppTextStyles.textStyle1,
             ),
             centerTitle: true,
-            toolbarHeight: 100,
+            toolbarHeight: 80,
             leading: IconButton(
               icon: Icon(
                 Icons.arrow_back_ios_new,
@@ -68,7 +68,7 @@ class SosView extends StatelessWidget {
                     padding: EdgeInsets.only(
                       left: 30,
                       right: 30,
-                      top: Platform.isIOS ? 150 : 100,
+                      top: Platform.isIOS ? 110 : 100,
                       bottom: 10,
                     ),
                     child: Text(
@@ -205,7 +205,7 @@ class SosView extends StatelessWidget {
                                       "https://wa.me/62$phoneNumber";
 
                                   // Cek apakah URL bisa dibuka
-                                  if (await canLaunchUrl(
+                                  if (!await canLaunchUrl(
                                       Uri.parse(whatsappUrl))) {
                                     // Luncurkan WhatsApp dalam mode eksternal (untuk iOS dan Android)
                                     await launchUrl(Uri.parse(whatsappUrl),

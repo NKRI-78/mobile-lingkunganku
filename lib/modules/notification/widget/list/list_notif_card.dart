@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../router/builder.dart';
-import '../../../../misc/price_currency.dart';
-import '../../cubit/notification_cubit.dart';
 
 import '../../../../misc/colors.dart';
 import '../../../../misc/date_helper.dart';
+import '../../../../misc/price_currency.dart';
 import '../../../../repositories/notification_repository/models/notification_model.dart';
+import '../../../../router/builder.dart';
+import '../../cubit/notification_cubit.dart';
 
 class ListNotifCard extends StatelessWidget {
   const ListNotifCard({super.key, required this.notif});

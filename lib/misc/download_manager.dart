@@ -1,14 +1,13 @@
 import 'dart:typed_data';
 
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:path/path.dart' as p;
+import 'package:sn_progress_dialog/sn_progress_dialog.dart';
+
 import 'colors.dart';
 import 'file_storage.dart';
-
-import 'package:path/path.dart' as p;
-import 'package:http/http.dart' as http;
-
-import 'package:flutter/material.dart';
-import 'package:sn_progress_dialog/sn_progress_dialog.dart';
 
 class DownloadHelper {
   static Future<void> downloadDoc(

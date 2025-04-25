@@ -141,7 +141,7 @@ class _CreateNewsViewState extends State<CreateNewsView> {
                 ),
                 const SizedBox(height: 20),
                 TextField(
-                  textCapitalization: TextCapitalization.words,
+                  textCapitalization: TextCapitalization.sentences,
                   controller: _contentController,
                   maxLines: 10,
                   decoration: InputDecoration(

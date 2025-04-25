@@ -1,13 +1,13 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../widget/select_payment_channel.dart';
-import '../../../repositories/ppob_repository/models/payment_channel_modelv2.dart';
+
 import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';
-import '../../../repositories/ppob_repository/ppob_repository.dart';
-
+import '../../../repositories/ppob_repository/models/payment_channel_modelv2.dart';
 import '../../../repositories/ppob_repository/models/pulsa_data_model.dart';
+import '../../../repositories/ppob_repository/ppob_repository.dart';
+import '../widget/select_payment_channel.dart';
 
 part 'ppob_state.dart';
 

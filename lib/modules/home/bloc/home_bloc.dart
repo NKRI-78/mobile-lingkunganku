@@ -6,7 +6,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:mobile_lingkunganku/misc/modal.dart';
+import '../../../misc/modal.dart';
 
 import '../../../misc/injections.dart';
 import '../../../misc/location.dart';
