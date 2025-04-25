@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile_lingkunganku/misc/colors.dart';
+import '../../../misc/colors.dart';
 
 import '../../../misc/text_style.dart';
 import '../../../router/builder.dart';

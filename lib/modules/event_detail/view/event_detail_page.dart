@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import '../../../widgets/photo_view/custom_fullscreen_preview.dart';
-import '../cubit/event_detail_cubit.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
+import '../../../widgets/photo_view/custom_fullscreen_preview.dart';
+import '../cubit/event_detail_cubit.dart';
 
 class EventDetailPage extends StatelessWidget {
   const EventDetailPage({super.key, required this.idEvent});

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
@@ -32,10 +34,18 @@ class _PaymentSectionState extends State<PaymentSection> {
 
   void _formatAmount() {
     String text = amountController.text.replaceAll(RegExp(r'[^0-9]'), '');
+
+    if (text.length > 10) {
+      text = text.substring(0, 10);
+    }
+
     if (text.isNotEmpty) {
+      final formatter = NumberFormat.decimalPattern('id');
+      final newText = formatter.format(int.parse(text));
+
       amountController.value = TextEditingValue(
-        text: text,
-        selection: TextSelection.collapsed(offset: text.length),
+        text: newText,
+        selection: TextSelection.collapsed(offset: newText.length),
       );
     }
   }
@@ -86,14 +96,18 @@ class _PaymentSectionState extends State<PaymentSection> {
                       child: TextField(
                         controller: amountController,
                         onChanged: (value) {
-                          // 🔥 Perbaiki validasi langsung saat user mengetik
-                          final formattedAmount =
-                              value.replaceAll(RegExp(r'[^0-9]'), '');
+                          final plainAmount = amountController.text
+                              .replaceAll(RegExp(r'[^0-9]'), '');
+
                           context
                               .read<ManagementDetailCubit>()
-                              .validateAmount(formattedAmount);
+                              .validateAmount(plainAmount);
                         },
                         keyboardType: TextInputType.number,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                          LengthLimitingTextInputFormatter(10),
+                        ],
                         decoration: InputDecoration(
                           hintText: "Rp 0",
                           hintStyle: AppTextStyles.textWelcome,
@@ -271,37 +285,6 @@ class _PaymentSectionState extends State<PaymentSection> {
               ),
             ],
           ),
-          // actionsAlignment: MainAxisAlignment.spaceEvenly,
-          // actions: [
-          //   SizedBox(
-          //     width: double.infinity,
-          //     child: CustomButton(
-          //       text: "Update Iuran",
-          //       onPressed: () {
-          //         Navigator.of(context).pop();
-          //         cubit.updateInvoice(
-          //           userId: userId,
-          //           amount: amount,
-          //           description: description,
-          //         );
-          //       },
-          //     ),
-          //   ),
-          //   SizedBox(
-          //     width: double.infinity,
-          //     child: CustomButton(
-          //       text: "Buat Iuran",
-          //       onPressed: () {
-          //         Navigator.of(context).pop();
-          //         cubit.createInvoice(
-          //           userId: userId,
-          //           amount: amount,
-          //           description: description,
-          //         );
-          //       },
-          //     ),
-          //   ),
-          // ],
         ),
       ),
     );

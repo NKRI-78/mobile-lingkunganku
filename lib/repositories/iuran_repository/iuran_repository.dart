@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:mobile_lingkunganku/repositories/iuran_repository/models/iuran_count_model.dart';
+import 'models/iuran_count_model.dart';
 import 'models/iuran_paid_model.dart';
 import '../../misc/api_url.dart';
 import '../../misc/http_client.dart';

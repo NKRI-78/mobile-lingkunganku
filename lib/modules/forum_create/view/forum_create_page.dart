@@ -32,86 +32,86 @@ class ForumCreateView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BlocBuilder<ForumCreateCubit, ForumCreateState>(
-        builder: (context, state) {
-          return Container(
-            color: Colors.transparent,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Expanded(
-                  flex: 1,
-                  child: Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: CustomButton(
-                      text: state.loading ? '' : 'Posting',
-                      onPressed: state.loading
-                          ? null
-                          : () async {
-                              await context
-                                  .read<ForumCreateCubit>()
-                                  .createForum(context);
-
-                              if (context.mounted &&
-                                  context
-                                      .read<ForumCreateCubit>()
-                                      .state
-                                      .description
-                                      .trim()
-                                      .isNotEmpty) {
-                                getIt<ForumCubit>().fetchForum();
-                                Navigator.pop(context);
-                              }
-                            },
-                      child: state.loading
-                          ? const SizedBox(
-                              width: 24,
-                              height: 24,
-                              child: CircularProgressIndicator(
-                                color: Colors.white, // Warna indikator loading
-                                strokeWidth: 2,
-                              ),
-                            )
-                          : null,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          );
-        },
-      ),
       backgroundColor: AppColors.whiteColor,
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            toolbarHeight: 80,
-            title: Text(
-              'Create Forum',
-              style: AppTextStyles.textStyle1,
-            ),
-            centerTitle: true,
-            leading: IconButton(
-              icon: Icon(
-                Icons.arrow_back_ios_new,
-                color: AppColors.buttonColor2,
-                size: 24,
-              ),
-              onPressed: () {
-                GoRouter.of(context).pop();
-              },
-            ),
+      resizeToAvoidBottomInset: true,
+      appBar: AppBar(
+        toolbarHeight: 80,
+        title: Text(
+          'Create Forum',
+          style: AppTextStyles.textStyle1,
+        ),
+        centerTitle: true,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios_new,
+            color: AppColors.buttonColor2,
+            size: 24,
           ),
-          SliverList.list(
-            children: [
-              InputDescription(),
-              SizedBox(height: 20),
-              ButtonMedia(),
-              ThumbnailMedia()
-            ],
-          )
-        ],
+          onPressed: () {
+            GoRouter.of(context).pop();
+          },
+        ),
+      ),
+      bottomNavigationBar: AnimatedPadding(
+        duration: const Duration(milliseconds: 200),
+        curve: Curves.easeOut,
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom > 0
+              ? MediaQuery.of(context).viewInsets.bottom
+              : 20,
+          left: 20,
+          right: 20,
+        ),
+        child: SafeArea(
+          top: false,
+          child: BlocBuilder<ForumCreateCubit, ForumCreateState>(
+            builder: (context, state) {
+              return CustomButton(
+                text: state.loading ? 'Loading...' : 'Posting',
+                onPressed: state.loading
+                    ? null
+                    : () async {
+                        await context
+                            .read<ForumCreateCubit>()
+                            .createForum(context);
+
+                        if (context.mounted &&
+                            context
+                                .read<ForumCreateCubit>()
+                                .state
+                                .description
+                                .trim()
+                                .isNotEmpty) {
+                          getIt<ForumCubit>().fetchForum();
+                          Navigator.pop(context);
+                        }
+                      },
+                child: state.loading
+                    ? const SizedBox(
+                        width: 24,
+                        height: 24,
+                        child: CircularProgressIndicator(
+                          color: Colors.white,
+                          strokeWidth: 2,
+                        ),
+                      )
+                    : null,
+              );
+            },
+          ),
+        ),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: const [
+            InputDescription(),
+            SizedBox(height: 15),
+            ButtonMedia(),
+            SizedBox(height: 10),
+            ThumbnailMedia(),
+          ],
+        ),
       ),
     );
   }

@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-import '../../../misc/text_style.dart';
-import '../cubit/wallet_cubit.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/price_currency.dart';
+import '../../../misc/text_style.dart';
 import '../../../widgets/header/header_text.dart';
+import '../cubit/wallet_cubit.dart';
 import '../models/top_up_model.dart';
 
-part '../widgets/_grid_denom.dart';
 part '../widgets/_field_nominal.dart';
+part '../widgets/_grid_denom.dart';
 
 class WalletPage extends StatelessWidget {
   const WalletPage({super.key});
@@ -34,25 +34,38 @@ class WalletView extends StatelessWidget {
     return BlocBuilder<WalletCubit, WalletState>(
       builder: (context, st) {
         return Scaffold(
-          bottomNavigationBar: Padding(
-            padding: EdgeInsets.only(bottom: 10, right: 20, left: 20),
-            child: InkWell(
-              onTap: () {
-                context.read<WalletCubit>().checkTopUp(context);
-              },
-              child: Container(
-                width: double.infinity,
-                height: 70,
-                decoration: BoxDecoration(
+          bottomNavigationBar: AnimatedPadding(
+            duration: const Duration(milliseconds: 200),
+            curve: Curves.easeOut,
+            padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).viewInsets.bottom > 0
+                  ? MediaQuery.of(context).viewInsets.bottom
+                  : 10,
+              left: 20,
+              right: 20,
+            ),
+            child: SafeArea(
+              top: false,
+              child: InkWell(
+                onTap: () {
+                  context.read<WalletCubit>().checkTopUp(context);
+                },
+                child: Container(
+                  width: double.infinity,
+                  height: 70,
+                  decoration: BoxDecoration(
                     color: AppColors.secondaryColor,
-                    borderRadius: BorderRadius.circular(16)),
-                child: const Center(
-                  child: Text(
-                    "Top-Up",
-                    style: TextStyle(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: const Center(
+                    child: Text(
+                      "Top-Up",
+                      style: TextStyle(
                         color: AppColors.whiteColor,
                         fontSize: 16,
-                        fontWeight: FontWeight.bold),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ),
               ),

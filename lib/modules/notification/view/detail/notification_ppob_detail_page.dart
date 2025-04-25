@@ -3,13 +3,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import '../../../../misc/injections.dart';
-import '../../cubit/notification_cubit.dart';
 import 'package:slide_countdown/slide_countdown.dart';
 
 import '../../../../misc/colors.dart';
+import '../../../../misc/injections.dart';
 import '../../../../misc/snackbar.dart';
 import '../../../../misc/text_style.dart';
+import '../../cubit/notification_cubit.dart';
 
 class NotificationPpobDetailPage extends StatelessWidget {
   const NotificationPpobDetailPage({super.key, required this.idNotif});
@@ -68,39 +68,41 @@ class _NotificationPpobDetailViewState
               },
             ),
           ),
-          body: Padding(
-            padding: EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                // Timer box akan mengupdate `isExpired`
-                _buildTimerBox(state.detailv2?.field5, state.detailv2?.field2,
-                    (expired) {
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    if (mounted) {
-                      setState(() {
-                        isExpired = expired;
-                      });
-                    }
-                  });
-                }),
+          body: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  // Timer box akan mengupdate `isExpired`
+                  _buildTimerBox(state.detailv2?.field5, state.detailv2?.field2,
+                      (expired) {
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      if (mounted) {
+                        setState(() {
+                          isExpired = expired;
+                        });
+                      }
+                    });
+                  }),
 
-                // Hanya tampilkan jika belum expired dan belum dibayar
-                if (!isExpired && state.detailv2?.field2 != "PAID")
-                  _buildPaymentBox(
+                  // Hanya tampilkan jika belum expired dan belum dibayar
+                  if (!isExpired && state.detailv2?.field2 != "PAID")
+                    _buildPaymentBox(
+                      context,
+                      state.detailv2?.field4 ?? "-",
+                      state.channel?.logo ?? "-",
+                      state.detailv2?.link ?? "-",
+                    ),
+
+                  _buildDetailPayment(
                     context,
-                    state.detailv2?.field4 ?? "-",
-                    state.channel?.logo ?? "-",
-                    state.detailv2?.link ?? "-",
+                    state.detailv2?.title ?? "-",
+                    state.detailv2?.description ?? "-",
+                    state.detailv2?.field7 ?? "-",
                   ),
-
-                _buildDetailPayment(
-                  context,
-                  state.detailv2?.title ?? "-",
-                  state.detailv2?.description ?? "-",
-                  state.detailv2?.field7 ?? "-",
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         );
@@ -244,7 +246,7 @@ Widget _buildPaymentBox(
             child: Image.network(
               paymentAccess,
               width: double.infinity,
-              height: 260,
+              height: 300,
               fit: BoxFit.cover,
               errorBuilder: (context, error, stackTrace) {
                 return const Text('Gagal memuat QR Code');

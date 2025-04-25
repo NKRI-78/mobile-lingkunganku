@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mobile_lingkunganku/misc/location.dart';
+import '../../../misc/location.dart';
 import '../../../widgets/background/custom_background.dart';
 import 'package:slide_to_confirm/slide_to_confirm.dart';
 

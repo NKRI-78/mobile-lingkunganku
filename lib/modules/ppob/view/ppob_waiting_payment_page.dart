@@ -91,15 +91,17 @@ class _PpobWaitingPaymentPageState extends State<PpobWaitingPaymentPage> {
           },
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            _buildTimerBox(),
-            _buildPaymentBox(context),
-            _buildDetailPayment(context),
-          ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              _buildTimerBox(),
+              _buildPaymentBox(context),
+              _buildDetailPayment(context),
+            ],
+          ),
         ),
       ),
     );
@@ -180,7 +182,7 @@ class _PpobWaitingPaymentPageState extends State<PpobWaitingPaymentPage> {
               child: Image.network(
                 widget.paymentAccess,
                 width: double.infinity,
-                height: 260,
+                height: 300,
                 fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) {
                   return const Text('Gagal memuat QR Code');

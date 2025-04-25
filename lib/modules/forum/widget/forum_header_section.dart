@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../../misc/colors.dart';
-import '../cubit/forum_cubit.dart';
 import '../../../router/builder.dart';
 import '../../../widgets/image/image_avatar.dart';
+import '../cubit/forum_cubit.dart';
 
 class ForumHeaderSection extends StatelessWidget {
   const ForumHeaderSection({super.key});

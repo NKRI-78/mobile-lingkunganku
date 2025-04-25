@@ -1,9 +1,9 @@
 import 'package:detectable_text_field/detectable_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../../misc/colors.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../misc/colors.dart';
 import '../../misc/snackbar.dart';
 
 class DetectText extends StatelessWidget {

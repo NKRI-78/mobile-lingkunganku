@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -14,19 +16,25 @@ class ReferralCodeFamily extends StatelessWidget {
     const apkDownloadLink =
         "https://play.google.com/store/apps/details?id=com.langitdigital78.mobile_lingkunganku&pcampaignid=web_share";
 
-    final message = Uri.encodeComponent(
-        "Halo! Saya ingin mengajak Anda untuk bergabung.\n\n"
+    final message = "Halo! Saya ingin mengajak Anda untuk bergabung.\n\n"
         "Kode Referral Keluarga: $referralCodeFamily\n\n"
         "Download aplikasinya di: $apkDownloadLink\n\n"
-        "Yuk, gabung sekarang!");
+        "Yuk, gabung sekarang!";
 
-    final Uri waUrl = Uri.parse("whatsapp://send?text=$message");
-    final Uri waWebUrl = Uri.parse("https://wa.me/?text=$message");
+    final encodeMessage = Uri.encodeComponent(message);
+
+    final Uri waUrl = Platform.isIOS
+        ? Uri.parse("whatsapp://send?text=$encodeMessage")
+        : Uri.parse("https://wa.me/?text=$encodeMessage");
+
+    final Uri waWebUrl = Uri.parse("https://wa.me/?text=$encodeMessage");
 
     try {
-      if (await canLaunchUrl(waUrl)) {
+      // Periksa jika WhatsApp dapat diluncurkan
+      if (!await canLaunchUrl(waUrl)) {
         await launchUrl(waUrl, mode: LaunchMode.externalApplication);
       } else if (await canLaunchUrl(waWebUrl)) {
+        // Jika tidak ada WhatsApp, fallback ke web URL
         await launchUrl(waWebUrl, mode: LaunchMode.externalApplication);
       } else {
         ScaffoldMessenger.of(context).showSnackBar(

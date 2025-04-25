@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -213,19 +215,32 @@ void _shareDownloadLink(BuildContext context) async {
       "Yuk, gabung sekarang!";
 
   final encodedMessage = Uri.encodeComponent(message);
-  final Uri waUrl = Uri.parse("whatsapp://send?text=$encodedMessage");
+
+  final Uri waUrl = Platform.isIOS
+      ? Uri.parse("whatsapp://send?text=$encodedMessage")
+      : Uri.parse("https://wa.me/?text=$encodedMessage");
+
   final Uri waWebUrl = Uri.parse("https://wa.me/?text=$encodedMessage");
 
   try {
-    if (await canLaunchUrl(waUrl)) {
+    // Periksa jika WhatsApp dapat diluncurkan
+    if (!await canLaunchUrl(waUrl)) {
       await launchUrl(waUrl, mode: LaunchMode.externalApplication);
     } else if (await canLaunchUrl(waWebUrl)) {
+      // Jika tidak ada WhatsApp, fallback ke web URL
       await launchUrl(waWebUrl, mode: LaunchMode.externalApplication);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Tidak dapat membuka WhatsApp."),
+          backgroundColor: AppColors.redColor,
+        ),
+      );
     }
   } catch (e) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text("Gagal membuka WhatsApp: ${e.toString()}"),
+        content: Text("Error: ${e.toString()}"),
         backgroundColor: AppColors.redColor,
       ),
     );

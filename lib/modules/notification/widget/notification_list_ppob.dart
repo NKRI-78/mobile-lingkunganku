@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../misc/colors.dart';
-import '../cubit/notification_cubit.dart';
 import '../../../widgets/pages/empty_page.dart';
 import '../../../widgets/pages/loading_page.dart';
+import '../cubit/notification_cubit.dart';
 import 'list/list_notif_card_ppob.dart';
 
 class NotificationListPpob extends StatelessWidget {
