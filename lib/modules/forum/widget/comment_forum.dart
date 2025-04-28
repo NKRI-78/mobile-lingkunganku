@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import '../../../repositories/forum_repository/models/forums_model.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 import '../../../misc/colors.dart';
+import '../../../repositories/forum_repository/models/forums_model.dart';
 import '../../../widgets/detect_text/detect_text.dart';
 import '../../../widgets/image/image_avatar.dart';
-import 'package:timeago/timeago.dart' as timeago;
 
 class CommentForum extends StatelessWidget {
   const CommentForum({

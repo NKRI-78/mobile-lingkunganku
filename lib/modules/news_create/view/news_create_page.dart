@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
@@ -86,7 +87,8 @@ class _CreateNewsViewState extends State<CreateNewsView> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 GestureDetector(
-                  onTap: newsCubit.pickImage,
+                  onTap: () =>
+                      newsCubit.pickImage(context, ImageSource.gallery),
                   child: Card(
                     elevation: 4.0,
                     shape: RoundedRectangleBorder(
@@ -117,6 +119,9 @@ class _CreateNewsViewState extends State<CreateNewsView> {
                   controller: _titleController,
                   decoration: InputDecoration(
                     hintText: "Judul Berita",
+                    hintStyle: AppTextStyles.textStyle2.copyWith(
+                      color: AppColors.blackColor.withOpacity(0.5),
+                    ),
                     filled: true,
                     fillColor: Colors.white,
                     border: OutlineInputBorder(
@@ -146,6 +151,9 @@ class _CreateNewsViewState extends State<CreateNewsView> {
                   maxLines: 10,
                   decoration: InputDecoration(
                     hintText: "Isi Berita",
+                    hintStyle: AppTextStyles.textStyle2.copyWith(
+                      color: AppColors.blackColor.withOpacity(0.5),
+                    ),
                     filled: true,
                     fillColor: Colors.white,
                     border: OutlineInputBorder(

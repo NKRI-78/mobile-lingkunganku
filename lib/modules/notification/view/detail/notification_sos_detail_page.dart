@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shimmer/shimmer.dart';
-import '../../../../misc/date_helper.dart';
-import '../../../../widgets/button/custom_button.dart';
-import '../../cubit/notification_cubit.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../misc/colors.dart';
+import '../../../../misc/date_helper.dart';
 import '../../../../misc/text_style.dart';
+import '../../../../widgets/button/custom_button.dart';
+import '../../cubit/notification_cubit.dart';
 
 class NotificationSosDetailPage extends StatelessWidget {
   const NotificationSosDetailPage({super.key, required this.idNotif});

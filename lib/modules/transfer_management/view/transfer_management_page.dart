@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+
 import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';
+import '../../../misc/text_style.dart';
+import '../../../repositories/management_repository/management_repository.dart';
 import '../cubit/transfer_management_cubit.dart';
 import '../widget/member_list_section.dart';
-import '../../../repositories/management_repository/management_repository.dart';
-
-import '../../../misc/text_style.dart';
 
 class TransferManagementPage extends StatelessWidget {
   const TransferManagementPage({super.key});

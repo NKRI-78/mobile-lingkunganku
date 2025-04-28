@@ -90,7 +90,10 @@ Widget _buildTextFormField({
           onChanged: onChanged,
           decoration: InputDecoration(
             labelText: label,
-            labelStyle: TextStyle(color: AppColors.buttonColor1),
+            labelStyle: TextStyle(
+              color: AppColors.buttonColor1,
+              fontSize: 12,
+            ),
             border: InputBorder.none,
             contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
           ),

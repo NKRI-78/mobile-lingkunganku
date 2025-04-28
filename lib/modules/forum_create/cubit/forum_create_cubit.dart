@@ -193,7 +193,18 @@ class ForumCreateCubit extends Cubit<ForumCreateState> {
   Future<void> uploadVid(BuildContext context) async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
         type: FileType.custom,
-        allowedExtensions: ['mp4', 'avi', 'mkv'],
+        allowedExtensions: [
+          'mp4',
+          'avi',
+          'mkv',
+          'mov',
+          '3gp',
+          'wmv',
+          'flv',
+          'mpeg',
+          'mpg',
+          'webm'
+        ],
         allowMultiple: false,
         withData: false,
         withReadStream: true,

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../misc/theme.dart';
 import '../../../router/builder.dart';
@@ -49,14 +50,41 @@ class _NewsUpdateViewState extends State<NewsUpdateView> {
   }
 
   /// Fungsi untuk memilih gambar baru dari galeri
-  Future<void> _pickImage() async {
-    final pickedFile =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      setState(() {
-        _selectedImage = File(pickedFile.path);
-      });
+  Future<void> pickImage(BuildContext context, ImageSource source) async {
+    try {
+      final XFile? pickedFile = await ImagePicker().pickImage(source: source);
+
+      if (pickedFile != null) {
+        final croppedFile = await _cropImage(pickedFile.path);
+        if (croppedFile != null) {
+          setState(() {
+            _selectedImage = File(croppedFile.path);
+          });
+        }
+      }
+    } catch (e) {
+      debugPrint('Error picking/cropping image: $e');
     }
+  }
+
+  Future<CroppedFile?> _cropImage(String filePath) async {
+    return await ImageCropper().cropImage(
+      sourcePath: filePath,
+      aspectRatio: const CropAspectRatio(ratioX: 16, ratioY: 9),
+      uiSettings: [
+        AndroidUiSettings(
+          toolbarTitle: 'Crop Foto',
+          toolbarColor: AppColors.secondaryColor,
+          toolbarWidgetColor: Colors.white,
+          initAspectRatio: CropAspectRatioPreset.ratio16x9,
+          lockAspectRatio: true,
+        ),
+        IOSUiSettings(
+          title: 'Crop Foto',
+          aspectRatioLockEnabled: true,
+        ),
+      ],
+    );
   }
 
   /// Fungsi untuk menghapus berita dengan konfirmasi
@@ -212,7 +240,7 @@ class _NewsUpdateViewState extends State<NewsUpdateView> {
               children: [
                 /// **Gambar Berita**
                 GestureDetector(
-                  onTap: _pickImage,
+                  onTap: () => pickImage(context, ImageSource.gallery),
                   child: Card(
                     elevation: 4.0,
                     shape: RoundedRectangleBorder(
@@ -257,6 +285,9 @@ class _NewsUpdateViewState extends State<NewsUpdateView> {
                   controller: _titleController,
                   decoration: InputDecoration(
                     hintText: "Judul Berita",
+                    hintStyle: AppTextStyles.textStyle2.copyWith(
+                      color: AppColors.blackColor.withOpacity(0.5),
+                    ),
                     filled: true,
                     fillColor: Colors.white,
                     border: OutlineInputBorder(
@@ -287,6 +318,9 @@ class _NewsUpdateViewState extends State<NewsUpdateView> {
                   maxLines: 10,
                   decoration: InputDecoration(
                     hintText: "Isi Berita",
+                    hintStyle: AppTextStyles.textStyle2.copyWith(
+                      color: AppColors.blackColor.withOpacity(0.5),
+                    ),
                     filled: true,
                     fillColor: Colors.white,
                     border: OutlineInputBorder(

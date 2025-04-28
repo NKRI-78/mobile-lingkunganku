@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../../misc/theme.dart';
+import '../../../widgets/image/image_card.dart';
 
 class CustomNewsCard extends StatelessWidget {
   final String imageUrl;
@@ -20,13 +22,13 @@ class CustomNewsCard extends StatelessWidget {
       onTap: onTap,
       child: Card(
         margin: const EdgeInsets.only(right: 18, left: 18, bottom: 10, top: 10),
-        elevation: 2,
+        elevation: 4,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(18),
         ),
         child: SizedBox(
           width: double.infinity,
-          height: 110,
+          height: 115,
           child: Row(
             children: [
               _NewsImage(imageUrl: imageUrl),
@@ -47,23 +49,13 @@ class _NewsImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: const BorderRadius.only(
-        topLeft: Radius.circular(18),
-        bottomLeft: Radius.circular(18),
-      ),
-      child: Image.network(
-        imageUrl,
-        fit: BoxFit.cover,
-        width: 170,
-        height: 170,
-        errorBuilder: (context, error, stackTrace) => Image.asset(
-          'assets/images/no_image.png',
-          fit: BoxFit.cover,
-          width: 170,
-          height: 170,
-        ),
-      ),
+    return ImageCard(
+      image: imageUrl,
+      fit: BoxFit.cover,
+      width: 180,
+      height: 115,
+      imageError: imageDefault,
+      radius: 15,
     );
   }
 }

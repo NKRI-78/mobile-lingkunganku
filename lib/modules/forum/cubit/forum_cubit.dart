@@ -1,11 +1,11 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../repositories/profile_repository/models/profile_model.dart';
-import '../../../repositories/forum_repository/forum_repository.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../misc/injections.dart';
+import '../../../repositories/forum_repository/forum_repository.dart';
 import '../../../repositories/forum_repository/models/forums_model.dart';
+import '../../../repositories/profile_repository/models/profile_model.dart';
 import '../../../repositories/profile_repository/profile_repository.dart';
 
 part 'forum_state.dart';

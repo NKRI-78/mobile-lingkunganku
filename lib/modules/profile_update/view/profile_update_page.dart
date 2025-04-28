@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../misc/colors.dart';
@@ -10,6 +11,7 @@ import '../../../misc/theme.dart';
 import '../../../widgets/background/custom_background.dart';
 import '../../../widgets/button/custom_button.dart';
 import '../../../widgets/header/custom_header_container.dart';
+import '../../../widgets/photo_view/custom_fullscreen_preview.dart';
 import '../cubit/profile_update_cubit.dart';
 import '../widget/custom_textfield_name.dart';
 import '../widget/custom_textfield_phone.dart';
@@ -77,32 +79,38 @@ class ProfielUpdateView extends StatelessWidget {
                       Stack(
                         alignment: Alignment.bottomRight,
                         children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(50),
-                            child: state.fileImage != null
-                                ? Image.file(
-                                    state.fileImage!,
-                                    width: 100,
-                                    height: 100,
-                                    fit: BoxFit.cover,
-                                  )
-                                : CachedNetworkImage(
-                                    imageUrl: user?.profile?.avatarLink ?? '',
-                                    width: 100,
-                                    height: 100,
-                                    fit: BoxFit.cover,
-                                    placeholder: (context, url) =>
-                                        CircularProgressIndicator(
-                                      color: AppColors.secondaryColor,
-                                    ),
-                                    errorWidget: (context, url, error) =>
-                                        Image.asset(
-                                      avatarDefault,
+                          GestureDetector(
+                            onTap: () {
+                              String imageUrl = user?.profile?.avatarLink ?? '';
+                              _showFullImage(context, imageUrl);
+                            },
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(50),
+                              child: state.fileImage != null
+                                  ? Image.file(
+                                      state.fileImage!,
                                       width: 100,
                                       height: 100,
                                       fit: BoxFit.cover,
+                                    )
+                                  : CachedNetworkImage(
+                                      imageUrl: user?.profile?.avatarLink ?? '',
+                                      width: 100,
+                                      height: 100,
+                                      fit: BoxFit.cover,
+                                      placeholder: (context, url) =>
+                                          CircularProgressIndicator(
+                                        color: AppColors.secondaryColor,
+                                      ),
+                                      errorWidget: (context, url, error) =>
+                                          Image.asset(
+                                        avatarDefault,
+                                        width: 100,
+                                        height: 100,
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
-                                  ),
+                            ),
                           ),
                           GestureDetector(
                             onTap: () => _showImagePicker(context),
@@ -169,6 +177,15 @@ class ProfielUpdateView extends StatelessWidget {
   }
 }
 
+void _showFullImage(BuildContext context, String imageUrl) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => CustomFullscreenPreview(imageUrl: imageUrl),
+    ),
+  );
+}
+
 void _showImagePicker(BuildContext context) {
   final wargaCubit = context.read<ProfileUpdateCubit>();
 
@@ -220,13 +237,47 @@ class _ImagePickerBottomSheet extends StatelessWidget {
   }
 
   Future<void> _pickImage(BuildContext context, ImageSource source) async {
-    final XFile? image = await _picker.pickImage(source: source);
-    if (image != null) {
-      context.read<ProfileUpdateCubit>().copyState(
-          newState: context.read<ProfileUpdateCubit>().state.copyWith(
-                fileImage: () => File(image.path),
-              ));
+    try {
+      final XFile? pickedFile = await _picker.pickImage(
+        source: source,
+        preferredCameraDevice: CameraDevice.front,
+      );
+
+      if (pickedFile != null) {
+        final croppedFile = await _cropImage(pickedFile.path);
+        if (croppedFile != null) {
+          context.read<ProfileUpdateCubit>().copyState(
+                newState: context
+                    .read<ProfileUpdateCubit>()
+                    .state
+                    .copyWith(fileImage: () => File(croppedFile.path)),
+              );
+        }
+      }
+    } catch (e) {
+      debugPrint('Error picking/cropping image: $e');
+    } finally {
+      Navigator.pop(context);
     }
-    Navigator.pop(context);
+  }
+
+  Future<CroppedFile?> _cropImage(String filePath) async {
+    return await ImageCropper().cropImage(
+      sourcePath: filePath,
+      aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
+      uiSettings: [
+        AndroidUiSettings(
+          toolbarTitle: 'Crop Foto',
+          toolbarColor: AppColors.secondaryColor,
+          toolbarWidgetColor: Colors.white,
+          initAspectRatio: CropAspectRatioPreset.square,
+          lockAspectRatio: true,
+        ),
+        IOSUiSettings(
+          title: 'Crop Foto',
+          aspectRatioLockEnabled: true,
+        ),
+      ],
+    );
   }
 }
