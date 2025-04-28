@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../misc/colors.dart';
@@ -44,12 +45,40 @@ class NewsCreateCubit extends Cubit<NewsCreateState> {
   }
 
   // Fungsi untuk memilih gambar dari galeri
-  Future<void> pickImage() async {
-    final pickedFile =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
-    if (pickedFile != null) {
-      emit(state.copyWith(imageFile: () => File(pickedFile.path)));
+  Future<void> pickImage(BuildContext context, ImageSource source) async {
+    try {
+      final XFile? pickedFile = await ImagePicker().pickImage(source: source);
+
+      if (pickedFile != null) {
+        final croppedFile = await _cropImage(pickedFile.path);
+        if (croppedFile != null) {
+          // Memperbarui state dengan gambar yang telah di-crop
+          emit(state.copyWith(imageFile: () => File(croppedFile.path)));
+        }
+      }
+    } catch (e) {
+      debugPrint('Error picking/cropping image: $e');
     }
+  }
+
+  Future<CroppedFile?> _cropImage(String filePath) async {
+    return await ImageCropper().cropImage(
+      sourcePath: filePath,
+      aspectRatio: const CropAspectRatio(ratioX: 16, ratioY: 9),
+      uiSettings: [
+        AndroidUiSettings(
+          toolbarTitle: 'Crop Foto',
+          toolbarColor: AppColors.secondaryColor,
+          toolbarWidgetColor: Colors.white,
+          initAspectRatio: CropAspectRatioPreset.ratio16x9,
+          lockAspectRatio: true,
+        ),
+        IOSUiSettings(
+          title: 'Crop Foto',
+          aspectRatioLockEnabled: true,
+        ),
+      ],
+    );
   }
 
   // Fungsi untuk membuat berita baru

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../../misc/colors.dart';
@@ -220,13 +221,47 @@ class _ImagePickerBottomSheet extends StatelessWidget {
   }
 
   Future<void> _pickImage(BuildContext context, ImageSource source) async {
-    final XFile? image = await _picker.pickImage(source: source);
-    if (image != null) {
-      context.read<ProfileUpdateCubit>().copyState(
-          newState: context.read<ProfileUpdateCubit>().state.copyWith(
-                fileImage: () => File(image.path),
-              ));
+    try {
+      final XFile? pickedFile = await _picker.pickImage(
+        source: source,
+        preferredCameraDevice: CameraDevice.front,
+      );
+
+      if (pickedFile != null) {
+        final croppedFile = await _cropImage(pickedFile.path);
+        if (croppedFile != null) {
+          context.read<ProfileUpdateCubit>().copyState(
+                newState: context
+                    .read<ProfileUpdateCubit>()
+                    .state
+                    .copyWith(fileImage: () => File(croppedFile.path)),
+              );
+        }
+      }
+    } catch (e) {
+      debugPrint('Error picking/cropping image: $e');
+    } finally {
+      Navigator.pop(context);
     }
-    Navigator.pop(context);
+  }
+
+  Future<CroppedFile?> _cropImage(String filePath) async {
+    return await ImageCropper().cropImage(
+      sourcePath: filePath,
+      aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
+      uiSettings: [
+        AndroidUiSettings(
+          toolbarTitle: 'Crop Foto',
+          toolbarColor: AppColors.secondaryColor,
+          toolbarWidgetColor: Colors.white,
+          initAspectRatio: CropAspectRatioPreset.square,
+          lockAspectRatio: true,
+        ),
+        IOSUiSettings(
+          title: 'Crop Foto',
+          aspectRatioLockEnabled: true,
+        ),
+      ],
+    );
   }
 }
