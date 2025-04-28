@@ -25,7 +25,7 @@ class ListNews extends StatelessWidget {
         borderRadius: BorderRadius.circular(15),
         child: Container(
           width: double.infinity,
-          height: 115,
+          height: 110,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15),
             color: AppColors.whiteColor,
@@ -38,10 +38,10 @@ class ListNews extends StatelessWidget {
                 imageError: imageDefault,
                 image: news.linkImage,
                 radius: 15,
-                height: 115,
-                width: 180,
+                height: 110,
+                width: 170,
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: 6),
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 5),

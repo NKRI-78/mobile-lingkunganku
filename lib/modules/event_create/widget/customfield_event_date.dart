@@ -117,7 +117,7 @@ Widget _buildDatePickerField({
             labelText: label,
             labelStyle: TextStyle(
               color: AppColors.buttonColor1,
-              fontSize: 14,
+              fontSize: 12,
             ),
             suffixIcon: IconButton(
               icon: Icon(

@@ -19,15 +19,20 @@ class EventRepository {
     try {
       debugPrint("Fetching events...");
 
-      final res = await http.get(Uri.parse(event));
+      final res =
+          await http.get(Uri.parse(event)).timeout(Duration(seconds: 30));
 
       debugPrint("Response Status: ${res.statusCode}");
       debugPrint("Response Body: ${res.body}");
 
-      final json = jsonDecode(res.body);
-      if (res.statusCode == 200) {
-        final list = json['data']['data'] as List;
-        return list.map((e) => EventModel.fromJson(e)).toList();
+      if (res.statusCode >= 200 && res.statusCode < 300) {
+        if (res.body.isNotEmpty) {
+          final json = jsonDecode(res.body);
+          final list = json['data']['data'] as List;
+          return list.map((e) => EventModel.fromJson(e)).toList();
+        } else {
+          throw "Empty response body";
+        }
       } else {
         throw "Error API: ${res.statusCode} - ${res.body}";
       }
@@ -36,6 +41,7 @@ class EventRepository {
     } on TimeoutException {
       throw "Koneksi internet lambat, periksa jaringan Anda";
     } catch (e) {
+      debugPrint("Error fetching events: $e");
       rethrow;
     }
   }

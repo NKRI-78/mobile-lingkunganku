@@ -11,6 +11,7 @@ import '../../../misc/theme.dart';
 import '../../../widgets/background/custom_background.dart';
 import '../../../widgets/button/custom_button.dart';
 import '../../../widgets/header/custom_header_container.dart';
+import '../../../widgets/photo_view/custom_fullscreen_preview.dart';
 import '../cubit/profile_update_cubit.dart';
 import '../widget/custom_textfield_name.dart';
 import '../widget/custom_textfield_phone.dart';
@@ -78,32 +79,38 @@ class ProfielUpdateView extends StatelessWidget {
                       Stack(
                         alignment: Alignment.bottomRight,
                         children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(50),
-                            child: state.fileImage != null
-                                ? Image.file(
-                                    state.fileImage!,
-                                    width: 100,
-                                    height: 100,
-                                    fit: BoxFit.cover,
-                                  )
-                                : CachedNetworkImage(
-                                    imageUrl: user?.profile?.avatarLink ?? '',
-                                    width: 100,
-                                    height: 100,
-                                    fit: BoxFit.cover,
-                                    placeholder: (context, url) =>
-                                        CircularProgressIndicator(
-                                      color: AppColors.secondaryColor,
-                                    ),
-                                    errorWidget: (context, url, error) =>
-                                        Image.asset(
-                                      avatarDefault,
+                          GestureDetector(
+                            onTap: () {
+                              String imageUrl = user?.profile?.avatarLink ?? '';
+                              _showFullImage(context, imageUrl);
+                            },
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(50),
+                              child: state.fileImage != null
+                                  ? Image.file(
+                                      state.fileImage!,
                                       width: 100,
                                       height: 100,
                                       fit: BoxFit.cover,
+                                    )
+                                  : CachedNetworkImage(
+                                      imageUrl: user?.profile?.avatarLink ?? '',
+                                      width: 100,
+                                      height: 100,
+                                      fit: BoxFit.cover,
+                                      placeholder: (context, url) =>
+                                          CircularProgressIndicator(
+                                        color: AppColors.secondaryColor,
+                                      ),
+                                      errorWidget: (context, url, error) =>
+                                          Image.asset(
+                                        avatarDefault,
+                                        width: 100,
+                                        height: 100,
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
-                                  ),
+                            ),
                           ),
                           GestureDetector(
                             onTap: () => _showImagePicker(context),
@@ -168,6 +175,15 @@ class ProfielUpdateView extends StatelessWidget {
       },
     );
   }
+}
+
+void _showFullImage(BuildContext context, String imageUrl) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => CustomFullscreenPreview(imageUrl: imageUrl),
+    ),
+  );
 }
 
 void _showImagePicker(BuildContext context) {

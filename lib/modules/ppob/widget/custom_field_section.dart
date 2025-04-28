@@ -97,18 +97,25 @@ class _CustomFieldSectionState extends State<CustomFieldSection> {
           child: Row(
             children: [
               Expanded(
-                child: TextField(
-                  controller: widget.controller,
-                  keyboardType: TextInputType.phone,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.digitsOnly,
-                    LengthLimitingTextInputFormatter(13),
-                  ],
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: "Masukkan Nomor",
-                    hintStyle: AppTextStyles.textWelcome,
-                    isDense: true,
+                child: Theme(
+                  data: ThemeData(
+                      textSelectionTheme: TextSelectionThemeData(
+                    selectionHandleColor: Colors.transparent,
+                  )),
+                  child: TextField(
+                    controller: widget.controller,
+                    keyboardType: TextInputType.phone,
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                      LengthLimitingTextInputFormatter(13),
+                    ],
+                    cursorColor: AppColors.secondaryColor,
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintText: "Masukkan Nomor",
+                      hintStyle: AppTextStyles.textWelcome,
+                      isDense: true,
+                    ),
                   ),
                 ),
               ),
