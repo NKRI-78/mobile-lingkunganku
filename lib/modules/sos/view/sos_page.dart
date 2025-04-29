@@ -201,17 +201,18 @@ class SosView extends StatelessWidget {
                                 final phoneNumber = security?.phoneSecurity;
                                 if (phoneNumber != null &&
                                     phoneNumber.isNotEmpty) {
-                                  final whatsappUrl =
-                                      "https://wa.me/62$phoneNumber";
+                                  final Uri whatsappUri = Platform.isIOS
+                                      ? Uri.parse(
+                                          'whatsapp://send?phone=62$phoneNumber')
+                                      : Uri.parse(
+                                          'https://wa.me/62$phoneNumber');
 
-                                  // Cek apakah URL bisa dibuka
-                                  if (!await canLaunchUrl(
-                                      Uri.parse(whatsappUrl))) {
-                                    // Luncurkan WhatsApp dalam mode eksternal (untuk iOS dan Android)
-                                    await launchUrl(Uri.parse(whatsappUrl),
-                                        mode: LaunchMode.externalApplication);
+                                  if (!await canLaunchUrl(whatsappUri)) {
+                                    await launchUrl(
+                                      whatsappUri,
+                                      mode: LaunchMode.externalApplication,
+                                    );
                                   } else {
-                                    // Tampilkan pesan error jika WhatsApp tidak bisa dibuka
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                         backgroundColor: AppColors.redColor,

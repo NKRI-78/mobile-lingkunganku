@@ -40,6 +40,7 @@ class ListNews extends StatelessWidget {
                 radius: 15,
                 height: 110,
                 width: 170,
+                fit: BoxFit.cover,
               ),
               const SizedBox(width: 6),
               Expanded(
@@ -67,7 +68,7 @@ class ListNews extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(width: 10),
+              const SizedBox(width: 5),
             ],
           ),
         ),

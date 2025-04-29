@@ -28,7 +28,7 @@ class CustomNewsCard extends StatelessWidget {
         ),
         child: SizedBox(
           width: double.infinity,
-          height: 115,
+          height: 110,
           child: Row(
             children: [
               _NewsImage(imageUrl: imageUrl),
@@ -52,8 +52,8 @@ class _NewsImage extends StatelessWidget {
     return ImageCard(
       image: imageUrl,
       fit: BoxFit.cover,
-      width: 180,
-      height: 115,
+      width: 170,
+      height: 110,
       imageError: imageDefault,
       radius: 15,
     );
