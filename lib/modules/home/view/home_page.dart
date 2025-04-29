@@ -128,7 +128,7 @@ class _HomeViewState extends State<HomeView> {
                                       );
                                     },
                                   ),
-                                const SizedBox(height: 80),
+                                const SizedBox(height: 100),
                               ],
                             ),
                           ),
