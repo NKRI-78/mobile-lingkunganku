@@ -40,7 +40,7 @@ class Contributions {
   int? familyId;
   String? createdAt;
   String? updatedAt;
-  Null? deletedAt;
+  String? deletedAt;
   User? user;
   String get translateStatus {
     switch (status) {
@@ -87,7 +87,7 @@ class Contributions {
     familyId = json['family_id'] ?? 0;
     createdAt = json['created_at'] ?? "";
     updatedAt = json['updated_at'] ?? "";
-    deletedAt = json['deleted_at'];
+    deletedAt = json['deleted_at'] ?? "";
 
     user = json['user'] != null ? User.fromJson(json['user']) : null;
   }

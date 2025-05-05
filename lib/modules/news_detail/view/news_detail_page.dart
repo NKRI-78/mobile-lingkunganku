@@ -8,6 +8,7 @@ import 'package:shimmer/shimmer.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
+import '../../../repositories/news_repository/models/news_detail_model.dart';
 import '../../../router/builder.dart';
 import '../../../widgets/photo_view/custom_fullscreen_preview.dart';
 import '../cubit/news_detail_cubit.dart';
@@ -89,7 +90,7 @@ class DetailNewsView extends StatelessWidget {
                 const SizedBox(height: 10),
                 state.loading
                     ? _buildLoadingContent()
-                    : _buildContent(context, newsData),
+                    : _buildContent(context, state.news),
                 const SizedBox(height: 20),
               ],
             ),
@@ -112,12 +113,12 @@ class DetailNewsView extends StatelessWidget {
     );
   }
 
-  Widget _buildContent(BuildContext context, newsData) {
+  Widget _buildContent(BuildContext context, DetailNewsModel? newsData) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          newsData?.title ?? "",
+          newsData?.data?.title ?? "",
           maxLines: 3,
           overflow: TextOverflow.ellipsis,
           textAlign: TextAlign.justify,
@@ -128,14 +129,14 @@ class DetailNewsView extends StatelessWidget {
         ),
         const SizedBox(height: 5),
         Text(
-          _formatDateTime(newsData?.createdAt),
+          _formatDateTime(newsData?.data?.createdAt),
           style: TextStyle(
             fontSize: 14,
             color: Colors.grey[600],
           ),
         ),
         Html(
-          data: newsData?.content ?? "-",
+          data: formatHtmlContent(newsData?.data?.content),
           style: {
             "a": Style(
               color: Colors.blue,
@@ -148,6 +149,15 @@ class DetailNewsView extends StatelessWidget {
         )
       ],
     );
+  }
+
+  String formatHtmlContent(String? content) {
+    if (content == null || content.isEmpty) return "";
+
+    final isHtml = RegExp(r'<[^>]+>').hasMatch(content);
+    if (isHtml) return content;
+
+    return "<p>${content.replaceAll('\n', '</p><p>')}</p>";
   }
 
   Widget _buildImageCard(BuildContext context, String? imageUrl) {

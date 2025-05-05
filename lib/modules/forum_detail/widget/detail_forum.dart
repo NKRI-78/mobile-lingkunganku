@@ -78,7 +78,10 @@ class DetailForum extends StatelessWidget {
                   alignment: Alignment.bottomRight,
                   children: [
                     MediaImages(
-                      medias: forum?.forumMedia ?? [],
+                      idForum: forum?.id ?? 0,
+                      medias: (forum?.forumMedia ?? [])
+                          .map((e) => Media.fromJson(e.toJson()))
+                          .toList(),
                     ),
                   ],
                 ),

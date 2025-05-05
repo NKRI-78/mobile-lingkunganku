@@ -7,6 +7,7 @@ import '../../../misc/colors.dart';
 import '../../../misc/modal.dart';
 import '../../../misc/text_style.dart';
 import '../../../repositories/forum_repository/models/forum_detail_model.dart';
+import '../../../repositories/forum_repository/models/forums_model.dart';
 import '../../../router/builder.dart';
 import '../../../widgets/detect_text/detect_text.dart';
 import '../../../widgets/image/image_avatar.dart';

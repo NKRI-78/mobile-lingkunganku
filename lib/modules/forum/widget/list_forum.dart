@@ -90,14 +90,11 @@ class ForumListSection extends StatelessWidget {
                 // Menampilkan gambar
                 if ((forums.forumMedia?.isNotEmpty ?? false) &&
                     forums.forumMedia?.first.type == "image")
-                  InkWell(
-                    onTap: () {
-                      ClippedPhotoRoute(idForum: forums.id ?? 0, indexPhoto: 0)
-                          .push(context);
-                    },
-                    child: MediaImages(
-                      medias: forums.forumMedia ?? [],
-                    ),
+                  MediaImages(
+                    idForum: forums.id ?? 0,
+                    medias: (forums.forumMedia ?? [])
+                        .map((e) => Media.fromJson(e.toJson()))
+                        .toList(),
                   ),
 
                 // Menampilkan video
