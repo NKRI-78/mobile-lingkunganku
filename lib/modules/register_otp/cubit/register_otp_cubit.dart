@@ -16,11 +16,11 @@ class RegisterOtpCubit extends Cubit<RegisterOtpState> {
     _startTimer();
   }
 
+  AuthRepository repo = getIt<AuthRepository>();
+
   final bool isLogin;
   Timer? _timer;
   int _start = 120;
-
-  AuthRepository repo = getIt<AuthRepository>();
 
   void _startTimer() {
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
@@ -51,7 +51,7 @@ class RegisterOtpCubit extends Cubit<RegisterOtpState> {
 
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            backgroundColor: AppColors.textColor1,
+            backgroundColor: AppColors.secondaryColor,
             content: Text(
               'Verify berhasil, selamat datang di Lingkunganku.',
               style: TextStyle(color: Colors.white),
@@ -91,7 +91,7 @@ class RegisterOtpCubit extends Cubit<RegisterOtpState> {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            backgroundColor: AppColors.textColor1,
+            backgroundColor: AppColors.secondaryColor,
             content: Text(
               'Kode OTP sudah dikirim ulang, Silahkan cek kembali email Anda.',
               style: TextStyle(color: Colors.white),

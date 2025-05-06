@@ -92,7 +92,6 @@ class HomeRepository {
         HttpHeaders.authorizationHeader:
             'Bearer ${getIt<AppBloc>().state.token}'
       });
-      debugPrint('Data FCM  : ${res.body}');
 
       if (res.statusCode == 200) {
         return;

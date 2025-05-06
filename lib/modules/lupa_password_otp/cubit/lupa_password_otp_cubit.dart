@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -6,12 +8,29 @@ import '../../../misc/injections.dart';
 import '../../../misc/snackbar.dart';
 import '../../../repositories/auth_repository/auth_repository.dart';
 import '../../../router/builder.dart';
-import 'lupa_password_otp_state.dart';
+
+part 'lupa_password_otp_state.dart';
 
 class LupaPasswordOtpCubit extends Cubit<LupaPasswordOtpState> {
-  LupaPasswordOtpCubit() : super(LupaPasswordOtpState());
+  LupaPasswordOtpCubit() : super(LupaPasswordOtpState()) {
+    _startTimer();
+  }
 
   AuthRepository repo = getIt<AuthRepository>();
+  Timer? _timer;
+  int _start = 120;
+
+  void _startTimer() {
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      if (_start > 0) {
+        _start--;
+        emit(state.copyWith(timeRemaining: _start, timerFinished: false));
+      } else {
+        _timer?.cancel();
+        emit(state.copyWith(timerFinished: true)); // Timer selesai
+      }
+    });
+  }
 
   void init(String email) {
     emit(state.copyWith(email: email));
@@ -38,28 +57,35 @@ class LupaPasswordOtpCubit extends Cubit<LupaPasswordOtpState> {
   }
 
   Future<void> forgotPasswordSendOTP(BuildContext context) async {
+    _start = 120;
+    _startTimer();
+    emit(state.copyWith(timeRemaining: _start, timerFinished: false));
     try {
       emit(state.copyWith(loading: true));
       await repo.forgotPasswordSendOTP(state.email);
       if (context.mounted) {
-        ShowSnackbar.snackbar(
-          context,
-          'OTP telah dikirim ke email Anda. Silakan cek email Anda.',
-          '',
-          AppColors.secondaryColor,
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            backgroundColor: AppColors.secondaryColor,
+            content: Text(
+              'Kode OTP sudah dikirim ulang, Silahkan cek kembali email Anda.',
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
         );
       }
-
-      debugPrint("OTP berhasil dikirim");
     } catch (e) {
       if (!context.mounted) {
         return;
       }
-      ShowSnackbar.snackbar(
-        context,
-        'Gagal mengirim OTP: ${e.toString()}',
-        '',
-        AppColors.redColor,
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: AppColors.redColor,
+          content: Text(
+            e.toString(),
+            style: const TextStyle(color: Colors.white),
+          ),
+        ),
       );
     } finally {
       emit(state.copyWith(loading: false));
