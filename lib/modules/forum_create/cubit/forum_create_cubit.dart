@@ -218,7 +218,7 @@ class ForumCreateCubit extends Cubit<ForumCreateState> {
       if (sizeInMb > 200) {
         Future.delayed(Duration.zero, () {
           ShowSnackbar.snackbar(
-              context, "Video Maksimal 200 MB", "", AppColors.secondaryColor);
+              context, "Video Maksimal 200 MB", "", AppColors.redColor);
         });
         return;
       }

@@ -51,23 +51,25 @@ class _HomeViewState extends State<HomeView> {
                 final now = DateTime.now();
                 const duration = Duration(seconds: 2);
 
-                if (lastPressed == null ||
-                    now.difference(lastPressed!) > duration) {
-                  lastPressed = now;
+                if (isLoggedIn) {
+                  if (lastPressed == null ||
+                      now.difference(lastPressed!) > duration) {
+                    lastPressed = now;
 
-                  // Tampilkan Snackbar
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      backgroundColor: AppColors.redColor,
-                      content: Text("Tekan sekali lagi untuk keluar"),
-                      duration: Duration(seconds: 2),
-                    ),
-                  );
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        backgroundColor: AppColors.redColor,
+                        content: Text("Tekan sekali lagi untuk keluar"),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
 
-                  return Future.value(false); // Jangan keluar dulu
+                    return Future.value(false);
+                  }
+
+                  return Future.value(true);
                 }
-
-                return Future.value(true); // Keluar dari aplikasi
+                return Future.value(true);
               },
               child: Scaffold(
                 body: RefreshIndicator(

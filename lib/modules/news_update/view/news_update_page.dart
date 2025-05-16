@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_cropper/image_cropper.dart';
@@ -283,6 +284,9 @@ class _NewsUpdateViewState extends State<NewsUpdateView> {
                 /// **TextField untuk Judul Berita**
                 TextField(
                   controller: _titleController,
+                  inputFormatters: [
+                    LengthLimitingTextInputFormatter(50),
+                  ],
                   decoration: InputDecoration(
                     hintText: "Judul Berita",
                     hintStyle: AppTextStyles.textStyle2.copyWith(

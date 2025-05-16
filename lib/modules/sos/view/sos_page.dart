@@ -201,25 +201,43 @@ class SosView extends StatelessWidget {
                                 final phoneNumber = security?.phoneSecurity;
                                 if (phoneNumber != null &&
                                     phoneNumber.isNotEmpty) {
-                                  final Uri whatsappUri = Platform.isIOS
-                                      ? Uri.parse(
-                                          'whatsapp://send?phone=62$phoneNumber')
-                                      : Uri.parse(
-                                          'https://wa.me/62$phoneNumber');
+                                  final Uri iosUri =
+                                      Uri.parse('https://wa.me/62$phoneNumber');
+                                  final Uri androidUri = Uri.parse(
+                                      'whatsapp://send?phone=62$phoneNumber');
 
-                                  if (!await canLaunchUrl(whatsappUri)) {
-                                    await launchUrl(
-                                      whatsappUri,
-                                      mode: LaunchMode.externalApplication,
-                                    );
+                                  if (Platform.isIOS) {
+                                    if (await canLaunchUrl(iosUri)) {
+                                      await launchUrl(
+                                        iosUri,
+                                        mode: LaunchMode.externalApplication,
+                                      );
+                                    } else {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          backgroundColor: AppColors.redColor,
+                                          content: Text(
+                                              "Tidak dapat membuka WhatsApp"),
+                                        ),
+                                      );
+                                    }
                                   } else {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        backgroundColor: AppColors.redColor,
-                                        content: Text(
-                                            "Tidak dapat membuka WhatsApp"),
-                                      ),
-                                    );
+                                    if (!await canLaunchUrl(androidUri)) {
+                                      await launchUrl(
+                                        iosUri,
+                                        mode: LaunchMode.externalApplication,
+                                      );
+                                    } else {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          backgroundColor: AppColors.redColor,
+                                          content: Text(
+                                              "Tidak dapat membuka WhatsApp"),
+                                        ),
+                                      );
+                                    }
                                   }
                                 } else {
                                   ScaffoldMessenger.of(context).showSnackBar(

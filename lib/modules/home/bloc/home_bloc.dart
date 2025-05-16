@@ -63,26 +63,19 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
     try {
       getIt<AppBloc>().add(InitialAppData());
       await _fetchNews(emit, isRefresh: true);
-      debugPrint("Berita berhasil diambil");
 
       await _getProfile(emit);
-      debugPrint("Profil berhasil diambil");
 
       await fetchBanner(emit);
-      debugPrint("Banner berhasil diambil");
 
       await setFcm(emit);
-      debugPrint("FCM Token berhasil diset");
 
       await determinePosition(event.context!);
-      debugPrint("Lokasi berhasil didapatkan");
     } catch (e) {
       debugPrint("Error in HomeInit: $e");
     }
 
     emit(state.copyWith(isLoading: false));
-
-    debugPrint("✅ HomeInit completed");
   }
 
   Future<void> _onLoadProfile(
@@ -103,9 +96,9 @@ class HomeBloc extends HydratedBloc<HomeEvent, HomeState> {
       DataPagination<NewsModel> newsData = await repo.getNews(page: nextPage);
 
       if (newsData.list.isEmpty) {
-        debugPrint("⚠️ No news received from API!");
+        //
       } else {
-        debugPrint("✅ News fetched: ${newsData.list.length} items");
+        //
       }
 
       emit(state.copyWith(

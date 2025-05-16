@@ -138,13 +138,11 @@ class RegisterWargaCubit extends Cubit<RegisterWargaState> {
           context,
           "Kode OTP telah dikirim, silakan cek email Anda.",
           '',
-          AppColors.textColor1,
+          AppColors.secondaryColor,
         );
       }
     } catch (e) {
       if (!context.mounted) return;
-      debugPrint("Error saat registrasi: $e");
-
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           backgroundColor: AppColors.redColor,

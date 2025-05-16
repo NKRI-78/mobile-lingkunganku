@@ -98,16 +98,6 @@ class _SettingsPageState extends State<SettingsPage> {
                         activeTrackColor: AppColors.textColor1,
                       ),
                     ),
-                    // _divider(),
-                    // ListTile(
-                    //   title: Text('Bahasa'),
-                    //   trailing: Switch(
-                    //     value: false,
-                    //     onChanged: (value) {},
-                    //     activeColor: AppColors.whiteColor,
-                    //     activeTrackColor: AppColors.textColor1,
-                    //   ),
-                    // ),
                     _divider(),
                     ListTile(
                       title: Text('Lokasi'),

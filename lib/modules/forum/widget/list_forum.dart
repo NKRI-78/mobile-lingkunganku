@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../widgets/pages/file/file_page.dart';
-import '../cubit/forum_cubit.dart';
-import 'comment_forum.dart';
-import 'media/media_images.dart';
-import '../../../repositories/forum_repository/models/forums_model.dart';
-import '../../../router/builder.dart';
-import '../../../widgets/pages/video/video_player.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/modal.dart';
+import '../../../repositories/forum_repository/models/forums_model.dart';
+import '../../../router/builder.dart';
 import '../../../widgets/card_header/card_header_forum.dart';
 import '../../../widgets/detect_text/detect_text.dart';
 import '../../../widgets/like/like_comment.dart';
 import '../../../widgets/like/like_comment_top.dart';
+import '../../../widgets/pages/file/file_page.dart';
+import '../../../widgets/pages/video/video_player.dart';
+import '../cubit/forum_cubit.dart';
+import 'comment_forum.dart';
+import 'media/media_images.dart';
 
 class ForumListSection extends StatelessWidget {
   const ForumListSection({super.key, required this.forums});
@@ -90,14 +90,11 @@ class ForumListSection extends StatelessWidget {
                 // Menampilkan gambar
                 if ((forums.forumMedia?.isNotEmpty ?? false) &&
                     forums.forumMedia?.first.type == "image")
-                  InkWell(
-                    onTap: () {
-                      ClippedPhotoRoute(idForum: forums.id ?? 0, indexPhoto: 0)
-                          .push(context);
-                    },
-                    child: MediaImages(
-                      medias: forums.forumMedia ?? [],
-                    ),
+                  MediaImages(
+                    idForum: forums.id ?? 0,
+                    medias: (forums.forumMedia ?? [])
+                        .map((e) => Media.fromJson(e.toJson()))
+                        .toList(),
                   ),
 
                 // Menampilkan video

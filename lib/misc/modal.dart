@@ -1,7 +1,7 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
-import '../router/router.dart';
 
+import '../router/router.dart';
 import '../widgets/button/custom_button.dart';
 import '../widgets/terms_of_services/term_condition.dart';
 import 'colors.dart';

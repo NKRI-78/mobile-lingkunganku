@@ -1,22 +1,21 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pinput/pinput.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/text_style.dart';
 import '../../../widgets/background/custom_background.dart';
 import '../cubit/lupa_password_otp_cubit.dart';
-import '../cubit/lupa_password_otp_state.dart';
 
 class LupaPasswordOtpPage extends StatelessWidget {
-  final String email;
   const LupaPasswordOtpPage({super.key, required this.email});
+
+  final String email;
 
   @override
   Widget build(BuildContext context) {
-    debugPrint("Email : $email");
     return BlocProvider<LupaPasswordOtpCubit>(
         create: (context) => LupaPasswordOtpCubit()..init(email),
         child: const LupaPasswordOtpView());
@@ -25,10 +24,15 @@ class LupaPasswordOtpPage extends StatelessWidget {
 
 class LupaPasswordOtpView extends StatelessWidget {
   const LupaPasswordOtpView({super.key});
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LupaPasswordOtpCubit, LupaPasswordOtpState>(
         builder: (context, state) {
+      final minutes = (state.timeRemaining / 60).floor();
+      final seconds = state.timeRemaining % 60;
+      final timeRemaining = '$minutes:${seconds.toString().padLeft(2, '0')}';
+
       return Scaffold(
         extendBodyBehindAppBar: true,
         appBar: PreferredSize(
@@ -69,84 +73,110 @@ class LupaPasswordOtpView extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(top: 100, left: 24, right: 24),
               child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(height: 20),
-                    Center(
-                      child: Text(
-                        "Masukkan Kode OTP yang ada pada\nWhatsApp kamu, jangan kasih tahu\nsiapa-siapa ya!",
-                        style: AppTextStyles.textStyle2,
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(height: 20),
+                      Text(
+                        "Kami telah mengirimkan kode OTP ke\n${state.email}",
+                        style: AppTextStyles.textStyle2.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
                         textAlign: TextAlign.center,
                       ),
-                    ),
-                    SizedBox(height: 50),
-                    OtpTextField(
-                      enabledBorderColor: AppColors.buttonColor1,
-                      focusedBorderColor: AppColors.textColor1,
-                      cursorColor: AppColors.textColor1,
-                      margin: EdgeInsets.symmetric(horizontal: 8),
-                      fieldWidth: 55,
-                      fieldHeight: 70,
-                      numberOfFields: 4,
-                      textStyle: AppTextStyles.textStyle1,
-                      showFieldAsBox: true,
-                      onSubmit: (value) {
-                        context
-                            .read<LupaPasswordOtpCubit>()
-                            .submit(context, value);
-                      },
-                    ),
-                    SizedBox(height: 30),
-                    RichText(
-                      textAlign: TextAlign.center,
-                      text: TextSpan(
-                        children: [
-                          TextSpan(
-                            text: 'Klik disini',
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontFamily: 'Intel',
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.redColor,
-                            ),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                print('Anda sudah klik');
-                                // trigger send otp
-                                context
-                                    .read<LupaPasswordOtpCubit>()
-                                    .forgotPasswordSendOTP(context);
-                              },
-                          ),
-                          TextSpan(
-                            text: " apabila belum mendapatkan\nKode OTP",
-                            style: AppTextStyles.textStyle2,
-                          ),
-                        ],
+                      SizedBox(height: 30),
+                      Text(
+                        "Silakan masukkan kode OTP untuk melanjutkan.",
+                        style: AppTextStyles.textStyle2.copyWith(
+                          fontSize: 12,
+                          fontWeight: FontWeight.normal,
+                        ),
+                        textAlign: TextAlign.center,
                       ),
-                    ),
-                    // SizedBox(height: 100),
-                  ],
+                      SizedBox(height: 20),
+                      Pinput(
+                        androidSmsAutofillMethod: AndroidSmsAutofillMethod.none,
+                        length: 4,
+                        defaultPinTheme: PinTheme(
+                          width: 60,
+                          height: 70,
+                          textStyle: AppTextStyles.textStyle1,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(color: AppColors.buttonColor1),
+                          ),
+                        ),
+                        focusedPinTheme: PinTheme(
+                          width: 60,
+                          height: 70,
+                          textStyle: AppTextStyles.textStyle1,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(color: AppColors.textColor1),
+                          ),
+                        ),
+                        cursor: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              width: 2,
+                              height: 30,
+                              color: AppColors.textColor1,
+                            ),
+                          ],
+                        ),
+                        keyboardType: TextInputType.number,
+                        onCompleted: (value) {
+                          context
+                              .read<LupaPasswordOtpCubit>()
+                              .submit(context, value);
+                        },
+                        onChanged: (value) {
+                          debugPrint("OTP: $value");
+                        },
+                      ),
+                      SizedBox(height: 30),
+                      RichText(
+                        textAlign: TextAlign.center,
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                              text: state.timerFinished
+                                  ? 'Klik disini'
+                                  : timeRemaining,
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontFamily: 'Intel',
+                                fontWeight: FontWeight.bold,
+                                color: state.timerFinished
+                                    ? AppColors.redColor
+                                    : AppColors.secondaryColor,
+                              ),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  if (state.timerFinished) {
+                                    context
+                                        .read<LupaPasswordOtpCubit>()
+                                        .forgotPasswordSendOTP(context);
+                                  }
+                                },
+                            ),
+                            TextSpan(
+                              text: " apabila belum mendapatkan\nKode OTP",
+                              style: AppTextStyles.textStyle2.copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-            // Positioned(
-            //   bottom: 30,
-            //   left: 24,
-            //   right: 24,
-            //   child: CustomButton(
-            //     horizontalPadding: 80,
-            //     text: 'Reset Password',
-            //     onPressed: () {
-            //       print(state.otp);
-            //       context
-            //           .read<LupaPasswordOtpCubit>()
-            //           .submit(context, state.otp);
-            //     },
-            //   ),
-            // ),
           ],
         ),
       );

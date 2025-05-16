@@ -19,14 +19,26 @@ class LupaPasswordCubit extends Cubit<LupaPasswordState> {
       await repo.forgotPasswordSendOTP(state.email);
       if (context.mounted) {
         ShowSnackbar.snackbar(
-            context, "Silahkan cek email", '', AppColors.secondaryColor);
+          context,
+          "Kode OTP telah dikirim, silakan cek email Anda.",
+          '',
+          AppColors.secondaryColor,
+        );
         LupaPasswordOtpRoute(email: state.email).push(context);
       }
     } catch (e) {
       if (!context.mounted) {
         return;
       }
-      ShowSnackbar.snackbar(context, e.toString(), '', AppColors.redColor);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: AppColors.redColor,
+          content: Text(
+            e.toString(),
+            style: const TextStyle(color: Colors.white),
+          ),
+        ),
+      );
     } finally {
       emit(state.copyWith(loading: false));
     }

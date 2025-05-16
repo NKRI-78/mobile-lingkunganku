@@ -8,6 +8,7 @@ import '../../../misc/injections.dart';
 import '../../../misc/text_style.dart';
 import '../../../router/builder.dart';
 import '../../../widgets/button/custom_button.dart';
+import '../../../widgets/photo_view/custom_fullscreen_preview.dart';
 import '../../app/bloc/app_bloc.dart';
 import '../bloc/home_bloc.dart';
 import 'show_dialog_logout.dart';
@@ -18,17 +19,13 @@ class DrawerSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<AppBloc, AppState>(
-      listener: (context, appState) {
-        //
-      },
+      listener: (context, appState) {},
       child: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {
           final appState = getIt<AppBloc>().state;
           final bool isLoggedIn = appState.isAlreadyLogin;
           final role = state.profile?.roleApp ?? '';
           final avatarLink = state.profile?.profile?.avatarLink ?? '';
-
-          print("ROLE SAAT INI $role");
 
           return Drawer(
             child: Container(
@@ -55,29 +52,37 @@ class DrawerSection extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 20),
-                        CircleAvatar(
-                          radius: 50,
-                          backgroundColor: AppColors.textColor1,
-                          child: avatarLink.isNotEmpty && isLoggedIn
-                              ? ClipOval(
-                                  child: Image.network(
-                                    avatarLink,
-                                    fit: BoxFit.cover,
-                                    width: 100,
-                                    height: 100,
-                                    errorBuilder:
-                                        (context, error, stackTrace) => Icon(
-                                      Icons.person,
-                                      size: 60,
-                                      color: AppColors.whiteColor,
+                        GestureDetector(
+                          onTap: () {
+                            if (isLoggedIn) {
+                              String imageUrl = avatarLink;
+                              _showFullImage(context, imageUrl);
+                            }
+                          },
+                          child: CircleAvatar(
+                            radius: 50,
+                            backgroundColor: AppColors.textColor1,
+                            child: avatarLink.isNotEmpty && isLoggedIn
+                                ? ClipOval(
+                                    child: Image.network(
+                                      avatarLink,
+                                      fit: BoxFit.cover,
+                                      width: 100,
+                                      height: 100,
+                                      errorBuilder:
+                                          (context, error, stackTrace) => Icon(
+                                        Icons.person,
+                                        size: 60,
+                                        color: AppColors.whiteColor,
+                                      ),
                                     ),
+                                  )
+                                : Icon(
+                                    Icons.person,
+                                    size: 60,
+                                    color: AppColors.whiteColor,
                                   ),
-                                )
-                              : Icon(
-                                  Icons.person,
-                                  size: 60,
-                                  color: AppColors.whiteColor,
-                                ),
+                          ),
                         ),
                         const SizedBox(height: 40),
                         Padding(
@@ -90,8 +95,7 @@ class DrawerSection extends StatelessWidget {
                                   child: Container(
                                     color: (Platform.isIOS && !isLoggedIn)
                                         ? Colors.transparent
-                                        : Colors.black.withOpacity(
-                                            0.1), // Transparent jika di iOS dan belum login
+                                        : Colors.black.withOpacity(0.1),
                                   ),
                                 ),
                                 Container(
@@ -178,6 +182,15 @@ class DrawerSection extends StatelessWidget {
             ),
           );
         },
+      ),
+    );
+  }
+
+  void _showFullImage(BuildContext context, String imageUrl) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CustomFullscreenPreview(imageUrl: imageUrl),
       ),
     );
   }
