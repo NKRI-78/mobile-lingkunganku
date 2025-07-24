@@ -50,7 +50,9 @@ void _showTransferDialog(BuildContext context, String userId, String name) {
                       "Apakah kamu yakin ingin alihkan\nKetua Lingkungan yang baru\nke $name ?",
                       maxLines: 3,
                       textAlign: TextAlign.center,
-                      style: AppTextStyles.textDialog,
+                      style: AppTextStyles.textDialog.copyWith(
+                        fontSize: 14,
+                      ),
                     ),
                     const SizedBox(height: 10),
                     Row(
@@ -98,7 +100,7 @@ void _showTransferDialog(BuildContext context, String userId, String name) {
                             onPressed: () {
                               Navigator.of(dialogContext).pop();
                             },
-                            child: Text("Tidak\nYakin",
+                            child: Text("Batal",
                                 style: AppTextStyles.textProfileBold),
                           ),
                         ),

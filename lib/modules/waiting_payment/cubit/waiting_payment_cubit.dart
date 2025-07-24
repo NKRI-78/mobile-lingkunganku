@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart';
+import 'package:mobile_lingkunganku/misc/socket.dart';
 import '../../../misc/colors.dart';
 import '../../../misc/injections.dart';
 import '../../../misc/snackbar.dart';
@@ -19,7 +20,7 @@ class WaitingPaymentCubit extends Cubit<WaitingPaymentState> {
 
   final String id;
 
-  // SocketServices services = getIt<SocketServices>();
+  SocketServices services = getIt<SocketServices>();
 
   PaymentRepository paymentRepo = PaymentRepository();
 
@@ -30,14 +31,14 @@ class WaitingPaymentCubit extends Cubit<WaitingPaymentState> {
 
       emit(state.copyWith(payment: payment, loading: false));
 
-      // services.socket?.emit('joinWaitingPayment', payment.paymentNumber);
+      services.socket?.emit('joinWaitingPayment', payment.paymentNumber);
 
-      // services.socket?.on('payment:success', (data) async {
-      //   print('OKE success bayar');
-      //   emit(state.copyWith(loading: true));
-      //   var payment = await paymentRepo.findPayment(id);
-      //   emit(state.copyWith(payment: payment, loading: false));
-      // });
+      services.socket?.on('payment:success', (data) async {
+        print('OKE success bayar');
+        emit(state.copyWith(loading: true));
+        var payment = await paymentRepo.findPayment(id);
+        emit(state.copyWith(payment: payment, loading: false));
+      });
     } on SocketException catch (e) {
       if (!context.mounted) {
         return;

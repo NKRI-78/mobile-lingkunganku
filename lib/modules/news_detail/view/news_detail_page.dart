@@ -81,18 +81,22 @@ class DetailNewsView extends StatelessWidget {
                 ),
             ],
           ),
-          body: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildImageCard(context, imageUrl),
-                const SizedBox(height: 10),
-                state.loading
-                    ? _buildLoadingContent()
-                    : _buildContent(context, state.news),
-                const SizedBox(height: 20),
-              ],
+          body: SafeArea(
+            top: false,
+            bottom: true,
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildImageCard(context, imageUrl),
+                  const SizedBox(height: 10),
+                  state.loading
+                      ? _buildLoadingContent()
+                      : _buildContent(context, state.news),
+                  const SizedBox(height: 20),
+                ],
+              ),
             ),
           ),
         );
@@ -121,9 +125,9 @@ class DetailNewsView extends StatelessWidget {
           newsData?.data?.title ?? "",
           maxLines: 3,
           overflow: TextOverflow.ellipsis,
-          textAlign: TextAlign.justify,
+          textAlign: TextAlign.left,
           style: const TextStyle(
-            fontSize: 22,
+            fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -138,8 +142,12 @@ class DetailNewsView extends StatelessWidget {
         Html(
           data: formatHtmlContent(newsData?.data?.content),
           style: {
+            "p": Style(
+              margin: Margins.only(bottom: 12),
+            ),
             "a": Style(
               color: Colors.blue,
+              textDecoration: TextDecoration.underline,
             ),
           },
           onLinkTap:
@@ -154,10 +162,11 @@ class DetailNewsView extends StatelessWidget {
   String formatHtmlContent(String? content) {
     if (content == null || content.isEmpty) return "";
 
-    final isHtml = RegExp(r'<[^>]+>').hasMatch(content);
-    if (isHtml) return content;
+    final sanitized = content
+        .replaceAll(RegExp(r'<p><br\s*/?></p>', caseSensitive: false), '')
+        .replaceAll(RegExp(r'<p>(&nbsp;|\s)*</p>', caseSensitive: false), '');
 
-    return "<p>${content.replaceAll('\n', '</p><p>')}</p>";
+    return sanitized;
   }
 
   Widget _buildImageCard(BuildContext context, String? imageUrl) {

@@ -279,10 +279,11 @@ class _EventViewState extends State<EventView> {
                         const SizedBox(height: 20),
                         filteredEvents.isEmpty
                             ? Center(
-                                heightFactor: 10,
+                                heightFactor: 12,
                                 child: Text(
                                   "Tidak ada event pada tanggal ini.",
-                                  style: AppTextStyles.textStyle2,
+                                  style: AppTextStyles.textStyle2
+                                      .copyWith(fontSize: 14),
                                 ),
                               )
                             : ListView.builder(

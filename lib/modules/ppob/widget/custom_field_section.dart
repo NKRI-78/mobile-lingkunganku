@@ -37,25 +37,27 @@ class _CustomFieldSectionState extends State<CustomFieldSection> {
     _debounce = Timer(const Duration(milliseconds: 500), () {
       String nomor = _normalizePhoneNumber(widget.controller.text.trim());
 
+      if (nomor.length < 10) {
+        if (_errorMessage != "Nomor minimal 10 digit") {
+          setState(() {
+            _errorMessage = "Nomor minimal 10 digit";
+          });
+        }
+        return; // Stop di sini, tidak fetch prefix
+      } else {
+        if (_errorMessage != null) {
+          setState(() {
+            _errorMessage = null;
+          });
+        }
+      }
+
       if (widget.controller.text != nomor) {
         widget.controller.text = nomor;
         widget.controller.selection = TextSelection.fromPosition(
           TextPosition(offset: nomor.length),
         );
       }
-
-      // if (nomor.length < 5) {
-      //   // ⚠️ Nomor kurang dari 5 digit, tampilkan error
-      //   setState(() {
-      //     _errorMessage = "Nomor harus minimal 5 digit.";
-      //   });
-      //   return;
-      // } else {
-      //   // ✅ Nomor valid, hilangkan error
-      //   setState(() {
-      //     _errorMessage = null;
-      //   });
-      // }
 
       String prefix = nomor.substring(0, 5);
       if (prefix != lastPrefix) {
@@ -67,7 +69,7 @@ class _CustomFieldSectionState extends State<CustomFieldSection> {
               .fetchPulsaData(prefix: prefix, type: widget.type ?? "PULSA");
         }
       } else {
-        print("⚠️ Prefix tidak berubah, tidak fetch ulang.");
+        print("Prefix tidak berubah, tidak fetch ulang.");
       }
     });
   }

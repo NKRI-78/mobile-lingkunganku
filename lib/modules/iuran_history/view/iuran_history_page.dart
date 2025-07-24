@@ -60,41 +60,46 @@ class _IuranHistoryViewState extends State<IuranHistoryView> {
               },
             ),
           ),
-          body: SmartRefresher(
-            controller: _refreshController,
-            onRefresh: _onRefresh,
-            enablePullDown: true,
-            physics: const BouncingScrollPhysics(),
-            header: ClassicHeader(
-              textStyle: const TextStyle(color: AppColors.secondaryColor),
-              iconPos: IconPosition.left,
-              spacing: 5.0,
-              refreshingText: "Memuat Riwayat Iuran...",
-              idleText: "Tarik untuk menyegarkan",
-              releaseText: "Lepaskan untuk menyegarkan",
-              completeText: "Berhasil diperbarui",
-              failedText: "Gagal memperbarui",
-              refreshingIcon:
-                  const Icon(Icons.autorenew, color: AppColors.secondaryColor),
-              failedIcon: const Icon(Icons.error, color: Colors.red),
-              completeIcon: const Icon(Icons.done, color: AppColors.textColor1),
-              idleIcon: const Icon(Icons.arrow_downward,
-                  color: AppColors.secondaryColor),
-              releaseIcon:
-                  const Icon(Icons.refresh, color: AppColors.secondaryColor),
+          body: SafeArea(
+            bottom: true,
+            top: false,
+            child: SmartRefresher(
+              controller: _refreshController,
+              onRefresh: _onRefresh,
+              enablePullDown: true,
+              physics: const BouncingScrollPhysics(),
+              header: ClassicHeader(
+                textStyle: const TextStyle(color: AppColors.secondaryColor),
+                iconPos: IconPosition.left,
+                spacing: 5.0,
+                refreshingText: "Memuat Riwayat Iuran...",
+                idleText: "Tarik untuk menyegarkan",
+                releaseText: "Lepaskan untuk menyegarkan",
+                completeText: "Berhasil diperbarui",
+                failedText: "Gagal memperbarui",
+                refreshingIcon: const Icon(Icons.autorenew,
+                    color: AppColors.secondaryColor),
+                failedIcon: const Icon(Icons.error, color: Colors.red),
+                completeIcon:
+                    const Icon(Icons.done, color: AppColors.textColor1),
+                idleIcon: const Icon(Icons.arrow_downward,
+                    color: AppColors.secondaryColor),
+                releaseIcon:
+                    const Icon(Icons.refresh, color: AppColors.secondaryColor),
+              ),
+              child: state.isLoading
+                  ? const LoadingPage()
+                  : state.iuran == null || state.iuran!.isEmpty
+                      ? const EmptyPage(msg: "Tidak ada Riwayat Iuran..")
+                      : ListView.builder(
+                          padding: const EdgeInsets.all(16),
+                          itemCount: state.iuran!.length,
+                          itemBuilder: (context, index) {
+                            final iuran = state.iuran![index];
+                            return ListHistoryIuranSection(iuran: iuran);
+                          },
+                        ),
             ),
-            child: state.isLoading
-                ? const LoadingPage()
-                : state.iuran == null || state.iuran!.isEmpty
-                    ? const EmptyPage(msg: "Tidak ada Riwayat Iuran..")
-                    : ListView.builder(
-                        padding: const EdgeInsets.all(16),
-                        itemCount: state.iuran!.length,
-                        itemBuilder: (context, index) {
-                          final iuran = state.iuran![index];
-                          return ListHistoryIuranSection(iuran: iuran);
-                        },
-                      ),
           ),
         );
       },

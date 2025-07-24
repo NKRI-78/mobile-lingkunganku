@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile_lingkunganku/misc/helper.dart';
+import 'package:upgrader/upgrader.dart';
 
 import '../../../misc/injections.dart';
 import '../../../misc/theme.dart';
@@ -28,6 +32,11 @@ class AppView extends StatefulWidget {
 
 class AppViewState extends State<AppView> {
   final router = MyRouter.init(getIt<AppBloc>());
+  final _upgrader = Upgrader(
+    countryCode: 'id',
+    debugLogging: false,
+    messages: UpgraderMessagesIndonesian(),
+  );
 
   @override
   void initState() {
@@ -43,6 +52,21 @@ class AppViewState extends State<AppView> {
         debugShowCheckedModeBanner: false,
         theme: baseTheme.copyWith(),
         routerConfig: router,
+        builder: (context, child) {
+          return UpgradeAlert(
+            barrierDismissible: false,
+            shouldPopScope: () => false,
+            showIgnore: false,
+            showLater: false,
+            upgrader: _upgrader,
+            showReleaseNotes: false,
+            dialogStyle: Platform.isAndroid
+                ? UpgradeDialogStyle.material
+                : UpgradeDialogStyle.cupertino,
+            navigatorKey: router.configuration.navigatorKey,
+            child: child,
+          );
+        },
       );
     });
   }

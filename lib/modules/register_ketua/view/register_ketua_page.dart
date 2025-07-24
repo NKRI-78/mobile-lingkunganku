@@ -75,40 +75,45 @@ class RegisterKetuaView extends StatelessWidget {
               ),
             ),
           ),
-          body: Stack(
-            children: [
-              CustomBackground(),
-              Padding(
-                padding: EdgeInsets.only(top: 85),
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 30),
-                    child: Form(
-                      key: _formKey,
-                      child: Column(
-                        spacing: 20,
-                        children: [
-                          CustomfieldKetuaFoto(),
-                          CustomTextfieldKetua(),
-                          SizedBox(
-                            width: double.infinity,
-                            child: CustomButton(
-                              text: 'Submit',
-                              isLoading: state.isLoading,
-                              onPressed: () {
-                                context
-                                    .read<RegisterKetuaCubit>()
-                                    .submit(context);
-                              },
+          body: SafeArea(
+            top: false,
+            bottom: true,
+            child: Stack(
+              children: [
+                CustomBackground(),
+                Padding(
+                  padding: EdgeInsets.only(top: 85),
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+                      child: Form(
+                        key: _formKey,
+                        child: Column(
+                          spacing: 20,
+                          children: [
+                            CustomfieldKetuaFoto(),
+                            CustomTextfieldKetua(),
+                            SizedBox(
+                              width: double.infinity,
+                              child: CustomButton(
+                                text: 'Submit',
+                                isLoading: state.isLoading,
+                                onPressed: () {
+                                  context
+                                      .read<RegisterKetuaCubit>()
+                                      .submit(context);
+                                },
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       },

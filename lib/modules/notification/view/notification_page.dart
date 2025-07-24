@@ -86,13 +86,17 @@ class NotificationView extends StatelessWidget {
                 ],
               ),
             ),
-            body: TabBarView(
-              children: [
-                NotificationList(category: "SOS"),
-                NotificationList(category: "PAYMENT"),
-                NotificationListPpob(),
-                NotificationList(category: "OTHER"),
-              ],
+            body: SafeArea(
+              top: false,
+              bottom: true,
+              child: TabBarView(
+                children: [
+                  NotificationList(category: "SOS"),
+                  NotificationList(category: "PAYMENT"),
+                  NotificationListPpob(),
+                  NotificationList(category: "OTHER"),
+                ],
+              ),
             ),
           ),
         );

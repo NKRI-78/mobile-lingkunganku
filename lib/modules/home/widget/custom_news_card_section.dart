@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_lingkunganku/misc/text_style.dart';
 import '../../../misc/theme.dart';
 import '../../../widgets/image/image_card.dart';
 
@@ -78,20 +79,18 @@ class _NewsContent extends StatelessWidget {
           children: [
             Text(
               title,
-              style: const TextStyle(
+              style: AppTextStyles.textDialog.copyWith(
                 fontWeight: FontWeight.bold,
-                fontSize: 16,
+                fontSize: 14,
               ),
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
+            SizedBox(height: 3),
             Text(
               content.replaceAll(RegExp(r'<[^>]*>|&[^;]+;'), ""),
               maxLines: 2,
-              style: const TextStyle(
-                fontSize: 14,
-                color: Colors.grey,
-              ),
+              style: AppTextStyles.textWelcome,
               overflow: TextOverflow.ellipsis,
             ),
           ],

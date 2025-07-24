@@ -1,9 +1,9 @@
 name: mobile_lingkunganku
 description: "A new Flutter project."
 
-publish_to: 'none'
+publish_to: "none"
 
-version: 1.0.1+5
+version: 1.2.0+1
 
 environment:
   sdk: ^3.6.0
@@ -65,6 +65,7 @@ dependencies:
   syncfusion_flutter_pdfviewer: ^29.1.38
   table_calendar: ^3.2.0
   timeago: ^3.2.2
+  upgrader: ^11.4.0
   url_launcher: ^6.3.1
   video_compress_v2: ^1.0.0+1
   video_player: ^2.9.3
@@ -95,7 +96,6 @@ flutter_launcher_icons:
     image_path: "assets/icons/icons.png"
 
 flutter:
-
   uses-material-design: true
 
   assets:

@@ -145,22 +145,27 @@ class _IuranViewState extends State<IuranView> {
                   ),
                 ),
               ),
-              bottomNavigationBar: Padding(
-                padding: const EdgeInsets.only(bottom: 10, right: 20, left: 20),
-                child: ValueListenableBuilder<List<Data>>(
-                  valueListenable: _selectedInvoices,
-                  builder: (context, selected, child) {
-                    return st.profile?.headmaster == null
-                        ? SizedBox.shrink()
-                        : CustomButton(
-                            text: "Bayar Iuran",
-                            onPressed: selected.isNotEmpty
-                                ? () {
-                                    _customPaymentSection(context, selected);
-                                  }
-                                : null,
-                          );
-                  },
+              bottomNavigationBar: SafeArea(
+                top: false,
+                bottom: true,
+                child: Padding(
+                  padding:
+                      const EdgeInsets.only(bottom: 10, right: 20, left: 20),
+                  child: ValueListenableBuilder<List<Data>>(
+                    valueListenable: _selectedInvoices,
+                    builder: (context, selected, child) {
+                      return st.profile?.headmaster == null
+                          ? SizedBox.shrink()
+                          : CustomButton(
+                              text: "Bayar Iuran",
+                              onPressed: selected.isNotEmpty
+                                  ? () {
+                                      _customPaymentSection(context, selected);
+                                    }
+                                  : null,
+                            );
+                    },
+                  ),
                 ),
               ),
             );

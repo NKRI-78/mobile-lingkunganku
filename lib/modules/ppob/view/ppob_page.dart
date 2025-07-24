@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:mobile_lingkunganku/widgets/pages/loading_page.dart';
 import '../../../misc/injections.dart';
 import '../../app/bloc/app_bloc.dart';
 import '../../../router/builder.dart';
@@ -44,9 +45,29 @@ class PpobView extends StatefulWidget {
 class _PpobViewState extends State<PpobView> {
   int selectedIndex = -1;
   String? selectedType;
+  final ValueNotifier<bool> isPhoneValid = ValueNotifier(false);
   final ValueNotifier<PulsaDataModel?> selectedPulsaDataNotifier =
       ValueNotifier(null);
   final TextEditingController _controller = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller.addListener(() {
+      final text = _controller.text;
+      isPhoneValid.value = text.length >= 10;
+
+      if (selectedType != null && text.length >= 5) {
+        context.read<PpobCubit>().fetchPulsaData(
+              prefix: text.substring(0, 5),
+              type: selectedType!,
+            );
+      } else {
+        context.read<PpobCubit>().clearPulsaData();
+      }
+    });
+  }
 
   @override
   void dispose() {
@@ -93,28 +114,32 @@ class _PpobViewState extends State<PpobView> {
       widgets.addAll([
         CustomFieldSection(controller: _controller, type: selectedType),
         const SizedBox(height: 10),
-        BlocBuilder<PpobCubit, PpobState>(
-          builder: (context, state) {
-            if (state.isLoading) {
-              return const Center(
-                heightFactor: 5,
-                child:
-                    CircularProgressIndicator(color: AppColors.secondaryColor),
-              );
-            } else if (state.isSuccess == true && state.pulsaData.isNotEmpty) {
-              return CustomListPulsaDataSection(
-                pulsaData: state.pulsaData,
-                onSelected: _onPulsaDataSelected,
-              );
-            } else if (state.isSuccess == false) {
-              return const Center(
-                child: Text(
-                  "Terjadi kesalahan",
-                  style: TextStyle(color: Colors.red),
-                ),
-              );
-            }
-            return const SizedBox.shrink();
+        ValueListenableBuilder<bool>(
+          valueListenable: isPhoneValid,
+          builder: (context, isValid, _) {
+            if (!isValid) return const SizedBox.shrink();
+
+            return BlocBuilder<PpobCubit, PpobState>(
+              builder: (context, state) {
+                if (state.isLoading) {
+                  return LoadingPage();
+                } else if (state.isSuccess == true &&
+                    state.pulsaData.isNotEmpty) {
+                  return CustomListPulsaDataSection(
+                    pulsaData: state.pulsaData,
+                    onSelected: _onPulsaDataSelected,
+                  );
+                } else if (state.isSuccess == false) {
+                  return Center(
+                    child: Text(
+                      "Terjadi kesalahan",
+                      style: AppTextStyles.textDialog,
+                    ),
+                  );
+                }
+                return const SizedBox.shrink();
+              },
+            );
           },
         ),
       ]);
@@ -152,7 +177,9 @@ class _PpobViewState extends State<PpobView> {
             valueListenable: selectedPulsaDataNotifier,
             builder: (context, selectedPulsaData, child) {
               return InkWell(
-                onTap: (selectedIndex == -1 || selectedPulsaData == null)
+                onTap: (selectedIndex == -1 ||
+                        selectedPulsaData == null ||
+                        !isPhoneValid.value)
                     ? null
                     : () {
                         _customPaymentSection(
@@ -172,7 +199,9 @@ class _PpobViewState extends State<PpobView> {
                   width: double.infinity,
                   height: 70,
                   decoration: BoxDecoration(
-                    color: (selectedIndex == -1 || selectedPulsaData == null)
+                    color: (selectedIndex == -1 ||
+                            selectedPulsaData == null ||
+                            !isPhoneValid.value)
                         ? Colors.grey
                         : AppColors.secondaryColor,
                     borderRadius: BorderRadius.circular(16),

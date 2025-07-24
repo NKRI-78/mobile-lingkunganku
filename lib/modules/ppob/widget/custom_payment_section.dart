@@ -35,155 +35,160 @@ void _customPaymentSection(BuildContext context, List<PulsaDataModel> selected,
             }
           }
 
-          return Padding(
-            padding: EdgeInsets.all(20),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        "Metode Pembayaran",
-                        style: AppTextStyles.textProfileBold
-                            .copyWith(color: AppColors.blackColor),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        dialogContext
-                            .read<PpobCubit>()
-                            .getPaymentChannel(dialogContext);
-                      },
-                      splashColor: Colors.grey.withValues(alpha: 0.3),
-                      highlightColor: Colors.grey.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(8),
-                      child: Padding(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+          return SafeArea(
+            top: false,
+            bottom: true,
+            child: Padding(
+              padding: EdgeInsets.all(20),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
                         child: Text(
-                          dialogContext.watch<PpobCubit>().state.channel == null
-                              ? "Pilih Pembayaran"
-                              : "Ganti Pembayaran",
-                          style: TextStyle(
-                            color: dialogContext
-                                        .watch<PpobCubit>()
-                                        .state
-                                        .channel ==
-                                    null
-                                ? AppColors.secondaryColor
-                                : AppColors.redColor,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          "Metode Pembayaran",
+                          style: AppTextStyles.textProfileBold
+                              .copyWith(color: AppColors.blackColor),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
-                    )
-                  ],
-                ),
-                Divider(),
-                SizedBox(height: 5),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Detail Transaksi",
-                    style: AppTextStyles.textProfileBold
-                        .copyWith(color: AppColors.blackColor),
+                      InkWell(
+                        onTap: () {
+                          dialogContext
+                              .read<PpobCubit>()
+                              .getPaymentChannel(dialogContext);
+                        },
+                        splashColor: Colors.grey.withValues(alpha: 0.3),
+                        highlightColor: Colors.grey.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(8),
+                        child: Padding(
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+                          child: Text(
+                            dialogContext.watch<PpobCubit>().state.channel ==
+                                    null
+                                ? "Pilih Pembayaran"
+                                : "Ganti Pembayaran",
+                            style: TextStyle(
+                              color: dialogContext
+                                          .watch<PpobCubit>()
+                                          .state
+                                          .channel ==
+                                      null
+                                  ? AppColors.secondaryColor
+                                  : AppColors.redColor,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      )
+                    ],
                   ),
-                ),
-                SizedBox(height: 5),
-                _buildDetailRow("Pembayaran Untuk", nameProduct),
-                _buildDetailRow(
-                  getProductTitle(productType),
-                  "${Price.currency(productPrice)}",
-                  isBold: true,
-                ),
-                _buildDetailRow(
-                  "Biaya Admin Bank",
-                  "${Price.currency(state.adminFee)}",
-                  isBold: true,
-                ),
-                _buildDetailRowWithImage(
-                    "Pembayaran Dengan",
-                    selectedChannel?.logo ?? "",
-                    selectedChannel?.name ?? " _ "),
-                Divider(),
-                SizedBox(height: 5),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Harus Dibayar",
-                    style: AppTextStyles.textProfileBold
-                        .copyWith(color: AppColors.blackColor),
+                  Divider(),
+                  SizedBox(height: 5),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Detail Transaksi",
+                      style: AppTextStyles.textProfileBold
+                          .copyWith(color: AppColors.blackColor),
+                    ),
                   ),
-                ),
-                _buildDetailRow(
-                  "Total Pembayaran",
-                  "${Price.currency(totalAmount)}",
-                  isBold: true,
-                ),
-                const SizedBox(height: 10),
-                SizedBox(
-                  width: double.infinity,
-                  child: BlocBuilder<PpobCubit, PpobState>(
-                    builder: (context, state) {
-                      final userId = getIt<AppBloc>().state.user?.id ?? 0;
-                      return CustomButton(
-                        text: state.isLoading ? "" : "Bayar",
-                        onPressed: state.isLoading || state.channel == null
-                            ? null
-                            : () async {
-                                final cubit = context.read<PpobCubit>();
-                                try {
-                                  final response = await cubit.checkoutItem(
-                                      userId.toString(), type, phoneNumber);
+                  SizedBox(height: 5),
+                  _buildDetailRow("Pembayaran Untuk", nameProduct),
+                  _buildDetailRow(
+                    getProductTitle(productType),
+                    "${Price.currency(productPrice)}",
+                    isBold: true,
+                  ),
+                  _buildDetailRow(
+                    "Biaya Admin Bank",
+                    "${Price.currency(state.adminFee)}",
+                    isBold: true,
+                  ),
+                  _buildDetailRowWithImage(
+                      "Pembayaran Dengan",
+                      selectedChannel?.logo ?? "",
+                      selectedChannel?.name ?? " _ "),
+                  Divider(),
+                  SizedBox(height: 5),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Harus Dibayar",
+                      style: AppTextStyles.textProfileBold
+                          .copyWith(color: AppColors.blackColor),
+                    ),
+                  ),
+                  _buildDetailRow(
+                    "Total Pembayaran",
+                    "${Price.currency(totalAmount)}",
+                    isBold: true,
+                  ),
+                  const SizedBox(height: 10),
+                  SizedBox(
+                    width: double.infinity,
+                    child: BlocBuilder<PpobCubit, PpobState>(
+                      builder: (context, state) {
+                        final userId = getIt<AppBloc>().state.user?.id ?? 0;
+                        return CustomButton(
+                          text: state.isLoading ? "" : "Bayar",
+                          onPressed: state.isLoading || state.channel == null
+                              ? null
+                              : () async {
+                                  final cubit = context.read<PpobCubit>();
+                                  try {
+                                    final response = await cubit.checkoutItem(
+                                        userId.toString(), type, phoneNumber);
 
-                                  if (response != null) {
-                                    final isQRPayment = paymentCode
-                                            .toLowerCase()
-                                            .contains("gopay") ||
-                                        paymentCode
-                                            .toLowerCase()
-                                            .contains("qris");
+                                    if (response != null) {
+                                      final isQRPayment = paymentCode
+                                              .toLowerCase()
+                                              .contains("gopay") ||
+                                          paymentCode
+                                              .toLowerCase()
+                                              .contains("qris");
 
-                                    final expireTime = isQRPayment
-                                        ? DateTime.now()
-                                            .add(const Duration(minutes: 15))
-                                        : DateTime.now()
-                                            .add(const Duration(days: 1));
-                                    PpobPaymentRoute(
-                                      paymentExpire: expireTime,
-                                      paymentAccess:
-                                          response['payment_access'] ?? "-",
-                                      totalPayment: totalAmount,
-                                      paymentCode: paymentCode,
-                                      nameProduct: nameProduct,
-                                      logoChannel: logoChannel,
-                                    ).go(context);
-                                  } else {
-                                    throw Exception(
-                                        "Gagal mendapatkan kode pembayaran.");
+                                      final expireTime = isQRPayment
+                                          ? DateTime.now()
+                                              .add(const Duration(minutes: 15))
+                                          : DateTime.now()
+                                              .add(const Duration(days: 1));
+                                      PpobPaymentRoute(
+                                        paymentExpire: expireTime,
+                                        paymentAccess:
+                                            response['payment_access'] ?? "-",
+                                        totalPayment: totalAmount,
+                                        paymentCode: paymentCode,
+                                        nameProduct: nameProduct,
+                                        logoChannel: logoChannel,
+                                      ).go(context);
+                                    } else {
+                                      throw Exception(
+                                          "Gagal mendapatkan kode pembayaran.");
+                                    }
+                                  } catch (e) {
+                                    ShowSnackbar.snackbar(context, e.toString(),
+                                        '', AppColors.redColor);
                                   }
-                                } catch (e) {
-                                  ShowSnackbar.snackbar(context, e.toString(),
-                                      '', AppColors.redColor);
-                                }
-                              },
-                        child: state.isLoading
-                            ? const SizedBox(
-                                height: 24,
-                                width: 24,
-                                child: CircularProgressIndicator(
-                                  color: Colors.white,
-                                ),
-                              )
-                            : null,
-                      );
-                    },
+                                },
+                          child: state.isLoading
+                              ? const SizedBox(
+                                  height: 24,
+                                  width: 24,
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                  ),
+                                )
+                              : null,
+                        );
+                      },
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           );
         }),

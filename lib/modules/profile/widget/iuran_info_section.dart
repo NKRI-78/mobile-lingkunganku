@@ -67,30 +67,6 @@ class IuranInfoSection extends StatelessWidget {
                         (user.neighborhood!.balance ?? 0).toDouble()),
                     style: AppTextStyles.textProfileBold,
                   ),
-                  const SizedBox(height: 8),
-                  // /// **Email (Tanpa Edit)**
-                  // Text(
-                  //   "Email",
-                  //   style: AppTextStyles.textProfileNormal,
-                  // ),
-                  // SizedBox(height: 5),
-
-                  // Text(
-                  //   user.email ?? 'Tidak tersedia',
-                  //   style: AppTextStyles.textProfileBold,
-                  // ),
-                  // const SizedBox(height: 8),
-
-                  // /// **Baris Nomor Tlp & Tombol Edit**
-                  // Text(
-                  //   "Nomor Telepon",
-                  //   style: AppTextStyles.textProfileNormal,
-                  // ),
-                  // SizedBox(height: 5),
-                  // Text(
-                  //   user.phone ?? 'Tidak tersedia',
-                  //   style: AppTextStyles.textProfileBold,
-                  // ),
                 ],
               ),
             ),
