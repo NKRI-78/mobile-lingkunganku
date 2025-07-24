@@ -79,8 +79,12 @@ class _TransferManagementViewState extends State<TransferManagementView> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(state.memberData?.data?.name ?? "",
-                          style: AppTextStyles.textStyle1),
+                      Text(
+                        state.memberData?.data?.name ?? "",
+                        style: AppTextStyles.textStyle1.copyWith(
+                          fontSize: 20,
+                        ),
+                      ),
                       SizedBox(height: 10),
                       Text("Pilih Ketua Lingkungan Baru",
                           style: AppTextStyles.textStyle2),

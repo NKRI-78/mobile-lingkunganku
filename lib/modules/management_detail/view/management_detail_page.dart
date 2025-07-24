@@ -81,38 +81,43 @@ class ManagementDetailView extends StatelessWidget {
             builder: (context, state) {
               final memberManagement = state.memberDetail?.data;
 
-              return SingleChildScrollView(
-                padding: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
-                child: Column(
-                  spacing: 20,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    state.isLoading
-                        ? const ProfileSectionShimmer()
-                        : ProfileSection(member: memberManagement),
-                    state.isLoading
-                        ? const JoinDateSectionShimmer()
-                        : JoinDateSection(member: memberManagement),
-                    state.isLoading
-                        ? const UserInfoSectionShimmer()
-                        : UserInfoSection(member: memberManagement),
-                    if (role == "CHIEF" || role == "TREASURER")
+              return SafeArea(
+                top: false,
+                bottom: true,
+                child: SingleChildScrollView(
+                  padding:
+                      const EdgeInsets.only(bottom: 20, left: 20, right: 20),
+                  child: Column(
+                    spacing: 20,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
                       state.isLoading
-                          ? const PaymentSectionShimmer()
-                          : PaymentSection(),
-                    if (role == "CHIEF")
+                          ? const ProfileSectionShimmer()
+                          : ProfileSection(member: memberManagement),
                       state.isLoading
-                          ? const ManagementAccessSectionShimmer()
-                          : ManagementAccesSection(member: memberManagement),
-                    if (role == "CHIEF")
+                          ? const JoinDateSectionShimmer()
+                          : JoinDateSection(member: memberManagement),
                       state.isLoading
-                          ? const RemoveUserSectionShimmer()
-                          : BlocProvider.value(
-                              value: context.read<ManagementDetailCubit>(),
-                              child:
-                                  RemoveUserSection(member: memberManagement),
-                            ),
-                  ],
+                          ? const UserInfoSectionShimmer()
+                          : UserInfoSection(member: memberManagement),
+                      if (role == "CHIEF" || role == "TREASURER")
+                        state.isLoading
+                            ? const PaymentSectionShimmer()
+                            : PaymentSection(),
+                      if (role == "CHIEF")
+                        state.isLoading
+                            ? const ManagementAccessSectionShimmer()
+                            : ManagementAccesSection(member: memberManagement),
+                      if (role == "CHIEF")
+                        state.isLoading
+                            ? const RemoveUserSectionShimmer()
+                            : BlocProvider.value(
+                                value: context.read<ManagementDetailCubit>(),
+                                child:
+                                    RemoveUserSection(member: memberManagement),
+                              ),
+                    ],
+                  ),
                 ),
               );
             },

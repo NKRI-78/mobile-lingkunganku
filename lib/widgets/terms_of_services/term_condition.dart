@@ -36,67 +36,70 @@ class TermCondition extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Container(
-                    margin:
-                        const EdgeInsets.only(left: 16, right: 16, bottom: 30),
-                    padding: const EdgeInsets.all(20.0),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Image.asset(
-                            'assets/icons/lingkunganku.png',
-                            width: screenWidth * 0.4,
-                          ),
-                          const SizedBox(height: 20),
-                          ...[
-                            "It's important that you understand what information Lingkunganku Mobile collects.",
-                            "● Your Information & Content",
-                            "This may include any information you share with us, for example:",
-                            "You create a post and other users can like or comment on it. You can also delete your post.",
-                            "● Photos, Videos & Documents\nYou can post media such as photos, videos, or documents.",
-                            "● Embedded Links\nYou can post links to news or other content."
-                          ].map((text) => Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 5),
-                                child: Text(
-                                  text,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: screenWidth * 0.03,
-                                    fontWeight: FontWeight.w300,
-                                    color: Colors.black,
+                  SafeArea(
+                    bottom: true,
+                    child: Container(
+                      margin: const EdgeInsets.only(
+                          left: 16, right: 16, bottom: 30),
+                      padding: const EdgeInsets.all(20.0),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Image.asset(
+                              'assets/icons/lingkunganku.png',
+                              width: screenWidth * 0.4,
+                            ),
+                            const SizedBox(height: 20),
+                            ...[
+                              "It's important that you understand what information Lingkunganku Mobile collects.",
+                              "● Your Information & Content",
+                              "This may include any information you share with us, for example:",
+                              "You create a post and other users can like or comment on it. You can also delete your post.",
+                              "● Photos, Videos & Documents\nYou can post media such as photos, videos, or documents.",
+                              "● Embedded Links\nYou can post links to news or other content."
+                            ].map((text) => Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 5),
+                                  child: Text(
+                                    text,
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: screenWidth * 0.03,
+                                      fontWeight: FontWeight.w300,
+                                      color: Colors.black,
+                                    ),
                                   ),
+                                )),
+                            const SizedBox(height: 20),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xff1B5E20),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
                                 ),
-                              )),
-                          const SizedBox(height: 20),
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xff1B5E20),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10.0),
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 10, horizontal: 30),
                               ),
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 10, horizontal: 30),
-                            ),
-                            onPressed: () {
-                              getIt<AppBloc>().add(FinishTermCondition());
-                              Navigator.pop(context);
-                            },
-                            child: const Text(
-                              'Lanjutkan',
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.white,
+                              onPressed: () {
+                                getIt<AppBloc>().add(FinishTermCondition());
+                                Navigator.pop(context);
+                              },
+                              child: const Text(
+                                'Lanjutkan',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),

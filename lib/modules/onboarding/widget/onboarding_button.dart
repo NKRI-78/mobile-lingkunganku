@@ -22,7 +22,7 @@ class OnboardingButton extends StatelessWidget {
       builder: (context, constraints) {
         double buttonWidth = constraints.maxWidth * 0.8;
         return Container(
-          margin: const EdgeInsets.only(bottom: 0),
+          margin: const EdgeInsets.only(bottom: 20),
           child: Align(
             alignment: Alignment.center,
             child: ElevatedButton(

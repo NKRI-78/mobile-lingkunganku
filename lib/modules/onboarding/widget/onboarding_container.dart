@@ -23,73 +23,67 @@ class OnboardingContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
-    // double screenWidth = MediaQuery.of(context).size.width;
+    double containerHeight = screenHeight * 0.35;
 
-    // Menentukan tinggi kontainer agar responsif
-    double containerHeight = screenHeight * 0.4;
-    // double containerWidth = screenWidth * 0.9;
-
-    return SizedBox(
+    return Container(
       height: containerHeight,
       width: double.infinity,
-      child: Container(
-        decoration: BoxDecoration(
-          color: AppColors.whiteColor,
-          borderRadius: BorderRadius.circular(32),
-        ),
-        padding: const EdgeInsets.all(20),
-        child: Stack(
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                RichText(
-                  text: TextSpan(children: title),
-                ),
-                const SizedBox(height: 10),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Text(
-                      description,
-                      textAlign: TextAlign.justify,
-                      softWrap: true,
-                      style: descriptionStyle ??
-                          const TextStyle(
-                            fontSize: 14,
-                            color: AppColors.textColor,
-                          ),
-                    ),
+      decoration: BoxDecoration(
+        color: AppColors.whiteColor,
+        borderRadius: BorderRadius.circular(32),
+      ),
+      padding: const EdgeInsets.all(20),
+      child: Stack(
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              RichText(
+                text: TextSpan(children: title),
+              ),
+              const SizedBox(height: 10),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Text(
+                    description,
+                    textAlign: TextAlign.justify,
+                    softWrap: true,
+                    style: descriptionStyle ??
+                        const TextStyle(
+                          fontSize: 14,
+                          color: AppColors.textColor,
+                        ),
                   ),
                 ),
-                SizedBox(height: 10),
-              ],
-            ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Padding(
-                padding: const EdgeInsets.only(bottom: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: List.generate(
-                    totalSteps,
-                    (index) => AnimatedContainer(
-                      duration: const Duration(milliseconds: 300),
-                      margin: const EdgeInsets.symmetric(horizontal: 5),
-                      width: currentIndex == index ? 10 : 10,
-                      height: 10,
-                      decoration: BoxDecoration(
-                        color: currentIndex == index
-                            ? AppColors.buttonColor1
-                            : AppColors.textColor,
-                        borderRadius: BorderRadius.circular(6),
-                      ),
+              ),
+              SizedBox(height: 10),
+            ],
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 30),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(
+                  totalSteps,
+                  (index) => AnimatedContainer(
+                    duration: const Duration(milliseconds: 300),
+                    margin: const EdgeInsets.symmetric(horizontal: 5),
+                    width: currentIndex == index ? 10 : 10,
+                    height: 10,
+                    decoration: BoxDecoration(
+                      color: currentIndex == index
+                          ? AppColors.buttonColor1
+                          : AppColors.textColor,
+                      borderRadius: BorderRadius.circular(6),
                     ),
                   ),
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

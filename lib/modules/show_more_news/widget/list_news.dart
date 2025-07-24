@@ -54,10 +54,11 @@ class ListNews extends StatelessWidget {
                         maxLines: 2,
                         style: AppTextStyles.textDialog.copyWith(
                           fontWeight: FontWeight.bold,
+                          fontSize: 14,
                         ),
                         overflow: TextOverflow.ellipsis,
                       ),
-                      const SizedBox(height: 5),
+                      const SizedBox(height: 3),
                       Text(
                         news.content.replaceAll(RegExp(r'<[^>]*>|&[^;]+;'), ""),
                         maxLines: 2,

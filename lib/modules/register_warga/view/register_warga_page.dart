@@ -64,37 +64,42 @@ class RegisterWargaView extends StatelessWidget {
               ),
             ),
           ),
-          body: Stack(
-            children: [
-              CustomBackground(),
-              Padding(
-                padding: EdgeInsets.only(top: 85),
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 30),
-                    child: Column(
-                      spacing: 20,
-                      children: [
-                        CustomfieldWargaFoto(),
-                        CustomTextfieldWarga(),
-                        SizedBox(
-                          width: double.infinity,
-                          child: CustomButton(
-                            text: 'Submit',
-                            isLoading: state.isLoading,
-                            onPressed: () {
-                              context
-                                  .read<RegisterWargaCubit>()
-                                  .submit(context);
-                            },
+          body: SafeArea(
+            top: false,
+            bottom: true,
+            child: Stack(
+              children: [
+                CustomBackground(),
+                Padding(
+                  padding: EdgeInsets.only(top: 85),
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+                      child: Column(
+                        spacing: 20,
+                        children: [
+                          CustomfieldWargaFoto(),
+                          CustomTextfieldWarga(),
+                          SizedBox(
+                            width: double.infinity,
+                            child: CustomButton(
+                              text: 'Submit',
+                              isLoading: state.isLoading,
+                              onPressed: () {
+                                context
+                                    .read<RegisterWargaCubit>()
+                                    .submit(context);
+                              },
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       },

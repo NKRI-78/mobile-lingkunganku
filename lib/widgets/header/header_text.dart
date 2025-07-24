@@ -16,7 +16,7 @@ class HeaderText extends StatelessWidget {
       pinned: true,
       toolbarHeight: 80,
       elevation: 2,
-      title: Text(text, style: AppTextStyles.textStyle1),
+      title: Text(text, style: AppTextStyles.textStyle1.copyWith(fontSize: 20)),
       centerTitle: true,
       leading: IconButton(
         onPressed: () {

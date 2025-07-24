@@ -77,10 +77,14 @@ class ManagementViewState extends State<ManagementView> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text("Nama Lingkungan", style: AppTextStyles.textStyle2),
-                      const SizedBox(height: 4),
-                      Text(state.memberData?.data?.name ?? "",
-                          style: AppTextStyles.textStyle1),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 3),
+                      Text(
+                        state.memberData?.data?.name ?? "",
+                        style: AppTextStyles.textStyle1.copyWith(
+                          fontSize: 20,
+                        ),
+                      ),
+                      const SizedBox(height: 14),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [

@@ -54,41 +54,45 @@ class ForumView extends StatelessWidget {
               context.read<ForumCubit>().init();
               await Future.delayed(const Duration(seconds: 1));
             },
-            child: Column(
-              children: [
-                ForumHeaderSection(),
-                Expanded(
-                  child: CustomScrollView(
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    slivers: [
-                      BlocBuilder<ForumCubit, ForumState>(
-                        buildWhen: (previous, current) =>
-                            previous.forums != current.forums ||
-                            previous.loading != current.loading,
-                        builder: (context, state) {
-                          if (state.loading) {
-                            return const SliverToBoxAdapter(
-                                child: LoadingPage());
-                          }
-                          if (state.forums.isEmpty) {
-                            return const SliverToBoxAdapter(
-                                child: EmptyPage(msg: "Tidak ada Forum.."));
-                          }
-                          return SliverList(
-                            delegate: SliverChildBuilderDelegate(
-                              (context, index) {
-                                return ForumListSection(
-                                    forums: state.forums[index]);
-                              },
-                              childCount: state.forums.length,
-                            ),
-                          );
-                        },
-                      ),
-                    ],
+            child: SafeArea(
+              top: false,
+              bottom: true,
+              child: Column(
+                children: [
+                  ForumHeaderSection(),
+                  Expanded(
+                    child: CustomScrollView(
+                      physics: const AlwaysScrollableScrollPhysics(),
+                      slivers: [
+                        BlocBuilder<ForumCubit, ForumState>(
+                          buildWhen: (previous, current) =>
+                              previous.forums != current.forums ||
+                              previous.loading != current.loading,
+                          builder: (context, state) {
+                            if (state.loading) {
+                              return const SliverToBoxAdapter(
+                                  child: LoadingPage());
+                            }
+                            if (state.forums.isEmpty) {
+                              return const SliverToBoxAdapter(
+                                  child: EmptyPage(msg: "Tidak ada Forum.."));
+                            }
+                            return SliverList(
+                              delegate: SliverChildBuilderDelegate(
+                                (context, index) {
+                                  return ForumListSection(
+                                      forums: state.forums[index]);
+                                },
+                                childCount: state.forums.length,
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         );

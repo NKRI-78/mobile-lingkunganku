@@ -62,70 +62,75 @@ class _IuranInfoViewState extends State<IuranInfoView> {
               },
             ),
           ),
-          body: SmartRefresher(
-            controller: _refreshController,
-            onRefresh: _onRefresh,
-            enablePullDown: true,
-            physics: const BouncingScrollPhysics(),
-            header: ClassicHeader(
-              textStyle: const TextStyle(color: AppColors.secondaryColor),
-              iconPos: IconPosition.left,
-              spacing: 5.0,
-              refreshingText: "Memuat Informasi Iuran...",
-              idleText: "Tarik untuk menyegarkan",
-              releaseText: "Lepaskan untuk menyegarkan",
-              completeText: "Berhasil diperbarui",
-              failedText: "Gagal memperbarui",
-              refreshingIcon:
-                  const Icon(Icons.autorenew, color: AppColors.secondaryColor),
-              failedIcon: const Icon(Icons.error, color: Colors.red),
-              completeIcon: const Icon(Icons.done, color: AppColors.textColor1),
-              idleIcon: const Icon(Icons.arrow_downward,
-                  color: AppColors.secondaryColor),
-              releaseIcon:
-                  const Icon(Icons.refresh, color: AppColors.secondaryColor),
-            ),
-            child: BlocBuilder<IuranInfoCubit, IuranInfoState>(
-              buildWhen: (previous, current) =>
-                  previous.memberData != current.memberData ||
-                  previous.isLoading != current.isLoading,
-              builder: (context, state) {
-                final members = state.memberData?.data?.members ?? [];
+          body: SafeArea(
+            top: false,
+            bottom: true,
+            child: SmartRefresher(
+              controller: _refreshController,
+              onRefresh: _onRefresh,
+              enablePullDown: true,
+              physics: const BouncingScrollPhysics(),
+              header: ClassicHeader(
+                textStyle: const TextStyle(color: AppColors.secondaryColor),
+                iconPos: IconPosition.left,
+                spacing: 5.0,
+                refreshingText: "Memuat Informasi Iuran...",
+                idleText: "Tarik untuk menyegarkan",
+                releaseText: "Lepaskan untuk menyegarkan",
+                completeText: "Berhasil diperbarui",
+                failedText: "Gagal memperbarui",
+                refreshingIcon: const Icon(Icons.autorenew,
+                    color: AppColors.secondaryColor),
+                failedIcon: const Icon(Icons.error, color: Colors.red),
+                completeIcon:
+                    const Icon(Icons.done, color: AppColors.textColor1),
+                idleIcon: const Icon(Icons.arrow_downward,
+                    color: AppColors.secondaryColor),
+                releaseIcon:
+                    const Icon(Icons.refresh, color: AppColors.secondaryColor),
+              ),
+              child: BlocBuilder<IuranInfoCubit, IuranInfoState>(
+                buildWhen: (previous, current) =>
+                    previous.memberData != current.memberData ||
+                    previous.isLoading != current.isLoading,
+                builder: (context, state) {
+                  final members = state.memberData?.data?.members ?? [];
 
-                if (state.isLoading) {
-                  return const LoadingPage();
-                }
+                  if (state.isLoading) {
+                    return const LoadingPage();
+                  }
 
-                if (members.isEmpty) {
-                  return const EmptyPage(
-                    msg: "Data Member Belum Tersedia..",
-                  );
-                }
+                  if (members.isEmpty) {
+                    return const EmptyPage(
+                      msg: "Data Member Belum Tersedia..",
+                    );
+                  }
 
-                return CustomScrollView(
-                  shrinkWrap: true,
-                  physics: const ScrollPhysics(),
-                  slivers: [
-                    SliverPadding(
-                      padding: const EdgeInsets.all(20),
-                      sliver: SliverList(
-                        delegate: SliverChildBuilderDelegate(
-                          (context, index) {
-                            final member = members[index];
-                            return ListIuranInfoSection(
-                              userId: member.id.toString(),
-                              name:
-                                  member.profile?.fullname ?? "Tidak ada nama",
-                              avatarUrl: member.profile?.avatarLink,
-                            );
-                          },
-                          childCount: members.length,
+                  return CustomScrollView(
+                    shrinkWrap: true,
+                    physics: const ScrollPhysics(),
+                    slivers: [
+                      SliverPadding(
+                        padding: const EdgeInsets.all(20),
+                        sliver: SliverList(
+                          delegate: SliverChildBuilderDelegate(
+                            (context, index) {
+                              final member = members[index];
+                              return ListIuranInfoSection(
+                                userId: member.id.toString(),
+                                name: member.profile?.fullname ??
+                                    "Tidak ada nama",
+                                avatarUrl: member.profile?.avatarLink,
+                              );
+                            },
+                            childCount: members.length,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                );
-              },
+                    ],
+                  );
+                },
+              ),
             ),
           ),
         );

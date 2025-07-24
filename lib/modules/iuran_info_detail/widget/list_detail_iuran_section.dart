@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_lingkunganku/misc/price_currency.dart';
 
 import '../../../misc/colors.dart';
 import '../../../misc/date_helper.dart';
@@ -39,17 +40,30 @@ class ListDetailIuranSection extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
               ),
               Text(
-                DateHelper.getMonthYear(contribute.dueDate.toString()),
+                DateHelper.getMonthYear(contribute.invoiceDate.toString()),
                 style: AppTextStyles.textStyle2.copyWith(fontSize: 12),
                 overflow: TextOverflow.ellipsis,
               ),
             ],
           ),
           SizedBox(height: 3),
-          Text(
-            "Tanggal Bayar : ${DateHelper.parseDate(contribute.paidDate.toString())}",
-            style: AppTextStyles.textWelcome.copyWith(fontSize: 10),
-            overflow: TextOverflow.ellipsis,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Tanggal Bayar : ${DateHelper.parseDate(contribute.paidDate.toString())}",
+                style: AppTextStyles.textWelcome.copyWith(fontSize: 10),
+                overflow: TextOverflow.ellipsis,
+              ),
+              Text(
+                '${Price.currency(contribute.totalAmount?.toDouble() ?? 0) ?? 0}',
+                style: AppTextStyles.textStyle2.copyWith(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                ),
+                overflow: TextOverflow.ellipsis,
+              ),
+            ],
           ),
           Text(
             "Keterangan : ${contribute.note.toString()}",

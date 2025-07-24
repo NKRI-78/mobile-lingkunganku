@@ -24,128 +24,135 @@ void showPaymentModal(BuildContext context) {
           final selectedChannel = state.channel;
           final adminFee = state.adminFee;
 
-          return Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        "Metode Pembayaran",
-                        style: AppTextStyles.textProfileBold
-                            .copyWith(color: AppColors.blackColor),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        context.read<WalletCubit>().getPaymentChannel(context);
-                      },
-                      splashColor: Colors.grey.withValues(alpha: 0.3),
-                      highlightColor: Colors.grey.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(8),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 5, vertical: 10),
+          return SafeArea(
+            top: false,
+            bottom: true,
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
                         child: Text(
-                          context.watch<WalletCubit>().state.channel == null
-                              ? "Pilih Pembayaran"
-                              : "Ganti Pembayaran",
-                          style: TextStyle(
-                            color: context.watch<WalletCubit>().state.channel ==
-                                    null
-                                ? AppColors.secondaryColor
-                                : AppColors.redColor,
-                            fontWeight: FontWeight.bold,
+                          "Metode Pembayaran",
+                          style: AppTextStyles.textProfileBold
+                              .copyWith(color: AppColors.blackColor),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          context
+                              .read<WalletCubit>()
+                              .getPaymentChannel(context);
+                        },
+                        splashColor: Colors.grey.withValues(alpha: 0.3),
+                        highlightColor: Colors.grey.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(8),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 5, vertical: 10),
+                          child: Text(
+                            context.watch<WalletCubit>().state.channel == null
+                                ? "Pilih Pembayaran"
+                                : "Ganti Pembayaran",
+                            style: TextStyle(
+                              color:
+                                  context.watch<WalletCubit>().state.channel ==
+                                          null
+                                      ? AppColors.secondaryColor
+                                      : AppColors.redColor,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ),
+                    ],
+                  ),
+                  Divider(),
+                  const SizedBox(height: 10),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Detail Transaksi",
+                      style: AppTextStyles.textProfileBold
+                          .copyWith(color: AppColors.blackColor),
                     ),
-                  ],
-                ),
-                Divider(),
-                const SizedBox(height: 10),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Detail Transaksi",
-                    style: AppTextStyles.textProfileBold
-                        .copyWith(color: AppColors.blackColor),
                   ),
-                ),
-                _buildDetailRow(
-                  "Topup Saldo",
-                  "${Price.currency(state.amount)}",
-                  isBold: true,
-                ),
-                _buildDetailRow(
-                  "Biaya Admin Bank",
-                  "${Price.currency(adminFee)}",
-                  isBold: true,
-                ),
-                SizedBox(height: 5),
-                _buildDetailRowWithImage(
-                  "Pembayaran Dengan",
-                  selectedChannel?.logo ?? "",
-                  selectedChannel?.name ?? " _ ",
-                ),
-                Divider(),
-                SizedBox(height: 5),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Harus Dibayar",
-                    style: AppTextStyles.textProfileBold
-                        .copyWith(color: AppColors.blackColor),
+                  _buildDetailRow(
+                    "Topup Saldo",
+                    "${Price.currency(state.amount)}",
+                    isBold: true,
                   ),
-                ),
-                _buildDetailRow(
-                  "Total Pembayaran",
-                  "${Price.currency(state.totalAmount)}",
-                  isBold: true,
-                ),
-                const SizedBox(height: 10),
-                SizedBox(
-                  width: double.infinity,
-                  child: BlocBuilder<WalletCubit, WalletState>(
-                    builder: (context, state) {
-                      return CustomButton(
-                        text: state.isLoading ? "" : "Bayar",
-                        onPressed: state.isLoading || state.channel == null
-                            ? null
-                            : () async {
-                                var cubit = context.read<WalletCubit>();
-                                try {
-                                  var paymentNumber =
-                                      await cubit.topUpWallet(context);
-                                  if (context.mounted) {
-                                    WaitingPaymentRoute(
-                                            id: paymentNumber.toString())
-                                        .go(context);
+                  _buildDetailRow(
+                    "Biaya Admin Bank",
+                    "${Price.currency(adminFee)}",
+                    isBold: true,
+                  ),
+                  SizedBox(height: 5),
+                  _buildDetailRowWithImage(
+                    "Pembayaran Dengan",
+                    selectedChannel?.logo ?? "",
+                    selectedChannel?.name ?? " _ ",
+                  ),
+                  Divider(),
+                  SizedBox(height: 5),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Harus Dibayar",
+                      style: AppTextStyles.textProfileBold
+                          .copyWith(color: AppColors.blackColor),
+                    ),
+                  ),
+                  _buildDetailRow(
+                    "Total Pembayaran",
+                    "${Price.currency(state.totalAmount)}",
+                    isBold: true,
+                  ),
+                  const SizedBox(height: 10),
+                  SizedBox(
+                    width: double.infinity,
+                    child: BlocBuilder<WalletCubit, WalletState>(
+                      builder: (context, state) {
+                        return CustomButton(
+                          text: state.isLoading ? "" : "Bayar",
+                          onPressed: state.isLoading || state.channel == null
+                              ? null
+                              : () async {
+                                  var cubit = context.read<WalletCubit>();
+                                  try {
+                                    var paymentNumber =
+                                        await cubit.topUpWallet(context);
+                                    if (context.mounted) {
+                                      WaitingPaymentRoute(
+                                              id: paymentNumber.toString())
+                                          .go(context);
+                                    }
+                                  } catch (e) {
+                                    ShowSnackbar.snackbar(context, e.toString(),
+                                        '', AppColors.redColor);
                                   }
-                                } catch (e) {
-                                  ShowSnackbar.snackbar(context, e.toString(),
-                                      '', AppColors.redColor);
-                                }
-                              },
-                        child: state.isLoading
-                            ? const SizedBox(
-                                height: 24,
-                                width: 24,
-                                child: CircularProgressIndicator(
-                                  color: Colors.white,
-                                ),
-                              )
-                            : null,
-                      );
-                    },
+                                },
+                          child: state.isLoading
+                              ? const SizedBox(
+                                  height: 24,
+                                  width: 24,
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                  ),
+                                )
+                              : null,
+                        );
+                      },
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           );
         }),

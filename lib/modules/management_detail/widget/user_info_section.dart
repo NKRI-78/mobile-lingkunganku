@@ -18,7 +18,6 @@ class UserInfoSection extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
-        spacing: 8,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
@@ -27,23 +26,28 @@ class UserInfoSection extends StatelessWidget {
           ),
           Text(
             member?.profile?.fullname ?? "Nama tidak tersedia",
-            style: AppTextStyles.textStyle2.copyWith(fontSize: 18),
+            style: AppTextStyles.textStyle2
+                .copyWith(fontSize: 16, fontWeight: FontWeight.bold),
           ),
+          SizedBox(height: 8),
           Text(
             "Alamat",
             style: AppTextStyles.textWelcome.copyWith(fontSize: 14),
           ),
           Text(
             member?.profile?.detailAddress ?? "Alamat tidak tersedia",
-            style: AppTextStyles.textStyle2.copyWith(fontSize: 18),
+            style: AppTextStyles.textStyle2
+                .copyWith(fontSize: 16, fontWeight: FontWeight.bold),
           ),
+          SizedBox(height: 8),
           Text(
             "Email",
             style: AppTextStyles.textWelcome.copyWith(fontSize: 14),
           ),
           Text(
             member?.email ?? "Email tidak tersedia",
-            style: AppTextStyles.textStyle2.copyWith(fontSize: 18),
+            style: AppTextStyles.textStyle2
+                .copyWith(fontSize: 16, fontWeight: FontWeight.bold),
           ),
         ],
       ),

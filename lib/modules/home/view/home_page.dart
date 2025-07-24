@@ -78,126 +78,130 @@ class _HomeViewState extends State<HomeView> {
                     getIt<HomeBloc>().add(HomeInit(context: context));
                     await Future.delayed(const Duration(seconds: 1));
                   },
-                  child: Stack(
-                    children: [
-                      const CustomBackground(),
-                      CustomScrollView(
-                        slivers: [
-                          SliverToBoxAdapter(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                SizedBox(height: 287),
-                                CustomBannerSection(),
-                                SizedBox(height: 10),
-                                buildNewsSection(state, context),
-                                if (state.isLoading)
-                                  const Center(
-                                    child: CircularProgressIndicator(
-                                      color: AppColors.secondaryColor,
-                                    ),
-                                  )
-                                else if (state.news.isEmpty)
-                                  const Center(
-                                    heightFactor: 5,
-                                    child: Text(
-                                      "Tidak ada Berita..",
-                                      style: TextStyle(
-                                          color: AppColors.blackNewsColor),
-                                    ),
-                                  )
-                                else
-                                  ListView.builder(
-                                    padding: EdgeInsets.zero,
-                                    shrinkWrap: true,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    itemCount: state.news.take(5).length,
-                                    itemBuilder: (context, index) {
-                                      final newsItem = state.news[index];
+                  child: SafeArea(
+                    bottom: true,
+                    top: false,
+                    child: Stack(
+                      children: [
+                        const CustomBackground(),
+                        CustomScrollView(
+                          slivers: [
+                            SliverToBoxAdapter(
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  SizedBox(height: 287),
+                                  CustomBannerSection(),
+                                  SizedBox(height: 10),
+                                  buildNewsSection(state, context),
+                                  if (state.isLoading)
+                                    const Center(
+                                      child: CircularProgressIndicator(
+                                        color: AppColors.secondaryColor,
+                                      ),
+                                    )
+                                  else if (state.news.isEmpty)
+                                    const Center(
+                                      heightFactor: 5,
+                                      child: Text(
+                                        "Tidak ada Berita..",
+                                        style: TextStyle(
+                                            color: AppColors.blackNewsColor),
+                                      ),
+                                    )
+                                  else
+                                    ListView.builder(
+                                      padding: EdgeInsets.zero,
+                                      shrinkWrap: true,
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      itemCount: state.news.take(5).length,
+                                      itemBuilder: (context, index) {
+                                        final newsItem = state.news[index];
 
-                                      return CustomNewsCard(
-                                        imageUrl: newsItem.linkImage,
-                                        title: newsItem.title,
-                                        content: newsItem.content,
-                                        onTap: () {
-                                          if (newsItem.id != null) {
-                                            NewsDetailRoute(
-                                                    newsId: newsItem.id!)
-                                                .go(context);
-                                          }
-                                        },
-                                      );
-                                    },
-                                  ),
-                                const SizedBox(height: 100),
-                              ],
+                                        return CustomNewsCard(
+                                          imageUrl: newsItem.linkImage,
+                                          title: newsItem.title,
+                                          content: newsItem.content,
+                                          onTap: () {
+                                            if (newsItem.id != null) {
+                                              NewsDetailRoute(
+                                                      newsId: newsItem.id!)
+                                                  .go(context);
+                                            }
+                                          },
+                                        );
+                                      },
+                                    ),
+                                  const SizedBox(height: 100),
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                      // Header Section
-                      Positioned(
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        child: BlocBuilder<HomeBloc, HomeState>(
-                          builder: (context, state) {
-                            final user = state.profile;
+                          ],
+                        ),
+                        // Header Section
+                        Positioned(
+                          top: 0,
+                          left: 0,
+                          right: 0,
+                          child: BlocBuilder<HomeBloc, HomeState>(
+                            builder: (context, state) {
+                              final user = state.profile;
 
-                            return CustomHeaderContainer(
-                              isHomeOrPublic: true,
-                              isLoading: state.isLoading,
-                              avatarLink: user?.profile?.avatarLink ?? '',
-                              displayText: isLoggedIn
-                                  ? user?.profile?.fullname ?? ''
-                                  : 'User',
-                              isLoggedIn: isLoggedIn,
-                              showText: true,
-                              onMenuPressed: () =>
-                                  Scaffold.of(context).openDrawer(),
-                              onNotificationPressed: () {
-                                NotificationRoute().go(context);
-                              },
-                              children: [
-                                if (isLoggedIn)
-                                  state.isLoading
-                                      ? _buildShimmerText()
-                                      : Text(
-                                          "Anda masuk sebagai ${state.profile?.translateRoleApp ?? ''},\nLingkungan ${state.profile?.neighborhood?.name ?? ''}",
-                                          style:
-                                              AppTextStyles.textDialog.copyWith(
-                                            fontSize: 14,
-                                          ),
-                                          textAlign: TextAlign.center,
-                                        )
-                                else
-                                  CustomButton(
-                                    text: 'Yuk Registrasi Baru !',
-                                    onPressed: () =>
-                                        showRegisterDialog(context),
-                                  ),
-                              ],
-                            );
-                          },
+                              return CustomHeaderContainer(
+                                isHomeOrPublic: true,
+                                isLoading: state.isLoading,
+                                avatarLink: user?.profile?.avatarLink ?? '',
+                                displayText: isLoggedIn
+                                    ? user?.profile?.fullname ?? ''
+                                    : 'User',
+                                isLoggedIn: isLoggedIn,
+                                showText: true,
+                                onMenuPressed: () =>
+                                    Scaffold.of(context).openDrawer(),
+                                onNotificationPressed: () {
+                                  NotificationRoute().go(context);
+                                },
+                                children: [
+                                  if (isLoggedIn)
+                                    state.isLoading
+                                        ? _buildShimmerText()
+                                        : Text(
+                                            "Anda masuk sebagai ${state.profile?.translateRoleApp ?? ''},\nLingkungan ${state.profile?.neighborhood?.name ?? ''}",
+                                            style: AppTextStyles.textDialog
+                                                .copyWith(
+                                              fontSize: 14,
+                                            ),
+                                            textAlign: TextAlign.center,
+                                          )
+                                  else
+                                    CustomButton(
+                                      text: 'Yuk Registrasi Baru !',
+                                      onPressed: () =>
+                                          showRegisterDialog(context),
+                                    ),
+                                ],
+                              );
+                            },
+                          ),
                         ),
-                      ),
-                      // Bottom Navigation Bar
-                      Positioned(
-                        bottom: 10,
-                        left: 20,
-                        right: 20,
-                        child: BottomNavBarSection(
-                          currentIndex: state.selectedIndex,
-                          onTap: (index) {
-                            if (index == 4) {
-                              SosRoute(isLoggedIn: isLoggedIn).go(context);
-                            }
-                            context.read<HomeBloc>().add(HomeNavigate(index));
-                          },
+                        // Bottom Navigation Bar
+                        Positioned(
+                          bottom: 10,
+                          left: 20,
+                          right: 20,
+                          child: BottomNavBarSection(
+                            currentIndex: state.selectedIndex,
+                            onTap: (index) {
+                              if (index == 4) {
+                                SosRoute(isLoggedIn: isLoggedIn).go(context);
+                              }
+                              context.read<HomeBloc>().add(HomeNavigate(index));
+                            },
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
                 drawer: const DrawerSection(),

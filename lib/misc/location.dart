@@ -9,9 +9,9 @@ Future<Position> determinePosition(BuildContext context) async {
   bool serviceEnabled;
   LocationPermission permission;
 
-  // Cek apakah layanan lokasi aktif
   serviceEnabled = await Geolocator.isLocationServiceEnabled();
   if (!serviceEnabled) {
+    showLocationServiceDialog(context);
     return Future.error('Location services are disabled.');
   }
 
@@ -42,6 +42,69 @@ Future<Position> determinePosition(BuildContext context) async {
   // Izin diberikan, ambil lokasi pengguna
   return await Geolocator.getCurrentPosition(
     desiredAccuracy: LocationAccuracy.bestForNavigation,
+  );
+}
+
+void showLocationServiceDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (_) {
+      return WillPopScope(
+        onWillPop: () async => false,
+        child: AlertDialog(
+          title: Text(
+            'Layanan Lokasi Nonaktif',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 18,
+              color: Colors.black87,
+            ),
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                Icons.gps_off_rounded,
+                size: 60,
+                color: AppColors.redColor,
+              ),
+              SizedBox(height: 10),
+              Text(
+                'Silakan aktifkan layanan lokasi (GPS) agar aplikasi dapat mengakses posisi Anda.',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Colors.black54,
+                ),
+              ),
+            ],
+          ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+              child: Center(
+                child: ElevatedButton(
+                  onPressed: () {
+                    Geolocator.openLocationSettings();
+                    Navigator.of(context).pop();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.secondaryColor,
+                    padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+                  ),
+                  child: Text(
+                    'Buka Pengaturan Lokasi',
+                    style: AppTextStyles.textProfileBold,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    },
   );
 }
 

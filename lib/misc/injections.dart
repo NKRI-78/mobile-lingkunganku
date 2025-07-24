@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:mobile_lingkunganku/misc/socket.dart';
 
 import '../modules/app/bloc/app_bloc.dart';
 import '../modules/event/cubit/event_cubit.dart';
@@ -85,5 +86,10 @@ class MyInjection {
     getIt.registerLazySingleton<IuranRepository>(() => IuranRepository());
     getIt.registerLazySingleton<WalletRepository>(() => WalletRepository());
     getIt.registerLazySingleton<PpobRepository>(() => PpobRepository());
+
+    //Socket IO
+    getIt.registerLazySingleton<SocketServices>(
+      () => SocketServices()..connect(),
+    );
   }
 }

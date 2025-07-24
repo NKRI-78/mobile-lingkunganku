@@ -27,157 +27,163 @@ class DrawerSection extends StatelessWidget {
           final role = state.profile?.roleApp ?? '';
           final avatarLink = state.profile?.profile?.avatarLink ?? '';
 
-          return Drawer(
-            child: Container(
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('assets/images/bg.png'),
-                  fit: BoxFit.cover,
+          return SafeArea(
+            top: false,
+            bottom: true,
+            child: Drawer(
+              child: Container(
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('assets/images/bg.png'),
+                    fit: BoxFit.cover,
+                  ),
                 ),
-              ),
-              child: Column(
-                children: [
-                  Expanded(
-                    child: ListView(
-                      padding: const EdgeInsets.only(top: 50),
-                      children: <Widget>[
-                        Container(
-                          height: 80,
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
-                              image:
-                                  AssetImage('assets/icons/lingkunganku.png'),
-                              fit: BoxFit.none,
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: ListView(
+                        padding: const EdgeInsets.only(top: 50),
+                        children: <Widget>[
+                          Container(
+                            height: 80,
+                            decoration: const BoxDecoration(
+                              image: DecorationImage(
+                                image:
+                                    AssetImage('assets/icons/lingkunganku.png'),
+                                fit: BoxFit.none,
+                              ),
                             ),
                           ),
-                        ),
-                        const SizedBox(height: 20),
-                        GestureDetector(
-                          onTap: () {
-                            if (isLoggedIn) {
-                              String imageUrl = avatarLink;
-                              _showFullImage(context, imageUrl);
-                            }
-                          },
-                          child: CircleAvatar(
-                            radius: 50,
-                            backgroundColor: AppColors.textColor1,
-                            child: avatarLink.isNotEmpty && isLoggedIn
-                                ? ClipOval(
-                                    child: Image.network(
-                                      avatarLink,
-                                      fit: BoxFit.cover,
-                                      width: 100,
-                                      height: 100,
-                                      errorBuilder:
-                                          (context, error, stackTrace) => Icon(
-                                        Icons.person,
-                                        size: 60,
-                                        color: AppColors.whiteColor,
+                          const SizedBox(height: 20),
+                          GestureDetector(
+                            onTap: () {
+                              if (isLoggedIn) {
+                                String imageUrl = avatarLink;
+                                _showFullImage(context, imageUrl);
+                              }
+                            },
+                            child: CircleAvatar(
+                              radius: 50,
+                              backgroundColor: AppColors.textColor1,
+                              child: avatarLink.isNotEmpty && isLoggedIn
+                                  ? ClipOval(
+                                      child: Image.network(
+                                        avatarLink,
+                                        fit: BoxFit.cover,
+                                        width: 100,
+                                        height: 100,
+                                        errorBuilder:
+                                            (context, error, stackTrace) =>
+                                                Icon(
+                                          Icons.person,
+                                          size: 60,
+                                          color: AppColors.whiteColor,
+                                        ),
                                       ),
+                                    )
+                                  : Icon(
+                                      Icons.person,
+                                      size: 60,
+                                      color: AppColors.whiteColor,
                                     ),
-                                  )
-                                : Icon(
-                                    Icons.person,
-                                    size: 60,
-                                    color: AppColors.whiteColor,
-                                  ),
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 40),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 25),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(12),
-                            child: Stack(
-                              children: [
-                                Positioned.fill(
-                                  child: Container(
-                                    color: (Platform.isIOS && !isLoggedIn)
-                                        ? Colors.transparent
-                                        : Colors.black.withOpacity(0.1),
-                                  ),
-                                ),
-                                Container(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 5),
-                                  decoration: BoxDecoration(
-                                    color: (Platform.isIOS && !isLoggedIn)
-                                        ? Colors.transparent
-                                        : Colors.black.withOpacity(
-                                            0.1), // Transparent jika di iOS dan belum login
-                                    borderRadius: BorderRadius.circular(12),
-                                    border: Border.all(
+                          const SizedBox(height: 40),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 25),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Stack(
+                                children: [
+                                  Positioned.fill(
+                                    child: Container(
                                       color: (Platform.isIOS && !isLoggedIn)
                                           ? Colors.transparent
-                                          : AppColors.whiteColor,
-                                      width: 1,
+                                          : Colors.black.withOpacity(0.1),
                                     ),
                                   ),
-                                  child: Column(
-                                    children: [
-                                      if (isLoggedIn)
-                                        ListTile(
-                                          leading: Icon(Icons.person_outline,
-                                              size: 26,
-                                              color: AppColors.whiteColor),
-                                          title: Text("Profile",
-                                              style: AppTextStyles
-                                                  .textProfileBold),
-                                          onTap: () {
-                                            ProfileRoute().go(context);
-                                          },
-                                        ),
-                                      if (Platform
-                                          .isAndroid) // Only show Settings on Android
-                                        ListTile(
-                                          leading: Icon(Icons.settings_outlined,
-                                              size: 26,
-                                              color: AppColors.whiteColor),
-                                          title: Text("Settings",
-                                              style: AppTextStyles
-                                                  .textProfileBold),
-                                          onTap: () {
-                                            SettingsRoute().go(context);
-                                          },
-                                        ),
-                                      if (isLoggedIn)
-                                        if (role == "CHIEF" ||
-                                            role == "SECRETARY" ||
-                                            role == "TREASURER")
+                                  Container(
+                                    padding:
+                                        const EdgeInsets.symmetric(vertical: 5),
+                                    decoration: BoxDecoration(
+                                      color: (Platform.isIOS && !isLoggedIn)
+                                          ? Colors.transparent
+                                          : Colors.black.withOpacity(
+                                              0.1), // Transparent jika di iOS dan belum login
+                                      borderRadius: BorderRadius.circular(12),
+                                      border: Border.all(
+                                        color: (Platform.isIOS && !isLoggedIn)
+                                            ? Colors.transparent
+                                            : AppColors.whiteColor,
+                                        width: 1,
+                                      ),
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        if (isLoggedIn)
                                           ListTile(
-                                            leading: Icon(
-                                                Icons.description_outlined,
+                                            leading: Icon(Icons.person_outline,
                                                 size: 26,
                                                 color: AppColors.whiteColor),
-                                            title: Text("Data Warga",
+                                            title: Text("Profile",
                                                 style: AppTextStyles
                                                     .textProfileBold),
                                             onTap: () {
-                                              ManagementRoute().go(context);
+                                              ProfileRoute().go(context);
                                             },
                                           ),
-                                    ],
+                                        if (Platform
+                                            .isAndroid) // Only show Settings on Android
+                                          ListTile(
+                                            leading: Icon(
+                                                Icons.settings_outlined,
+                                                size: 26,
+                                                color: AppColors.whiteColor),
+                                            title: Text("Settings",
+                                                style: AppTextStyles
+                                                    .textProfileBold),
+                                            onTap: () {
+                                              SettingsRoute().go(context);
+                                            },
+                                          ),
+                                        if (isLoggedIn)
+                                          if (role == "CHIEF" ||
+                                              role == "SECRETARY" ||
+                                              role == "TREASURER")
+                                            ListTile(
+                                              leading: Icon(
+                                                  Icons.description_outlined,
+                                                  size: 26,
+                                                  color: AppColors.whiteColor),
+                                              title: Text("Data Warga",
+                                                  style: AppTextStyles
+                                                      .textProfileBold),
+                                              onTap: () {
+                                                ManagementRoute().go(context);
+                                              },
+                                            ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  isLoggedIn
-                      ? Container(
-                          margin: const EdgeInsets.only(bottom: 40),
-                          child: CustomButton(
-                            text: 'LogOut',
-                            onPressed: () => showLogoutDialog(context),
-                            backgroundColor: AppColors.redColor,
-                          ),
-                        )
-                      : const SizedBox(),
-                ],
+                    isLoggedIn
+                        ? Container(
+                            margin: const EdgeInsets.only(bottom: 40),
+                            child: CustomButton(
+                              text: 'LogOut',
+                              onPressed: () => showLogoutDialog(context),
+                              backgroundColor: AppColors.redColor,
+                            ),
+                          )
+                        : const SizedBox(),
+                  ],
+                ),
               ),
             ),
           );

@@ -11,30 +11,30 @@ String paginationModelToJson(PaginationModel data) =>
     json.encode(data.toJson());
 
 class PaginationModel {
-  int current;
-  int perPage;
-  int? previous;
-  int? next;
+  final int current;
+  final int totalPages;
+  final int? next;
 
   PaginationModel({
     required this.current,
-    required this.perPage,
-    this.previous,
+    required this.totalPages,
     this.next,
   });
 
-  factory PaginationModel.fromJson(Map<String, dynamic> json) =>
-      PaginationModel(
-        current: json["current"],
-        perPage: json["perPage"],
-        previous: json["previous"],
-        next: json["next"],
-      );
+  factory PaginationModel.fromJson(Map<String, dynamic> json) {
+    final currentPage = json['current_page'] ?? 1;
+    final pages = json['pages'] ?? 1;
+
+    return PaginationModel(
+      current: currentPage,
+      totalPages: pages,
+      next: currentPage < pages ? currentPage + 1 : null,
+    );
+  }
 
   Map<String, dynamic> toJson() => {
-        "current": current,
-        "perPage": perPage,
-        "previous": previous,
+        "currentPage": current,
+        "pages": totalPages,
         "next": next,
       };
 }
