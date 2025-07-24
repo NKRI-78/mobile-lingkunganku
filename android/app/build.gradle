@@ -24,6 +24,8 @@ android {
     namespace = "com.langitdigital78.mobile_lingkunganku"
     compileSdk = 35
     ndkVersion = flutter.ndkVersion
+    println "Flutter versionCode: ${flutter.versionCode}"
+    println "Flutter versionName: ${flutter.versionName}"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
