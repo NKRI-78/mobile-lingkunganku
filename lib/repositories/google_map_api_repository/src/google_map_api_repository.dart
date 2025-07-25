@@ -11,7 +11,7 @@ class GoogleMapApiRepository {
 
   final http = getIt<BaseNetworkClient>();
 
-  String apiKey = 'AIzaSyCJD7w_-wHs4Pe5rWMf0ubYQFpAt2QF2RA';
+  String apiKey = 'AIzaSyBvdQKriOVtxZaWeJulj2y8AA6yG2dQgs4';
 
   String url = 'https://maps.googleapis.com/maps/api/place/autocomplete/json?';
 
